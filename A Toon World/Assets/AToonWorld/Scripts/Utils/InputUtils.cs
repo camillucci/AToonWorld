@@ -12,5 +12,7 @@ namespace Assets.AToonWorld.Scripts.Utils
         public static float HorizontalRawAxis => Input.GetAxisRaw("Horizontal");
         public static bool JumpDown => Input.GetButtonDown("Jump");
         public static bool JumpHeld => Input.GetButton("Jump");
+        public static bool DrawDown => Input.GetButtonDown("Draw");
+        public static bool DrawHeld => Input.GetButton("Draw");
     }
 }
