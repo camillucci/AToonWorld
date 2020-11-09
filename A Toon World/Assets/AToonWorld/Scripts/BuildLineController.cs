@@ -5,50 +5,36 @@ using Assets.AToonWorld.Scripts.Utils;
 
 public class BuildLineController : MonoBehaviour
 {
-    private bool clicked; 
-    private List<Vector2> points;
-    private float minDistanceFromTwoFollowingPoints = 0;
+    //TODO: Ink Pooling (probabilmente questa classe sparirà)
+    [SerializeField] private DrawSplineController _drawSplineController;
 
-    void Awake() 
-    {
-        this.points = new List<Vector2>();
-    }
-
-    void Start()
-    {
-        clicked = false;
-    }
-
+    private Vector2 _mouseWorldPosition;
     void Update()
     {
         if (InputUtils.DrawDown)
         {
-            //When mouse click down
-            clicked = true;
-            points.Clear();
-            points.Add(Input.mousePosition);
+            _drawSplineController.Clear();
+            _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _drawSplineController.AddPoint(_mouseWorldPosition);
         }
 
         if (InputUtils.DrawHeld)
         {
-            //During mouse button is clicked;
-            clicked = true;
-            if (IsValidPoint(Input.mousePosition))
-                points.Add(Input.mousePosition);
+            _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _drawSplineController.AddPoint(_mouseWorldPosition);
         }
 
-        if (!InputUtils.DrawHeld && clicked)
+        if (InputUtils.DrawUp)
         {
-            //When mouse button is released
-            clicked = false;
-            // ! creare l'oggetto partendo dalla lista di punti
-            Debug.Log($"punti catturati: {points.Count}");
+            _drawSplineController.EnableSimulation();
         }
-    }
 
-    bool IsValidPoint(Vector2 point)
-    {
-        float distance = (point - points[points.Count - 1]).magnitude;
-        return distance > minDistanceFromTwoFollowingPoints;
+        //if (!InputUtils.DrawHeld && clicked)
+        //{
+        //    //When mouse button is released
+        //    clicked = false;
+        //    // ! creare l'oggetto partendo dalla lista di punti
+        //    Debug.Log($"punti catturati: {points.Count}");
+        //}
     }
 }
