@@ -14,6 +14,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _maxJumpForce = 1100;
     [SerializeField] private float _doubleJumpSpeed = 15;
     [SerializeField] [Range(1, 200)] private float _jumpHoldStepMs = 39.5f;
+    [SerializeField] private float _climbingSpeed = 5;
+    [SerializeField] private float _gravityScale = 5;
 
 
     
@@ -48,8 +50,10 @@ public class PlayerMovementController : MonoBehaviour
     // Public Properties
     public bool IsDoubleJumpEnabled { get; set; } = true;
     public float HorizontalMovementDirection { get; set; }
+    public float VerticalMovementDirection { get; set; }
     public bool IsGrounded { get; private set; }
     public JumpState CurrentJumpState { get; private set; }
+    public bool IsClimbing {get; private set; }
 
 
 
@@ -77,6 +81,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         DoFixedUpdateActions();
         MoveHorizontal();
+        MoveVertical();
     }
 
 
@@ -87,12 +92,21 @@ public class PlayerMovementController : MonoBehaviour
             IsGrounded = true;
             CurrentJumpState = JumpState.NoJumping;
         }
+        if (collision.gameObject.CompareTag(UnityTag.Wall))
+        {
+            IsClimbing = true;
+            _rigidBody.gravityScale = 0;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(UnityTag.Ground))
             IsGrounded = false;
+        if (collision.gameObject.CompareTag(UnityTag.Wall)) {
+            IsClimbing = false;
+            _rigidBody.gravityScale = _gravityScale;
+        }
     }   
 
 
@@ -167,6 +181,14 @@ public class PlayerMovementController : MonoBehaviour
         _rigidBody.velocity = new Vector2(xVelocity, _rigidBody.velocity.y);
     }
 
+    private void MoveVertical()
+    {
+        if(IsClimbing)
+        {
+            float yVelocity = VerticalMovementDirection * _climbingSpeed;        
+            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, yVelocity);
+        }
+    }
 
     private void HandleJump()
     {

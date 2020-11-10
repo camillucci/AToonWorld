@@ -28,7 +28,8 @@ namespace Assets.AToonWorld.Scripts
         {
             if (InputUtils.JumpDown)
                 _playerMovementController.JumpWhile(IsJumpHeld);
-            _playerMovementController.HorizontalMovementDirection = InputUtils.HorizontalRawAxis;           
+            _playerMovementController.HorizontalMovementDirection = InputUtils.HorizontalRawAxis;
+            _playerMovementController.VerticalMovementDirection = InputUtils.VerticalRawAxis;
         }
 
 
