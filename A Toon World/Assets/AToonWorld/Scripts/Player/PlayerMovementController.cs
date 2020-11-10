@@ -30,6 +30,7 @@ public class PlayerMovementController : MonoBehaviour
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
     private int _drawingPlatformsCollidedCounter;
     private int _groundsCollidedCounter;
+    private int _climbingWallCollidedCounter;
     
 
     // Initialization
@@ -45,16 +46,22 @@ public class PlayerMovementController : MonoBehaviour
 
     private void InitializeBody()
     {
-        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, OnWallEnter);
-        _playerBody.TriggerExit.SubscribeWithTag(UnityTag.ClimbingWall, OnWallExit);        
+        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
+        _playerBody.TriggerExit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
     }
 
     private void InitializeFeet()
     {
+        var walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
         _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Ground, OnGroundEnter);
         _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Ground, OnGroundExit);
         _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
-        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);
+        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);        
+        foreach(var walkableTag in walkableTags)
+        {
+            _playerFeet.TriggerEnter.SubscribeWithTag(walkableTag, OnWalkableEnter);
+            _playerFeet.TriggerExit.SubscribeWithTag(walkableTag, OnWalkableExit);
+        }
     }
 
     private void InitializeJumpingStates()
@@ -74,7 +81,7 @@ public class PlayerMovementController : MonoBehaviour
     public float HorizontalMovementDirection { get; set; }
     public float VerticalMovementDirection { get; set; }
     public JumpState CurrentJumpState { get; private set; }
-    public bool IsClimbing  {get; private set; }
+    public bool IsClimbing => _climbingWallCollidedCounter > 0;
     public bool IsGrounded => _groundsCollidedCounter > 0;
     public bool IsOnDrawingPlatform => _drawingPlatformsCollidedCounter > 0;   
     public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
@@ -100,10 +107,10 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Player events
+  
     private void OnGroundEnter(Collider2D collider)
     {
-        CurrentJumpState = JumpState.NoJumping;
-        _groundsCollidedCounter++;
+        _groundsCollidedCounter++;        
     }
 
     private void OnGroundExit(Collider2D collider)
@@ -113,8 +120,7 @@ public class PlayerMovementController : MonoBehaviour
 
 
     private void OnDrawingEnter(Collider2D collider)
-    {
-        CurrentJumpState = JumpState.NoJumping;
+    {        
         _drawingPlatformsCollidedCounter++;
     }
 
@@ -123,18 +129,33 @@ public class PlayerMovementController : MonoBehaviour
         _drawingPlatformsCollidedCounter--;
     }
 
-
-
-    private void OnWallEnter(Collider2D collider)
+    
+    
+    // Both Ground and Drawing. After the specific events
+    private void OnWalkableEnter(Collider2D collider)
     {
-        IsClimbing = true;
+        CurrentJumpState = JumpState.NoJumping;
+        if (IsClimbing)
+            SetGravity(false);
+    }
+
+    private void OnWalkableExit(Collider2D collider)
+    {
+
+    }
+
+
+
+    private void OnClimbingWallEnter(Collider2D collider)
+    {
+        _climbingWallCollidedCounter++;
         CurrentJumpState = JumpState.NoJumping;
         _fixedUpdateActions += () => SetGravity(false);
     }
 
-    private void OnWallExit(Collider2D collider)
-    {
-        IsClimbing = false;
+    private void OnClimbingWallExit(Collider2D collider)
+    {        
+        _climbingWallCollidedCounter--;
         _fixedUpdateActions += () => SetGravity(true);
     }
 
@@ -203,11 +224,7 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
-    // Private methods
-    private void UpdateJumpStatus()
-    {
-
-    }
+    // Private methods 
 
     private void DoFixedUpdateActions()
     {
