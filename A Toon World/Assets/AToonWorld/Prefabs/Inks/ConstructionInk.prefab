@@ -42,10 +42,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 127351474040341893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e31eb42037905940af9416878eab824, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a9aa481c71f1fc40a109568d370f602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minDistanceBetweenPoints: 0.1
+  _minDistanceBetweenPoints: 0.01
 --- !u!68 &5985393448981026747
 EdgeCollider2D:
   m_ObjectHideFlags: 0

@@ -12,8 +12,8 @@ public class DrawSplineController : MonoBehaviour
     
     #region Components
 
-    private LineRenderer _inkLineRenderer;
-    private EdgeCollider2D _splineCollider;
+    protected LineRenderer _inkLineRenderer;
+    protected EdgeCollider2D _splineCollider;
     //private Rigidbody2D _splineRigidBody;
 
     #endregion
@@ -24,9 +24,9 @@ public class DrawSplineController : MonoBehaviour
 
     #endregion
 
-    private Vector3[] _splinePoints;
-    private Transform _splineTransform;
-    private int _currentSplineIndex;
+    protected Vector3[] _splinePoints;
+    protected Transform _splineTransform;
+    protected int _currentSplineIndex;
 
     void Awake()
     {
@@ -48,7 +48,7 @@ public class DrawSplineController : MonoBehaviour
         _currentSplineIndex = 0;
     }
 
-    public void AddPoint(Vector2 newPoint)
+    public virtual void AddPoint(Vector2 newPoint)
     {
         //First point
         if(_currentSplineIndex == 0)
@@ -67,7 +67,7 @@ public class DrawSplineController : MonoBehaviour
         }
     }
 
-    public void EnableSimulation()
+    public virtual void EnableSimulation()
     {
         //Generate Collider
         _splinePoints = new Vector3[_inkLineRenderer.positionCount];
