@@ -41,7 +41,10 @@ public class PlayerInkController : MonoBehaviour
     public void OnInkSelected(InkType newInk)
     {
         if(!_isDrawing)
+        {
             _selectedInk = newInk;
+            
+        }
     }
 
     private void OnInkPickup(Collider2D collider)

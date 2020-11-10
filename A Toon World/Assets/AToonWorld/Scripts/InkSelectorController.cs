@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using InkType = PlayerInkController.InkType;
+using EventMessaging;
 
 public class InkSelectorController : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class InkSelectorController : MonoBehaviour
     [SerializeField] private GameObject DamageInk;
     [SerializeField] private GameObject ClimbInk;
     
-    private UnityEvent<InkType> InkSelect;
     private Dictionary<InkType, GameObject> inks;
 
     void Start()
@@ -26,7 +26,7 @@ public class InkSelectorController : MonoBehaviour
             [InkType.Climb] = ClimbInk,
         };
 
-        this.InkSelect.AddListener(selectedInk => 
+        EventMessenger.Subscribe(Events.InkSelected, selectedInk => 
         {
             foreach(InkType ink in Enum.GetValues(typeof(InkType)))
                 if (ink.Equals(selectedInk))
@@ -38,7 +38,7 @@ public class InkSelectorController : MonoBehaviour
 
     public void InvokeInkSelection(InkType inkType)
     {
-        this.InkSelect.Invoke(inkType);
+        EventMessenger.Invoke(Events.InkSelected, inkType);
     }
 
     private void Select(InkType inkType)
