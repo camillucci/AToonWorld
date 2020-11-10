@@ -28,7 +28,8 @@ public class PlayerMovementController : MonoBehaviour
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
     private Action _fixedUpdateActions; // code scheduled to be executed on FixedUpdate 
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
-
+    private int _drawingPlatformsCollidedCounter;
+    private int _groundsCollidedCounter;
     
 
     // Initialization
@@ -52,8 +53,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Ground, OnGroundEnter);
         _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Ground, OnGroundExit);
-        _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnGroundEnter);
-        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnGroundExit);
+        _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
+        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);
     }
 
     private void InitializeJumpingStates()
@@ -74,8 +75,9 @@ public class PlayerMovementController : MonoBehaviour
     public float VerticalMovementDirection { get; set; }
     public JumpState CurrentJumpState { get; private set; }
     public bool IsClimbing  {get; private set; }
-    public bool IsGrounded { get; private set; }
-    public bool CanJump => IsGrounded || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
+    public bool IsGrounded => _groundsCollidedCounter > 0;
+    public bool IsOnDrawingPlatform => _drawingPlatformsCollidedCounter > 0;   
+    public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
 
 
 
@@ -101,12 +103,24 @@ public class PlayerMovementController : MonoBehaviour
     private void OnGroundEnter(Collider2D collider)
     {
         CurrentJumpState = JumpState.NoJumping;
-        IsGrounded = true;
+        _groundsCollidedCounter++;
     }
 
     private void OnGroundExit(Collider2D collider)
     {
-        IsGrounded = false;
+        _groundsCollidedCounter--;
+    }
+
+
+    private void OnDrawingEnter(Collider2D collider)
+    {
+        CurrentJumpState = JumpState.NoJumping;
+        _drawingPlatformsCollidedCounter++;
+    }
+
+    private void OnDrawingExit(Collider2D collider)
+    {
+        _drawingPlatformsCollidedCounter--;
     }
 
 
@@ -190,6 +204,11 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Private methods
+    private void UpdateJumpStatus()
+    {
+
+    }
+
     private void DoFixedUpdateActions()
     {
         if (_fixedUpdateActions is null)
