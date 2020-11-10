@@ -34,6 +34,11 @@ namespace Assets.AToonWorld.Scripts
             if(InputUtils.DrawDown) _playerInkController.OnDrawDown();
             if(InputUtils.DrawHeld) _playerInkController.WhileDrawHeld();
             if(InputUtils.DrawUp) _playerInkController.OnDrawReleased();
+
+            if(InputUtils.ConstructionInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Construction);
+            //if(InputUtils.ClimbInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Climb);
+            //if(InputUtils.DamageInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Damage);
+            if(InputUtils.CancelInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Cancel);
         }
 
 

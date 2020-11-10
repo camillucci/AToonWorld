@@ -82,7 +82,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(UnityTag.Ground))
+        if (collision.gameObject.CompareTag(UnityTag.Ground) ||
+            collision.gameObject.CompareTag(UnityTag.Drawing))
         {
             IsGrounded = true;
             CurrentJumpState = JumpState.NoJumping;
@@ -91,7 +92,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(UnityTag.Ground))
+        if (collision.gameObject.CompareTag(UnityTag.Ground) ||
+            collision.gameObject.CompareTag(UnityTag.Drawing))
             IsGrounded = false;
     }   
 

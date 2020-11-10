@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 127351474040341892}
   - component: {fileID: 5985393448981026747}
   - component: {fileID: 6722994781567644847}
-  m_Layer: 0
-  m_Name: ConstructionInkSplineShape
-  m_TagString: Ground
+  m_Layer: 8
+  m_Name: ConstructionInk
+  m_TagString: Drawing
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
