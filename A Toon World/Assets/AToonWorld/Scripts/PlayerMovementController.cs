@@ -94,18 +94,20 @@ public class PlayerMovementController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag(UnityTag.Wall))
         {
+            IsGrounded = true;
             IsClimbing = true;
-            _rigidBody.gravityScale = 0;
+            _fixedUpdateActions += () => _rigidBody.gravityScale = 0;
+            CurrentJumpState = JumpState.NoJumping;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(UnityTag.Ground))
+        if (collision.gameObject.CompareTag(UnityTag.Ground) && !IsClimbing)
             IsGrounded = false;
         if (collision.gameObject.CompareTag(UnityTag.Wall)) {
             IsClimbing = false;
-            _rigidBody.gravityScale = _gravityScale;
+            _fixedUpdateActions += () => _rigidBody.gravityScale = _gravityScale;
         }
     }   
 
