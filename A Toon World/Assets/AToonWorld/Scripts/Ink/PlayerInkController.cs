@@ -5,7 +5,6 @@ using Assets.AToonWorld.Scripts.Utils;
 
 public class PlayerInkController : MonoBehaviour
 {
-    //TODO: Ink Pooling (probabilmente questa classe sparirà)
     //TODO: Logica selezione ink
     //TODO: Interfaccia e gestione ink
     [SerializeField] private GameObject _constructionInkPrefab;
@@ -14,7 +13,6 @@ public class PlayerInkController : MonoBehaviour
     private bool _isDrawing = false;
     private Vector2 _mouseWorldPosition;
     private Dictionary<InkType, IInkHandler> _inkHandlers;
-    private DrawSplineController _currentSplineController;
     public InkType SelectedInk => _selectedInk;
 
     void Awake()
@@ -22,8 +20,8 @@ public class PlayerInkController : MonoBehaviour
         //TODO: Handler assegnati da codice? Forse è meglio usare qualcosa di assegnabile da Editor? (da Editor non possiamo usare le interfacce)
         _inkHandlers = new Dictionary<InkType, IInkHandler>()
         {
-            [InkType.Construction] = new ConstructionInkHandler(this),
-            [InkType.Cancel] = new CancelInkHandler(this),
+            [InkType.Construction] = new ConstructionInkHandler(this), //Spline Ink
+            [InkType.Cancel] = new CancelInkHandler(this), //Spline Ink (for now?)
             //TODO: Others
         };
 
@@ -43,20 +41,22 @@ public class PlayerInkController : MonoBehaviour
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_selectedInk);
-        _currentSplineController = pooledSpline.GetComponent<DrawSplineController>();
+        
+        if(_inkHandlers[_selectedInk] is ISplineInk _selectedSplineInk)
+            _selectedSplineInk?.BindSpline(pooledSpline.GetComponent<DrawSplineController>());
 
-        _inkHandlers[_selectedInk].OnDrawDown(_mouseWorldPosition, _currentSplineController);
+        _inkHandlers[_selectedInk].OnDrawDown(_mouseWorldPosition);
     }
 
     public void WhileDrawHeld()
     {
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _inkHandlers[_selectedInk].OnDrawHeld(_mouseWorldPosition, _currentSplineController);
+        _inkHandlers[_selectedInk].OnDrawHeld(_mouseWorldPosition);
     }
 
     public void OnDrawReleased()
     {
-        _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition, _currentSplineController);
+        _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
         _isDrawing = false;
     }
 
