@@ -13,6 +13,18 @@ namespace Assets.AToonWorld.Scripts.Utils
         public static float VerticalRawAxis => Input.GetAxisRaw("Vertical");
         public static bool JumpDown => Input.GetButtonDown("Jump");
         public static bool JumpHeld => Input.GetButton("Jump");
-        public static bool WDown => Input.GetKeyDown("w");
+
+        #region Ink
+
+        public static bool DrawDown => Input.GetButtonDown("Draw");
+        public static bool DrawUp => Input.GetButtonUp("Draw");
+        public static bool DrawHeld => Input.GetButton("Draw");
+
+        public static bool ConstructionInkSelect => Input.GetButtonDown("ConstructionInk");
+        public static bool ClimbInkSelect => Input.GetButtonDown("ClimbInk");
+        public static bool DamageInkSelect => Input.GetButtonDown("DamageInk");
+        public static bool CancelInkSelect => Input.GetButtonDown("CancelInk");
+
+        #endregion
     }
 }

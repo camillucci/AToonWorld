@@ -10,5 +10,6 @@ namespace Assets.AToonWorld.Scripts
     {
         public const string Ground = nameof(Ground);
         public const string Wall = nameof(Wall);
+        public const string Drawing = nameof(Drawing);
     }
 }
