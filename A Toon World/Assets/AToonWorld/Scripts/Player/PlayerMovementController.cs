@@ -44,14 +44,16 @@ public class PlayerMovementController : MonoBehaviour
 
     private void InitializeBody()
     {
-        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.Wall, OnWallEnter);
-        _playerBody.TriggerExit.SubscribeWithTag(UnityTag.Wall, OnWallExit);
+        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, OnWallEnter);
+        _playerBody.TriggerExit.SubscribeWithTag(UnityTag.ClimbingWall, OnWallExit);        
     }
 
     private void InitializeFeet()
     {
         _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Ground, OnGroundEnter);
         _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Ground, OnGroundExit);
+        _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnGroundEnter);
+        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnGroundExit);
     }
 
     private void InitializeJumpingStates()
