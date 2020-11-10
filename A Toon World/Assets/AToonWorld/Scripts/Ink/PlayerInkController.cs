@@ -4,6 +4,7 @@ using UnityEngine;
 using Assets.AToonWorld.Scripts.Utils;
 using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts;
+using EventMessaging;
 
 public class PlayerInkController : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class PlayerInkController : MonoBehaviour
         if(!_isDrawing)
         {
             _selectedInk = newInk;
-            
+            EventMessenger.Instance.Invoke(CustomEvents.InkSelected, newInk);
         }
     }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EventMessaging
 {
-    public enum Events
+    public enum CustomEvents
     {
         InkSelected
     }

@@ -26,28 +26,26 @@ public class InkSelectorController : MonoBehaviour
             [InkType.Climb] = ClimbInk,
         };
 
-        EventMessenger.Subscribe(Events.InkSelected, selectedInk => 
+        EventMessenger.Instance.Subscribe(CustomEvents.InkSelected, parameters => 
         {
+            Debug.Log($"esecuzione della funzione sottoscritta, parametro: {parameters[0]}");
             foreach(InkType ink in Enum.GetValues(typeof(InkType)))
-                if (ink.Equals(selectedInk))
+                if (ink.Equals(parameters[0]))
                     Select(ink);
                 else
                     UnSelect(ink);
         });
     }
 
-    public void InvokeInkSelection(InkType inkType)
-    {
-        EventMessenger.Invoke(Events.InkSelected, inkType);
-    }
-
     private void Select(InkType inkType)
     {
         inks[inkType].GetComponent<Image>().color = Color.red;
+        Debug.Log($"{inkType} selezionato, colore rosso");
     }
 
     private void UnSelect(InkType inkType)
     {
         inks[inkType].GetComponent<Image>().color = Color.white;
+        Debug.Log($"{inkType} deselezionato, colore bianco");
     }
 }
