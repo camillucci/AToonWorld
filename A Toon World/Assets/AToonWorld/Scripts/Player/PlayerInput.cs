@@ -14,7 +14,6 @@ namespace Assets.AToonWorld.Scripts
         private PlayerMovementController _playerMovementController;
         private PlayerInkController _playerInkController;
 
-
         // Initialization
         private void Awake()
         {
@@ -42,6 +41,14 @@ namespace Assets.AToonWorld.Scripts
             if(InputUtils.CancelInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Cancel);
         }
 
+        private PlayerInkController.InkType GetInkSelected()
+        {
+            if(InputUtils.ConstructionInkSelect) return PlayerInkController.InkType.Construction;
+            if(InputUtils.ClimbInkSelect) return PlayerInkController.InkType.Climb;
+            if(InputUtils.DamageInkSelect) return PlayerInkController.InkType.Damage;
+            if(InputUtils.CancelInkSelect) return PlayerInkController.InkType.Cancel;
+            throw new Exception("Unknown ink selected");
+        }
 
         // Private methods
         private bool IsJumpHeld() => InputUtils.JumpHeld;
