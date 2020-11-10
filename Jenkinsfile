@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh '$UNITY_EDITOR -batchmode -nographics -projectPath "$pwd/A Toon World" -buildTarget WebGL -quit'
+        sh '$UNITY_EDITOR -batchmode -nographics -projectPath "./A Toon World" -buildTarget WebGL -customBuildTarget WebGL -customBuildName WebGLBuild -customBuildPath Build -quit'
       }
     }
 
