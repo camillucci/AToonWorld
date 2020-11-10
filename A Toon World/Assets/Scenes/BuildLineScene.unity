@@ -639,131 +639,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestDrawShape
       objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_ShapeTexture
-      value: 
-      objectReference: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalAABB.m_Center.x
-      value: 0.050025612
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalAABB.m_Center.y
-      value: 0.004743859
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalAABB.m_Center.z
-      value: -0.00005
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalAABB.m_Extent.x
-      value: 0.10771215
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalAABB.m_Extent.y
-      value: 0.08957815
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341894, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalAABB.m_Extent.z
-      value: 0.00005
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[2].position.x
-      value: 0.19228554
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[2].position.y
-      value: 3.9167156
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[2].height
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[2].corner
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[3].position.x
-      value: 0.19228554
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[3].position.y
-      value: 3.9167156
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[3].height
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[3].corner
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[4].position.x
-      value: 0.19228554
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[4].position.y
-      value: 3.9167156
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[4].height
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341895, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Spline.m_ControlPoints.Array.data[4].corner
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 127351474040341897, guid: 724286faac5091d42953b11d6491bdc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -819,16 +694,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 127351474040341897, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5985393448981026747, guid: 724286faac5091d42953b11d6491bdc6,
-        type: 3}
-      propertyPath: m_Points.Array.size
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 5985393448981026747, guid: 724286faac5091d42953b11d6491bdc6,
         type: 3}
       propertyPath: m_Points.Array.data[7].x
@@ -838,6 +703,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Points.Array.data[7].y
       value: 5.9326396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6722994781567644847, guid: 724286faac5091d42953b11d6491bdc6,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 724286faac5091d42953b11d6491bdc6, type: 3}
@@ -1087,6 +957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _drawSplineController: {fileID: 207494312}
+  _mouseWorldPosition: {x: 0, y: 0}
 --- !u!4 &2083297477
 Transform:
   m_ObjectHideFlags: 0

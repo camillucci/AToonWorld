@@ -12,13 +12,14 @@ namespace Assets.AToonWorld.Scripts
     public class PlayerInput : MonoBehaviour
     {
         private PlayerMovementController _playerMovementController;
-
+        private PlayerInkController _playerInkController;
 
 
         // Initialization
         private void Awake()
         {
             _playerMovementController = GetComponent<PlayerMovementController>();
+            _playerInkController = GetComponent<PlayerInkController>();
         }
 
                                       
@@ -28,7 +29,11 @@ namespace Assets.AToonWorld.Scripts
         {
             if (InputUtils.JumpDown)
                 _playerMovementController.JumpWhile(IsJumpHeld);
-            _playerMovementController.HorizontalMovementDirection = InputUtils.HorizontalRawAxis;           
+            _playerMovementController.HorizontalMovementDirection = InputUtils.HorizontalRawAxis;
+
+            if(InputUtils.DrawDown) _playerInkController.OnDrawDown();
+            if(InputUtils.DrawHeld) _playerInkController.WhileDrawHeld();
+            if(InputUtils.DrawUp) _playerInkController.OnDrawReleased();
         }
 
 
