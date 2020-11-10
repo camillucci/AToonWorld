@@ -8,6 +8,7 @@ namespace Assets.AToonWorld.Scripts
 {
     public static class UnityTag
     {
+        public const string Default = nameof(Default);
         public const string Ground = nameof(Ground);
         public const string ClimbingWall = nameof(ClimbingWall);
         public const string Drawing = nameof(Drawing);

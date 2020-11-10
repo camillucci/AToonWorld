@@ -9,6 +9,7 @@ public class PlayerInkController : MonoBehaviour
     //TODO: Logica selezione ink
     //TODO: Interfaccia e gestione ink
     [SerializeField] private GameObject _constructionInkPrefab;
+    [SerializeField] private GameObject _climbingInkPrefab;
     [SerializeField] private GameObject _cancelInkPrefab;
     private InkType _selectedInk = InkType.Construction;
     private bool _isDrawing = false;
@@ -23,11 +24,13 @@ public class PlayerInkController : MonoBehaviour
         _inkHandlers = new Dictionary<InkType, IInkHandler>()
         {
             [InkType.Construction] = new ConstructionInkHandler(this),
+            [InkType.Climb] = new ClimbingInkHandler(this),
             [InkType.Cancel] = new CancelInkHandler(this),
             //TODO: Others
         };
 
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
+        ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
     }
 
