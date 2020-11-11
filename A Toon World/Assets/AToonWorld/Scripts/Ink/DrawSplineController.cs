@@ -43,7 +43,7 @@ public class DrawSplineController : MonoBehaviour
     {
         //_splineRigidBody.simulated = false;
         _inkLineRenderer.positionCount = 0;
-        _splineCollider.points = null;
+        _splineCollider.points = new Vector2[0];
         _splineCollider.enabled = false;
         _splineTransform.position = Vector3.zero;
         _splineTransform.rotation = Quaternion.identity;
