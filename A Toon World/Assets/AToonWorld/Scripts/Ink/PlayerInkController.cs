@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.AToonWorld.Scripts.Utils;
+using Assets.AToonWorld.Scripts.Player;
+using Assets.AToonWorld.Scripts;
 
 public class PlayerInkController : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class PlayerInkController : MonoBehaviour
     [SerializeField] private GameObject _constructionInkPrefab;
     [SerializeField] private GameObject _climbingInkPrefab;
     [SerializeField] private GameObject _cancelInkPrefab;
+    private PlayerBody _playerBody;
     private InkType _selectedInk = InkType.Construction;
     private bool _isDrawing = false;
     private Vector2 _mouseWorldPosition;
@@ -27,6 +30,9 @@ public class PlayerInkController : MonoBehaviour
             //TODO: Others
         };
 
+        _playerBody = GetComponentInChildren<PlayerBody>();
+        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
+
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
@@ -36,6 +42,22 @@ public class PlayerInkController : MonoBehaviour
     {
         if(!_isDrawing)
             _selectedInk = newInk;
+    }
+
+    private void OnInkPickup(Collider2D collider)
+    {
+        InkPickupController pickupController = collider.GetComponent<InkPickupController>();
+        if(pickupController != null)
+        {
+            if(pickupController.IsPercentage && pickupController.RefillQuantity > 100)
+                throw new System.Exception("Picked up refill with percentage higher than 100%");
+
+            if(_inkHandlers[pickupController.InkType] is ExpendableResource expendableInk)
+                expendableInk.Refill(pickupController.IsPercentage ? expendableInk.MaxCapacity * (pickupController.RefillQuantity / 100) 
+                                                                   : pickupController.RefillQuantity);
+            else
+                throw new System.Exception("Picked up refill for non expendable ink!");
+        }
     }
 
     public void OnDrawDown()

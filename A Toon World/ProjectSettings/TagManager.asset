@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Drawing
   - ClimbingWall
+  - InkPickup
   layers:
   - Default
   - TransparentFX

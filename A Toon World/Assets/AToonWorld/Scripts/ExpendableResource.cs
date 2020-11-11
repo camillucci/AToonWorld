@@ -70,7 +70,8 @@ public abstract class ExpendableResource
         if(quantity < 0.0f)
             throw new System.Exception("Tried to refill a negative quantity");
 
-        this.SetCapacity((this._capacity + quantity) % this.MaxCapacity);
+        float newQuantity = this._capacity + quantity;
+        this.SetCapacity(newQuantity > this.MaxCapacity ? this.MaxCapacity : newQuantity);
     }
 
     public virtual void Refill()

@@ -23,7 +23,6 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
     {
         _boundSplineController.Clear();
         _boundSplineController.AddPoint(mouseWorldPosition);
-        this.Refill();
     }
 
     
