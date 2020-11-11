@@ -33,8 +33,8 @@ namespace Assets.AToonWorld.Scripts
             _playerMovementController.VerticalMovementDirection = InputUtils.VerticalRawAxis;
 
             if(InputUtils.DrawDown) _playerInkController.OnDrawDown();
-            if(InputUtils.DrawHeld) _playerInkController.WhileDrawHeld();
-            if(InputUtils.DrawUp) _playerInkController.OnDrawReleased();
+            else if(InputUtils.DrawUp) _playerInkController.OnDrawReleased();
+            else if(InputUtils.DrawHeld) _playerInkController.WhileDrawHeld();
 
             if(InputUtils.ConstructionInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Construction);
             if(InputUtils.ClimbInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Climb);

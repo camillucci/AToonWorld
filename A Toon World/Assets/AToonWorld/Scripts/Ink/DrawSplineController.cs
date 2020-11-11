@@ -25,6 +25,7 @@ public class DrawSplineController : MonoBehaviour
     #endregion
 
     public int PointCount => _inkLineRenderer.positionCount;
+    public Vector2 LastPoint => _inkLineRenderer.GetPosition(_inkLineRenderer.positionCount - 1);
 
     protected Vector3[] _splinePoints;
     protected Transform _splineTransform;
@@ -50,23 +51,29 @@ public class DrawSplineController : MonoBehaviour
         _currentSplineIndex = 0;
     }
 
-    public virtual void AddPoint(Vector2 newPoint)
+    public virtual bool AddPoint(Vector2 newPoint)
     {
         //First point
         if(_currentSplineIndex == 0)
         {
             _inkLineRenderer.positionCount++;
             _inkLineRenderer.SetPosition(_currentSplineIndex++, newPoint);
-            return;
+            return true;
         }
 
         //Spline points
-        Vector2 lastPoint = _inkLineRenderer.GetPosition(_currentSplineIndex - 1);
-        if(IsValidPoint(newPoint, lastPoint))
+        if(IsValidPoint(newPoint, LastPoint))
         {
             _inkLineRenderer.positionCount++;
             _inkLineRenderer.SetPosition(_currentSplineIndex++, newPoint);
+            return true;
         }
+        return false;
+    }
+
+    public virtual void SetPoint(int index, Vector2 newPoint)
+    {
+        _inkLineRenderer.SetPosition(index, newPoint);
     }
 
     public virtual void EnableSimulation()

@@ -40,6 +40,9 @@ public class PlayerInkController : MonoBehaviour
 
     public void OnDrawDown()
     {
+        if(_isDrawing)
+            return;
+
         _isDrawing = true;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -53,14 +56,21 @@ public class PlayerInkController : MonoBehaviour
 
     public void WhileDrawHeld()
     {
-        _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _inkHandlers[_selectedInk].OnDrawHeld(_mouseWorldPosition);
+        if(_isDrawing)
+        {
+            _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if(!_inkHandlers[_selectedInk].OnDrawHeld(_mouseWorldPosition))
+                OnDrawReleased();
+        }
     }
 
     public void OnDrawReleased()
     {
-        _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
-        _isDrawing = false;
+        if(_isDrawing)
+        {
+            _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
+            _isDrawing = false;
+        }
     }
 
     public enum InkType {

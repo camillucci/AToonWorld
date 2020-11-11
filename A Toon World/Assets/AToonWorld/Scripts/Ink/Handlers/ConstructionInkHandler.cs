@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConstructionInkHandler : IInkHandler, ISplineInk
+public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineInk
 {
     private PlayerInkController _playerInkController;
     private DrawSplineController _boundSplineController;
@@ -11,6 +11,8 @@ public class ConstructionInkHandler : IInkHandler, ISplineInk
     {
         _playerInkController = playerInkController;
     }
+
+    public override float MaxCapacity => 100.0f;
 
     public void BindSpline(DrawSplineController splineController)
     {
@@ -21,11 +23,33 @@ public class ConstructionInkHandler : IInkHandler, ISplineInk
     {
         _boundSplineController.Clear();
         _boundSplineController.AddPoint(mouseWorldPosition);
+        this.Refill();
     }
 
-    public void OnDrawHeld(Vector2 mouseWorldPosition)
+    
+    public bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
-        _boundSplineController.AddPoint(mouseWorldPosition);
+        Vector2 lastPoint = _boundSplineController.LastPoint;
+        Vector2 diff = (mouseWorldPosition - lastPoint);
+        float toConsume = diff.magnitude;
+        
+        //If I can't consume anything, return
+        if(this._capacity > 0.0f)
+        {
+            //The added point is a valid point (enough distance from the lastOne)
+            if(_boundSplineController.AddPoint(mouseWorldPosition))
+            {
+                float consumedInk = this.Consume(toConsume);
+
+                //If I don't have that much ink, create a smaller segment
+                if(consumedInk != toConsume)
+                    mouseWorldPosition = lastPoint + diff.normalized * consumedInk;
+
+                _boundSplineController.SetPoint(_boundSplineController.PointCount - 1, mouseWorldPosition);
+            }
+            return true;
+        }
+        return false;
     }
 
     public void OnDrawReleased(Vector2 mouseWorldPosition)

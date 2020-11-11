@@ -30,11 +30,12 @@ public class CancelInkHandler : IInkHandler, ISplineInk
         _lastPoint = mouseWorldPosition;
     }
 
-    public void OnDrawHeld(Vector2 mouseWorldPosition)
+    public bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
         _boundSplineController.AddPoint(mouseWorldPosition);
         ProcessToDelete(mouseWorldPosition);
         _lastPoint = mouseWorldPosition;
+        return true; //Infinite Ink
     }
 
     public void OnDrawReleased(Vector2 mouseWorldPosition)
