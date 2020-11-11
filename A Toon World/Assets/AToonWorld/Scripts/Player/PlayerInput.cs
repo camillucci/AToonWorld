@@ -39,6 +39,9 @@ namespace Assets.AToonWorld.Scripts
             if(InputUtils.ClimbInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Climb);
             if(InputUtils.DamageInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Damage);
             if(InputUtils.CancelInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Cancel);
+
+            if (InputUtils.RotateInks > 0) _playerInkController.OnInkSelected(PlayerInkController.InkSelection.Forward);
+            if (InputUtils.RotateInks < 0) _playerInkController.OnInkSelected(PlayerInkController.InkSelection.Backward);
         }
 
         // Private methods

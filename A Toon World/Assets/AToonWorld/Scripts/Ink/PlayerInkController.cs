@@ -4,7 +4,8 @@ using UnityEngine;
 using Assets.AToonWorld.Scripts.Utils;
 using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts;
-using EventMessaging;
+using Events;
+using System;
 
 public class PlayerInkController : MonoBehaviour
 {
@@ -38,13 +39,29 @@ public class PlayerInkController : MonoBehaviour
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
     }
+    
+    void Start()
+    {
+        OnInkSelected(InkType.Construction);
+    }
 
     public void OnInkSelected(InkType newInk)
     {
         if(!_isDrawing)
         {
             _selectedInk = newInk;
-            EventMessenger.Instance.Invoke(CustomEvents.InkSelected, newInk);
+            InterfaceEvents.InkSelected.Invoke(_selectedInk);
+        }
+    }
+
+    public void OnInkSelected(InkSelection inkSelection)
+    {
+        if(!_isDrawing)
+        {
+            int totalInks = Enum.GetValues(typeof(InkType)).Length;
+            int nextInk = ((int)_selectedInk + (int)inkSelection + totalInks) % totalInks;
+            _selectedInk = (InkType)nextInk;
+            InterfaceEvents.InkSelected.Invoke(_selectedInk);
         }
     }
 
@@ -104,5 +121,10 @@ public class PlayerInkController : MonoBehaviour
         Climb,
         Damage,
         Cancel
+    }
+
+    public enum InkSelection {
+        Forward = 1,
+        Backward = -1
     }
 }

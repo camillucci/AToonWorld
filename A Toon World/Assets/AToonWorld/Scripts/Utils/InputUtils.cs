@@ -25,6 +25,8 @@ namespace Assets.AToonWorld.Scripts.Utils
         public static bool DamageInkSelect => Input.GetButtonDown("DamageInk");
         public static bool CancelInkSelect => Input.GetButtonDown("CancelInk");
 
+        public static float RotateInks => Input.GetAxis("RotateInks");
+
         #endregion
     }
 }
