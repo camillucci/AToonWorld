@@ -24,6 +24,11 @@ namespace Assets.AToonWorld.Scripts.Utils
                 _handlersDictionary.Add(tag, handler);
         }
 
+        public void SubscribeWithTag(params (TTag tag, Action<VArgs> handler)[] handlers)
+        {
+            foreach (var (tag, handler) in handlers)
+                SubscribeWithTag(tag, handler);
+        }
 
         public void InvokeWithTag(TTag tag, VArgs args)
         {
@@ -37,5 +42,6 @@ namespace Assets.AToonWorld.Scripts.Utils
         {
             _notTaggedHandlers?.Invoke(args);
         }
+
     }
 }
