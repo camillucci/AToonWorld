@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IInkHandler
 {
-    void OnDrawDown(Vector2 mouseWorldPosition, DrawSplineController splineController);
-    void OnDrawHeld(Vector2 mouseWorldPosition, DrawSplineController splineController);
-    void OnDrawReleased(Vector2 mouseWorldPosition, DrawSplineController splineController);
+    void OnDrawDown(Vector2 mouseWorldPosition);
+    void OnDrawHeld(Vector2 mouseWorldPosition);
+    void OnDrawReleased(Vector2 mouseWorldPosition);
 }

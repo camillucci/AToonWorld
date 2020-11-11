@@ -4,9 +4,10 @@ using UnityEngine;
 using Assets.AToonWorld.Scripts;
 
 //TODO: TrailRenderer or Shooting mechanic for this one
-public class CancelInkHandler : IInkHandler
+public class CancelInkHandler : IInkHandler, ISplineInk
 {
     private PlayerInkController _playerInkController;
+    private DrawSplineController _boundSplineController;
     private List<GameObject> _toDelete;
     private Vector2 _lastPoint;
 
@@ -16,28 +17,33 @@ public class CancelInkHandler : IInkHandler
         _playerInkController = playerInkController;
     }
 
-    public void OnDrawDown(Vector2 mouseWorldPosition, DrawSplineController splineController)
+    public void BindSpline(DrawSplineController splineController)
+    {
+        _boundSplineController = splineController;
+    }
+
+    public void OnDrawDown(Vector2 mouseWorldPosition)
     {
         _toDelete.Clear();
-        splineController.Clear();
-        splineController.AddPoint(mouseWorldPosition);
+        _boundSplineController.Clear();
+        _boundSplineController.AddPoint(mouseWorldPosition);
         _lastPoint = mouseWorldPosition;
     }
 
-    public void OnDrawHeld(Vector2 mouseWorldPosition, DrawSplineController splineController)
+    public void OnDrawHeld(Vector2 mouseWorldPosition)
     {
-        splineController.AddPoint(mouseWorldPosition);
+        _boundSplineController.AddPoint(mouseWorldPosition);
         ProcessToDelete(mouseWorldPosition);
         _lastPoint = mouseWorldPosition;
     }
 
-    public void OnDrawReleased(Vector2 mouseWorldPosition, DrawSplineController splineController)
+    public void OnDrawReleased(Vector2 mouseWorldPosition)
     {
         ProcessToDelete(mouseWorldPosition);
         
         //TODO: Deletion Animation and Sound?
         _toDelete.ForEach(obj => obj.SetActive(false));
-        splineController.gameObject.SetActive(false);
+        _boundSplineController.gameObject.SetActive(false);
     }
 
     private void ProcessToDelete(Vector2 currentPoint)
