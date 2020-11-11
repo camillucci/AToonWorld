@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 127351474040341892}
   - component: {fileID: 5985393448981026747}
   - component: {fileID: 6722994781567644847}
-  - component: {fileID: -2121055144879565504}
   m_Layer: 8
   m_Name: ClimbingInk
   m_TagString: ClimbingWall
@@ -62,14 +61,7 @@ EdgeCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.049742162, y: -0.005072117}
-  - {x: -0.049742162, y: -0.005072117}
-  - {x: 0.000009693218, y: -0.00009693218}
-  - {x: 0.025935618, y: 0.0024956611}
-  - {x: 0.07408377, y: 0.0073104724}
-  - {x: 0.1000097, y: 0.009903066}
-  - {x: 0.14976154, y: 0.014878251}
+  m_Points: []
 --- !u!120 &6722994781567644847
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -112,13 +104,13 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1.0208468
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -165,21 +157,3 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!68 &-2121055144879565504
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127351474040341893}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
