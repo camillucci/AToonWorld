@@ -28,7 +28,7 @@ static class BuildCommand
     {
         var buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = GetBuildScenes();
-        buildPlayerOptions.locationPathName = "Inkverse-DevBuild";
+        buildPlayerOptions.locationPathName = "../Build";
         buildPlayerOptions.target = BuildTarget.WebGL;
         buildPlayerOptions.options = BuildOptions.None;
         PlayerSettings.WebGL.analyzeBuildSize = false;

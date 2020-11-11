@@ -23,8 +23,8 @@ pipeline {
               publishers: [
                 sshPublisherDesc(
                   configName: "webmachine_web_inkverse",
-                  transfers: [sshTransfer(sourceFiles: 'A Toon World/Build/**/*',
-                                          removePrefix: 'A Toon World/Build',
+                  transfers: [sshTransfer(sourceFiles: 'Build/**/*',
+                                          removePrefix: 'Build',
                                           remoteDirectory: '${BRANCH_NAME}',
                                           cleanRemote: true,
                                           makeEmptyDirs: true)],
