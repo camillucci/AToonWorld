@@ -3,6 +3,7 @@ using Assets.AToonWorld.Scripts.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -26,7 +27,7 @@ public class PlayerMovementController : MonoBehaviour
     private PlayerBody _playerBody;
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
-    private Action _fixedUpdateActions; // code scheduled to be executed on FixedUpdate 
+    private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
     private int _drawingPlatformsCollidedCounter;
     private int _groundsCollidedCounter;
@@ -53,10 +54,19 @@ public class PlayerMovementController : MonoBehaviour
     private void InitializeFeet()
     {
         var walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
-        _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Ground, OnGroundEnter);
-        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Ground, OnGroundExit);
-        _playerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
-        _playerFeet.TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);        
+
+        _playerFeet.TriggerEnter.SubscribeWithTag
+        (
+            (UnityTag.Ground, OnGroundEnter),
+            (UnityTag.Drawing, OnDrawingEnter)
+        );
+
+        _playerFeet.TriggerExit.SubscribeWithTag
+        (
+            (UnityTag.Ground, OnGroundExit),
+            (UnityTag.Drawing, OnDrawingExit)
+        );
+      
         foreach(var walkableTag in walkableTags)
         {
             _playerFeet.TriggerEnter.SubscribeWithTag(walkableTag, OnWalkableEnter);
@@ -85,6 +95,11 @@ public class PlayerMovementController : MonoBehaviour
     public bool IsGrounded => _groundsCollidedCounter > 0;
     public bool IsOnDrawingPlatform => _drawingPlatformsCollidedCounter > 0;   
     public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
+    public bool IsGravityEnabled 
+    {
+        get => Math.Abs(_rigidBody.gravityScale) > float.Epsilon;
+        private set => _rigidBody.gravityScale = value ? _gravityScale : 0;
+    }
 
 
 
@@ -106,37 +121,23 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
+
     // Player events
   
-    private void OnGroundEnter(Collider2D collider)
-    {
-        _groundsCollidedCounter++;        
-    }
-
-    private void OnGroundExit(Collider2D collider)
-    {
-        _groundsCollidedCounter--;
-    }
-
-
-    private void OnDrawingEnter(Collider2D collider)
-    {        
-        _drawingPlatformsCollidedCounter++;
-    }
-
-    private void OnDrawingExit(Collider2D collider)
-    {
-        _drawingPlatformsCollidedCounter--;
-    }
+    private void OnGroundEnter(Collider2D collider) => _groundsCollidedCounter++;        
+    private void OnGroundExit(Collider2D collider) => _groundsCollidedCounter--;    
+    private void OnDrawingEnter(Collider2D collider) => _drawingPlatformsCollidedCounter++;
+    private void OnDrawingExit(Collider2D collider) =>_drawingPlatformsCollidedCounter--;
+     
 
     
-    
+
     // Both Ground and Drawing. After the specific events
     private void OnWalkableEnter(Collider2D collider)
     {
         CurrentJumpState = JumpState.NoJumping;
         if (IsClimbing)
-            SetGravity(false);
+            _fixedUpdateAction += () => IsGravityEnabled = false;
     }
 
     private void OnWalkableExit(Collider2D collider)
@@ -150,13 +151,14 @@ public class PlayerMovementController : MonoBehaviour
     {
         _climbingWallCollidedCounter++;
         CurrentJumpState = JumpState.NoJumping;
-        _fixedUpdateActions += () => SetGravity(false);
+        _fixedUpdateAction += () => IsGravityEnabled = false;
     }
 
     private void OnClimbingWallExit(Collider2D collider)
     {        
         _climbingWallCollidedCounter--;
-        _fixedUpdateActions += () => SetGravity(true);
+        if(!IsClimbing)
+            _fixedUpdateAction += () => IsGravityEnabled = true;
     }
 
     
@@ -203,12 +205,11 @@ public class PlayerMovementController : MonoBehaviour
     /// <returns> The jump coroutine </returns>
     private IEnumerator JumpCoroutine()
     {
-
         float totForce = 0;
         bool jumpHeld;
         yield return _waitForFixedUpdate;
         _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, 0);
-        SetGravity(true);
+        IsGravityEnabled = true;
         do
         {
             float forceIncrement = Mathf.Min(_jumpStepForce, _maxJumpForce - totForce);
@@ -228,12 +229,12 @@ public class PlayerMovementController : MonoBehaviour
 
     private void DoFixedUpdateActions()
     {
-        if (_fixedUpdateActions is null)
+        if (_fixedUpdateAction is null)
             return;
 
-        Action actions = _fixedUpdateActions;
-        _fixedUpdateActions = null;
-        actions.Invoke();        
+        Action action = _fixedUpdateAction;
+        _fixedUpdateAction = null;
+        action.Invoke();        
     }
 
 
@@ -241,7 +242,7 @@ public class PlayerMovementController : MonoBehaviour
     {        
         CurrentJumpState = JumpState.DoubleJumping;        
         var velocity = new Vector2(_rigidBody.velocity.x, _doubleJumpSpeed);
-        _fixedUpdateActions += () => _rigidBody.velocity = velocity;
+        _fixedUpdateAction += () => _rigidBody.velocity = velocity;
     }
 
     private void MoveHorizontal()
@@ -263,13 +264,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (_onJumpHandlers.TryGetValue(CurrentJumpState, out Action jumpStateHandler))
             jumpStateHandler.Invoke();
-    }
-
-
-    private void SetGravity(bool isGravityEnabled)
-    {
-        _rigidBody.gravityScale = isGravityEnabled ? _gravityScale : 0;
-    }
+    }   
 
     public enum JumpState
     {
