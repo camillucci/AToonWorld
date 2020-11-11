@@ -201,6 +201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _constructionInkPrefab: {fileID: 127351474040341893, guid: 724286faac5091d42953b11d6491bdc6,
     type: 3}
+  _climbingInkPrefab: {fileID: 127351474040341893, guid: 3a25f0aed1b5d0049bc75dc1c7b613b1,
+    type: 3}
   _cancelInkPrefab: {fileID: 8704305555763218382, guid: e36cc2e6a4221b24f8add07ab21b35ad,
     type: 3}
 --- !u!114 &2045420181010939431

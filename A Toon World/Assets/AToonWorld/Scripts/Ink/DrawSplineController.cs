@@ -24,6 +24,8 @@ public class DrawSplineController : MonoBehaviour
 
     #endregion
 
+    public int PointCount => _inkLineRenderer.positionCount;
+
     protected Vector3[] _splinePoints;
     protected Transform _splineTransform;
     protected int _currentSplineIndex;

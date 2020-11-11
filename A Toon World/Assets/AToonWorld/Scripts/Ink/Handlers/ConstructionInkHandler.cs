@@ -30,6 +30,9 @@ public class ConstructionInkHandler : IInkHandler, ISplineInk
 
     public void OnDrawReleased(Vector2 mouseWorldPosition)
     {
-        _boundSplineController.EnableSimulation();
+        if(_boundSplineController.PointCount > 1)
+            _boundSplineController.EnableSimulation();
+        else
+            _boundSplineController.gameObject.SetActive(false);
     }
 }
