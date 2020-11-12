@@ -46,6 +46,16 @@ public class PlayerInkController : MonoBehaviour
     void Start()
     {
         OnInkSelected(InkSelection.Forward);
+        LoadInkState(new List<(InkType, float)> { (InkType.Construction, 0)});
+    }
+
+    public void LoadInkState(List<(InkType, float)> savedState)
+    {
+        savedState.ForEach(savedInk => 
+        {
+            if (_inkHandlers[savedInk.Item1] is ExpendableResource expendable)
+                expendable.SetCapacity(savedInk.Item2);
+        });
     }
 
     public void OnInkSelected(InkType newInk)

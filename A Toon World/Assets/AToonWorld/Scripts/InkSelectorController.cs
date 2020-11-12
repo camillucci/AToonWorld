@@ -18,7 +18,7 @@ public class InkSelectorController : MonoBehaviour
     private Dictionary<InkType, GameObject> _inks;
     private Dictionary<InkType, Image> _inksImages;
 
-    void Start()
+    void Awake()
     {
         _inks = new Dictionary<InkType, GameObject>()
         {
@@ -51,13 +51,16 @@ public class InkSelectorController : MonoBehaviour
 
     private void Select(InkType inkType)
     {
-        _inks[inkType].GetComponent<Image>().color = Color.red;
-
+        Color newColor = Color.red;
+        newColor.a = _inksImages[inkType].color.a;
+        _inksImages[inkType].color = newColor;
     }
 
     private void UnSelect(InkType inkType)
     {
-        _inks[inkType].GetComponent<Image>().color = Color.white;
+        Color newColor = Color.white;
+        newColor.a = _inksImages[inkType].color.a;
+        _inksImages[inkType].color = newColor;
     }
     
     private void ChangeInkCapacity(InkType inkType, float capacity)
@@ -68,7 +71,7 @@ public class InkSelectorController : MonoBehaviour
         #endif
 
         // TODO: Se manteniamo la gestione con l'alpha allora cachare il getComponent
-        Color selectedInkColor = _inks[inkType].GetComponent<Image>().color;
-        _inks[inkType].GetComponent<Image>().color = new Color(selectedInkColor.r, selectedInkColor.g, selectedInkColor.b, capacity);
+        Color selectedInkColor = _inksImages[inkType].color;
+        _inksImages[inkType].color = new Color(selectedInkColor.r, selectedInkColor.g, selectedInkColor.b, capacity);
     }
 }
