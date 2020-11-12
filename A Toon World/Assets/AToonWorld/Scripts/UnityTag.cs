@@ -12,8 +12,9 @@ namespace Assets.AToonWorld.Scripts
         public const string Ground = nameof(Ground);
         public const string ClimbingWall = nameof(ClimbingWall);
         public const string Drawing = nameof(Drawing);
-        public const string Player = nameof(Player);
         public const string InkPickup = nameof(InkPickup);
+        
+        public const string Player = nameof(Player);
         public const string Enemy = nameof(Enemy);
         public const string Ally = nameof(Ally);
     }

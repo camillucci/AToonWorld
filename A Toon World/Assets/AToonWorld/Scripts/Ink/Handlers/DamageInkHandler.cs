@@ -25,7 +25,7 @@ public class DamageInkHandler : IInkHandler, IBulletInk
         _bulletController.Shoot(mouseWorldPosition, _playerPosition);
     }
 
-    public void OnDrawHeld(Vector2 mouseWorldPosition) {}
+    public bool OnDrawHeld(Vector2 mouseWorldPosition) => true;
 
     public void OnDrawReleased(Vector2 mouseWorldPosition) {}
 }

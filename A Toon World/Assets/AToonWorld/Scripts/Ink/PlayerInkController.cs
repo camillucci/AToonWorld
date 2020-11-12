@@ -15,6 +15,7 @@ public class PlayerInkController : MonoBehaviour
     [SerializeField] private GameObject _climbingInkPrefab = null;
     [SerializeField] private GameObject _damageInkPrefab = null;
     [SerializeField] private GameObject _cancelInkPrefab = null;
+    private PlayerBody _playerBody;
     private InkType _selectedInk = InkType.Construction;
     private bool _isDrawing = false;
     private Vector2 _mouseWorldPosition;
