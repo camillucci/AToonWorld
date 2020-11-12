@@ -13,6 +13,7 @@ namespace Assets.AToonWorld.Scripts
     {
         private PlayerMovementController _playerMovementController;
         private PlayerInkController _playerInkController;
+        [SerializeField] private InkWheelController _inkWheelController;
 
         // Initialization
         private void Awake()
@@ -42,6 +43,9 @@ namespace Assets.AToonWorld.Scripts
 
             if (InputUtils.RotateInks > 0) _playerInkController.OnInkSelected(PlayerInkController.InkSelection.Forward);
             if (InputUtils.RotateInks < 0) _playerInkController.OnInkSelected(PlayerInkController.InkSelection.Backward);
+
+            if (InputUtils.WheelOpened) _inkWheelController.Show();
+            if (InputUtils.WheelClosed) _inkWheelController.Hide();
         }
 
         // Private methods

@@ -41,19 +41,36 @@ public class PlayerInkController : MonoBehaviour
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Damage, _damageInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
+
+        Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
     }
     
     void Start()
     {
-        OnInkSelected(InkType.Construction);
+        OnInkSelected(InkSelection.Forward);
+        LoadInkState(new List<(InkType, float)> { (InkType.Construction, 0),
+                                                  (InkType.Climb, 0),
+                                                  (InkType.Damage, 25)});
+    }
+
+    public void LoadInkState(List<(InkType, float)> savedState)
+    {
+        savedState.ForEach(savedInk => 
+        {
+            if (_inkHandlers[savedInk.Item1] is ExpendableResource expendable)
+                expendable.SetCapacity(savedInk.Item2);
+        });
     }
 
     public void OnInkSelected(InkType newInk)
     {
         if(!IsDrawing)
         {
-            _selectedInk = newInk;
-            InterfaceEvents.InkSelected.Invoke(_selectedInk);
+            if (IsAvailableInk(newInk))
+            {
+                _selectedInk = newInk;
+                InterfaceEvents.InkSelected.Invoke(_selectedInk);
+            }
         }
     }
 
@@ -63,10 +80,19 @@ public class PlayerInkController : MonoBehaviour
         {
             int totalInks = Enum.GetValues(typeof(InkType)).Length;
             int nextInk = ((int)_selectedInk + (int)inkSelection + totalInks) % totalInks;
+            for (int i = 0; i < totalInks; i++)
+            {
+                if (IsAvailableInk((InkType)nextInk))
+                    break;
+                nextInk = ((int)nextInk + (int)inkSelection + totalInks) % totalInks;
+            }
+
             _selectedInk = (InkType)nextInk;
             InterfaceEvents.InkSelected.Invoke(_selectedInk);
         }
     }
+
+    private bool IsAvailableInk(InkType ink) => _inkHandlers[ink] is ExpendableResource expendable ? expendable.Capacity > 0 : true;
 
     private void OnInkPickup(Collider2D collider)
     {

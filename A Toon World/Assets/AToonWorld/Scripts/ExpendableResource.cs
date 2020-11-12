@@ -2,8 +2,10 @@ using UnityEngine.Events;
 
 public abstract class ExpendableResource
 {
-    protected float _capacity;
+    private float _capacity;
     public abstract float MaxCapacity { get; }
+
+    public float Capacity => _capacity;
 
     public ExpendableResource()
     {
@@ -53,7 +55,7 @@ public abstract class ExpendableResource
             throw new System.Exception("Tried to consume a negative quantity");
 
         float consumedCapacity = this._capacity - quantity;
-        if(consumedCapacity > 0.0f)
+        if(consumedCapacity >= 0.0f)
         {
             this.SetCapacity(consumedCapacity);
             return true;
