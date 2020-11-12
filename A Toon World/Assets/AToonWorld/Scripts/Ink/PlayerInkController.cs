@@ -17,10 +17,10 @@ public class PlayerInkController : MonoBehaviour
     [SerializeField] private GameObject _cancelInkPrefab = null;
     private PlayerBody _playerBody;
     private InkType _selectedInk = InkType.Construction;
-    private bool _isDrawing = false;
     private Vector2 _mouseWorldPosition;
     private Dictionary<InkType, IInkHandler> _inkHandlers;
     public InkType SelectedInk => _selectedInk;
+    public bool IsDrawing { get; private set; } = false;
 
     void Awake()
     {
@@ -50,7 +50,7 @@ public class PlayerInkController : MonoBehaviour
 
     public void OnInkSelected(InkType newInk)
     {
-        if(!_isDrawing)
+        if(!IsDrawing)
         {
             _selectedInk = newInk;
             InterfaceEvents.InkSelected.Invoke(_selectedInk);
@@ -59,7 +59,7 @@ public class PlayerInkController : MonoBehaviour
 
     public void OnInkSelected(InkSelection inkSelection)
     {
-        if(!_isDrawing)
+        if(!IsDrawing)
         {
             int totalInks = Enum.GetValues(typeof(InkType)).Length;
             int nextInk = ((int)_selectedInk + (int)inkSelection + totalInks) % totalInks;
@@ -86,10 +86,10 @@ public class PlayerInkController : MonoBehaviour
 
     public void OnDrawDown()
     {
-        if(_isDrawing)
+        if(IsDrawing)
             return;
 
-        _isDrawing = true;
+        IsDrawing = true;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_selectedInk);
@@ -104,7 +104,7 @@ public class PlayerInkController : MonoBehaviour
 
     public void WhileDrawHeld()
     {
-        if(_isDrawing)
+        if(IsDrawing)
         {
             _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if(!_inkHandlers[_selectedInk].OnDrawHeld(_mouseWorldPosition))
@@ -114,10 +114,10 @@ public class PlayerInkController : MonoBehaviour
 
     public void OnDrawReleased()
     {
-        if(_isDrawing)
+        if(IsDrawing)
         {
             _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
-            _isDrawing = false;
+            IsDrawing = false;
         }
     }
 

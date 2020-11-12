@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,26 +15,41 @@ namespace Assets.AToonWorld.Scripts.Camera
     public class CameraMovementController : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private Transform _targetTransform;
-        [SerializeField] private UnityEngine.Camera _camera;
+        [SerializeField] private Transform _targetTransform;     
         [SerializeField] private float _cameraSpeed = 5;
         [SerializeField] private float _minimumZoom = 1;
         [SerializeField] private float _zoomStep = 7;
         [SerializeField] private float _zoomAnimationSpeed = 5;
+        [SerializeField] private bool _followPlayerWhenDrawing;
 
         // Private fields
+        private UnityEngine.Camera _camera;
         private bool _manuallyMovingCamera;
         private Transform _transform;
         private ZoomTaskCancellation _zoomTaskCancellation = new ZoomTaskCancellation();
         private Task _currentZoomTask = Task.CompletedTask;
+        private PlayerController _playerController;
 
-        
+
+        // Initialization
+        private void Awake()
+        {
+            _transform = transform;
+            _camera = GetComponent<UnityEngine.Camera>();
+            _playerController = FindObjectOfType<PlayerController>();
+        }
+
+
+        private bool CanFollowPlayer => ShouldFollowPlayer && !_manuallyMovingCamera
+                                       && (_followPlayerWhenDrawing || !_playerController.PlayerInkController.IsDrawing);
 
         //Public Properties
         public float ZoomIncrementFactor { get; set; }
-        public bool FollowPlayer { get; set; } = true;
+        public bool ShouldFollowPlayer { get; set; } = true;
         public bool IsZoomEnabled { get; set; } = true;
-        public bool CanFollowPlayer => FollowPlayer && !_manuallyMovingCamera;
+        public float CameraSpeed => _cameraSpeed;
+        public bool FollowPlayerWhenDrawing { get => _followPlayerWhenDrawing; set => _followPlayerWhenDrawing = value; }
+                                       
 
 
         public async Task MoveCameraToTarget()
@@ -53,17 +69,12 @@ namespace Assets.AToonWorld.Scripts.Camera
 
 
         // Unity events
-        private void Awake()
-        {
-            _transform = transform;
-            _camera = GetComponent<UnityEngine.Camera>();
-        }
-
 
         private void Update()
         {
             FollowTarget();
             UpdateZoom();
+            Debug.Log(_playerController.PlayerInkController.IsDrawing);
         }
 
 

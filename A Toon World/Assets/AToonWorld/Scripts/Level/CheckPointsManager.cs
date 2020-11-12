@@ -10,7 +10,7 @@ namespace Assets.AToonWorld.Scripts.Level
     public class CheckPointsManager : MonoBehaviour
     { 
         private List<CheckPoint> _checkPoints = new List<CheckPoint>();
-        private int _checkPointIndex;
+        private int _checkPointIndex = 0;
 
 
         // Initialization
@@ -44,7 +44,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
 
         // Private Methods
-        private void OrderCheckPoints() => _checkPoints.OrderBy(cp => cp.CheckPointNumber).ToList();
+        private void OrderCheckPoints() => _checkPoints = _checkPoints.OrderBy(cp => cp.CheckPointNumber).ToList();
 
         private void SetupCheckPoint(CheckPoint checkPoint)
         {
@@ -53,7 +53,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void CheckPoint_PlayerHit(CheckPoint checkPoint)
         {
-            _checkPointIndex = _checkPoints.IndexOf(checkPoint);
+            _checkPointIndex = Mathf.Max(_checkPoints.IndexOf(checkPoint), _checkPointIndex);
         }
     }
 }
