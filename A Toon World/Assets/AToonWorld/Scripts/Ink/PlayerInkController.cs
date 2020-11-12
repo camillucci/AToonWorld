@@ -45,15 +45,18 @@ public class PlayerInkController : MonoBehaviour
     
     void Start()
     {
-        OnInkSelected(InkType.Construction);
+        OnInkSelected(InkSelection.Forward);
     }
 
     public void OnInkSelected(InkType newInk)
     {
         if(!_isDrawing)
         {
-            _selectedInk = newInk;
-            InterfaceEvents.InkSelected.Invoke(_selectedInk);
+            if (IsAvailableInk(newInk))
+            {
+                _selectedInk = newInk;
+                InterfaceEvents.InkSelected.Invoke(_selectedInk);
+            }
         }
     }
 
@@ -63,10 +66,19 @@ public class PlayerInkController : MonoBehaviour
         {
             int totalInks = Enum.GetValues(typeof(InkType)).Length;
             int nextInk = ((int)_selectedInk + (int)inkSelection + totalInks) % totalInks;
+            for (int i = 0; i < totalInks; i++)
+            {
+                if (IsAvailableInk((InkType)nextInk))
+                    break;
+                nextInk = ((int)nextInk + (int)inkSelection + totalInks) % totalInks;
+            }
+
             _selectedInk = (InkType)nextInk;
             InterfaceEvents.InkSelected.Invoke(_selectedInk);
         }
     }
+
+    private bool IsAvailableInk(InkType ink) => _inkHandlers[ink] is ExpendableResource expendable ? expendable.Capacity > 0 : true;
 
     private void OnInkPickup(Collider2D collider)
     {

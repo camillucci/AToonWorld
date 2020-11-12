@@ -5,6 +5,8 @@ public abstract class ExpendableResource
     protected float _capacity;
     public abstract float MaxCapacity { get; }
 
+    public float Capacity => _capacity;
+
     public ExpendableResource()
     {
         this._capacity = 0.0f;
