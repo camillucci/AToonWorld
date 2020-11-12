@@ -22,6 +22,7 @@ public class InkWheelController : MonoBehaviour
     private Dictionary<InkType, InkPosition> _inksPositions;
     private Vector2 _centerPosition;
     private InkType? _selected;
+    [SerializeField] private float mouseDeadzone = 50f;
     
     void Start()
     {
@@ -63,16 +64,20 @@ public class InkWheelController : MonoBehaviour
     {
         Vector2 mousePositionFromCenter = (Vector2)Input.mousePosition - _centerPosition;
         float angle = Mathf.Rad2Deg * Mathf.Atan2(mousePositionFromCenter.y, mousePositionFromCenter.x);
+        float distance = mousePositionFromCenter.magnitude;
         
-        foreach(InkType inkType in _inksPositions.Keys)
+        if (distance > mouseDeadzone)
         {
-            InkPosition position = _inksPositions[inkType];
-            if (inkType != _selected && angle > position.startAngle && angle < position.endAngle)
+            foreach(InkType inkType in _inksPositions.Keys)
             {
-                UnSelectCurrent();
-                _selected = inkType;
-                SelectCurrent();
-                return;
+                InkPosition position = _inksPositions[inkType];
+                if (inkType != _selected && angle > position.startAngle && angle < position.endAngle)
+                {
+                    UnSelectCurrent();
+                    _selected = inkType;
+                    SelectCurrent();
+                    return;
+                }
             }
         }
     }
