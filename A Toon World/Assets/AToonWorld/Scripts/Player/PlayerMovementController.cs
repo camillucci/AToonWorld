@@ -17,7 +17,6 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _doubleJumpSpeed = 15;
     [SerializeField] [Range(1, 200)] private float _jumpHoldStepMs = 39.5f;
     [SerializeField] private float _climbingSpeed = 5;
-    [SerializeField] private float _gravityScale = 5;
 
 
     
@@ -32,6 +31,7 @@ public class PlayerMovementController : MonoBehaviour
     private int _drawingPlatformsCollidedCounter;
     private int _groundsCollidedCounter;
     private int _climbingWallCollidedCounter;
+    private float _gravityScale;
     
 
     // Initialization
@@ -40,6 +40,7 @@ public class PlayerMovementController : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         _playerFeet = GetComponentInChildren<PlayerFeet>();
         _playerBody = GetComponentInChildren<PlayerBody>();
+        _gravityScale = _rigidBody.gravityScale;
         InitializeJumpingStates();
         InitializeFeet();
         InitializeBody();

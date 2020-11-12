@@ -26,5 +26,7 @@ namespace Assets.AToonWorld.Scripts.Utils
         public static bool CancelInkSelect => Input.GetButtonDown("CancelInk");
 
         #endregion
+
+        public static float Zoom => Input.GetKey(KeyCode.LeftControl) ? -Input.GetAxis("Mouse ScrollWheel") : 0;
     }
 }
