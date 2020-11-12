@@ -14,8 +14,7 @@ namespace Assets.AToonWorld.Scripts.Camera
 {
     public class CameraMovementController : MonoBehaviour
     {
-        // Editor Fields
-        [SerializeField] private Transform _targetTransform;     
+        // Editor Fields        
         [SerializeField] private float _cameraSpeed = 5;
         [SerializeField] private float _minimumZoom = 1;
         [SerializeField] private float _zoomStep = 7;
@@ -23,6 +22,7 @@ namespace Assets.AToonWorld.Scripts.Camera
         [SerializeField] private bool _followPlayerWhenDrawing;
 
         // Private fields
+        private Transform _playerTransform;
         private UnityEngine.Camera _camera;
         private bool _manuallyMovingCamera;
         private Transform _transform;
@@ -35,8 +35,9 @@ namespace Assets.AToonWorld.Scripts.Camera
         private void Awake()
         {
             _transform = transform;
-            _camera = GetComponent<UnityEngine.Camera>();
             _playerController = FindObjectOfType<PlayerController>();
+            _camera = GetComponent<UnityEngine.Camera>();
+            _playerTransform = _playerController.transform;
         }
 
 
@@ -55,7 +56,7 @@ namespace Assets.AToonWorld.Scripts.Camera
         public async Task MoveCameraToTarget()
         {
             _manuallyMovingCamera = true;
-            await _camera.MoveTo(_targetTransform.position, _cameraSpeed);
+            await _camera.MoveTo(_playerTransform.position, _cameraSpeed);
             _manuallyMovingCamera = false;
         }
 
@@ -84,7 +85,7 @@ namespace Assets.AToonWorld.Scripts.Camera
             if (!CanFollowPlayer)
                 return;
 
-            var targetPos = new Vector3(_targetTransform.position.x, _targetTransform.position.y, transform.position.z);
+            var targetPos = new Vector3(_playerTransform.position.x, _playerTransform.position.y, transform.position.z);
             _transform.position = Vector3.Lerp(_transform.position, targetPos, _cameraSpeed * Time.deltaTime);
         }
 
