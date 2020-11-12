@@ -219,6 +219,8 @@ MonoBehaviour:
     type: 3}
   _climbingInkPrefab: {fileID: 127351474040341893, guid: 3a25f0aed1b5d0049bc75dc1c7b613b1,
     type: 3}
+  _damageInkPrefab: {fileID: 7253575289307407535, guid: 46c35c65dc5a48f489ce0003fdc53fe7,
+    type: 3}
   _cancelInkPrefab: {fileID: 8704305555763218382, guid: e36cc2e6a4221b24f8add07ab21b35ad,
     type: 3}
 --- !u!114 &9202030778897293426

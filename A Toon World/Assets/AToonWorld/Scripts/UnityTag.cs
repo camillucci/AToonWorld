@@ -14,5 +14,7 @@ namespace Assets.AToonWorld.Scripts
         public const string Drawing = nameof(Drawing);
         public const string Player = nameof(Player);
         public const string InkPickup = nameof(InkPickup);
+        public const string Enemy = nameof(Enemy);
+        public const string Ally = nameof(Ally);
     }
 }

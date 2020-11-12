@@ -11,10 +11,10 @@ public class PlayerInkController : MonoBehaviour
 {
     //TODO: Logica selezione ink
     //TODO: Interfaccia e gestione ink
-    [SerializeField] private GameObject _constructionInkPrefab;
-    [SerializeField] private GameObject _climbingInkPrefab;
-    [SerializeField] private GameObject _cancelInkPrefab;
-    private PlayerBody _playerBody;
+    [SerializeField] private GameObject _constructionInkPrefab = null;
+    [SerializeField] private GameObject _climbingInkPrefab = null;
+    [SerializeField] private GameObject _damageInkPrefab = null;
+    [SerializeField] private GameObject _cancelInkPrefab = null;
     private InkType _selectedInk = InkType.Construction;
     private bool _isDrawing = false;
     private Vector2 _mouseWorldPosition;
@@ -28,6 +28,7 @@ public class PlayerInkController : MonoBehaviour
         {
             [InkType.Construction] = new ConstructionInkHandler(this), //Spline Ink
             [InkType.Climb] = new ClimbingInkHandler(this),
+            [InkType.Damage] = new DamageInkHandler(this),
             [InkType.Cancel] = new CancelInkHandler(this), //Spline Ink (for now?)
             //TODO: Others
         };
@@ -37,6 +38,7 @@ public class PlayerInkController : MonoBehaviour
 
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
+        ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Damage, _damageInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
     }
     
@@ -93,6 +95,8 @@ public class PlayerInkController : MonoBehaviour
         
         if(_inkHandlers[_selectedInk] is ISplineInk _selectedSplineInk)
             _selectedSplineInk?.BindSpline(pooledSpline.GetComponent<DrawSplineController>());
+        else if (_inkHandlers[_selectedInk] is IBulletInk _selectedBulletInk)
+            _selectedBulletInk?.BindBulletAndPosition(pooledSpline.GetComponent<BulletController>(), transform.position);
 
         _inkHandlers[_selectedInk].OnDrawDown(_mouseWorldPosition);
     }

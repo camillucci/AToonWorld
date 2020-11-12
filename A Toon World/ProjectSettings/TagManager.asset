@@ -8,6 +8,9 @@ TagManager:
   - Drawing
   - ClimbingWall
   - InkPickup
+  - Damage
+  - Enemy
+  - Ally
   layers:
   - Default
   - TransparentFX
