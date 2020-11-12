@@ -25,6 +25,12 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
         _boundSplineController.AddPoint(mouseWorldPosition);
     }
 
+    public override void SetCapacity(float newCapacity)
+    {
+        base.SetCapacity(newCapacity);
+        Events.InterfaceEvents.InkCapacityChanged.Invoke((PlayerInkController.InkType.Construction, newCapacity/MaxCapacity));
+    }
+
     
     public bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
