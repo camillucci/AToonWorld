@@ -25,13 +25,6 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
         _boundSplineController.AddPoint(mouseWorldPosition);
     }
 
-    public override void SetCapacity(float newCapacity)
-    {
-        base.SetCapacity(newCapacity);
-        Events.InterfaceEvents.InkCapacityChanged.Invoke((PlayerInkController.InkType.Construction, newCapacity/MaxCapacity));
-    }
-
-    
     public bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
         Vector2 lastPoint = _boundSplineController.LastPoint;
@@ -39,7 +32,7 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
         float toConsume = diff.magnitude;
         
         //If I can't consume anything, return
-        if(this._capacity > 0.0f)
+        if(this.Capacity > 0)
         {
             //The added point is a valid point (enough distance from the lastOne)
             if(_boundSplineController.AddPoint(mouseWorldPosition))
@@ -63,5 +56,11 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
             _boundSplineController.EnableSimulation();
         else
             _boundSplineController.gameObject.SetActive(false);
+    }
+    
+    public override void SetCapacity(float newCapacity)
+    {
+        base.SetCapacity(newCapacity);
+        Events.InterfaceEvents.InkCapacityChanged.Invoke((PlayerInkController.InkType.Construction, newCapacity/MaxCapacity));
     }
 }
