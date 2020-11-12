@@ -47,13 +47,14 @@ public class ClimbingInkHandler : IInkHandler, ISplineInk
         }
     }
 
-    public void OnDrawHeld(Vector2 mouseWorldPosition)
+    public bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
         if (_isDrawing && mouseWorldPosition.y < _lastPoint.y) {
             Vector2 newPoint = new Vector2(_lastPoint.x, mouseWorldPosition.y);
             _boundSplineController.AddPoint(newPoint);
             _lastPoint = newPoint;
         }
+        return true;
     }
 
     public void OnDrawReleased(Vector2 mouseWorldPosition)

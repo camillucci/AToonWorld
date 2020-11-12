@@ -16,16 +16,15 @@ public class DrawTrailController : DrawSplineController
 
     #endregion
 
-    public override void AddPoint(Vector2 newPoint)
+    public override bool AddPoint(Vector2 newPoint)
     {
         if(_inkLineRenderer.positionCount < _trailLength)
-            base.AddPoint(newPoint);
-        else
-        {
-            for(int i = 0; i < _inkLineRenderer.positionCount - 1; i++)
-                _inkLineRenderer.SetPosition(i, _inkLineRenderer.GetPosition(i + 1));
-            _inkLineRenderer.SetPosition(_inkLineRenderer.positionCount - 1, newPoint);
-        }
+            return base.AddPoint(newPoint);
+        
+        for(int i = 0; i < _inkLineRenderer.positionCount - 1; i++)
+            _inkLineRenderer.SetPosition(i, _inkLineRenderer.GetPosition(i + 1));
+        _inkLineRenderer.SetPosition(_inkLineRenderer.positionCount - 1, newPoint);
+        return true;
     }
 
     public override void EnableSimulation()

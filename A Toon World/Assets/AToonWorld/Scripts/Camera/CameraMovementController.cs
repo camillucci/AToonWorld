@@ -75,7 +75,6 @@ namespace Assets.AToonWorld.Scripts.Camera
         {
             FollowTarget();
             UpdateZoom();
-            Debug.Log(_playerController.PlayerInkController.IsDrawing);
         }
 
 

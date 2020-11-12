@@ -14,7 +14,6 @@ namespace Assets.AToonWorld.Scripts
         private PlayerMovementController _playerMovementController;
         private PlayerInkController _playerInkController;
 
-
         // Initialization
         private void Awake()
         {
@@ -33,15 +32,17 @@ namespace Assets.AToonWorld.Scripts
             _playerMovementController.VerticalMovementDirection = InputUtils.VerticalRawAxis;
 
             if(InputUtils.DrawDown) _playerInkController.OnDrawDown();
-            if(InputUtils.DrawHeld) _playerInkController.WhileDrawHeld();
-            if(InputUtils.DrawUp) _playerInkController.OnDrawReleased();
+            else if(InputUtils.DrawUp) _playerInkController.OnDrawReleased();
+            else if(InputUtils.DrawHeld) _playerInkController.WhileDrawHeld();
 
             if(InputUtils.ConstructionInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Construction);
             if(InputUtils.ClimbInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Climb);
-            //if(InputUtils.DamageInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Damage);
+            if(InputUtils.DamageInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Damage);
             if(InputUtils.CancelInkSelect) _playerInkController.OnInkSelected(PlayerInkController.InkType.Cancel);
-        }
 
+            if (InputUtils.RotateInks > 0) _playerInkController.OnInkSelected(PlayerInkController.InkSelection.Forward);
+            if (InputUtils.RotateInks < 0) _playerInkController.OnInkSelected(PlayerInkController.InkSelection.Backward);
+        }
 
         // Private methods
         private bool IsJumpHeld() => InputUtils.JumpHeld;
