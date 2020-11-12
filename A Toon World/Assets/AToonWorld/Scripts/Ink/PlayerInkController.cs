@@ -11,10 +11,10 @@ public class PlayerInkController : MonoBehaviour
     [SerializeField] private GameObject _climbingInkPrefab;
     [SerializeField] private GameObject _cancelInkPrefab;
     private InkType _selectedInk = InkType.Construction;
-    private bool _isDrawing = false;
     private Vector2 _mouseWorldPosition;
     private Dictionary<InkType, IInkHandler> _inkHandlers;
     public InkType SelectedInk => _selectedInk;
+    public bool IsDrawing { get; private set; } = false;
 
     void Awake()
     {
@@ -34,13 +34,13 @@ public class PlayerInkController : MonoBehaviour
 
     public void OnInkSelected(InkType newInk)
     {
-        if(!_isDrawing)
+        if(!IsDrawing)
             _selectedInk = newInk;
     }
 
     public void OnDrawDown()
     {
-        _isDrawing = true;
+        IsDrawing = true;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_selectedInk);
@@ -60,7 +60,7 @@ public class PlayerInkController : MonoBehaviour
     public void OnDrawReleased()
     {
         _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
-        _isDrawing = false;
+        IsDrawing = false;
     }
 
     public enum InkType {

@@ -9,16 +9,14 @@ using UnityEngine;
 namespace Assets.AToonWorld.Scripts.Player
 {
     public class PlayerController : MonoBehaviour
-    {
-        // Editor Fields
-        [SerializeField] private float _respawnSpeed = 10f;
-
+    {     
 
         // Private fields
         private Rigidbody2D _rigidBody;
         private PlayerInput _playerInput;
         private PlayerMovementController _playerMovementController;
-        private PlayerInkController _playerInkController;
+
+        public PlayerInkController PlayerInkController { get; private set; }
 
         // Initialization
         private void Awake()
@@ -26,7 +24,7 @@ namespace Assets.AToonWorld.Scripts.Player
             _rigidBody = GetComponent<Rigidbody2D>();
             _playerInput = GetComponent<PlayerInput>();
             _playerMovementController = GetComponent<PlayerMovementController>();
-            _playerInkController = GetComponent<PlayerInkController>();
+            PlayerInkController = GetComponent<PlayerInkController>();
         }
 
 
@@ -36,7 +34,7 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             _playerInput.enabled = false;
             _playerMovementController.enabled = false;
-            _playerInkController.enabled = false;
+            PlayerInkController.enabled = false;
             _rigidBody.isKinematic = true;
         }
 
@@ -45,10 +43,10 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             _playerInput.enabled = true;
             _playerMovementController.enabled = true;
-            _playerInkController.enabled = true;
+            PlayerInkController.enabled = true;
             _rigidBody.isKinematic = false;
         }
 
-        public Task MoveToPosition(Vector3 position) => transform.MoveToAnimated(position, _respawnSpeed);
+        public Task MoveToPosition(Vector3 position, float speed) => transform.MoveToAnimated(position, speed);
     }
 }
