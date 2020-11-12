@@ -1,4 +1,5 @@
-﻿using Assets.AToonWorld.Scripts.Utils;
+﻿using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,34 @@ namespace Assets.AToonWorld.Scripts.Camera
         [SerializeField] private float _zoomAnimationSpeed = 5;
 
         // Private fields
+        private bool _manuallyMovingCamera;
         private Transform _transform;
         private ZoomTaskCancellation _zoomTaskCancellation = new ZoomTaskCancellation();
         private Task _currentZoomTask = Task.CompletedTask;
 
+        
 
         //Public Properties
         public float ZoomIncrementFactor { get; set; }
+        public bool FollowPlayer { get; set; } = true;
+        public bool IsZoomEnabled { get; set; } = true;
+        public bool CanFollowPlayer => FollowPlayer && !_manuallyMovingCamera;
 
+
+        public async Task MoveCameraToTarget()
+        {
+            _manuallyMovingCamera = true;
+            await _camera.MoveTo(_targetTransform.position, _cameraSpeed);
+            _manuallyMovingCamera = false;
+        }
+
+
+        public async Task MoveCameraToPosition(Vector3 position)
+        {            
+            _manuallyMovingCamera = true;
+            await _camera.MoveTo(position, _cameraSpeed);
+            _manuallyMovingCamera = false;
+        }
 
 
         // Unity events
@@ -49,12 +70,18 @@ namespace Assets.AToonWorld.Scripts.Camera
         // Private Methods
         private void FollowTarget()
         {
+            if (!CanFollowPlayer)
+                return;
+
             var targetPos = new Vector3(_targetTransform.position.x, _targetTransform.position.y, transform.position.z);
             _transform.position = Vector3.Lerp(_transform.position, targetPos, _cameraSpeed * Time.deltaTime);
         }
 
         private void UpdateZoom()
         {
+            if (!IsZoomEnabled)
+                return;
+
             var zoomIncrement = ZoomIncrementFactor * _zoomStep;
             if (Mathf.Abs(zoomIncrement) < float.Epsilon)
                 return;

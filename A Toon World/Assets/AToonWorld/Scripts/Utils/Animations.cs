@@ -13,7 +13,7 @@ namespace Assets.AToonWorld.Scripts.Utils
     {
         private const float _epsilon = 0.006f;
 
-        public static async Task Transition(float from, float to, Action<float> callback, float speed = 10f, bool smooth = true, int frameSensitivity = 1, Func<bool> cancelCondition = null)
+        public static async Task Transition(float from, float to, Action<float> callback, float speed , bool smooth , int frameSensitivity, Func<bool> cancelCondition)
         {
             var current = from;
             bool CheckIsCancelled() => cancelCondition?.Invoke() ?? false;
@@ -39,7 +39,7 @@ namespace Assets.AToonWorld.Scripts.Utils
             => Transition(from, to, callback, speed, smooth, frameSensitivity, () => token.IsCancellationRequested);       
 
 
-        public static async Task Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed = 10f, bool smooth = true, int frameSensitivity = 1, Func<bool> cancelCondition = null)
+        public static async Task Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed, bool smooth, int frameSensitivity, Func<bool> cancelCondition)
         {
             var current = from;
             bool CheckIsCancelled() => cancelCondition?.Invoke() ?? false;

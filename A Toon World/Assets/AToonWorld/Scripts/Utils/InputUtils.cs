@@ -28,5 +28,10 @@ namespace Assets.AToonWorld.Scripts.Utils
         #endregion
 
         public static float Zoom => Input.GetKey(KeyCode.LeftControl) ? -Input.GetAxis("Mouse ScrollWheel") : 0;
+
+
+        //DEBUG
+        public static bool KillPlayer => Input.GetKey(KeyCode.K);
+
     }
 }
