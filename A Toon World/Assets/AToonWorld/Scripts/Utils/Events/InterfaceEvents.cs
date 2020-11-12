@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Events
 {
@@ -9,7 +10,13 @@ namespace Events
 
     public static class InterfaceEvents
     {
-        /// <summary>Evento scatenato quando viene selezionato un nuovo inchiostro</summary>
+        /// <summary>Evento scatenato quando viene selezionato un nuovo inchiostro da periferica</summary>
         public static Event<PlayerInkController.InkType> InkSelected = new Event<PlayerInkController.InkType>();
+
+        /// <summary>Evento scatenato quando cambia la quantità di inchiostro</summary>
+        public static Event<(PlayerInkController.InkType, float)> InkCapacityChanged = new Event<(PlayerInkController.InkType, float)>();
+        
+        /// <summary>Evento scatenato quando viene selezionato un nuovo inchiostro da interfaccia</summary>
+        public static Event<PlayerInkController.InkType> InkSelectionRequested = new Event<PlayerInkController.InkType>();
     }
 }
