@@ -46,7 +46,9 @@ public class PlayerInkController : MonoBehaviour
     void Start()
     {
         OnInkSelected(InkSelection.Forward);
-        LoadInkState(new List<(InkType, float)> { (InkType.Construction, 0)});
+        LoadInkState(new List<(InkType, float)> { (InkType.Construction, 0),
+                                                  (InkType.Climb, 0),
+                                                  (InkType.Damage, 25)});
     }
 
     public void LoadInkState(List<(InkType, float)> savedState)
