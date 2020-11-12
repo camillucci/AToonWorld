@@ -28,5 +28,7 @@ namespace Assets.AToonWorld.Scripts.Utils
         public static float RotateInks => Input.GetAxis("RotateInks");
 
         #endregion
+
+        public static float Zoom => Input.GetKey(KeyCode.LeftControl) ? -Input.GetAxis("Mouse ScrollWheel") : 0;
     }
 }
