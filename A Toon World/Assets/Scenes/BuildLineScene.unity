@@ -152,8 +152,8 @@ RectTransform:
   m_Children:
   - {fileID: 810452722}
   - {fileID: 254162775}
-  - {fileID: 447924529}
   - {fileID: 1715668129}
+  - {fileID: 447924529}
   m_Father: {fileID: 1421720715}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -714,6 +714,11 @@ PrefabInstance:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[6].x
       value: 0.51052177
       objectReference: {fileID: 0}
+    - target: {fileID: 9202030778897293426, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
+        type: 3}
+      propertyPath: _inkWheelController
+      value: 
+      objectReference: {fileID: 1589532628}
     - target: {fileID: 2045420181878315729, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
         type: 3}
       propertyPath: m_LocalPosition.y
