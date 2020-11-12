@@ -41,6 +41,8 @@ public class PlayerInkController : MonoBehaviour
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Damage, _damageInkPrefab, 20, 50, true);
         ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
+
+        Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
     }
     
     void Start()
