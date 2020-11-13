@@ -50,8 +50,7 @@ namespace Assets.AToonWorld.Scripts.Player
 
         // Private Methods
         private void SubscribeToFallDeathEvents()
-        {
-            Debug.Log("subscribed");
+        {            
             var fallDeathTagsToCheck = new string[] { UnityTag.ClimbingWall, UnityTag.Drawing, UnityTag.Ground };
 
             foreach(var tag in fallDeathTagsToCheck)
