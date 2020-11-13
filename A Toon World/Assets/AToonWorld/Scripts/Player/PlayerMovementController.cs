@@ -22,8 +22,6 @@ public class PlayerMovementController : MonoBehaviour
     
     // Private fields
     private Rigidbody2D _rigidBody;
-    private PlayerFeet _playerFeet;
-    private PlayerBody _playerBody;
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
     private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
@@ -38,8 +36,8 @@ public class PlayerMovementController : MonoBehaviour
     private void Awake()
     {        
         _rigidBody = GetComponent<Rigidbody2D>();
-        _playerFeet = GetComponentInChildren<PlayerFeet>();
-        _playerBody = GetComponentInChildren<PlayerBody>();
+        PlayerFeet = GetComponentInChildren<PlayerFeet>();
+        PlayerBody = GetComponentInChildren<PlayerBody>();
         _gravityScale = _rigidBody.gravityScale;
         InitializeJumpingStates();
         InitializeFeet();
@@ -48,21 +46,21 @@ public class PlayerMovementController : MonoBehaviour
 
     private void InitializeBody()
     {
-        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
-        _playerBody.TriggerExit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
+        PlayerBody.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
+        PlayerBody.TriggerExit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
     }
 
     private void InitializeFeet()
     {
         var walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
 
-        _playerFeet.TriggerEnter.SubscribeWithTag
+        PlayerFeet.TriggerEnter.SubscribeWithTag
         (
             (UnityTag.Ground, OnGroundEnter),
             (UnityTag.Drawing, OnDrawingEnter)
         );
 
-        _playerFeet.TriggerExit.SubscribeWithTag
+        PlayerFeet.TriggerExit.SubscribeWithTag
         (
             (UnityTag.Ground, OnGroundExit),
             (UnityTag.Drawing, OnDrawingExit)
@@ -70,8 +68,8 @@ public class PlayerMovementController : MonoBehaviour
       
         foreach(var walkableTag in walkableTags)
         {
-            _playerFeet.TriggerEnter.SubscribeWithTag(walkableTag, OnWalkableEnter);
-            _playerFeet.TriggerExit.SubscribeWithTag(walkableTag, OnWalkableExit);
+            PlayerFeet.TriggerEnter.SubscribeWithTag(walkableTag, OnWalkableEnter);
+            PlayerFeet.TriggerExit.SubscribeWithTag(walkableTag, OnWalkableExit);
         }
     }
 
@@ -86,8 +84,10 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
-    
-    // Public Properties
+
+    // Public Properties    
+    public PlayerBody PlayerBody { get; private set; }
+    public PlayerFeet PlayerFeet { get; private set; }
     public bool IsDoubleJumpEnabled { get; set; } = true;
     public float HorizontalMovementDirection { get; set; }
     public float VerticalMovementDirection { get; set; }
