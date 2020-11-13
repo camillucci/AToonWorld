@@ -17,6 +17,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _doubleJumpSpeed = 15;
     [SerializeField] [Range(1, 200)] private float _jumpHoldStepMs = 39.5f;
     [SerializeField] private float _climbingSpeed = 5;
+    [SerializeField] private bool _isDoubleJumpEnabled;
 
 
     
@@ -88,7 +89,7 @@ public class PlayerMovementController : MonoBehaviour
     // Public Properties    
     public PlayerBody PlayerBody { get; private set; }
     public PlayerFeet PlayerFeet { get; private set; }
-    public bool IsDoubleJumpEnabled { get; set; } = true;
+    public bool IsDoubleJumpEnabled { get => _isDoubleJumpEnabled; set => _isDoubleJumpEnabled = value; }
     public float HorizontalMovementDirection { get; set; }
     public float VerticalMovementDirection { get; set; }
     public JumpState CurrentJumpState { get; private set; }
