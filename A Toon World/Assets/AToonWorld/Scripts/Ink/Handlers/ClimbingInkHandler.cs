@@ -34,13 +34,16 @@ public class ClimbingInkHandler : ExpendableResource, IInkHandler, ISplineInk
         // Check if mouse is clicking a Ground object or it is near one, otherwise cancel
         if (hit && hit.collider.gameObject.CompareTag(UnityTag.Ground)) {
             Bounds wallBounds = hit.collider.bounds;
+            float leftDistance = Mathf.Abs(wallBounds.min.x - mouseWorldPosition.x);
+            float rightDistance = Mathf.Abs(wallBounds.max.x - mouseWorldPosition.x);
+            float downDistance = Mathf.Abs(wallBounds.min.y - mouseWorldPosition.y);
 
-            // Check if mous is near the border of a Ground object, otherwise cancel
-            if (Mathf.Abs(wallBounds.min.x - mouseWorldPosition.x) < _sensibilty)
+            // Check if mouse is near the border of a Ground object, otherwise cancel
+            if (leftDistance < rightDistance && leftDistance < _sensibilty)
                 _lastPoint = new Vector2(wallBounds.min.x - _distanceFromBorder, mouseWorldPosition.y);
-            else if (Mathf.Abs(wallBounds.max.x - mouseWorldPosition.x) < _sensibilty)
+            else if (rightDistance < _sensibilty)
                 _lastPoint = new Vector2(wallBounds.max.x + _distanceFromBorder, mouseWorldPosition.y);
-            else if (Mathf.Abs(wallBounds.min.y - mouseWorldPosition.y) < _sensibilty)
+            else if (downDistance < _sensibilty)
                 _lastPoint = mouseWorldPosition;
             else
             {
