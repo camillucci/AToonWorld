@@ -31,15 +31,23 @@ public class ClimbingInkHandler : ExpendableResource, IInkHandler, ISplineInk
         if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibilty, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
         if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(-_sensibilty, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
         
+        // Check if mouse is clicking a Ground object or it is near one, otherwise cancel
         if (hit && hit.collider.gameObject.CompareTag(UnityTag.Ground)) {
-            _isDrawing = true;
             Bounds wallBounds = hit.collider.bounds;
+
+            // Check if mous is near the border of a Ground object, otherwise cancel
             if (Mathf.Abs(wallBounds.min.x - mouseWorldPosition.x) < _sensibilty)
                 _lastPoint = new Vector2(wallBounds.min.x - _distanceFromBorder, mouseWorldPosition.y);
             else if (Mathf.Abs(wallBounds.max.x - mouseWorldPosition.x) < _sensibilty)
                 _lastPoint = new Vector2(wallBounds.max.x + _distanceFromBorder, mouseWorldPosition.y);
-            else
+            else if (Mathf.Abs(wallBounds.min.y - mouseWorldPosition.y) < _sensibilty)
                 _lastPoint = mouseWorldPosition;
+            else
+            {
+                _boundSplineController.gameObject.SetActive(false);
+                return;
+            }
+            _isDrawing = true;
             _boundSplineController.Clear();
             _boundSplineController.AddPoint(_lastPoint);
         }
@@ -53,6 +61,7 @@ public class ClimbingInkHandler : ExpendableResource, IInkHandler, ISplineInk
     {
         if (_isDrawing && this.Capacity > 0) 
         {
+            // Only add segment if the next point is under the last point
             if(mouseWorldPosition.y < _lastPoint.y) 
             {
                 Vector2 newPoint = new Vector2(_lastPoint.x, mouseWorldPosition.y);
