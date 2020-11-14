@@ -11,6 +11,8 @@ TagManager:
   - Damage
   - Enemy
   - Ally
+  - Wall
+  - DarkLake
   layers:
   - Default
   - TransparentFX
