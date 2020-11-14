@@ -2291,6 +2291,7 @@ GameObject:
   - component: {fileID: 2105938622}
   - component: {fileID: 2105938621}
   - component: {fileID: 2105938620}
+  - component: {fileID: 2105938623}
   m_Layer: 0
   m_Name: Jumper
   m_TagString: Untagged
@@ -2307,9 +2308,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2105938619}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35dcec82827605644ab06245d4416325, type: 3}
+  m_Script: {fileID: 11500000, guid: 68d2687bb8e43f548a37a6c8c54108b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SecondsIntoDarkLake: 2
+  SecondsBeforeFirstJump: 5
 --- !u!212 &2105938621
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2374,6 +2377,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2105938623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105938619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70f7817f14d5b44e9ebcdfb5cb337a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2123617567
 GameObject:
   m_ObjectHideFlags: 0
