@@ -8,6 +8,7 @@ public class DamageInkHandler : ExpendableResource, IInkHandler, IBulletInk
     private PlayerInkController _playerInkController;
     private Vector2 _playerPosition;
     private BulletController _bulletController;
+    [SerializeField] private float _distanceFromPlayer = 0.5f;
 
     public DamageInkHandler(PlayerInkController playerInkController)
     {
@@ -24,8 +25,10 @@ public class DamageInkHandler : ExpendableResource, IInkHandler, IBulletInk
     
     public void OnDrawDown(Vector2 mouseWorldPosition)
     {
-        if(this.ConsumeOrFail(1))
+        if(Vector2.Distance(_playerPosition, mouseWorldPosition) > _distanceFromPlayer && this.ConsumeOrFail(1))
             _bulletController.Shoot(mouseWorldPosition, _playerPosition);
+        else
+            _bulletController.gameObject.SetActive(false);
     }
 
     public bool OnDrawHeld(Vector2 mouseWorldPosition) => true;
