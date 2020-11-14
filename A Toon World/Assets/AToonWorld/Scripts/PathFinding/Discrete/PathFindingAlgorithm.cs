@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
-    public class PathFinding
+    public class PathFindingAlgorithm
     {		
 		// Public Methods
 
@@ -75,8 +75,5 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 			return path;
 		}
-
-
-		
 	}
 }

@@ -9,7 +9,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 {
     public class PathFindingGrid : IGrid
     {
-        private readonly PathFinding _pathFinding = new PathFinding();
+        private readonly PathFindingAlgorithm _pathFinding = new PathFindingAlgorithm();
         private Node[,] _nodesMatrix;
 
 
