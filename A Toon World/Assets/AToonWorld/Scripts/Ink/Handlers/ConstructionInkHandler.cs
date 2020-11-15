@@ -62,5 +62,6 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
     {
         base.SetCapacity(newCapacity);
         Events.InterfaceEvents.InkCapacityChanged.Invoke((PlayerInkController.InkType.Construction, newCapacity/MaxCapacity));
+        Events.InterfaceEvents.RawInkCapacityChanged.Invoke((PlayerInkController.InkType.Construction, newCapacity));
     }
 }
