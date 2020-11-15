@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,8 +40,12 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         // Public Properties
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public INode BottomLeft => _nodesMatrix[0, 0];
+        public INode BottomRight => _nodesMatrix[Width - 1, 0];
+        public INode TopLeft => _nodesMatrix[0, Height - 1];
+        public INode TopRight => _nodesMatrix[Width - 1, Height - 1];
 
-        
+
         // Indexers
         public INode this[int row, int column] => _nodesMatrix[row, column];
 
@@ -64,5 +69,12 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         public IEnumerable<INode> GetNeighbours(INode node) => GetNeighbours(node as Node);
         public IEnumerable<INode> FindMinimumPath(INode start, INode destination) => _pathFinding.FindMinimumPath(this, start as Node, destination as Node);
         public int Distance(INode start, INode destination) => _pathFinding.GetDistance(start as Node, destination as Node);
+
+        public IEnumerator<INode> GetEnumerator()
+        {
+            foreach (var node in _nodesMatrix)
+                yield return node;
+        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

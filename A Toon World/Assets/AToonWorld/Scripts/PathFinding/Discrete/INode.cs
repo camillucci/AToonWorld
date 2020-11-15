@@ -10,6 +10,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
     {
         int X { get; }
         int Y { get; }
-        bool Walkable { get; set; } 
+        bool Walkable { get; set; }
+        void Deconstruct(out int x, out int y);
     }
 }

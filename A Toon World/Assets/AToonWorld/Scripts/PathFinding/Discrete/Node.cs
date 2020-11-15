@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
     public class Node : INode
-    {        
+    {
         public Node(int x, int y)
         {
             (X, Y) = (x, y);
@@ -21,8 +21,9 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         public int FCost => HCost + GCost;
         public bool Walkable { get; set; } = true;
         public Node Parent { get; set; }
-        
-        
+
+
+
         // Public Methods
         public void ResetCostsAndParent()
         {
@@ -30,6 +31,9 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             GCost = 0;
             Parent = null;
         }
+        public void Deconstruct(out int x, out int y)
+        {
+            (x, y) = (X, Y);
+        }
     }
-
 }
