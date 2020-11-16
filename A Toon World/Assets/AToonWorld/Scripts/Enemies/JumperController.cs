@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.AToonWorld.Scripts;
 using UnityEngine;
 
@@ -10,11 +11,15 @@ public interface IJump
 
 public class JumperController : MonoBehaviour
 {
-    [SerializeField] private float JumpHeight = 1f;
-    [SerializeField] private float JumpToY = 1f;
-    [SerializeField] private bool UseJumpHeight = false;
-    [SerializeField] private float SecondsIntoDarkLake = 2f; //Seconds before next jump
-    [SerializeField] private float SecondsBeforeFirstJump = 2f;
+    public enum JumMode { FixedHeight, ToFixedY }
+
+    [Header("Jump Mode")]
+    [SerializeField] private JumMode _jumpMode;
+    [SerializeField] private float _value = 0f;
+
+    [Header("Interleaving seconds")]
+    [SerializeField] private float _secondsIntoDarkLake = 2f; //Seconds before next jump
+    [SerializeField] private float _secondsBeforeFirstJump = 2f;
     
     private float _jumpVelocity;
     private bool _doneFirstJump;
@@ -30,8 +35,8 @@ public class JumperController : MonoBehaviour
 
     private void StartFirstJumpSession()
     {
-        _jumpVelocity = CalculateVelocity(UseJumpHeight ? JumpHeight : JumpToY - transform.position.y);
-        StartCoroutine(Jump(SecondsBeforeFirstJump));
+        _jumpVelocity = CalculateVelocity(_jumpMode == JumMode.FixedHeight ? _value : _value - transform.position.y);
+        StartCoroutine(Jump(_secondsBeforeFirstJump));
         _doneFirstJump = true;
     }
 
@@ -45,11 +50,15 @@ public class JumperController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag(UnityTag.DarkLakeFloor))
-        {
             if (_doneFirstJump)
-                StartCoroutine(Jump(SecondsIntoDarkLake));
+                StartCoroutine(Jump(_secondsIntoDarkLake));
             else
                 StartFirstJumpSession();
-        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag(UnityTag.Drawing))
+            other.gameObject.SetActive(false);
     }
 }
