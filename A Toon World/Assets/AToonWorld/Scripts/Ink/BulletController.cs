@@ -7,11 +7,13 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private Rigidbody2D _bullet;
-    [SerializeField] private float _maxBulletSpped = 50f;
+    private float _gravity;
+    [SerializeField] private float _maxBulletSpeed = 40f;
 
     private void Awake()
     {
         _bullet = GetComponent<Rigidbody2D>();
+        _gravity = _bullet.gravityScale * Physics2D.gravity.magnitude;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -25,33 +27,52 @@ public class BulletController : MonoBehaviour
     public void Shoot(Vector2 mouseWorldPosition, Vector2 playerPosition)
     {
         Vector2 direction = mouseWorldPosition - playerPosition, shootingDirection;
-        float shootingAngle, bulletVelocity, travelTime;
-        bool leftSide = direction.x < 0f;
+        float shootingAngle, bulletVelocity;
+        bool leftSide = direction.x < 0f, upperside = direction.y > 0f;
+        if (leftSide) direction.x = - direction.x;
 
-        if (direction.y > 0f)
+        // Consider the four quadrants separately
+        if (upperside)
         {
-            // Calculate tangent versor to parabola with vertex mouseWorldPosition passing for playerPosition
-            if (leftSide) direction.x = - direction.x;
-            shootingDirection = new Vector2(1, 2 * direction.y / direction.x).normalized;
-
-            // Calculate initial angle of the bullet
+            // Calculate tangent to parabola with vertex mouseWorldPosition passing for playerPosition
+            shootingDirection = new Vector2(1f, 2f * direction.y / direction.x).normalized;
             shootingAngle = Mathf.Atan2(shootingDirection.y, shootingDirection.x);
-
-            // Calculate initial velocity of the bullet
-            bulletVelocity = Mathf.Sqrt(2 * _bullet.gravityScale * Physics2D.gravity.magnitude * Mathf.Abs(direction.y) / Mathf.Pow(Mathf.Sin(shootingAngle), 2));
-            shootingAngle *=  Mathf.Rad2Deg;
-            if(leftSide) shootingAngle += 2 * (90f - shootingAngle);
+            bulletVelocity = VelocityFromPointAndVertex(direction, shootingAngle);
         }
         else
         {
             // Calculate velocity for parabola with vertex playerPosition passing for mouseWorldPosition
-            shootingAngle = leftSide ? 180f : 0f;
-            travelTime = Mathf.Sqrt(- 2 * direction.y / (_bullet.gravityScale * Physics2D.gravity.magnitude));
-            bulletVelocity = Mathf.Abs(direction.x / travelTime);
+            // shootingDirection is always Vector2.right
+            shootingAngle = 0f;
+            bulletVelocity = VelocityFromHorizontalTangent(direction);
         }
 
+        if (bulletVelocity > _maxBulletSpeed)
+        {
+            // If too fast, calculate instead tangent versor to parabola with points playerPosition, mouseWorldPosition
+            // and (2 / 3 * mouseWorldPosition.x, mouseWorldPosition.y + 1) passing for playerPosition
+            shootingDirection = new Vector2(2f * direction.x, (upperside ? 5f : -4f) * direction.y + 9f).normalized;
+            shootingAngle = Mathf.Atan2(shootingDirection.y, shootingDirection.x);
+            bulletVelocity = VelocityFromThreePoints(direction, shootingAngle);
+        }
+        
+        // Adjusting angle
+        shootingAngle *=  Mathf.Rad2Deg;
+        if(leftSide) shootingAngle += 2 * (90f - shootingAngle);
+
+        // Instantiating bullet
         transform.position = playerPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, shootingAngle);
-        _bullet.velocity = transform.right * Mathf.Min(bulletVelocity, _maxBulletSpped);
+        _bullet.velocity = transform.right * Mathf.Min(bulletVelocity, _maxBulletSpeed);
     }
+
+    private float VelocityFromPointAndVertex(Vector2 direction, float shootingAngle) =>
+        Mathf.Sqrt(2 * _gravity * Mathf.Abs(direction.y) / Mathf.Pow(Mathf.Sin(shootingAngle), 2));
+
+    private float VelocityFromThreePoints(Vector2 direction, float shootingAngle) =>
+        Mathf.Sqrt(Mathf.Pow(direction.x, 2) * _gravity /
+            (direction.x * Mathf.Sin(2 * shootingAngle) - 2 * direction.y * Mathf.Pow(Mathf.Cos(shootingAngle), 2)));
+    
+    private float VelocityFromHorizontalTangent(Vector2 direction) =>
+        direction.x / Mathf.Sqrt(- 2 * direction.y / _gravity);
 }
