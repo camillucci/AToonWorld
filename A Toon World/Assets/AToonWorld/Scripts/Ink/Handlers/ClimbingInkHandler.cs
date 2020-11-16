@@ -103,5 +103,6 @@ public class ClimbingInkHandler : ExpendableResource, IInkHandler, ISplineInk
     {
         base.SetCapacity(newCapacity);
         Events.InterfaceEvents.InkCapacityChanged.Invoke((PlayerInkController.InkType.Climb, newCapacity/MaxCapacity));
+        Events.InterfaceEvents.RawInkCapacityChanged.Invoke((PlayerInkController.InkType.Climb, newCapacity));
     }
 }
