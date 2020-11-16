@@ -6,8 +6,6 @@ using System;
 
 namespace Events
 {
-    public class Event<T> : UnityEvent<T> { }
-
     public static class InterfaceEvents
     {
         /// <summary>Evento scatenato quando viene selezionato un nuovo inchiostro da periferica</summary>

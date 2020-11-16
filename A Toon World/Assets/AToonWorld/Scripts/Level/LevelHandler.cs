@@ -33,6 +33,8 @@ namespace Assets.AToonWorld.Scripts.Level
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
             _playerController = FindObjectOfType<PlayerController>();
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
+
+            Events.PlayerEvents.Death.AddListener(async () => await KillPlayer());
         }
 
 

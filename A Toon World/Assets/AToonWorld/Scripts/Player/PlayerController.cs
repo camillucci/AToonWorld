@@ -17,6 +17,7 @@ namespace Assets.AToonWorld.Scripts.Player
         private PlayerMovementController _playerMovementController;
 
         public PlayerInkController PlayerInkController { get; private set; }
+        private PlayerBody _playerBody;
 
         // Initialization
         private void Awake()
@@ -25,8 +26,15 @@ namespace Assets.AToonWorld.Scripts.Player
             _playerInput = GetComponent<PlayerInput>();
             _playerMovementController = GetComponent<PlayerMovementController>();
             PlayerInkController = GetComponent<PlayerInkController>();
-        }
+            _playerBody = GetComponentInChildren<PlayerBody>();
 
+            _playerBody.TriggerEnter.SubscribeWithTag((UnityTag.Enemy, RequestKill), (UnityTag.DarkLake, RequestKill));
+        }
+            
+        private void RequestKill(Collider2D other)
+        {
+            Events.PlayerEvents.Death.Invoke();
+        }
 
         // Public Methods
 
