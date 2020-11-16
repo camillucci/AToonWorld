@@ -36,5 +36,6 @@ public class DamageInkHandler : ExpendableResource, IInkHandler, IBulletInk
     {
         base.SetCapacity(newCapacity);
         Events.InterfaceEvents.InkCapacityChanged.Invoke((PlayerInkController.InkType.Damage, newCapacity/MaxCapacity));
+        Events.InterfaceEvents.RawInkCapacityChanged.Invoke((PlayerInkController.InkType.Damage, newCapacity));
     }
 }

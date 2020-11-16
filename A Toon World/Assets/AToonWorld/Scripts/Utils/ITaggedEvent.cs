@@ -10,6 +10,8 @@ namespace Assets.AToonWorld.Scripts.Utils
     {
         void Subscribe(Action<VArgs> handler);
         void SubscribeWithTag(TTag tag, Action<VArgs> handler);
-        void SubscribeWithTag(params (TTag tag, Action<VArgs> handler)[] handlers);        
+        void SubscribeWithTag(params (TTag tag, Action<VArgs> handler)[] handlers);
+        void UnSubscribeWithTag(TTag tag, Action<VArgs> handler);
+        void UnSubscribeWithTag(params (TTag tag, Action<VArgs> handler)[] handlers);
     }
 }

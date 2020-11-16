@@ -43,5 +43,12 @@ namespace Assets.AToonWorld.Scripts.Utils
             _notTaggedHandlers?.Invoke(args);
         }
 
+        public void UnSubscribeWithTag(TTag tag, Action<VArgs> handler) => _handlersDictionary[tag] -= handler;
+
+        public void UnSubscribeWithTag(params (TTag tag, Action<VArgs> handler)[] handlers)
+        {
+            foreach (var (tag, handler) in handlers)
+                UnSubscribeWithTag(tag, handler);
+        }
     }
 }

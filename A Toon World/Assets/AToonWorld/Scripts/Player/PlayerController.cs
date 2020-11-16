@@ -14,7 +14,7 @@ namespace Assets.AToonWorld.Scripts.Player
         // Private fields
         private Rigidbody2D _rigidBody;
         private PlayerInput _playerInput;
-        private PlayerMovementController _playerMovementController;
+        private PlayerMovementController _playerMovementController;        
 
         public PlayerInkController PlayerInkController { get; private set; }
         private PlayerBody _playerBody;
