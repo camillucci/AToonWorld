@@ -13,6 +13,7 @@ TagManager:
   - Ally
   - Wall
   - DarkLake
+  - DarkLakeFloor
   layers:
   - Default
   - TransparentFX
