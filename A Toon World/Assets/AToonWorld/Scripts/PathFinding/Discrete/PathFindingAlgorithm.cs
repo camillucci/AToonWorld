@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.AToonWorld.Scripts.PathFinding.Discrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,13 @@ using UnityEngine;
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
     public class PathFindingAlgorithm
-    {		
+    {
 		// Public Methods
 
 		public IList<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode)
+			=> FindMinimumPath(grid, startNode, destNode, new PathStepsContainer());
+
+		public IList<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode, PathStepsContainer forbiddenSteps)
 		{
 			IList<Node> path = new List<Node>();
 			List<Node> openSet = new List<Node>();
@@ -32,13 +36,16 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 					path = RetracePath(startNode, destNode);
 				else
 					foreach (Node neighbour in grid.GetNeighbours(toCloseNode))
-						if (neighbour.Walkable && !closedSet.Contains(neighbour))
+						if (neighbour.Walkable && !closedSet.Contains(neighbour) && !forbiddenSteps.Contains(toCloseNode, neighbour))
 						{
 							int newCostToNeighbour = toCloseNode.GCost + GetDistance(toCloseNode, neighbour);
 							if (newCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
 							{
 								neighbour.GCost = newCostToNeighbour;
 								neighbour.HCost = GetDistance(neighbour, destNode);
+
+								if (neighbour == grid[1, 1])
+									;
 								neighbour.Parent = toCloseNode;
 
 								if (!openSet.Contains(neighbour))

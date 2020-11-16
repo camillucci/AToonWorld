@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.PathFinding;
+using Assets.AToonWorld.Scripts.PathFinding.Discrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,9 @@ namespace Assets.AToonWorld.Scripts.Test
             foreach (var node in notWalkable)
                 node.Walkable = false;
 
-            var minimumPath = grid.FindMinimumPath(start, destination).ToList();
+            var forbiddenSteps = new PathStepsContainer();
+            forbiddenSteps.Add(grid[0, 0], grid[1, 1]);
+            var minimumPath = grid.FindMinimumPath(start, destination, forbiddenSteps).ToList();
             foreach (var node in minimumPath)
                 Debug.Log($"(X,Y) = ({node.X},{node.Y})");            
         }

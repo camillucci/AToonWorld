@@ -1,10 +1,15 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding;
+using Assets.AToonWorld.Scripts.PathFinding.Coordinates;
+using Assets.AToonWorld.Scripts.PathFinding.Discrete;
+using Assets.AToonWorld.Scripts.PathFinding.Utils;
+using Assets.AToonWorld.Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityAsync;
 using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Breaker
@@ -12,15 +17,18 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
     public class BreakerMovementController : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private float _speed;                
+        [SerializeField] private float _speed;
+        [SerializeField] private float _turnSpeed;
+        [SerializeField] private float _turnOffset;
+
 
         // Private Fields
         private PathFindingGridController _gridController;
         private BreakerBody _breakerBody;
         private BreakerAreaCollider _breakerAreaCollider;
         private Transform _breakerTransform;
-        private readonly IList<string> _nonWalkableTags = new List<string> { UnityTag.Ground };
-        private Task _testTask = Task.CompletedTask;
+        private readonly PathStepsContainer _fobiddenStepsContainer = new PathStepsContainer();
+        private Task _testTask = Task.CompletedTask;        
 
 
         // Initialization
@@ -30,14 +38,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerBody = GetComponentInChildren<BreakerBody>();
             _breakerAreaCollider = GetComponentInChildren<BreakerAreaCollider>();
             _breakerTransform = _breakerBody.transform;            
-        }
-
-        private void Start()
-        {
-            if (!Application.isPlaying)
-                return;
-
-            TeleportTo(_gridController.Grid[0, 0]);                   
         }
 
 
@@ -55,8 +55,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         {
             UpdateUnwalkableArea();
             var grid = _gridController.Grid;
-            var path = grid.FindMinimumPath(CurrentNode, _gridController.WorldPointToNode(position));
-            await FollowPath(path);
+            var targetPosition = _gridController.WorldPointToNode(position);
+            var path = grid.FindMinimumPath(CurrentNode, targetPosition, _fobiddenStepsContainer);
+            await FollowPath(path, position);
         }
 
 
@@ -68,12 +69,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
 
-        // Breaker Events
-
-
-        // Private Methods
-
-
+        // TEST
         private void TestUpdate()
         {
             if (_breakerAreaCollider.NotWalkableCollidersInside.Any() && _testTask.IsCompleted && Input.GetMouseButtonDown(0))
@@ -89,20 +85,17 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
             await MoveTo(worldPosition);
         }
+ 
 
 
 
-        private async Task FollowPath(IEnumerable<INode> path)
-        {
-            foreach (var node in path)
-                await TranslateTo(node);
-        }
-
+        // Private Methods
         private void UpdateUnwalkableArea()
         {
             var colliders = _breakerAreaCollider.NotWalkableCollidersInside;
             foreach (var node in _gridController.Grid)
                 node.Walkable = IsNodeWalkable(node, colliders);
+            UpdateForbiddenSteps();
         }
 
         private bool IsNodeWalkable(INode node, IEnumerable<Collider2D> colliders)
@@ -114,5 +107,54 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                         return false;
             return true;
         }
+
+        private async Task FollowPath(IEnumerable<INode> path, Vector3 finalDestination)
+        {
+            if (!path.Any())
+                return;
+            var positions = path.Select(node => _gridController.NodeToWorldPoint(node)).ToList();
+            positions.Remove(positions.Last());
+            positions.Add(finalDestination);
+
+            foreach (var position in positions)
+                await TranslateTo(position);
+        }   
+
+
+        private void UpdateForbiddenSteps()
+        {
+            var grid = _gridController.Grid;
+
+            foreach (var node in grid)
+                if(!node.Walkable)
+                {
+                    var left = (node.X - 1, node.Y);
+                    var top = (node.X, node.Y + 1);
+                    var right = (node.X + 1, node.Y);
+                    var bottom = (node.X, node.Y - 1);
+                    AddIfIsForbiddenStep(left, top);
+                    AddIfIsForbiddenStep(top, right);
+                    AddIfIsForbiddenStep(right, bottom);
+                    AddIfIsForbiddenStep(bottom, left);
+                }
+
+
+            bool IsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
+            {
+                var (xA, yA) = nodeACoordinates;
+                var (xB, yB) = nodeBCoordinates;
+                if (grid.TryGetValue(xA, yA, out INode nodeA))
+                    if (grid.TryGetValue(xB, yB, out INode nodeB))
+                        return nodeA.Walkable && nodeB.Walkable;
+                return false;
+            }
+            
+            void AddIfIsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
+            {
+                if (IsForbiddenStep(nodeACoordinates, nodeBCoordinates))
+                    _fobiddenStepsContainer.Add(grid[nodeACoordinates], grid[nodeBCoordinates]);
+            }
+        }
     }
 }
+;
