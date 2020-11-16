@@ -27,26 +27,12 @@ namespace Assets.AToonWorld.Scripts.Player
 
         private void Start()
         {
-            IsImmortal = false;
             _playerTransform = _playerMovementController.transform;
             _previousGroundedPosition = _playerTransform.position;
 
             SubscribeToFallDeathEvents();
+            SubscribeToEnemyDeathEvents();
         }
-
-
-        // Public Events
-        public event Action PlayerDead;
-
-
-
-        // Public Properties        
-        public bool IsImmortal { get; set; }
-
-
-
-        
-
 
         // Private Methods
         private void SubscribeToFallDeathEvents()
@@ -60,6 +46,15 @@ namespace Assets.AToonWorld.Scripts.Player
             }
         }
 
+        private void SubscribeToEnemyDeathEvents()
+        {            
+            var enemyDeathTagsToCheck = new string[] { UnityTag.Enemy, UnityTag.DarkLake };
+
+            foreach(var tag in enemyDeathTagsToCheck)
+            {
+                _playerMovementController.PlayerBody.TriggerEnter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
+            }
+        }
       
         private void CheckFallDeath(Collider2D collision)
         {
@@ -75,10 +70,10 @@ namespace Assets.AToonWorld.Scripts.Player
             => start.y - end.y > _maxFallDistanceBeforeDeath;
 
 
+        // FIXME: discutere dove gestire la morte del player
         private void InvokeDeathEvent()
         {
-            if (!IsImmortal)
-                PlayerDead?.Invoke();
+            Events.PlayerEvents.Death.Invoke();
         }
     }
 }

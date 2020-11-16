@@ -17,23 +17,17 @@ namespace Assets.AToonWorld.Scripts.Player
         private PlayerMovementController _playerMovementController;        
 
         public PlayerInkController PlayerInkController { get; private set; }
-        private PlayerBody _playerBody;
+        
+        public bool IsImmortal { get; set; }
 
         // Initialization
         private void Awake()
         {
+            IsImmortal = false;
             _rigidBody = GetComponent<Rigidbody2D>();
             _playerInput = GetComponent<PlayerInput>();
             _playerMovementController = GetComponent<PlayerMovementController>();
             PlayerInkController = GetComponent<PlayerInkController>();
-            _playerBody = GetComponentInChildren<PlayerBody>();
-
-            _playerBody.TriggerEnter.SubscribeWithTag((UnityTag.Enemy, RequestKill), (UnityTag.DarkLake, RequestKill));
-        }
-            
-        private void RequestKill(Collider2D other)
-        {
-            Events.PlayerEvents.Death.Invoke();
         }
 
         // Public Methods
