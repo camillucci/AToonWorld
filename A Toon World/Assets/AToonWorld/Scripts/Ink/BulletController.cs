@@ -50,8 +50,10 @@ public class BulletController : MonoBehaviour
         if (bulletVelocity > _maxBulletSpeed)
         {
             // If too fast, calculate instead tangent versor to parabola with points playerPosition, mouseWorldPosition
-            // and (2 / 3 * mouseWorldPosition.x, mouseWorldPosition.y + 1) passing for playerPosition
-            shootingDirection = new Vector2(2f * direction.x, (upperside ? 5f : -4f) * direction.y + 9f).normalized;
+            // and (1 / 2 * mouseWorldPosition.x, mouseWorldPosition.y + 1) if on the upper side
+            if(upperside) shootingDirection = new Vector2(direction.x, 3f * direction.y + 4f).normalized;
+            // or (1 / 2 * mouseWorldPosition.x, 0.5) if on the lower side
+            else shootingDirection = new Vector2(direction.x, 2f - direction.y).normalized;
             shootingAngle = Mathf.Atan2(shootingDirection.y, shootingDirection.x);
             bulletVelocity = VelocityFromThreePoints(direction, shootingAngle);
         }
