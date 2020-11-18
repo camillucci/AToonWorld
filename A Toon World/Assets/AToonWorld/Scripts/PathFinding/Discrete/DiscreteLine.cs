@@ -17,7 +17,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Discrete
             _points = points.ToList();
         }
 
-        public Vector2 ClosestTo(Vector2 point)
+        public Vector2 ClosestPointTo(Vector2 point)
         {
             return _points.WithMinOrDefault(p => Vector2.Distance(p, point));
         }

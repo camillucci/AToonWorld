@@ -27,7 +27,12 @@ public class DrawSplineController : MonoBehaviour
     public int PointCount => _inkLineRenderer.positionCount;
     public Vector2 LastPoint => _inkLineRenderer.GetPosition(_inkLineRenderer.positionCount - 1);
 
+
     protected Vector3[] _splinePoints;
+    public IReadOnlyList<Vector3> SpLinePoints => _splinePoints;
+
+
+
     protected Transform _splineTransform;
     protected int _currentSplineIndex;
 

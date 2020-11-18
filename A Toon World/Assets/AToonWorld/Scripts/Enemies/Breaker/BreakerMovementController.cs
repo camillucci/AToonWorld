@@ -22,6 +22,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Private Fields
+        public BreakerDrawingHandler _breakerDrawingHandler;
         private BreakerBody _breakerBody;
         private BreakerTargetAreaHandler _breakerAreaHandler;
         private Transform _breakerTransform;                
@@ -38,12 +39,14 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerBody = GetComponentInChildren<BreakerBody>();
             _breakerAreaHandler = GetComponentInChildren<BreakerTargetAreaHandler>();
             _breakerTransform = _breakerBody.transform;
-            InitializeBreakerAreaCollider();
+            _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
+            BreakerTargetAreaHandlerInitialization();
         }
 
-        private void InitializeBreakerAreaCollider()
+        private void BreakerTargetAreaHandlerInitialization()
         {
-            
+            _breakerAreaHandler.NewLineInRange += OnNewLineInRange;
+            _breakerAreaHandler.LineOutOfRange += OnLineOutOfRange; 
         }
 
 
@@ -68,7 +71,23 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         // Unity Events
         private void Update()
         {
-            TestUpdate();
+           // TestUpdate();
+        }
+
+
+
+        
+        // Breaker Events
+        private async void OnNewLineInRange(DiscreteLine line)
+        {
+            _breakerDrawingHandler.AddLine(line);
+            await FollowBestPath();
+        }
+
+        private async void OnLineOutOfRange(DiscreteLine line)
+        {
+            _breakerDrawingHandler.RemoveLine(line);
+            await FollowBestPath();
         }
 
 
@@ -90,6 +109,14 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Private Methods
+        private async Task FollowBestPath()
+        {
+            var bestPosition = _breakerDrawingHandler.FindNextPointToGo(_breakerTransform.position);
+            var path = _breakerAreaHandler.MinimumPathTo(_breakerTransform.position, bestPosition);
+            await FollowPath(path);
+        }
+
+
         private async Task FollowPath(IList<Vector2> positions)
         {
             await CancelExistingPath();

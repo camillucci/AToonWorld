@@ -27,5 +27,25 @@ namespace Assets.AToonWorld.Scripts.Extensions
 
             return minObj;
         }
+
+        public static T WithMinOrDefault<T>(this IEnumerable<T> enumerable, Func<T, float> predicate)
+        {
+            var enumerator = enumerable.GetEnumerator();
+            if (!enumerator.MoveNext())
+                return default;
+
+            var minObj = enumerator.Current;
+            var min = predicate(minObj);
+
+            while (enumerator.MoveNext())
+            {
+                var obj = enumerator.Current;
+                var val = predicate(obj);
+                if (val < min)
+                    (minObj, min) = (obj, val);
+            }
+
+            return minObj;
+        }
     }
 }

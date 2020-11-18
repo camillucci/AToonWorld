@@ -16,10 +16,11 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private readonly TaggedEvent<string, Collider2D> _triggerExit = new TaggedEvent<string, Collider2D>();
         private readonly HashSet<Collider2D> _colliders = new HashSet<Collider2D>();
         private readonly List<string> _notWalkableTags = new List<string> { UnityTag.Ground };
-        private readonly PathStepsContainer _fobiddenStepsContainer = new PathStepsContainer();
-        private readonly BreakerDrawingHandler _breakerDrawingHandler = new BreakerDrawingHandler();        
+        private readonly PathStepsContainer _fobiddenStepsContainer = new PathStepsContainer();        
+        private readonly Dictionary<DrawSplineController, DiscreteLine> _drawingsInRange = new Dictionary<DrawSplineController, DiscreteLine>();
         private BoxCollider2D _boxCollider;
         private GridController _gridController;
+
 
 
         // Initialization
@@ -37,13 +38,25 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                 TriggerEnter.SubscribeWithTag(tag, OnNotWalkableEnter);
                 TriggerExit.SubscribeWithTag(tag, OnNotWalkableExit);
             }
+
+            TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
+            TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);
         }
+
+
         
+        // Events
+        public event Action<DiscreteLine> NewLineInRange;
+        public event Action<DiscreteLine> LineOutOfRange;
+
+
 
         // Public Properties
         public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
         public ITaggedEvent<string, Collider2D> TriggerExit => _triggerExit;
         public IReadOnlyCollection<Collider2D> NotWalkableColliders=> _colliders;
+
+
 
 
 
@@ -70,11 +83,19 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
 
+
         // Unity Events
         private void OnTriggerEnter2D(Collider2D collision)
         {
              _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
         }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            _triggerExit.InvokeWithTag(collision.gameObject.tag, collision);
+        }
+
+
 
 
 
@@ -91,14 +112,51 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             UpdateUnwalkableArea();
         }
 
-        private void OnNewLineDrawed(IEnumerable<Vector2> points)
+        private void OnDrawingEnter(Collider2D collision)
+        {            
+            var gameObject = collision.gameObject;
+            var spLineController = gameObject.GetComponent<DrawSplineController>();
+            AddLine(spLineController);
+        }
+
+
+        private void OnDrawingExit(Collider2D collision)
         {
-            
+            var gameObject = collision.gameObject;
+            var spLineController = gameObject.GetComponent<DrawSplineController>();
+            RemoveLine(spLineController);
         }
 
 
 
+
+
+
         // Private Methods
+
+        private void AddLine(DrawSplineController drawSplineController)
+        {
+            var linePoints = from point in drawSplineController.SpLinePoints
+                             where _gridController.IsInsideGrid(point)
+                             where _gridController.WorldPointToNode(point).Walkable
+                             select new Vector2(point.x, point.y);
+            if (!linePoints.Any())
+                return;
+            var discreteLine = new DiscreteLine(linePoints);
+            _drawingsInRange.Add(drawSplineController, discreteLine);            
+            NewLineInRange?.Invoke(discreteLine);
+        }
+
+        private void RemoveLine(DrawSplineController drawSplineController)
+        {
+            if(_drawingsInRange.TryGetValue(drawSplineController, out var discreteLine))
+            {
+                _drawingsInRange.Remove(drawSplineController);           
+                LineOutOfRange?.Invoke(discreteLine);
+            }
+        }
+
+
         private void ForceUpdateColliders()
         {            
             Vector2 center = _boxCollider.bounds.center;

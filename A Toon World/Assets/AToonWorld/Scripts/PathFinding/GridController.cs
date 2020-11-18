@@ -18,7 +18,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         // Private Fields
         private Transform _transform;        
         private bool _awakeCalled;
-        private BreakerTargetAreaHandler _breakerAreaCollider;
+        private BreakerTargetAreaHandler _breakerAreaCollider;        
 
 
         // Initialization
@@ -59,12 +59,14 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 
         // Public Methods
-        public void ResetGrid()
+        public bool IsInsideGrid(Vector2 position)
         {
-            var (width, height) = _pathFindingRange / _nodeRadius;            
-            Grid = GridFactory.GetNewGrid(Mathf.RoundToInt(width), Mathf.RoundToInt(height));
-            GridCenter = CurrentPosition;
-            GridOrigin = CurrentPosition - _pathFindingRange / 2;
+            var topRight = GridCenter + _pathFindingRange / 2;
+            var bottomLeft = GridCenter - _pathFindingRange / 2;
+            bool xInside = Mathf.Clamp(position.x, bottomLeft.x, topRight.x) == position.x;
+            bool yInside = Mathf.Clamp(position.y, bottomLeft.y, topRight.y) == position.y;
+
+            return xInside && yInside;
         }
 
         public INode WorldPointToNode(Vector2 worldPosition)
@@ -104,6 +106,17 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             var gridCenter = _awakeCalled ? GridCenter : new Vector2(transform.position.x, transform.position.y);
             Gizmos.DrawWireCube(gridCenter, new Vector3(_pathFindingRange.x, _pathFindingRange.y, 1));
             Gizmos.DrawWireCube(gridCenter, new Vector3(_nodeRadius, _nodeRadius, 1));           
-        }    
+        }
+
+
+
+        // Private
+        private void ResetGrid()
+        {
+            var (width, height) = _pathFindingRange / _nodeRadius;
+            Grid = GridFactory.GetNewGrid(Mathf.RoundToInt(width), Mathf.RoundToInt(height));
+            GridCenter = CurrentPosition;
+            GridOrigin = CurrentPosition - _pathFindingRange / 2;
+        }
     }
 }

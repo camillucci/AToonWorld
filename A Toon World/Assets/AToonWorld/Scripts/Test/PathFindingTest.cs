@@ -15,7 +15,7 @@ namespace Assets.AToonWorld.Scripts.Test
         private void Awake()
         {
             //Test();
-            StraightLineInterceptionTest();
+            //StraightLineInterceptionTest();
         }
 
 
