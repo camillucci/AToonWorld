@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Assets.AToonWorld.Scripts;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+public abstract class BulletController : MonoBehaviour
 {
     private Rigidbody2D _bullet;
     private float _gravity;
@@ -16,26 +16,20 @@ public class BulletController : MonoBehaviour
         _gravity = _bullet.gravityScale * Physics2D.gravity.magnitude;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag(UnityTag.Enemy))
-            other.gameObject.SetActive(false); // Move this into enemy controller?
-        if (other.CompareTag(UnityTag.Ground) || other.CompareTag(UnityTag.Enemy))
-            gameObject.SetActive(false);
-    }
+    protected abstract void OnTriggerEnter2D(Collider2D other);
 
-    public void Shoot(Vector2 mouseWorldPosition, Vector2 playerPosition)
+    public void Shoot(Vector2 startPosition, Vector2 targetPosition)
     {
-        Vector2 direction = mouseWorldPosition - playerPosition, shootingDirection;
+        Vector2 direction = targetPosition - startPosition, shootingDirection;
         float shootingAngle, bulletVelocity;
-        bool leftSide = direction.x < 0f, upperside = direction.y > 0f;
+        bool leftSide = direction.x <= 0f, upperside = direction.y >= 0f;
         if (leftSide) direction.x = - direction.x;
 
         // Consider the four quadrants separately
         if (upperside)
         {
             // Calculate tangent to parabola with vertex mouseWorldPosition passing for playerPosition
-            shootingDirection = new Vector2(1f, 2f * direction.y / direction.x).normalized;
+            shootingDirection = direction.normalized;//new Vector2(1f, 2f * direction.y / direction.x).normalized;
             shootingAngle = Mathf.Atan2(shootingDirection.y, shootingDirection.x);
             bulletVelocity = VelocityFromPointAndVertex(direction, shootingAngle);
         }
@@ -63,7 +57,7 @@ public class BulletController : MonoBehaviour
         if(leftSide) shootingAngle += 2 * (90f - shootingAngle);
 
         // Instantiating bullet
-        transform.position = playerPosition;
+        transform.position = startPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, shootingAngle);
         _bullet.velocity = transform.right * Mathf.Min(bulletVelocity, _maxBulletSpeed);
     }
