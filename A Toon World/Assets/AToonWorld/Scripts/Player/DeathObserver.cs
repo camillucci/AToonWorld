@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.AToonWorld.Scripts.Level;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,25 +17,63 @@ namespace Assets.AToonWorld.Scripts.Player
         // Private Fields
         private PlayerMovementController _playerMovementController;
         private Transform _playerTransform;
-        private Vector3 _previousGroundedPosition;        
-        
-        
+        private Vector3 _previousGroundedPosition;
+        private MapBorders _mapBorders;
+        private bool _isImmortal;
+
+
         // Initialization
         private void Awake()
         {
-            _playerMovementController = FindObjectOfType<PlayerMovementController>();            
+            _playerMovementController = FindObjectOfType<PlayerMovementController>();
+            _mapBorders = FindObjectOfType<MapBorders>();
+            if(_mapBorders != null)
+                InitializeMapBorders();
         }
+
+        private void InitializeMapBorders()
+        {
+            _mapBorders.TriggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerOutOfMapBorders);
+        }
+
+
 
         private void Start()
         {
             _playerTransform = _playerMovementController.transform;
-            _previousGroundedPosition = _playerTransform.position;
+            ResetStatus();
 
             SubscribeToFallDeathEvents();
             SubscribeToEnemyDeathEvents();
         }
 
+        // DeathObserver Events
+        private void OnPlayerOutOfMapBorders(Collider2D collision)
+        {
+            InvokeDeathEvent();
+        }
+
         // Private Methods
+        /*
+          FIXME: Sicuramente qualcosa si è rotto dopo il merge, dato che ora immortal è un flag del player bisogna vedere come gestire
+          public bool IsImmortal
+          {
+              get => _isImmortal;
+              set
+              {
+                  if (value == _isImmortal)
+                      return;
+                  _isImmortal = value;
+                  if (!value)
+                      ResetStatus();
+              }
+          }
+        */
+        private void ResetStatus()
+        {
+            _previousGroundedPosition = _playerTransform.position;
+        }
+
         private void SubscribeToFallDeathEvents()
         {            
             var fallDeathTagsToCheck = new string[] { UnityTag.ClimbingWall, UnityTag.Drawing, UnityTag.Ground };
@@ -75,5 +114,8 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             Events.PlayerEvents.Death.Invoke();
         }
+
+
+
     }
 }
