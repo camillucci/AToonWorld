@@ -1,5 +1,6 @@
 ﻿using Assets.AToonWorld.Scripts.PathFinding;
 using Assets.AToonWorld.Scripts.PathFinding.Discrete;
+using Assets.AToonWorld.Scripts.PathFinding.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace Assets.AToonWorld.Scripts.Test
     {
         private void Awake()
         {
-            Test();
-            Test();
+            //Test();
+            StraightLineInterceptionTest();
         }
 
 
@@ -38,6 +39,15 @@ namespace Assets.AToonWorld.Scripts.Test
             var minimumPath = grid.FindMinimumPath(start, destination, forbiddenSteps).ToList();
             foreach (var node in minimumPath)
                 Debug.Log($"(X,Y) = ({node.X},{node.Y})");            
+        }
+
+        public void StraightLineInterceptionTest()
+        {
+            var lineA = StraightLine.FromTwoPoints(new Vector2(0, 0), new Vector2(1, 1));
+            var lineB = StraightLine.FromTwoPoints(new Vector2(2, 0), new Vector2(1, 1));
+
+            if (StraightLine.TryFindSingleInterception(lineA, lineB, out var intercept))
+                Debug.Log(intercept);
         }
     }
 }

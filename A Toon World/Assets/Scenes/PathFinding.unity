@@ -279,11 +279,11 @@ GameObject:
   m_Component:
   - component: {fileID: 184495082}
   - component: {fileID: 184495084}
-  - component: {fileID: 184495083}
-  - component: {fileID: 184495085}
   - component: {fileID: 184495086}
+  - component: {fileID: 184495085}
+  - component: {fileID: 184495083}
   m_Layer: 0
-  m_Name: Area Collider
+  m_Name: Area Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,9 +312,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 184495081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67eba3b155ec4744da6c0564e61798df, type: 3}
+  m_Script: {fileID: 11500000, guid: 58421e2b9c831c04ea3c44e09bb79e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pathFindingRange: {x: 19.33, y: 13.85}
+  _nodeRadius: 0.62
 --- !u!61 &184495084
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -350,11 +352,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 184495081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 298e19ccbb1a90143b51be7a9e3b3f32, type: 3}
+  m_Script: {fileID: 11500000, guid: 450a7ed2be58e2c45a4a4b18fd78bb84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathFindingRange: {x: 22.5, y: 15.38}
-  _nodeRadius: 0.8
 --- !u!50 &184495086
 Rigidbody2D:
   serializedVersion: 4
@@ -386,6 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 782384411}
   - component: {fileID: 782384412}
+  - component: {fileID: 782384409}
   m_Layer: 0
   m_Name: Breaker
   m_TagString: Untagged
@@ -393,6 +394,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &782384409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782384408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e1ecfcffa5b95448758d83d65cba11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &782384411
 Transform:
   m_ObjectHideFlags: 0
@@ -401,7 +414,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 782384408}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.09, y: 1.84, z: 0}
+  m_LocalPosition: {x: -1.92, y: 1.84, z: 0}
   m_LocalScale: {x: 0.21, y: 0.2, z: 1}
   m_Children:
   - {fileID: 1716037057}
@@ -422,8 +435,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  _turnSpeed: 10
-  _turnOffset: 0
+  _turnSpeed: 1
+  _turnOffset: 0.95
 --- !u!1001 &843073218
 PrefabInstance:
   m_ObjectHideFlags: 0

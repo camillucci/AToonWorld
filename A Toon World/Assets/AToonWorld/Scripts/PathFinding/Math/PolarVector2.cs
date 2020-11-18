@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.AToonWorld.Scripts.PathFinding.Coordinates
+namespace Assets.AToonWorld.Scripts.PathFinding.Math
 {
     public struct PolarVector2D
     {

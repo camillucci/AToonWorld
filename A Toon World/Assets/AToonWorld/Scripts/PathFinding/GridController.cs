@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
-    public class PathFindingGridController : MonoBehaviour
+    public class GridController : MonoBehaviour
     {
         // Editor Fields
         [SerializeField] private Vector2 _pathFindingRange;
@@ -18,13 +18,13 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         // Private Fields
         private Transform _transform;        
         private bool _awakeCalled;
-        private BreakerAreaCollider _breakerAreaCollider;
+        private BreakerTargetAreaHandler _breakerAreaCollider;
 
 
         // Initialization
         private void Awake()
         {
-            _breakerAreaCollider = GetComponent<BreakerAreaCollider>();
+            _breakerAreaCollider = GetComponent<BreakerTargetAreaHandler>();
             _awakeCalled = true;
             _transform = transform;
             ResetGrid();
@@ -72,6 +72,8 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             var deltaPos = worldPosition - GridOrigin;
             var (x, y) = deltaPos / _nodeRadius;
             var (intX, intY) = (Mathf.RoundToInt(x), Mathf.RoundToInt(y));
+            (intX, intY) = (Mathf.Clamp(intX, 0, Grid.Width - 1), Mathf.Clamp(intY, 0, Grid.Height - 1));
+
             return Grid[intX, intY];
         }
 
@@ -102,6 +104,6 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             var gridCenter = _awakeCalled ? GridCenter : new Vector2(transform.position.x, transform.position.y);
             Gizmos.DrawWireCube(gridCenter, new Vector3(_pathFindingRange.x, _pathFindingRange.y, 1));
             Gizmos.DrawWireCube(gridCenter, new Vector3(_nodeRadius, _nodeRadius, 1));           
-        }
+        }    
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
-using Assets.AToonWorld.Scripts.PathFinding.Coordinates;
+using Assets.AToonWorld.Scripts.PathFinding.Math;
 using Assets.AToonWorld.Scripts.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,45 +12,32 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Utils
 {
     public static class CurvePathAnimations
     {
-        public static async Task TransitionCurved(Vector2 fromVersor, Vector2 toVersor, float speed, Action<Vector2> callback, bool clockWise = true)
-        {
-            var (from, to) = (fromVersor.normalized.ToPolarCoordinates(), toVersor.normalized.ToPolarCoordinates());
-            to = new PolarVector2D(to.R, FindMinDistanceAngle(from.Theta, to.Theta));
-            await Animations.Transition
+       public static Task CubicBezierFromPoints(Vector2 start, Vector2 middlePoint, Vector2 end, float speed, Action<Vector2> callback)
+       {
+            Vector2 PositionAtTime(float t)
+            {
+                var position = middlePoint + (1 - t) * (1 - t) * (start - middlePoint) + t * t*(end - middlePoint);
+                return position;
+            }
+
+            return Animations.Transition
             (
-                from: from.Theta,
-                to: to.Theta,
-                callback: theta => callback.Invoke(new PolarVector2D(1, theta).ToVector2()),
+                from: 0,
+                to: 1,
+                time => callback.Invoke(PositionAtTime(time)),
                 speed: speed,
                 smooth: false
             );
-        }
+       }
 
-        private static float FindMinDistanceAngle(float from, float to)
+
+        public static Task CubicBezierFromDirections(Vector2 start, Vector2 end, Vector2 startDirection, Vector2 endDirection, float speed, Action<Vector2> positionCallback)
         {
-            var distance = Mathf.Abs(from - to);
-            if (!FindNearestTo(to, 1))
-                FindNearestTo(to, -1);
-            return to;
-
-            bool FindNearestTo(float newTo, int signTwoPi)
-            {
-                bool changed = false;
-                bool isBetter;
-                do
-                {
-                    var tmpTo = newTo + signTwoPi * 2 * Mathf.PI;
-                    var newDistance = Mathf.Abs(tmpTo - from);
-                    isBetter = newDistance < distance;
-                    if (isBetter)
-                    {
-                        to = tmpTo;
-                        distance = newDistance;
-                        changed = true;
-                    }
-                } while (isBetter);
-                return changed;
-            }
-        }
+            var lineStart = new StraightLine(start, startDirection);
+            var lineEnd = new StraightLine(end, endDirection);
+            if (StraightLine.TryFindSingleInterception(lineStart, lineEnd, out Vector2 intersection))
+                return CubicBezierFromPoints(start, intersection, end, speed, positionCallback);
+            return Task.CompletedTask;
+        }      
     }
 }

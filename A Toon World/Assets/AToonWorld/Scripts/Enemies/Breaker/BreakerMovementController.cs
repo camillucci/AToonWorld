@@ -1,6 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding;
-using Assets.AToonWorld.Scripts.PathFinding.Coordinates;
 using Assets.AToonWorld.Scripts.PathFinding.Discrete;
 using Assets.AToonWorld.Scripts.PathFinding.Utils;
 using Assets.AToonWorld.Scripts.Utils;
@@ -23,21 +22,28 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Private Fields
-        private PathFindingGridController _gridController;
         private BreakerBody _breakerBody;
-        private BreakerAreaCollider _breakerAreaCollider;
-        private Transform _breakerTransform;
-        private readonly PathStepsContainer _fobiddenStepsContainer = new PathStepsContainer();
-        private Task _testTask = Task.CompletedTask;        
+        private BreakerTargetAreaHandler _breakerAreaHandler;
+        private Transform _breakerTransform;                
+        private GridController _gridController;
+        private bool _canFollowPath;
+        private Task _followPathTask = Task.CompletedTask;
+
 
 
         // Initialization
         private void Awake()
         {
-            _gridController = GetComponentInChildren<PathFindingGridController>();
+            _gridController = GetComponent<GridController>();
             _breakerBody = GetComponentInChildren<BreakerBody>();
-            _breakerAreaCollider = GetComponentInChildren<BreakerAreaCollider>();
-            _breakerTransform = _breakerBody.transform;            
+            _breakerAreaHandler = GetComponentInChildren<BreakerTargetAreaHandler>();
+            _breakerTransform = _breakerBody.transform;
+            InitializeBreakerAreaCollider();
+        }
+
+        private void InitializeBreakerAreaCollider()
+        {
+            
         }
 
 
@@ -51,14 +57,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         public Task TranslateTo(INode node) => _breakerTransform.MoveToAnimated(_gridController.NodeToWorldPoint(node), _speed, false);
         public void TeleportTo(INode node) => _breakerTransform.position = _gridController.NodeToWorldPoint(node);
         public void TeleportTo(Vector3 position) => _breakerTransform.position = position;
-        public async Task MoveTo(Vector3 position)
-        {
-            UpdateUnwalkableArea();
-            var grid = _gridController.Grid;
-            var targetPosition = _gridController.WorldPointToNode(position);
-            var path = grid.FindMinimumPath(CurrentNode, targetPosition, _fobiddenStepsContainer);
-            await FollowPath(path, position);
+        public async Task TryMoveTo(Vector3 position)
+        {            
+            var path = _breakerAreaHandler.MinimumPathTo(_breakerTransform.position, position);
+            await FollowPath(path);
         }
+
 
 
         // Unity Events
@@ -70,91 +74,43 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // TEST
-        private void TestUpdate()
+        private async void TestUpdate()
         {
-            if (_breakerAreaCollider.NotWalkableCollidersInside.Any() && _testTask.IsCompleted && Input.GetMouseButtonDown(0))
-                _testTask = TestMoveToMousePosition();
+            if (Input.GetMouseButtonDown(0))
+                await TestMoveToMousePosition();
         }
 
         private async Task TestMoveToMousePosition()
         {
-            if (!_testTask.IsCompleted)
-                return;
             Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            Vector2 worldPosition = UnityEngine.Camera.main.ScreenToWorldPoint(screenPosition);
-
-            await MoveTo(worldPosition);
+            Vector2 worldPosition = UnityEngine.Camera.main.ScreenToWorldPoint(screenPosition);           
+            await TryMoveTo(worldPosition);
         }
- 
 
 
 
         // Private Methods
-        private void UpdateUnwalkableArea()
+        private async Task FollowPath(IList<Vector2> positions)
         {
-            var colliders = _breakerAreaCollider.NotWalkableCollidersInside;
-            foreach (var node in _gridController.Grid)
-                node.Walkable = IsNodeWalkable(node, colliders);
-            UpdateForbiddenSteps();
-        }
-
-        private bool IsNodeWalkable(INode node, IEnumerable<Collider2D> colliders)
-        {
-            var nodePositions = _gridController.GetNodeBoundsAndCenter(node);
-            foreach (var nodePosition in nodePositions)
-                foreach (var collider in colliders)
-                    if (collider.bounds.Contains(nodePosition))
-                        return false;
-            return true;
-        }
-
-        private async Task FollowPath(IEnumerable<INode> path, Vector3 finalDestination)
-        {
-            if (!path.Any())
-                return;
-            var positions = path.Select(node => _gridController.NodeToWorldPoint(node)).ToList();
-            positions.Remove(positions.Last());
-            positions.Add(finalDestination);
-
-            foreach (var position in positions)
-                await TranslateTo(position);
-        }   
-
-
-        private void UpdateForbiddenSteps()
-        {
-            var grid = _gridController.Grid;
-
-            foreach (var node in grid)
-                if(!node.Walkable)
-                {
-                    var left = (node.X - 1, node.Y);
-                    var top = (node.X, node.Y + 1);
-                    var right = (node.X + 1, node.Y);
-                    var bottom = (node.X, node.Y - 1);
-                    AddIfIsForbiddenStep(left, top);
-                    AddIfIsForbiddenStep(top, right);
-                    AddIfIsForbiddenStep(right, bottom);
-                    AddIfIsForbiddenStep(bottom, left);
-                }
-
-
-            bool IsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
+            await CancelExistingPath();
+            async Task FollowPathTask()
             {
-                var (xA, yA) = nodeACoordinates;
-                var (xB, yB) = nodeBCoordinates;
-                if (grid.TryGetValue(xA, yA, out INode nodeA))
-                    if (grid.TryGetValue(xB, yB, out INode nodeB))
-                        return nodeA.Walkable && nodeB.Walkable;
-                return false;
+                foreach (var position in positions)
+                    if (!_canFollowPath)
+                        return;
+                    else 
+                        await TranslateTo(position);
             }
-            
-            void AddIfIsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
-            {
-                if (IsForbiddenStep(nodeACoordinates, nodeBCoordinates))
-                    _fobiddenStepsContainer.Add(grid[nodeACoordinates], grid[nodeBCoordinates]);
-            }
+
+            _followPathTask = FollowPathTask();
+        }        
+
+
+        private async Task CancelExistingPath()
+        {
+            _canFollowPath = false;
+            await _followPathTask;
+            _canFollowPath = true;
         }
     }
 }
-;
