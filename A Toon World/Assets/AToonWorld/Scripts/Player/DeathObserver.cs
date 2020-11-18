@@ -19,6 +19,7 @@ namespace Assets.AToonWorld.Scripts.Player
         private Transform _playerTransform;
         private Vector3 _previousGroundedPosition;
         private MapBorders _mapBorders;
+        private bool _isImmortal;
 
 
         // Initialization
@@ -40,7 +41,7 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             IsImmortal = false;
             _playerTransform = _playerMovementController.transform;
-            _previousGroundedPosition = _playerTransform.position;
+            ResetStatus();
 
             SubscribeToFallDeathEvents();
         }
@@ -52,14 +53,36 @@ namespace Assets.AToonWorld.Scripts.Player
 
 
         // Public Properties        
-        public bool IsImmortal { get; set; }
+        public bool IsImmortal
+        {
+            get => _isImmortal;
+            set
+            {
+                if (value == _isImmortal)
+                    return;
+                _isImmortal = value;
+                if (!value)
+                    ResetStatus();
+            }
+        }
+
+
+        // DeathObserver Events
+        private void OnPlayerOutOfMapBorders(Collider2D collision)
+        {
+            InvokeDeathEvent();
+        }
 
 
 
-        
 
 
         // Private Methods
+        private void ResetStatus()
+        {
+            _previousGroundedPosition = _playerTransform.position;
+        }
+
         private void SubscribeToFallDeathEvents()
         {            
             var fallDeathTagsToCheck = new string[] { UnityTag.ClimbingWall, UnityTag.Drawing, UnityTag.Ground };
@@ -93,10 +116,6 @@ namespace Assets.AToonWorld.Scripts.Player
         }
 
 
-        // Death Events
-        private void OnPlayerOutOfMapBorders(Collider2D collision)
-        {
-            InvokeDeathEvent();
-        }
+
     }
 }
