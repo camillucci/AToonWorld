@@ -27,7 +27,8 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             _playerMovementController = FindObjectOfType<PlayerMovementController>();
             _mapBorders = FindObjectOfType<MapBorders>();
-            InitializeMapBorders();
+            if(_mapBorders != null)
+                InitializeMapBorders();
         }
 
         private void InitializeMapBorders()
