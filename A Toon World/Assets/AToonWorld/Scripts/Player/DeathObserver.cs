@@ -39,33 +39,12 @@ namespace Assets.AToonWorld.Scripts.Player
 
         private void Start()
         {
-            IsImmortal = false;
             _playerTransform = _playerMovementController.transform;
             ResetStatus();
 
             SubscribeToFallDeathEvents();
+            SubscribeToEnemyDeathEvents();
         }
-
-
-        // Public Events
-        public event Action PlayerDead;
-
-
-
-        // Public Properties        
-        public bool IsImmortal
-        {
-            get => _isImmortal;
-            set
-            {
-                if (value == _isImmortal)
-                    return;
-                _isImmortal = value;
-                if (!value)
-                    ResetStatus();
-            }
-        }
-
 
         // DeathObserver Events
         private void OnPlayerOutOfMapBorders(Collider2D collision)
@@ -73,11 +52,22 @@ namespace Assets.AToonWorld.Scripts.Player
             InvokeDeathEvent();
         }
 
-
-
-
-
         // Private Methods
+        /*
+          FIXME: Sicuramente qualcosa si è rotto dopo il merge, dato che ora immortal è un flag del player bisogna vedere come gestire
+          public bool IsImmortal
+          {
+              get => _isImmortal;
+              set
+              {
+                  if (value == _isImmortal)
+                      return;
+                  _isImmortal = value;
+                  if (!value)
+                      ResetStatus();
+              }
+          }
+        */
         private void ResetStatus()
         {
             _previousGroundedPosition = _playerTransform.position;
@@ -94,6 +84,15 @@ namespace Assets.AToonWorld.Scripts.Player
             }
         }
 
+        private void SubscribeToEnemyDeathEvents()
+        {            
+            var enemyDeathTagsToCheck = new string[] { UnityTag.Enemy, UnityTag.DarkLake };
+
+            foreach(var tag in enemyDeathTagsToCheck)
+            {
+                _playerMovementController.PlayerBody.TriggerEnter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
+            }
+        }
       
         private void CheckFallDeath(Collider2D collision)
         {
@@ -109,10 +108,10 @@ namespace Assets.AToonWorld.Scripts.Player
             => start.y - end.y > _maxFallDistanceBeforeDeath;
 
 
+        // FIXME: discutere dove gestire la morte del player
         private void InvokeDeathEvent()
         {
-            if (!IsImmortal)
-                PlayerDead?.Invoke();
+            Events.PlayerEvents.Death.Invoke();
         }
 
 

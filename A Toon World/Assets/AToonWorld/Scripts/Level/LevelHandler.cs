@@ -37,17 +37,8 @@ namespace Assets.AToonWorld.Scripts.Level
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
-
-            InitializeDeathObserver();            
-        }
-
-
-        private void InitializeDeathObserver()
-        {
-            _deathObserver.PlayerDead += OnPlayerDead;
-        }
-
-       
+            Events.PlayerEvents.Death.AddListener(OnPlayerDead);
+        }      
 
 
         // Public Methods
@@ -75,9 +66,12 @@ namespace Assets.AToonWorld.Scripts.Level
         // Level Events
         private async void OnPlayerDead()
         {
-            _deathObserver.IsImmortal = true;
-            await SpawnFromLastCheckpoint();            
-            _deathObserver.IsImmortal = false;
-        }  
+            if (!_playerController.IsImmortal)
+            {
+                _playerController.IsImmortal = true;
+                await SpawnFromLastCheckpoint();            
+                _playerController.IsImmortal = false;
+            }
+        }
     }
 }
