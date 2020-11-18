@@ -29,7 +29,7 @@ public abstract class BulletController : MonoBehaviour
         if (upperside)
         {
             // Calculate tangent to parabola with vertex mouseWorldPosition passing for playerPosition
-            shootingDirection = direction.normalized;//new Vector2(1f, 2f * direction.y / direction.x).normalized;
+            shootingDirection = new Vector2(direction.x, 2f * direction.y).normalized;
             shootingAngle = Mathf.Atan2(shootingDirection.y, shootingDirection.x);
             bulletVelocity = VelocityFromPointAndVertex(direction, shootingAngle);
         }

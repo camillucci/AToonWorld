@@ -26,7 +26,7 @@ public class DamageInkHandler : ExpendableResource, IInkHandler, IBulletInk
     public void OnDrawDown(Vector2 mouseWorldPosition)
     {
         if(Vector2.Distance(_playerPosition, mouseWorldPosition) > _distanceFromPlayer && this.ConsumeOrFail(1))
-            _bulletController.Shoot(mouseWorldPosition, _playerPosition);
+            _bulletController.Shoot(_playerPosition, mouseWorldPosition);
         else
             _bulletController.gameObject.SetActive(false);
     }
