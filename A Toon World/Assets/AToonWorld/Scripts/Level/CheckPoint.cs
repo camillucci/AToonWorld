@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
@@ -32,6 +33,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
         // Events
         public event Action<CheckPoint> PlayerHit;
+        [SerializeField] private UnityEvent _checkpointTaken;
 
 
 
@@ -65,6 +67,7 @@ namespace Assets.AToonWorld.Scripts.Level
                 return;
 
             _hit = true;
+            _checkpointTaken?.Invoke();
             PlayerHit?.Invoke(this);
         }
     }
