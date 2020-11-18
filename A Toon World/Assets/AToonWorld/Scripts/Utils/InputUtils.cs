@@ -34,6 +34,9 @@ namespace Assets.AToonWorld.Scripts.Utils
 
         public static float Zoom => Input.GetKey(KeyCode.LeftControl) ? -Input.GetAxis("Mouse ScrollWheel") : 0;
 
+        public static bool EnterButton => Input.GetButtonDown("Submit");
+
+        public static bool TogglePauseMenu => Input.GetButtonDown("PauseMenu");
 
         //DEBUG
         public static bool KillPlayer => Input.GetKey(KeyCode.K);
