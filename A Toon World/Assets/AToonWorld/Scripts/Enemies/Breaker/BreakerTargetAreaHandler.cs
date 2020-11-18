@@ -31,6 +31,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             InitializeTriggerEnter();
         }
 
+
+        private void Start()
+        {
+            UpdateColliderSize();
+        }
+
         private void InitializeTriggerEnter()
         {           
             foreach (var tag in _notWalkableTags)
@@ -61,12 +67,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Public Methods
-        public void SetColliderSize(Vector2 size)
-        {
-            Vector2 colliderSize = _boxCollider.bounds.size;
-            _boxCollider.size = new Vector2(_boxCollider.size.x / colliderSize.x * size.x, _boxCollider.size.y / colliderSize.y * size.y);
-        }
-
         public IList<Vector2> MinimumPathTo(Vector2 from, Vector2 to)
         {
             var (startNode, destinationNode) = (_gridController.WorldPointToNode(from), _gridController.WorldPointToNode(to));                        
@@ -133,6 +133,15 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Private Methods
+        private void UpdateColliderSize()
+        {
+            var grid = _gridController.Grid;
+            var width = (_gridController.NodeToWorldPoint(grid.TopRight) - _gridController.NodeToWorldPoint(grid.TopLeft)).x + 1;
+            var height = (_gridController.NodeToWorldPoint(grid.TopLeft) - _gridController.NodeToWorldPoint(grid.BottomLeft)).y + 1;
+            Vector2 colliderSize = _boxCollider.bounds.size;
+            _boxCollider.size = new Vector2(_boxCollider.size.x / colliderSize.x * width, _boxCollider.size.y / colliderSize.y * height);
+        }
+
 
         private void AddLine(DrawSplineController drawSplineController)
         {

@@ -1,5 +1,4 @@
-﻿using Assets.AToonWorld.Scripts.Enemies.Breaker;
-using Assets.AToonWorld.Scripts.Extensions;
+﻿using Assets.AToonWorld.Scripts.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,32 +16,15 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
         // Private Fields
         private Transform _transform;        
-        private bool _awakeCalled;
-        private BreakerTargetAreaHandler _breakerAreaCollider;        
+        private bool _awakeCalled;          
 
 
         // Initialization
         private void Awake()
-        {
-            _breakerAreaCollider = GetComponent<BreakerTargetAreaHandler>();
+        {            
             _awakeCalled = true;
             _transform = transform;
             ResetGrid();
-        }
-       
-
-        private void InitializeColliderSize()
-        {
-            var width = (NodeToWorldPoint(Grid.TopRight) - NodeToWorldPoint(Grid.TopLeft)).x + 1;
-            var height = (NodeToWorldPoint(Grid.TopLeft) - NodeToWorldPoint(Grid.BottomLeft)).y + 1;
-            _breakerAreaCollider.SetColliderSize(new Vector2(width, height));
-        }
-
-
-
-        private void Start()
-        {
-            InitializeColliderSize();
         }
 
 
@@ -56,6 +38,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         public Vector2 GridOrigin { get; private set; }
         public IGrid Grid { get; private set; }        
         public float NodeRadius => _nodeRadius;
+
 
 
         // Public Methods
