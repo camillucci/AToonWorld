@@ -10,12 +10,13 @@ namespace Assets.AToonWorld.Scripts.Extensions
 {
     public static class TransformExtensions
     {
-        public static Task MoveToAnimated(this Transform @this, Vector3 position, float speed) => Animations.Transition
+        public static Task MoveToAnimated(this Transform @this, Vector3 position, float speed, bool smooth = true) => Animations.Transition
         (
             from: @this.position,
             to: position,
             callback: val => @this.position = val,
-            speed: speed
+            speed: speed,
+            smooth: smooth
         );
     }
 }

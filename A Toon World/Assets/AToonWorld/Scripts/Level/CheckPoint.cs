@@ -54,7 +54,6 @@ namespace Assets.AToonWorld.Scripts.Level
 
 
         // Unity Events
-
         private void OnTriggerEnter2D(Collider2D collision) => _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
         
         

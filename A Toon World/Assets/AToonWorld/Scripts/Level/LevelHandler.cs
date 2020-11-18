@@ -19,7 +19,9 @@ namespace Assets.AToonWorld.Scripts.Level
         // Editor Fields
         private CheckPointsManager _checkPointsManager;
         private PlayerController _playerController;
-        private CameraMovementController _cameraMovementController;        
+        private CameraMovementController _cameraMovementController;
+        private DeathObserver _deathObserver;
+        private MapBorders _mapBorders;
 
 
         // Public Properties
@@ -33,31 +35,43 @@ namespace Assets.AToonWorld.Scripts.Level
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
             _playerController = FindObjectOfType<PlayerController>();
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
-        }
+            _deathObserver = FindObjectOfType<DeathObserver>();
+            _mapBorders = FindObjectOfType<MapBorders>();
+            Events.PlayerEvents.Death.AddListener(OnPlayerDead);
+        }      
 
 
         // Public Methods
         public async Task SpawnFromLastCheckpoint()
         {
+            RespawningPlayer = true;
+
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
-            _playerController.DisablePlayer();
+            _playerController.DisablePlayer();            
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
-        }
 
-
-        public async Task KillPlayer()
-        {
-            RespawningPlayer = true;
-            await SpawnFromLastCheckpoint();
             RespawningPlayer = false;
         }
+      
 
         // Unity events
-        private async void Update()
+        private void Update()
         {
             if (InputUtils.KillPlayer && !RespawningPlayer)
-                await KillPlayer();
+                OnPlayerDead();
+        }
+
+
+        // Level Events
+        private async void OnPlayerDead()
+        {
+            if (!_playerController.IsImmortal)
+            {
+                _playerController.IsImmortal = true;
+                await SpawnFromLastCheckpoint();            
+                _playerController.IsImmortal = false;
+            }
         }
     }
 }
