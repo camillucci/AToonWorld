@@ -14,12 +14,6 @@ namespace Assets.AToonWorld.Scripts.Level
         private readonly TaggedEvent<string, Collider2D> _triggerEnter = new TaggedEvent<string, Collider2D>();
         private readonly TaggedEvent<string, Collider2D> _triggerExit = new TaggedEvent<string, Collider2D>();
 
-        private void Awake()
-        {
-            TriggerEnter.SubscribeWithTag(UnityTag.Player, _ => Debug.Log("Player enter"));
-            TriggerExit.SubscribeWithTag(UnityTag.Player, _ => Debug.Log("Player exit"));
-        }
-
 
         // Public Properties
         public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
