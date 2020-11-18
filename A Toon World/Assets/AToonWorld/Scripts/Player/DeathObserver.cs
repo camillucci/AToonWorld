@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.AToonWorld.Scripts.Level;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +17,24 @@ namespace Assets.AToonWorld.Scripts.Player
         // Private Fields
         private PlayerMovementController _playerMovementController;
         private Transform _playerTransform;
-        private Vector3 _previousGroundedPosition;        
-        
-        
+        private Vector3 _previousGroundedPosition;
+        private MapBorders _mapBorders;
+
+
         // Initialization
         private void Awake()
         {
-            _playerMovementController = FindObjectOfType<PlayerMovementController>();            
+            _playerMovementController = FindObjectOfType<PlayerMovementController>();
+            _mapBorders = FindObjectOfType<MapBorders>();
+            InitializeMapBorders();
         }
+
+        private void InitializeMapBorders()
+        {
+            _mapBorders.TriggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerOutOfMapBorders);
+        }
+
+
 
         private void Start()
         {
@@ -79,6 +90,13 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             if (!IsImmortal)
                 PlayerDead?.Invoke();
+        }
+
+
+        // Death Events
+        private void OnPlayerOutOfMapBorders(Collider2D collision)
+        {
+            InvokeDeathEvent();
         }
     }
 }
