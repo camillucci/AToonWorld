@@ -8,20 +8,21 @@ using UnityEngine.UI;
 
 public class SettingsMenuController : MonoBehaviour
 {
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private TMP_Dropdown qualityDropbox;
-    [SerializeField] private TMP_Dropdown resolutionDropdown;
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private AudioMixer _audioMixer;
+    [SerializeField] private TMP_Dropdown _qualityDropbox;
+    [SerializeField] private TMP_Dropdown _resolutionDropdown;
+    [SerializeField] private Toggle _fullscreenToggle;
+    [SerializeField] private Slider _volumeSlider;
 
     private Resolution[] resolutions;
 
     void Start()
     {
-        if (audioMixer.GetFloat("Volume", out float startingVolume))
-            volumeSlider.value = startingVolume;
+        if (_audioMixer.GetFloat("Volume", out float startingVolume))
+            _volumeSlider.value = Mathf.Pow(10, startingVolume / 20);
 
-        qualityDropbox.value = QualitySettings.GetQualityLevel();
-        resolutionDropdown.RefreshShownValue();
+        _qualityDropbox.value = QualitySettings.GetQualityLevel();
+        _resolutionDropdown.RefreshShownValue();
 
         // At run-time gather all possible resolutions
         int currentResolutionIndex = 0;
@@ -35,13 +36,15 @@ public class SettingsMenuController : MonoBehaviour
                 currentResolutionIndex = i;
         }
         
-        resolutionDropdown.ClearOptions();
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+        _resolutionDropdown.ClearOptions();
+        _resolutionDropdown.AddOptions(options);
+        _resolutionDropdown.value = currentResolutionIndex;
+        _resolutionDropdown.RefreshShownValue();
+
+        _fullscreenToggle.isOn = Screen.fullScreen;
     }
 
-    public void SetVolume(float volume) => audioMixer.SetFloat("Volume", Mathf.Log10(volume)*20);
+    public void SetVolume(float volume) => _audioMixer.SetFloat("Volume", Mathf.Log10(volume)*20);
 
     public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex);
 

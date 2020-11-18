@@ -6,17 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public void Start()
+    void Start()
     {
-        Screen.fullScreen = true;
+        #if UNITY_STANDALONE
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+            QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
+        #endif
     }
 
     void Update()
     {
         if (InputUtils.EnterButton)
-        {
             PlayButton();
-        }
     }
 
     public void PlayButton()
