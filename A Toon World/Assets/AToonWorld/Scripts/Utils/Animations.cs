@@ -36,8 +36,33 @@ namespace Assets.AToonWorld.Scripts.Utils
 
 
         public static Task Transition(float from, float to, Action<float> callback, float speed = 10f, bool smooth = true, int frameSensitivity = 1, CancellationToken token = default)
-            => Transition(from, to, callback, speed, smooth, frameSensitivity, () => token.IsCancellationRequested);       
+            => Transition(from, to, callback, speed, smooth, frameSensitivity, () => token.IsCancellationRequested);
 
+
+
+        public static async Task Transition(Vector2 from, Vector2 to, Action<Vector2> callback, float speed, bool smooth, int frameSensitivity, Func<bool> cancelCondition)
+        {
+            var current = from;
+            bool CheckIsCancelled() => cancelCondition?.Invoke() ?? false;
+            bool isCancelled = CheckIsCancelled();
+            while (Vector2.Distance(current, to) > _epsilon && !isCancelled)
+            {
+                var deltaTime = Time.deltaTime;
+                current = smooth
+                    ? Vector2.Lerp(current, to, deltaTime * speed)
+                    : Vector2.MoveTowards(current, to, speed * Time.deltaTime);
+
+                callback.Invoke(current);
+                await new WaitForFrames(frameSensitivity);
+            }
+
+            if (!isCancelled)
+                callback.Invoke(to);
+        }
+
+
+        public static Task Transition(Vector2 from, Vector2 to, Action<Vector2> callback, float speed = 10f, bool smooth = true, int frameSensitivity = 1, CancellationToken token = default)
+          => Transition(from, to, callback, speed, smooth, frameSensitivity, () => token.IsCancellationRequested);
 
         public static async Task Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed, bool smooth, int frameSensitivity, Func<bool> cancelCondition)
         {
@@ -60,6 +85,6 @@ namespace Assets.AToonWorld.Scripts.Utils
         }
 
         public static Task Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed = 10f, bool smooth = true, int frameSensitivity = 1, CancellationToken token = default)
-            => Transition(from, to, callback, speed, smooth, frameSensitivity, () => token.IsCancellationRequested);
+            => Transition(from, to, callback, speed, smooth, frameSensitivity, () => token.IsCancellationRequested);              
     }   
 }

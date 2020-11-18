@@ -37,6 +37,5 @@ namespace Assets.AToonWorld.Scripts.Utils
 
         //DEBUG
         public static bool KillPlayer => Input.GetKey(KeyCode.K);
-
     }
 }
