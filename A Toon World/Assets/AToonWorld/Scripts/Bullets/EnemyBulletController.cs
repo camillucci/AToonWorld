@@ -8,14 +8,22 @@ public class EnemyBulletController : BulletController
 {
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(UnityTag.Player))
+        Debug.Log(other.gameObject.tag);
+        switch(other.gameObject.tag)
         {
-            this.gameObject.SetActive(false);
-            Events.PlayerEvents.Death.Invoke();
-            return;
-        }
+            case UnityTag.Player:
+                this.gameObject.SetActive(false);
+                Events.PlayerEvents.Death.Invoke();
+                return;
 
-        if (other.CompareTag(UnityTag.Ground))
-            this.gameObject.SetActive(false);
+            case UnityTag.Ground:
+                this.gameObject.SetActive(false);
+                return;
+
+            case UnityTag.Drawing:
+                other.gameObject.SetActive(false);
+                this.gameObject.SetActive(false);
+                return;
+        }
     }
 }
