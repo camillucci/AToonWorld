@@ -34,6 +34,8 @@ namespace Assets.AToonWorld.Scripts.Level
         // Events
         public event Action<CheckPoint> PlayerHit;
         [SerializeField] private UnityEvent _checkpointTaken;
+        [SerializeField] private UnityEvent _playerSpawning;
+        [SerializeField] private UnityEvent _playerSpawned;
 
 
 
@@ -57,8 +59,6 @@ namespace Assets.AToonWorld.Scripts.Level
 
         // Unity Events
         private void OnTriggerEnter2D(Collider2D collision) => _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
-        
-        
 
         // CheckPoint events        
         private void OnPlayerHit(Collider2D collision)
@@ -69,6 +69,16 @@ namespace Assets.AToonWorld.Scripts.Level
             _hit = true;
             _checkpointTaken?.Invoke();
             PlayerHit?.Invoke(this);
+        }
+
+        public void OnPlayerRespawnStart()
+        {
+            _playerSpawning?.Invoke();
+        }
+
+        public void OnPlayerRespawnEnd()
+        {
+            _playerSpawned?.Invoke();
         }
     }
 }
