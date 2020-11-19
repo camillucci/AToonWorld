@@ -8,7 +8,6 @@ public class EnemyBulletController : BulletController
 {
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject.tag);
         switch(other.gameObject.tag)
         {
             case UnityTag.Player:
