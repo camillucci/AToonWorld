@@ -181,7 +181,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 5
   m_Material: {fileID: 6200000, guid: 6268e1d51fbad2d4baa2e449dcefe721, type: 2}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -203,6 +203,7 @@ MonoBehaviour:
   _doubleJumpSpeed: 15
   _jumpHoldStepMs: 39.5
   _climbingSpeed: 5
+  _isDoubleJumpEnabled: 0
 --- !u!114 &9202030778897293430
 MonoBehaviour:
   m_ObjectHideFlags: 0
