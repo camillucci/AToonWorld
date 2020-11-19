@@ -69,7 +69,6 @@ public class InkWheelController : MonoBehaviour
 
         if (distance > _mouseDeadzone)
         {
-            Debug.Log("ok");
             foreach(InkType inkType in _inksPositions.Keys)
             {
                 InkPosition position = _inksPositions[inkType];
