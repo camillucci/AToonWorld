@@ -12,9 +12,12 @@ namespace Assets.AToonWorld.Scripts.Player
     {
         private readonly TaggedEvent<string, Collider2D> _triggerEnter = new TaggedEvent<string, Collider2D>();
         private readonly TaggedEvent<string, Collider2D> _triggerExit = new TaggedEvent<string, Collider2D>();
+        //private readonly TaggedEvent<string, Collider2D> _triggerStay = new TaggedEvent<string, Collider2D>();        
+
 
         public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
         public ITaggedEvent<string, Collider2D> TriggerExit => _triggerExit;
+        //public ITaggedEvent<string, Collider2D> TriggerStay => _triggerStay;
 
 
         private void OnTriggerEnter2D(Collider2D collider)

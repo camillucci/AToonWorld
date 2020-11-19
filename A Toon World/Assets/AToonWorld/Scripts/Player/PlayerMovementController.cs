@@ -27,9 +27,9 @@ public class PlayerMovementController : MonoBehaviour
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
     private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
-    private int _drawingPlatformsCollidedCounter;
-    private int _groundsCollidedCounter;
-    private int _climbingWallCollidedCounter;
+    private int _drawingPlatformsCollidedCount;
+    private int _groundsCollidedCount;
+    private int _climbingWallCollidedCount;
     private float _gravityScale;
     
 
@@ -85,6 +85,13 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
+    // Events
+    public event Action AllGroundsExit;
+    public event Action AllClimbingExit;
+    public event Action AllDrawingExit;    
+
+
+
 
     // Public Properties    
     public PlayerBody PlayerBody { get; private set; }
@@ -93,15 +100,51 @@ public class PlayerMovementController : MonoBehaviour
     public float HorizontalMovementDirection { get; set; }
     public float VerticalMovementDirection { get; set; }
     public JumpState CurrentJumpState { get; private set; }
-    public bool IsClimbing => _climbingWallCollidedCounter > 0;
-    public bool IsGrounded => _groundsCollidedCounter > 0;
-    public bool IsOnDrawingPlatform => _drawingPlatformsCollidedCounter > 0;   
-    public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
+    public bool IsClimbing => ClimbingWallCollidedCount > 0;
+    public bool IsGrounded => GroundsCollidedCount > 0;
+    public bool IsOnDrawingPlatform => DrawingPlatformsCollidedCount > 0;   
+    public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);    
     public bool IsGravityEnabled 
     {
         get => Math.Abs(_rigidBody.gravityScale) > float.Epsilon;
         private set => _rigidBody.gravityScale = value ? _gravityScale : 0;
     }
+    public int GroundsCollidedCount
+    {
+        get => _groundsCollidedCount;
+        set
+        {
+            var oldValue = _groundsCollidedCount;
+            _groundsCollidedCount = value;
+            if (value == 0 && oldValue > 0)
+                AllGroundsExit?.Invoke();
+        }
+    }
+    private int DrawingPlatformsCollidedCount
+    {
+        get => _drawingPlatformsCollidedCount;
+        set
+        {
+            var oldValue = _drawingPlatformsCollidedCount;
+            _drawingPlatformsCollidedCount = value;
+            if (value == 0 && oldValue > 0)
+                AllDrawingExit?.Invoke();
+        }
+    }
+    private int ClimbingWallCollidedCount
+    {
+        get => _climbingWallCollidedCount;
+        set
+        {
+            var oldValue = _climbingWallCollidedCount;
+            _climbingWallCollidedCount = value;
+            if (value == 0 && oldValue > 0)
+                AllClimbingExit?.Invoke();
+        }
+    }
+    public bool IsInTheAir => !IsClimbing && !IsGrounded && !IsOnDrawingPlatform;
+
+
 
 
 
@@ -126,10 +169,10 @@ public class PlayerMovementController : MonoBehaviour
 
     // Player events
   
-    private void OnGroundEnter(Collider2D collider) => _groundsCollidedCounter++;        
-    private void OnGroundExit(Collider2D collider) => _groundsCollidedCounter--;    
-    private void OnDrawingEnter(Collider2D collider) => _drawingPlatformsCollidedCounter++;
-    private void OnDrawingExit(Collider2D collider) =>_drawingPlatformsCollidedCounter--;
+    private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;        
+    private void OnGroundExit(Collider2D collider) => GroundsCollidedCount--;    
+    private void OnDrawingEnter(Collider2D collider) => DrawingPlatformsCollidedCount++;
+    private void OnDrawingExit(Collider2D collider) =>DrawingPlatformsCollidedCount--;
      
 
     
@@ -151,14 +194,14 @@ public class PlayerMovementController : MonoBehaviour
 
     private void OnClimbingWallEnter(Collider2D collider)
     {
-        _climbingWallCollidedCounter++;
+        ClimbingWallCollidedCount++;
         CurrentJumpState = JumpState.NoJumping;
         _fixedUpdateAction += () => IsGravityEnabled = false;
     }
 
     private void OnClimbingWallExit(Collider2D collider)
     {        
-        _climbingWallCollidedCounter--;
+        ClimbingWallCollidedCount--;
         if(!IsClimbing)
             _fixedUpdateAction += () => IsGravityEnabled = true;
     }

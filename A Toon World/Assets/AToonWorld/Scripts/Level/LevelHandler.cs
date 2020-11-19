@@ -70,7 +70,8 @@ namespace Assets.AToonWorld.Scripts.Level
             if (!_playerController.IsImmortal)
             {
                 _playerController.IsImmortal = true;
-                await SpawnFromLastCheckpoint();            
+                await SpawnFromLastCheckpoint();
+                _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
             }
         }
