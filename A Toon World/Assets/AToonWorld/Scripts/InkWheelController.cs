@@ -22,17 +22,16 @@ public class InkWheelController : MonoBehaviour
     private Dictionary<InkType, InkPosition> _inksPositions;
     private Vector2 _centerPosition;
     private InkType? _selected;
-    [SerializeField] private float mouseDeadzone = 50f;
+    [SerializeField] private float _mouseDeadzone = 15f;
     
     void Start()
     {
         _inksPositions = new Dictionary<InkType, InkPosition>()
         {
-            [InkType.Construction] = new InkPosition() { startAngle = 135, endAngle = 180 },
-            [InkType.Construction] = new InkPosition() { startAngle = -180, endAngle = -135 },
-            [InkType.Climb] = new InkPosition() { startAngle = 45, endAngle = 135 },
-            [InkType.Cancel] = new InkPosition() { startAngle = -135, endAngle = -45 },
-            [InkType.Damage] = new InkPosition() { startAngle = -45, endAngle = 45 }
+            [InkType.Construction] = new InkPosition() { startAngle = 0, endAngle = 90 },
+            [InkType.Cancel] = new InkPosition() { startAngle = 90, endAngle = 180 },
+            [InkType.Damage] = new InkPosition() { startAngle = 180, endAngle = 270 },
+            [InkType.Climb] = new InkPosition() { startAngle = 270, endAngle = 360 }
         };
 
         _inksImages = new Dictionary<InkType, Image>()
@@ -42,6 +41,8 @@ public class InkWheelController : MonoBehaviour
             [InkType.Cancel] = CancelInk.GetComponent<Image>(),
             [InkType.Damage] = DamageInk.GetComponent<Image>()
         };
+
+        _mouseDeadzone /= transform.localScale.x;
     }
 
     public void Show()
@@ -62,16 +63,18 @@ public class InkWheelController : MonoBehaviour
 
     void Update()
     {
-        Vector2 mousePositionFromCenter = (Vector2)Input.mousePosition - _centerPosition;
-        float angle = Mathf.Rad2Deg * Mathf.Atan2(mousePositionFromCenter.y, mousePositionFromCenter.x);
+        Vector2 mousePositionFromCenter = transform.InverseTransformPoint(Input.mousePosition);
+        float angle = Mathf.Rad2Deg * Mathf.Atan2(mousePositionFromCenter.y, mousePositionFromCenter.x) + 180;
         float distance = mousePositionFromCenter.magnitude;
-        
-        if (distance > mouseDeadzone)
+
+        if (distance > _mouseDeadzone)
         {
             foreach(InkType inkType in _inksPositions.Keys)
             {
                 InkPosition position = _inksPositions[inkType];
-                if (inkType != _selected && angle > position.startAngle && angle < position.endAngle)
+                bool mouseOverArea = angle > position.startAngle && angle < position.endAngle;
+                bool otherInkSelected = !_selected.HasValue || inkType != _selected.Value;
+                if (otherInkSelected && mouseOverArea)
                 {
                     UnSelectCurrent();
                     _selected = inkType;
