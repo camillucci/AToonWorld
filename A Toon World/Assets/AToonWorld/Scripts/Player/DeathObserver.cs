@@ -20,6 +20,7 @@ namespace Assets.AToonWorld.Scripts.Player
         private Vector3 _previousGroundedPosition;
         private MapBorders _mapBorders;
         private bool _isImmortal;
+        private bool _wasInTheAir;
 
 
         // Initialization
@@ -42,16 +43,70 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             _playerTransform = _playerMovementController.transform;
             ResetStatus();
-
             SubscribeToFallDeathEvents();
             SubscribeToEnemyDeathEvents();
         }
+
+        private void SubscribeToFallDeathEvents()
+        {
+            _playerMovementController.AllDrawingExit += OnWalkableOrDrawingExit;
+            _playerMovementController.AllClimbingExit += OnWalkableOrDrawingExit;
+            _playerMovementController.AllGroundsExit += OnWalkableOrDrawingExit;
+            _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Ground, _ => OnGroundEnter());
+            _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, _ => OnClimbingWallEnter());
+            _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, _ => OnDrawingEnter());
+        }
+
+        private void SubscribeToEnemyDeathEvents()
+        {
+            var enemyDeathTagsToCheck = new string[] { UnityTag.Enemy, UnityTag.DarkLake };
+
+            foreach (var tag in enemyDeathTagsToCheck)
+            {
+                _playerMovementController.PlayerBody.TriggerEnter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
+            }
+        }
+
+
+        // Public Methods
+        public void ResetStatus()
+        {
+            _previousGroundedPosition = _playerTransform.position;
+        }
+
 
         // DeathObserver Events
         private void OnPlayerOutOfMapBorders(Collider2D collision)
         {
             InvokeDeathEvent();
         }
+
+        private void OnWalkableOrDrawingExit()
+        {
+            if (!_playerMovementController.IsInTheAir)
+                return;
+
+            _wasInTheAir = true;
+            UpdateFallDistance();
+        }
+
+        private void OnGroundEnter()
+        {
+            CheckDeath();
+            UpdateFallDistance();
+        }
+
+        private void OnClimbingWallEnter()
+        {            
+            UpdateFallDistance();
+        }
+
+        private void OnDrawingEnter()
+        {
+            CheckDeath();
+            UpdateFallDistance();
+        }
+
 
         // Private Methods
         /*
@@ -69,41 +124,23 @@ namespace Assets.AToonWorld.Scripts.Player
               }
           }
         */
-        private void ResetStatus()
+
+
+       
+        private void UpdateFallDistance()
         {
             _previousGroundedPosition = _playerTransform.position;
         }
 
-        private void SubscribeToFallDeathEvents()
-        {            
-            var fallDeathTagsToCheck = new string[] { UnityTag.ClimbingWall, UnityTag.Drawing, UnityTag.Ground };
-
-            foreach(var tag in fallDeathTagsToCheck)
-            {
-                _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(tag, CheckFallDeath);
-                _playerMovementController.PlayerFeet.TriggerExit.SubscribeWithTag(tag, CheckFallDeath);
-            }
-        }
-
-        private void SubscribeToEnemyDeathEvents()
-        {            
-            var enemyDeathTagsToCheck = new string[] { UnityTag.Enemy, UnityTag.DarkLake };
-
-            foreach(var tag in enemyDeathTagsToCheck)
-            {
-                _playerMovementController.PlayerBody.TriggerEnter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
-            }
-        }
-      
-        private void CheckFallDeath(Collider2D collision)
+        private void CheckDeath()
         {
+            if (!_wasInTheAir && !_playerMovementController.IsClimbing)
+                return;
+            _wasInTheAir = false;
             var (previousPos, currentPos) = (_previousGroundedPosition, _playerTransform.position);
-            _previousGroundedPosition = currentPos;
             if (IsFallDeath(previousPos, currentPos))
                 InvokeDeathEvent();
-            _previousGroundedPosition = currentPos;
         }
-
 
         private bool IsFallDeath(Vector3 start, Vector3 end) 
             => start.y - end.y > _maxFallDistanceBeforeDeath;
@@ -114,8 +151,5 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             Events.PlayerEvents.Death.Invoke();
         }
-
-
-
     }
 }
