@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,7 @@ public class PauseMenuController : MonoBehaviour
     private static bool _isGamePaused = false;
 
     [SerializeField] private GameObject _pauseMenuUI;
+    [SerializeField] private TMP_Dropdown _qualityDropDown;
 
     private PlayerController _playerController;
 
@@ -38,6 +40,7 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = 0f;
         _isGamePaused = true;
         _playerController.DisablePlayer();
+        _qualityDropDown.Select();
     }
 
     public void Resume()
@@ -51,6 +54,7 @@ public class PauseMenuController : MonoBehaviour
     public void Restart()
     {
         Events.PlayerEvents.Death.Invoke();
+        Resume();
     }
 
     public void ExitGame()
