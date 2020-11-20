@@ -23,8 +23,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
         private void InitializeObstacles()
         {
-            var obstaclesTags = new string[] { UnityTag.Ground };            
-            AddStaticObstacles(obstaclesTags);
+            var obstaclesTags = new string[] { UnityTag.Ground };
+            foreach (var tag in obstaclesTags)
+                AddStaticObstacle(tag);
         }
 
         private void InitializeDrawings()

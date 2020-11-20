@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
-    public class Node : INode, IComparable<Node>
+    public class Node : INode
     {
         public Node(int x, int y)
         {
@@ -34,17 +34,6 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         public void Deconstruct(out int x, out int y)
         {
             (x, y) = (X, Y);
-        }
-
-        public int CompareTo(Node other)
-        {
-            var xLessFCost = FCost <= other.FCost;
-            var xLessHCost = HCost <= other.HCost;
-            if (xLessFCost && xLessHCost)
-                return -1;
-            if (!xLessFCost && !xLessHCost)
-                return 1;
-            return 0;
         }
     }
 }
