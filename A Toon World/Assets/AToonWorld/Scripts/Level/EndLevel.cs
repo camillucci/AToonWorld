@@ -15,6 +15,7 @@ namespace Assets.AToonWorld.Scripts.Level
             if (other.CompareTag(UnityTag.Player))
             {
                 PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 2);
+                PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, 2);
                 SceneManager.LoadScene(UnityScenes.LevelsMenu);
             }
         }
