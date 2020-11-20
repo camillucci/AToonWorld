@@ -8,44 +8,25 @@ namespace Assets.AToonWorld.Scripts.Extensions
 {
     public static class IEnumerableExtensions
     {
-        public static T WithMinOrDefault<T, V>(this IEnumerable<T> enumerable, Func<T, V> predicate) where V : IComparable<V>
-        {
-            var enumerator = enumerable.GetEnumerator();            
-            if (!enumerator.MoveNext())
-                return default;
+        public static T WithMinOrDefault<T, V>(this IEnumerable<T> enumerable, Func<T, V> valueToMinimizeFunction) where V : IComparable<V>
+            => enumerable.MinimumPointOrDefault((t1, t2) => valueToMinimizeFunction(t1).CompareTo(valueToMinimizeFunction(t2)) == -1);
 
-            var minObj = enumerator.Current;
-            var min = predicate(minObj);
-
-            while(enumerator.MoveNext())
-            {
-                var obj = enumerator.Current;
-                var val = predicate(obj);
-                if (val.CompareTo(min) == -1)
-                    (minObj, min) = (obj, val);
-            }
-
-            return minObj;
-        }
-
-        public static T WithMinOrDefault<T>(this IEnumerable<T> enumerable, Func<T, float> predicate)
+        public static T MinimumPointOrDefault<T> (this IEnumerable<T> enumerable, Func<T,T, bool> lessThanPredicate)
         {
             var enumerator = enumerable.GetEnumerator();
             if (!enumerator.MoveNext())
                 return default;
 
-            var minObj = enumerator.Current;
-            var min = predicate(minObj);
+            var minObj = enumerator.Current;            
 
             while (enumerator.MoveNext())
             {
                 var obj = enumerator.Current;
-                var val = predicate(obj);
-                if (val < min)
-                    (minObj, min) = (obj, val);
+                if (lessThanPredicate(obj, minObj))
+                    minObj = obj;
             }
 
             return minObj;
-        }
+        }       
     }
 }

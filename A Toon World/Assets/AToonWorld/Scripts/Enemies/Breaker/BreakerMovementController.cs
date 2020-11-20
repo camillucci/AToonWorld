@@ -66,16 +66,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             await FollowPath(path);
         }
 
-
-
-        // Unity Events
-        private void Update()
-        {
-           // TestUpdate();
-        }
-
-
-
         
         // Breaker Events
         private async void OnNewLineInRange(DiscreteLine line)
@@ -89,23 +79,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerDrawingHandler.RemoveLine(line);
             await FollowBestPath();
         }
-
-
-
-        // TEST
-        private async void TestUpdate()
-        {
-            if (Input.GetMouseButtonDown(0))
-                await TestMoveToMousePosition();
-        }
-
-        private async Task TestMoveToMousePosition()
-        {
-            Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            Vector2 worldPosition = UnityEngine.Camera.main.ScreenToWorldPoint(screenPosition);           
-            await TryMoveTo(worldPosition);
-        }
-
 
 
         // Private Methods
