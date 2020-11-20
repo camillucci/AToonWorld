@@ -5,34 +5,41 @@ using Assets.AToonWorld.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuController : MonoBehaviour
+namespace Assets.AToonWorld.Scripts.UI
 {
-    void Start()
+    public class MainMenuController : MonoBehaviour
     {
-        #if UNITY_STANDALONE
-            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-            QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
-        #endif
-    }
+        void Start()
+        {
+            #if UNITY_STANDALONE
+                if (PlayerPrefs.GetInt("FirstLaunch", 0) == 0)
+                {
+                    Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+                    QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
+                    PlayerPrefs.SetInt("FirstLaunch", 1);
+                }
+            #endif
+        }
 
-    void Update()
-    {
-        if (InputUtils.EnterButton)
-            PlayButton();
-    }
+        void Update()
+        {
+            if (InputUtils.EnterButton)
+                PlayButton();
+        }
 
-    public void PlayButton()
-    {
-        SceneManager.LoadScene(UnityScenes.LevelMenu);
-    }
+        public void PlayButton()
+        {
+            SceneManager.LoadScene(UnityScenes.LevelsMenu);
+        }
 
-    public void QuitButton()
-    {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
-        
+        public void QuitButton()
+        {
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
+            
+        }
     }
 }

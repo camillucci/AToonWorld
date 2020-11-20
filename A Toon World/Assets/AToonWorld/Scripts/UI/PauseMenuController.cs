@@ -7,59 +7,62 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenuController : MonoBehaviour
+namespace Assets.AToonWorld.Scripts.UI
 {
-    private static bool _isGamePaused = false;
-
-    [SerializeField] private GameObject _pauseMenuUI;
-    [SerializeField] private TMP_Dropdown _qualityDropDown;
-
-    private PlayerController _playerController;
-
-    void Awake()
+    public class PauseMenuController : MonoBehaviour
     {
-        _playerController = FindObjectOfType<PlayerController>();
-    }
+        private static bool _isGamePaused = false;
 
-    void Update()
-    {
-        if (InputUtils.TogglePauseMenu)
+        [SerializeField] private GameObject _pauseMenuUI;
+        [SerializeField] private TMP_Dropdown _qualityDropDown;
+
+        private PlayerController _playerController;
+
+        void Awake()
         {
-            if(_isGamePaused)
-                Resume();
-            else
-                Pause();
+            _playerController = FindObjectOfType<PlayerController>();
         }
-    }
 
-    public static bool IsGamePaused => _isGamePaused;
+        void Update()
+        {
+            if (InputUtils.TogglePauseMenu)
+            {
+                if(_isGamePaused)
+                    Resume();
+                else
+                    Pause();
+            }
+        }
 
-    void Pause()
-    {
-        _pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        _isGamePaused = true;
-        _playerController.DisablePlayer();
-        _qualityDropDown.Select();
-    }
+        public static bool IsGamePaused => _isGamePaused;
 
-    public void Resume()
-    {
-        _pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        _isGamePaused = false;
-        _playerController.EnablePlayer();
-    }
+        void Pause()
+        {
+            _pauseMenuUI.SetActive(true);
+            Time.timeScale = 0f;
+            _isGamePaused = true;
+            _playerController.DisablePlayer();
+            _qualityDropDown.Select();
+        }
 
-    public void Restart()
-    {
-        Events.PlayerEvents.Death.Invoke();
-        Resume();
-    }
+        public void Resume()
+        {
+            _pauseMenuUI.SetActive(false);
+            Time.timeScale = 1f;
+            _isGamePaused = false;
+            _playerController.EnablePlayer();
+        }
 
-    public void ExitGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(UnityScenes.MainMenu);
+        public void Restart()
+        {
+            Events.PlayerEvents.Death.Invoke();
+            Resume();
+        }
+
+        public void ExitGame()
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(UnityScenes.LevelsMenu);
+        }
     }
 }
