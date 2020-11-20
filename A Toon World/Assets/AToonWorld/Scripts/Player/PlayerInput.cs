@@ -13,13 +13,16 @@ namespace Assets.AToonWorld.Scripts
     {
         private PlayerMovementController _playerMovementController;
         private PlayerInkController _playerInkController;
-        [SerializeField] private InkWheelController _inkWheelController;
+        private InkWheelController _inkWheelController;
 
         // Initialization
         private void Awake()
         {
             _playerMovementController = GetComponent<PlayerMovementController>();
             _playerInkController = GetComponent<PlayerInkController>();
+
+            var userInterface = FindObjectOfType<Canvas>();
+            _inkWheelController = userInterface.GetComponentInChildren<InkWheelController>(true);
         }
 
                                       

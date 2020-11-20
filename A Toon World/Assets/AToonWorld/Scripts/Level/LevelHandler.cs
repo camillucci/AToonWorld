@@ -47,10 +47,11 @@ namespace Assets.AToonWorld.Scripts.Level
             RespawningPlayer = true;
 
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
-            _playerController.DisablePlayer();            
+            _playerController.DisablePlayer();
+            lastCheckPoint.OnPlayerRespawnStart();      
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
-
+            lastCheckPoint.OnPlayerRespawnEnd();  
             RespawningPlayer = false;
         }
       
@@ -69,7 +70,8 @@ namespace Assets.AToonWorld.Scripts.Level
             if (!_playerController.IsImmortal)
             {
                 _playerController.IsImmortal = true;
-                await SpawnFromLastCheckpoint();            
+                await SpawnFromLastCheckpoint();
+                _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
             }
         }

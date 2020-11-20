@@ -86,15 +86,17 @@ public class InkDirector : Singleton<InkDirector>
     }
 
     //Most basic logic for now
-    private void ProcessOnePickup(InkPickupController pickup)
+    private void ProcessOnePickup(InkPickupController pickup, bool limitResources)
     {
         if(pickup.RespawnThreshold >= _cachedInkCapacities[pickup.InkType])
             pickup.RequestEnable();
+        else if(limitResources)
+            pickup.gameObject.SetActive(false);
     }
 
     private void OnDirectorUpdate()
     {
-        _globalPickpups.ForEach(ProcessOnePickup);
+        _globalPickpups.ForEach(pickup => ProcessOnePickup(pickup, false));
         _directedAreas.ForEach(directedArea => directedArea.ProcessChilds(ProcessOnePickup));
     }
 }
