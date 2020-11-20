@@ -734,8 +734,8 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1115947032}
     m_SelectOnDown: {fileID: 811016518}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 811016518}
+    m_SelectOnRight: {fileID: 1937566158}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.78431374}
@@ -841,7 +841,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5882353}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.19607843}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.39215687}
-    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.98039216}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4739,6 +4739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1545380e72c1c4b8db8a96c596d928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: 6d9a76e8042ad99459dae8f4617ab2fc, type: 2}
 --- !u!1 &1740605328
 GameObject:
   m_ObjectHideFlags: 0

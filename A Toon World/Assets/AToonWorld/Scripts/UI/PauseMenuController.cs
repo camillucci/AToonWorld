@@ -42,7 +42,6 @@ namespace Assets.AToonWorld.Scripts.UI
             Time.timeScale = 0f;
             _isGamePaused = true;
             _playerController.DisablePlayer();
-            _qualityDropDown.Select();
         }
 
         public void Resume()

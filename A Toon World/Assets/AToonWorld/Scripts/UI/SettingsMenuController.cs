@@ -46,7 +46,12 @@ namespace Assets.AToonWorld.Scripts.UI
             _fullscreenToggle.isOn = Screen.fullScreen;
         }
 
-        public void SetVolume(float volume) => _audioMixer.SetFloat("Volume", Mathf.Log10(volume)*20);
+        public void SetVolume(float volume)
+        {
+            float newVolume = Mathf.Log10(volume)*20;
+            _audioMixer.SetFloat("Volume", newVolume);
+            PlayerPrefs.SetFloat("Volume", newVolume);
+        }
 
         public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex);
 

@@ -10,14 +10,21 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         [SerializeField] private TMP_Text _totalStarsNumber;
 
+        private LevelController[] _levels;
+
+        private void Awake()
+        {
+            _levels = FindObjectsOfType<LevelController>();
+        }
+
         void Update()
         {
             int sum = 0;
-            for(int i = 0; i < UnityScenes.Levels.Length; i++)
+            for(int i = 1; i < UnityScenes.Levels.Length; i++)
             {
                 sum += PlayerPrefs.GetInt(UnityScenes.Levels[i], 0);
             }
-            _totalStarsNumber.text = sum + "/" + UnityScenes.Levels.Length * 3;
+            _totalStarsNumber.text = sum + "/" + (UnityScenes.Levels.Length - 1) * 3;
         }
 
         public void BackButton()
@@ -28,9 +35,10 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void ResetButton()
         {
-            for(int i = 1; i < UnityScenes.Levels.Length; i++)
+            foreach(LevelController level in _levels)
             {
-                PlayerPrefs.DeleteKey(UnityScenes.Levels[i]);
+                PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber()]);
+                level.ResetLevel();
             }
         }
     }

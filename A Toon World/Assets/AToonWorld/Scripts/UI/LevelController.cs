@@ -13,7 +13,8 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private bool _isLocked;
         [SerializeField] private Image _unlockImage;
         [SerializeField] private Image[] _stars;
-        [SerializeField] private Sprite _starSprite;
+        [SerializeField] private Sprite _starBlankSprite;
+        [SerializeField] private Sprite _starFullSprite;
 
         void Update()
         {
@@ -26,9 +27,9 @@ namespace Assets.AToonWorld.Scripts.UI
             _unlockImage.gameObject.SetActive(_isLocked);
             for (int i = 0; i < _stars.Length; i++)
             {
-                _stars[i].gameObject.SetActive(!_isLocked && i < PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber]));
-                if (i < PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber]))
-                    _stars[i].gameObject.GetComponent<Image>().sprite = _starSprite;
+                _stars[i].gameObject.SetActive(!_isLocked);
+                if (i < PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber], 0))
+                    _stars[i].gameObject.GetComponent<Image>().sprite = _starFullSprite;
             }
         }
 
@@ -47,5 +48,15 @@ namespace Assets.AToonWorld.Scripts.UI
                 SceneManager.LoadScene(UnityScenes.Levels[_levelNumber]);
             }
         }
+
+        public void ResetLevel()
+        {
+            if(_levelNumber != 1)
+                _isLocked = true;
+            for (int i = 0; i < _stars.Length; i++)
+                _stars[i].gameObject.GetComponent<Image>().sprite = _starBlankSprite;
+        }
+
+        public int LevelNumber() => _levelNumber;
     }
 }

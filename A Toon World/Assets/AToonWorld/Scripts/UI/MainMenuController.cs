@@ -3,24 +3,20 @@ using System.Collections.Generic;
 using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 namespace Assets.AToonWorld.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
+        [SerializeField] private AudioMixer _audioMixer;
+        
         void Start()
         {
-            #if UNITY_STANDALONE
-                if (PlayerPrefs.GetInt("FirstLaunch", 0) == 0)
-                {
-                    Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-                    QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
-                    PlayerPrefs.SetInt("FirstLaunch", 1);
-                }
-            #endif
+            float volumePref = PlayerPrefs.GetFloat("Volume", 1);
+            _audioMixer.SetFloat("Volume", volumePref);
         }
-
         void Update()
         {
             if (InputUtils.EnterButton)

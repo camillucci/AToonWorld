@@ -15,6 +15,8 @@ namespace Assets.AToonWorld.Scripts.UI
             "Scenes/BuildLineScene",
             "Scenes/climb-color",
             "Scenes/EnemyJumper",
+            "Scenes/PathFinding",
+            "Scenes/GameDirectorExample",
         };
     }
 }

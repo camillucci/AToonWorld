@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EnemyJumper.unity
     guid: baeba5b7cb4c5ca46bf847a6b28cf39a
+  - enabled: 1
+    path: Assets/Scenes/PathFinding.unity
+    guid: 540731957ae624048ae55aeadee131f9
+  - enabled: 1
+    path: Assets/Scenes/GameDirectorExample.unity
+    guid: 7e798730394767a4eaa5d02de266bd18
   m_configObjects: {}
