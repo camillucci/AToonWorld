@@ -55,7 +55,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         // Seeker Events
         private async void OnPlayerEnter(Collider2D collision)
         {
-            Debug.Log("Player enter");
             _playerTransform = collision.gameObject.transform;
             _isPlayerInside = true;
             await FollowPlayer();
@@ -88,10 +87,10 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         }
 
         private async Task FollowPlayer()
-        {
+        {            
             async Task FollowTask()
             {
-                while(_canFollow)
+                while(_canFollow && _isPlayerInside)
                 {
                     if (!IsSeekerNearToPlayer)
                     {
@@ -99,10 +98,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                         var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, playerPosition);
                         var nextPositions = from pos in path where Vector2.Distance(_seekerTransform.position, pos) > _gridController.NodeRadius select pos;
                         if (nextPositions.Any())
-                        {
-                            var nextPos = nextPositions.FirstOrDefault();
-                            await TranslateTo(nextPos);
-                        }
+                            await TranslateTo(nextPositions.First());
                     }
                     await new WaitForEndOfFrame();
                 }
@@ -119,7 +115,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             _canFollow = true;
         }
 
-        private bool IsSeekerNearToPlayer => DistanceFromPlayer < _gridController.NodeRadius;
-        private float DistanceFromPlayer => Vector2.Distance(_seekerTransform.position, _playerTransform.position);
+        private bool IsSeekerNearToPlayer => Vector2.Distance(_seekerTransform.position, _playerTransform.position) < _gridController.NodeRadius;
     }
 }
