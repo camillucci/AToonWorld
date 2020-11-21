@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3228747718530178949}
   m_Layer: 0
   m_Name: Seeker
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 3228747719014854606}
   - component: {fileID: 3228747719014854604}
   m_Layer: 0
-  m_Name: Breaker Body
+  m_Name: Seeker Body
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
