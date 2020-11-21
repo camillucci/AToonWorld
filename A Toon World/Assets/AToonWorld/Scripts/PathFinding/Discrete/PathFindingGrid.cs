@@ -69,24 +69,22 @@ namespace Assets.AToonWorld.Scripts.PathFinding
                     }
         }
 
-        public IEnumerable<INode> GetNeighbours(INode node) => GetNeighbours(node as Node);
-        public IEnumerable<INode> FindMinimumPath(INode start, INode destination) => _pathFinding.FindMinimumPath(this, start as Node, destination as Node);
-        public int Distance(INode start, INode destination) => _pathFinding.GetDistance(start as Node, destination as Node);
-
-        public IEnumerator<INode> GetEnumerator()
-        {
-            foreach (var node in _nodesMatrix)
-                yield return node;
-        }
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
+        public IEnumerable<INode> GetNeighbours(INode node) 
+            => GetNeighbours(node as Node);
+        
+        public IEnumerable<INode> FindMinimumPath(INode start, INode destination)
+            => _pathFinding.FindMinimumPath(this, start as Node, destination as Node);
+        
+        public int Distance(INode start, INode destination) 
+            => _pathFinding.GetDistance(start as Node, destination as Node);
+        
         public IEnumerable<INode> FindMinimumPath(INode start, INode destination, PathStepsContainer forbiddenSteps)
-            => _pathFinding.FindMinimumPath(this, start as Node, destination as Node, forbiddenSteps);
+           => _pathFinding.FindMinimumPath(this, start as Node, destination as Node, forbiddenSteps);
 
         public bool TryGetValue(int x, int y, out INode node)
         {
             bool isInside = (x >= 0 && x < Width) && (y >= 0 && y < Height);
-            if(isInside)
+            if (isInside)
             {
                 node = this[x, y];
                 return true;
@@ -97,5 +95,15 @@ namespace Assets.AToonWorld.Scripts.PathFinding
                 return false;
             }
         }
+
+
+
+        // IEnumerable implementation
+        public IEnumerator<INode> GetEnumerator()
+        {
+            foreach (var node in _nodesMatrix)
+                yield return node;
+        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();       
     }
 }

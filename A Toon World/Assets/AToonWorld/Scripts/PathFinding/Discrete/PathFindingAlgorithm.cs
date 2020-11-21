@@ -1,4 +1,5 @@
-﻿using Assets.AToonWorld.Scripts.PathFinding.Discrete;
+﻿using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.PathFinding.Discrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,49 +13,36 @@ namespace Assets.AToonWorld.Scripts.PathFinding
     {
 		// Public Methods
 
-		public IList<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode)
+		public IEnumerable<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode)
 			=> FindMinimumPath(grid, startNode, destNode, new PathStepsContainer());
 
-		public IList<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode, PathStepsContainer forbiddenSteps)
+		public IEnumerable<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode, PathStepsContainer forbiddenSteps)
 		{
-			IList<Node> path = new List<Node>();
-			List<Node> openSet = new List<Node>();
-			HashSet<Node> closedSet = new HashSet<Node>();
-			openSet.Add(startNode);			
-			while (openSet.Count > 0 && !path.Any())
+			bool NodeCostLessThan(Node a, Node b) => a.FCost <= b.FCost && a.HCost < b.HCost;
+
+			var openNodes = new HashSet<Node> { startNode };
+			var closedNodes = new HashSet<Node>();
+			
+			for (Node curNode = startNode; openNodes.Count > 0 && curNode != destNode; curNode = openNodes.MinimumPoint(NodeCostLessThan))
 			{
-				Node toCloseNode = openSet[0];
-				for (int i = 1; i < openSet.Count; i++)
-					if (openSet[i].FCost < toCloseNode.FCost || openSet[i].FCost == toCloseNode.FCost)
-						if (openSet[i].HCost < toCloseNode.HCost)
-							toCloseNode = openSet[i];
-
-				openSet.Remove(toCloseNode);
-				closedSet.Add(toCloseNode);
-
-				if (toCloseNode == destNode)
-					path = RetracePath(startNode, destNode);
-				else
-					foreach (Node neighbour in grid.GetNeighbours(toCloseNode))
-						if (neighbour.Walkable && !closedSet.Contains(neighbour) && !forbiddenSteps.Contains(toCloseNode, neighbour))
+				foreach (Node neighbour in grid.GetNeighbours(curNode))
+					if (neighbour.Walkable && !closedNodes.Contains(neighbour) && !forbiddenSteps.Contains(curNode, neighbour))
+					{
+						int newCostToNeighbour = curNode.GCost + GetDistance(curNode, neighbour);
+						if (newCostToNeighbour < neighbour.GCost || !openNodes.Contains(neighbour))
 						{
-							int newCostToNeighbour = toCloseNode.GCost + GetDistance(toCloseNode, neighbour);
-							if (newCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
-							{
-								neighbour.GCost = newCostToNeighbour;
-								neighbour.HCost = GetDistance(neighbour, destNode);
-
-								if (neighbour == grid[1, 1])
-									;
-								neighbour.Parent = toCloseNode;
-
-								if (!openSet.Contains(neighbour))
-									openSet.Add(neighbour);
-							}
+							neighbour.GCost = newCostToNeighbour;
+							neighbour.HCost = GetDistance(neighbour, destNode);
+							neighbour.Parent = curNode;
+							openNodes.Add(neighbour);
 						}
+					}
+
+				openNodes.Remove(curNode);
+				closedNodes.Add(curNode);
 			}
 
-			return path;
+			return RetracePath(startNode, destNode);
 		}
 
 		
@@ -72,7 +60,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 		
 		// Private Methods
-		private IList<Node> RetracePath(Node startNode, Node endNode)
+		private IEnumerable<Node> RetracePath(Node startNode, Node endNode)
 		{
 			List<Node> path = new List<Node>();
 
