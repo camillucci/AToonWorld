@@ -76,7 +76,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             => _pathFinding.FindMinimumPath(this, start as Node, destination as Node);
         
         public int Distance(INode start, INode destination) 
-            => _pathFinding.GetDistance(start as Node, destination as Node);
+            => _pathFinding.Distance(start as Node, destination as Node);
         
         public IEnumerable<INode> FindMinimumPath(INode start, INode destination, PathStepsContainer forbiddenSteps)
            => _pathFinding.FindMinimumPath(this, start as Node, destination as Node, forbiddenSteps);

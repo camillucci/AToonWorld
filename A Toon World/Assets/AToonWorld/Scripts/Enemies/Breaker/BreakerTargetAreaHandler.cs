@@ -15,8 +15,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private readonly Dictionary<DrawSplineController, DiscreteLine> _drawingsInRange = new Dictionary<DrawSplineController, DiscreteLine>();
 
 
-        private void Start()
-        {            
+        protected override void Start()
+        {
+            base.Start();
             InitializeObstacles();
             InitializeDrawings();
         }

@@ -28,6 +28,10 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         {
             _gridController = GetComponent<GridController>();
             _boxCollider = GetComponent<BoxCollider2D>();
+        }
+
+        protected virtual void Start()
+        {
             UpdateColliderSize();
         }
 
@@ -120,6 +124,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             var height = (_gridController.NodeToWorldPoint(grid.TopLeft) - _gridController.NodeToWorldPoint(grid.BottomLeft)).y + 1;
             Vector2 colliderSize = _boxCollider.bounds.size;
             _boxCollider.size = new Vector2(_boxCollider.size.x / colliderSize.x * width, _boxCollider.size.y / colliderSize.y * height);
+            ForceUpdateColliders();
         }
 
         private void AddObstacleTag(string tag)

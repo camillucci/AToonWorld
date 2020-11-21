@@ -41,6 +41,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerTransform = _breakerBody.transform;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
             BreakerTargetAreaHandlerInitialization();
+
         }
 
         private void BreakerTargetAreaHandlerInitialization()

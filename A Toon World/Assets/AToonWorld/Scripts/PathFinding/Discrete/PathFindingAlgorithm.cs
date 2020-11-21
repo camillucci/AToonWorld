@@ -28,11 +28,11 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 				foreach (Node neighbour in grid.GetNeighbours(curNode))
 					if (neighbour.Walkable && !closedNodes.Contains(neighbour) && !forbiddenSteps.Contains(curNode, neighbour))
 					{
-						int newCostToNeighbour = curNode.GCost + GetDistance(curNode, neighbour);
+						int newCostToNeighbour = curNode.GCost + Distance(curNode, neighbour);
 						if (newCostToNeighbour < neighbour.GCost || !openNodes.Contains(neighbour))
 						{
 							neighbour.GCost = newCostToNeighbour;
-							neighbour.HCost = GetDistance(neighbour, destNode);
+							neighbour.HCost = Distance(neighbour, destNode);
 							neighbour.Parent = curNode;
 							openNodes.Add(neighbour);
 						}
@@ -47,7 +47,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 		
 		// Public Methods
-		public int GetDistance(Node nodeA, Node nodeB)
+		public int Distance(Node nodeA, Node nodeB)
 		{
 			int distanceX = Mathf.Abs(nodeA.X - nodeB.X);
 			int distanceY = Mathf.Abs(nodeA.Y - nodeB.Y);
