@@ -1634,11 +1634,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451002629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58421e2b9c831c04ea3c44e09bb79e50, type: 3}
+  m_Script: {fileID: 11500000, guid: d522d47b6032b8c4993eb7b9ae8baf67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathFindingRange: {x: 11.2, y: 7.7}
-  _nodeRadius: 0.5
 --- !u!114 &1451002632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1648,9 +1646,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451002629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 450a7ed2be58e2c45a4a4b18fd78bb84, type: 3}
+  m_Script: {fileID: 11500000, guid: 58421e2b9c831c04ea3c44e09bb79e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pathFindingRange: {x: 45.4, y: 22.2}
+  _nodeRadius: 0.7
 --- !u!50 &1451002633
 Rigidbody2D:
   serializedVersion: 4
@@ -1782,9 +1782,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1708715743}
   - component: {fileID: 1708715747}
-  - component: {fileID: 1708715746}
   - component: {fileID: 1708715745}
   - component: {fileID: 1708715744}
+  - component: {fileID: 1708715746}
   m_Layer: 0
   m_Name: Breaker Body
   m_TagString: Enemy
@@ -1862,7 +1862,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1708715742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dff4f26f6aeb7d4592f4edce15ab82d, type: 3}
+  m_Script: {fileID: 11500000, guid: d3a567a9578af5f47a26a0a8b6fd78db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &1708715747
@@ -1905,7 +1905,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fd35fe0ad13e011429b902cb666b8a6a, type: 3}
-  m_Color: {r: 1, g: 0.84995675, b: 0, a: 1}
+  m_Color: {r: 0.066037714, g: 0.06543426, b: 0.06198823, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2215,10 +2215,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2025545389}
-  - component: {fileID: 2025545388}
   - component: {fileID: 2025545387}
   m_Layer: 0
-  m_Name: Breaker1 (1)
+  m_Name: Seeker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2233,24 +2232,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025545386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54e1ecfcffa5b95448758d83d65cba11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2025545388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2025545386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10eca115d099687449518289a577b71a, type: 3}
+  m_Script: {fileID: 11500000, guid: 54c6f667157cc8341a46efb6bbb3f738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _turnSpeed: 1
-  _turnOffset: 0.95
 --- !u!4 &2025545389
 Transform:
   m_ObjectHideFlags: 0
@@ -2259,7 +2244,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025545386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.78, y: 2.94, z: 0}
+  m_LocalPosition: {x: -7.4, y: -2.1, z: 0}
   m_LocalScale: {x: 0.21, y: 0.2, z: 1}
   m_Children:
   - {fileID: 1708715743}

@@ -9,45 +9,32 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 {
-    public class BreakerTargetAreaHandler : MonoBehaviour
+    public class BreakerTargetAreaHandler : TargetAreaController
     {
-        // Private Fields
-        private readonly TaggedEvent<string, Collider2D> _triggerEnter = new TaggedEvent<string, Collider2D>();
-        private readonly TaggedEvent<string, Collider2D> _triggerExit = new TaggedEvent<string, Collider2D>();
-        private readonly HashSet<Collider2D> _colliders = new HashSet<Collider2D>();
-        private readonly List<string> _notWalkableTags = new List<string> { UnityTag.Ground };
-        private readonly PathStepsContainer _fobiddenStepsContainer = new PathStepsContainer();        
+        // Private Fields       
         private readonly Dictionary<DrawSplineController, DiscreteLine> _drawingsInRange = new Dictionary<DrawSplineController, DiscreteLine>();
-        private BoxCollider2D _boxCollider;
-        private GridController _gridController;
 
 
-
-        // Initialization
-        private void Awake()
+        protected override void Start()
         {
-            _boxCollider = GetComponent<BoxCollider2D>();
-            _gridController = GetComponent<GridController>();
-            InitializeTriggerEnter();
+            base.Start();
+            InitializeObstacles();
+            InitializeDrawings();
         }
 
-
-        private void Start()
+        private void InitializeObstacles()
         {
-            UpdateColliderSize();
+            var obstaclesTags = new string[] { UnityTag.Ground };
+            foreach (var tag in obstaclesTags)
+                AddStaticObstacle(tag);
         }
 
-        private void InitializeTriggerEnter()
-        {           
-            foreach (var tag in _notWalkableTags)
-            {
-                TriggerEnter.SubscribeWithTag(tag, OnNotWalkableEnter);
-                TriggerExit.SubscribeWithTag(tag, OnNotWalkableExit);
-            }
-
+        private void InitializeDrawings()
+        {
             TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
             TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);
         }
+
 
 
         
@@ -57,61 +44,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
 
-        // Public Properties
-        public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
-        public ITaggedEvent<string, Collider2D> TriggerExit => _triggerExit;
-        public IReadOnlyCollection<Collider2D> NotWalkableColliders=> _colliders;
-
-
-
-
-
-        // Public Methods
-        public IList<Vector2> MinimumPathTo(Vector2 from, Vector2 to)
-        {
-            var (startNode, destinationNode) = (_gridController.WorldPointToNode(from), _gridController.WorldPointToNode(to));                        
-            var path = _gridController.Grid.FindMinimumPath(startNode, destinationNode, _fobiddenStepsContainer)
-                           .Select(node => _gridController.NodeToWorldPoint(node))
-                           .ToList();
-            if(path.Any())
-            {
-                path.Remove(path.Last());
-                path.Add(to);
-            }
-            return path;
-        }
-
-
-
-
-        // Unity Events
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-             _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
-        }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            _triggerExit.InvokeWithTag(collision.gameObject.tag, collision);
-        }
-
-
-
-
-
-        // Breaker Events
-        private void OnNotWalkableEnter(Collider2D collision)
-        {            
-            _colliders.Add(collision);
-            UpdateUnwalkableArea();
-        }
-
-        private void OnNotWalkableExit(Collider2D collision)
-        {
-            _colliders.Remove(collision);
-            UpdateUnwalkableArea();
-        }
-
+        // Breaker Events     
         private void OnDrawingEnter(Collider2D collision)
         {            
             var gameObject = collision.gameObject;
@@ -132,17 +65,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
 
-        // Private Methods
-        private void UpdateColliderSize()
-        {
-            var grid = _gridController.Grid;
-            var width = (_gridController.NodeToWorldPoint(grid.TopRight) - _gridController.NodeToWorldPoint(grid.TopLeft)).x + 1;
-            var height = (_gridController.NodeToWorldPoint(grid.TopLeft) - _gridController.NodeToWorldPoint(grid.BottomLeft)).y + 1;
-            Vector2 colliderSize = _boxCollider.bounds.size;
-            _boxCollider.size = new Vector2(_boxCollider.size.x / colliderSize.x * width, _boxCollider.size.y / colliderSize.y * height);
-        }
-
-
+        // Private Methods      
         private void AddLine(DrawSplineController drawSplineController)
         {
             var linePoints = from point in drawSplineController.SpLinePoints
@@ -163,72 +86,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                 _drawingsInRange.Remove(drawSplineController);           
                 LineOutOfRange?.Invoke(discreteLine);
             }
-        }
-
-
-        private void ForceUpdateColliders()
-        {            
-            Vector2 center = _boxCollider.bounds.center;
-            Vector2 extends = _boxCollider.bounds.extents;
-            var colliders = Physics2D.OverlapBoxAll(center, extends, 0);
-            foreach (var collider in _colliders)
-                OnNotWalkableExit(collider);
-            foreach (var collider in colliders)
-                _triggerEnter.InvokeWithTag(collider.gameObject.tag, collider);
-        }
-
-        private void UpdateUnwalkableArea()
-        {
-            var grid = _gridController.Grid;
-            foreach (var node in grid)
-                node.Walkable = IsNodeWalkable(node);
-            UpdateForbiddenSteps();
-        }
-
-        private bool IsNodeWalkable(INode node)
-        {
-            var nodePositions = _gridController.GetNodeBoundsAndCenter(node);
-            foreach (var nodePosition in nodePositions)
-                foreach (var collider in NotWalkableColliders)
-                    if (collider.bounds.Contains(nodePosition))
-                        return false;
-            return true;
-        }
-
-
-        private void UpdateForbiddenSteps()
-        {
-            var grid = _gridController.Grid;
-
-            foreach (var node in grid)
-                if (!node.Walkable)
-                {
-                    var left = (node.X - 1, node.Y);
-                    var top = (node.X, node.Y + 1);
-                    var right = (node.X + 1, node.Y);
-                    var bottom = (node.X, node.Y - 1);
-                    AddIfIsForbiddenStep(left, top);
-                    AddIfIsForbiddenStep(top, right);
-                    AddIfIsForbiddenStep(right, bottom);
-                    AddIfIsForbiddenStep(bottom, left);
-                }
-
-
-            bool IsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
-            {
-                var (xA, yA) = nodeACoordinates;
-                var (xB, yB) = nodeBCoordinates;
-                if (grid.TryGetValue(xA, yA, out INode nodeA))
-                    if (grid.TryGetValue(xB, yB, out INode nodeB))
-                        return nodeA.Walkable && nodeB.Walkable;
-                return false;
-            }
-
-            void AddIfIsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
-            {
-                if (IsForbiddenStep(nodeACoordinates, nodeBCoordinates))
-                    _fobiddenStepsContainer.Add(grid[nodeACoordinates], grid[nodeBCoordinates]);
-            }
-        }
+        }            
     }
 }

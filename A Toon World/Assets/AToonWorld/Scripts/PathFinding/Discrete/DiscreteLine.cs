@@ -14,6 +14,9 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Discrete
         
         public DiscreteLine (IEnumerable<Vector2> points)
         {
+            if (!points.Any())
+                throw new InvalidOperationException("A line should have at least one point");
+
             _points = points.ToList();
         }
 
