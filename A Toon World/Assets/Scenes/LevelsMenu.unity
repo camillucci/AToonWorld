@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _totalStarsNumber: {fileID: 1037482648}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!1 &118833736
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,8 +257,8 @@ GameObject:
   - component: {fileID: 118833741}
   - component: {fileID: 118833740}
   - component: {fileID: 118833739}
-  - component: {fileID: 118833738}
   - component: {fileID: 118833742}
+  - component: {fileID: 118833738}
   m_Layer: 5
   m_Name: Level5
   m_TagString: Untagged
@@ -310,6 +311,7 @@ MonoBehaviour:
   - {fileID: 1483009984}
   _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!114 &118833739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,8 +1731,8 @@ GameObject:
   - component: {fileID: 985084478}
   - component: {fileID: 985084477}
   - component: {fileID: 985084476}
-  - component: {fileID: 985084475}
   - component: {fileID: 985084479}
+  - component: {fileID: 985084475}
   m_Layer: 5
   m_Name: Level3
   m_TagString: Untagged
@@ -1783,6 +1785,7 @@ MonoBehaviour:
   - {fileID: 914694444}
   _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!114 &985084476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1905,8 +1908,8 @@ GameObject:
   - component: {fileID: 987972567}
   - component: {fileID: 987972566}
   - component: {fileID: 987972565}
-  - component: {fileID: 987972568}
   - component: {fileID: 987972569}
+  - component: {fileID: 987972568}
   m_Layer: 5
   m_Name: Level1
   m_TagString: Untagged
@@ -2050,6 +2053,7 @@ MonoBehaviour:
   - {fileID: 1091242653}
   _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!95 &987972569
 Animator:
   serializedVersion: 3
@@ -2513,8 +2517,8 @@ GameObject:
   - component: {fileID: 1217937457}
   - component: {fileID: 1217937456}
   - component: {fileID: 1217937455}
-  - component: {fileID: 1217937454}
   - component: {fileID: 1217937458}
+  - component: {fileID: 1217937454}
   m_Layer: 5
   m_Name: Level2
   m_TagString: Untagged
@@ -2567,6 +2571,7 @@ MonoBehaviour:
   - {fileID: 1889579546}
   _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!114 &1217937455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3155,7 +3160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1392640699
 GameObject:
@@ -3837,8 +3842,8 @@ GameObject:
   - component: {fileID: 1785651694}
   - component: {fileID: 1785651693}
   - component: {fileID: 1785651692}
-  - component: {fileID: 1785651691}
   - component: {fileID: 1785651695}
+  - component: {fileID: 1785651691}
   m_Layer: 5
   m_Name: Level6
   m_TagString: Untagged
@@ -3891,6 +3896,7 @@ MonoBehaviour:
   - {fileID: 1260710098}
   _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!114 &1785651692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4280,8 +4286,8 @@ GameObject:
   - component: {fileID: 1809397415}
   - component: {fileID: 1809397414}
   - component: {fileID: 1809397413}
-  - component: {fileID: 1809397412}
   - component: {fileID: 1809397416}
+  - component: {fileID: 1809397412}
   m_Layer: 5
   m_Name: Level4
   m_TagString: Untagged
@@ -4334,6 +4340,7 @@ MonoBehaviour:
   - {fileID: 2089634449}
   _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _sceneFaderController: {fileID: 1644517643443329338}
 --- !u!114 &1809397413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4873,3 +4880,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141614623}
   m_CullTransparentMesh: 0
+--- !u!1001 &1644517643443329337
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1644517642373725338, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_Name
+      value: SceneFader
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644517642859159482, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36, type: 3}
+--- !u!114 &1644517643443329338 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1644517642373725341, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+    type: 3}
+  m_PrefabInstance: {fileID: 1644517643443329337}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a5cc6b2382511469ea74058c7356e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -9,6 +9,7 @@ namespace Assets.AToonWorld.Scripts.UI
     public class LevelsMenuController : MonoBehaviour
     {
         [SerializeField] private TMP_Text _totalStarsNumber = null;
+        [SerializeField] private SceneFaderController _sceneFaderController = null;
 
         private LevelController[] _levels;
 
@@ -33,7 +34,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void BackButton()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene(UnityScenes.MainMenu);
+            _sceneFaderController.FadeTo(UnityScenes.MainMenu);
         }
 
         public void ResetButton()

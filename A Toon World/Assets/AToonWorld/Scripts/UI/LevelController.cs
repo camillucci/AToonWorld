@@ -19,6 +19,7 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private Image[] _stars = null;
         [SerializeField] private Sprite _starBlankSprite = null;
         [SerializeField] private Sprite _starFullSprite = null;
+        [SerializeField] private SceneFaderController _sceneFaderController = null;
 
         #endregion
 
@@ -61,7 +62,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             if (!_isLocked)
             {
-                SceneManager.LoadScene(UnityScenes.Levels[_levelNumber]);
+                _sceneFaderController.FadeTo(UnityScenes.Levels[_levelNumber]);
             }
         }
 

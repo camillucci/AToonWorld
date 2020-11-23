@@ -11,6 +11,7 @@ namespace Assets.AToonWorld.Scripts.UI
     public class MainMenuController : MonoBehaviour
     {
         [SerializeField] private AudioMixer _audioMixer = null;
+        [SerializeField] private SceneFaderController _sceneFaderController = null;
         
         void Start()
         {
@@ -28,7 +29,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void PlayButton()
         {
-            SceneManager.LoadScene(UnityScenes.LevelsMenu);
+            _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
         }
 
         public void QuitButton()

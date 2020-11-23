@@ -10,6 +10,7 @@ namespace Assets.AToonWorld.Scripts.Level
 {
     public class EndLevel : MonoBehaviour
     {
+        [SerializeField] private SceneFaderController _sceneFaderController = null;
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag(UnityTag.Player))
@@ -22,7 +23,7 @@ namespace Assets.AToonWorld.Scripts.Level
                 ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
                 
                 // Return to the LevelsMenu scene
-                SceneManager.LoadScene(UnityScenes.LevelsMenu);
+                _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
             }
         }
     }

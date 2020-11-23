@@ -15,6 +15,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private PlayerController _playerController;
 
         [SerializeField] private GameObject _pauseMenuUI = null;
+        [SerializeField] private SceneFaderController _sceneFaderController = null;
 
         void Awake()
         {
@@ -69,7 +70,7 @@ namespace Assets.AToonWorld.Scripts.UI
             ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
             
             // Return to the LevelsMenu scene
-            SceneManager.LoadScene(UnityScenes.LevelsMenu);
+            _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
         }
 
         #endregion
