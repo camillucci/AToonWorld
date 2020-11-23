@@ -5,7 +5,6 @@ using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static PlayerInkController;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
@@ -20,7 +19,7 @@ namespace Assets.AToonWorld.Scripts.Level
                 PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, 2);
 
                 // Deactivate all inks in the scene
-                ObjectPoolingManager<InkType>.Instance.DeactivateAllObjects();
+                ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
                 
                 // Return to the LevelsMenu scene
                 SceneManager.LoadScene(UnityScenes.LevelsMenu);

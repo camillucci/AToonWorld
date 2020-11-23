@@ -101,11 +101,11 @@ public class ObjectPoolingManager<T>
 	}
 
 	/// <summary>
-	/// Deactivate all objects in the pool without deleting them
+	/// Deactivate all the objects from all the pools in the dictionary without deleting them
 	/// </summary>
 	public void DeactivateAllObjects()
 	{
 		foreach(KeyValuePair<T, ObjectPool> entry in objectPools)
-			entry.Value.GetObject().SetActive(false);
+			entry.Value.DeactivateAllObjects();
 	}
 }

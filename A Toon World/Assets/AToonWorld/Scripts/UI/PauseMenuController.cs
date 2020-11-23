@@ -12,10 +12,9 @@ namespace Assets.AToonWorld.Scripts.UI
     public class PauseMenuController : MonoBehaviour
     {
         private static bool _isGamePaused = false;
+        private PlayerController _playerController;
 
         [SerializeField] private GameObject _pauseMenuUI = null;
-
-        private PlayerController _playerController;
 
         void Awake()
         {
@@ -35,6 +34,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public static bool IsGamePaused => _isGamePaused;
 
+        // Freeze time, disable player movements and enable menu
         void Pause()
         {
             _pauseMenuUI.SetActive(true);
@@ -43,6 +43,9 @@ namespace Assets.AToonWorld.Scripts.UI
             _playerController.DisablePlayer();
         }
 
+        #region Buttons
+
+        // Restart time, enable player movements and disable menu
         public void Resume()
         {
             _pauseMenuUI.SetActive(false);
@@ -51,16 +54,24 @@ namespace Assets.AToonWorld.Scripts.UI
             _playerController.EnablePlayer();
         }
 
+        // Restart from last checkpoint
         public void Restart()
         {
             Events.PlayerEvents.Death.Invoke();
             Resume();
         }
 
-        public void ExitGame()
+        // Return to the LevelsMenu scene
+        public void Exit()
         {
             Time.timeScale = 1f;
+            // Deactivate all inks in the scene
+            ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
+            
+            // Return to the LevelsMenu scene
             SceneManager.LoadScene(UnityScenes.LevelsMenu);
         }
+
+        #endregion
     }
 }
