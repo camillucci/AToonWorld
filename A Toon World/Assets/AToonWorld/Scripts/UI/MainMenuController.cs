@@ -10,13 +10,14 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
-        [SerializeField] private AudioMixer _audioMixer;
+        [SerializeField] private AudioMixer _audioMixer = null;
         
         void Start()
         {
             float volumePref = PlayerPrefs.GetFloat("Volume", 1);
             _audioMixer.SetFloat("Volume", volumePref);
         }
+
         void Update()
         {
             if (InputUtils.EnterButton)

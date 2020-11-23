@@ -8,7 +8,7 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelsMenuController : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _totalStarsNumber;
+        [SerializeField] private TMP_Text _totalStarsNumber = null;
 
         private LevelController[] _levels;
 

@@ -11,10 +11,10 @@ public interface IJump
 
 public class JumperController : MonoBehaviour
 {
-    public enum JumMode { FixedHeight, ToFixedY }
+    public enum JumpMode { FixedHeight, ToFixedY }
 
     [Header("Jump Mode")]
-    [SerializeField] private JumMode _jumpMode;
+    [SerializeField] private JumpMode _jumpMode = JumpMode.ToFixedY;
     [SerializeField] private float _value = 0f;
 
     [Header("Interleaving seconds")]
@@ -35,7 +35,7 @@ public class JumperController : MonoBehaviour
 
     private void StartFirstJumpSession()
     {
-        _jumpVelocity = CalculateVelocity(_jumpMode == JumMode.FixedHeight ? _value : _value - transform.position.y);
+        _jumpVelocity = CalculateVelocity(_jumpMode == JumpMode.FixedHeight ? _value : _value - transform.position.y);
         StartCoroutine(Jump(_secondsBeforeFirstJump));
         _doneFirstJump = true;
     }

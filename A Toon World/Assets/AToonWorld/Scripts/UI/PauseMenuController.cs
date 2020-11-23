@@ -13,8 +13,7 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         private static bool _isGamePaused = false;
 
-        [SerializeField] private GameObject _pauseMenuUI;
-        [SerializeField] private TMP_Dropdown _qualityDropDown;
+        [SerializeField] private GameObject _pauseMenuUI = null;
 
         private PlayerController _playerController;
 

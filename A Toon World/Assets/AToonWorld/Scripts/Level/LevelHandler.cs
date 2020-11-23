@@ -13,7 +13,7 @@ namespace Assets.AToonWorld.Scripts.Level
     public class LevelHandler : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private float _respawnSpeed = 10f;
+        [SerializeField] private float _respawnSpeed;
 
 
         // Editor Fields

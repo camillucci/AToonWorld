@@ -9,13 +9,13 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelController : MonoBehaviour
     {
-        private Button _button;
-        [SerializeField] private int _levelNumber;
-        [SerializeField] private bool _isLocked;
-        [SerializeField] private Image _unlockImage;
-        [SerializeField] private Image[] _stars;
-        [SerializeField] private Sprite _starBlankSprite;
-        [SerializeField] private Sprite _starFullSprite;
+        private Button _button = null;
+        [SerializeField] private int _levelNumber = -1;
+        [SerializeField] private bool _isLocked = true;
+        [SerializeField] private Image _unlockImage = null;
+        [SerializeField] private Image[] _stars = null;
+        [SerializeField] private Sprite _starBlankSprite = null;
+        [SerializeField] private Sprite _starFullSprite = null;
 
         void Awake()
         {

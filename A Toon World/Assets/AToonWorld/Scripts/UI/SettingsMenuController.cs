@@ -10,11 +10,11 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class SettingsMenuController : MonoBehaviour
     {
-        [SerializeField] private AudioMixer _audioMixer;
-        [SerializeField] private TMP_Dropdown _qualityDropbox;
-        [SerializeField] private TMP_Dropdown _resolutionDropdown;
-        [SerializeField] private Toggle _fullscreenToggle;
-        [SerializeField] private Slider _volumeSlider;
+        [SerializeField] private AudioMixer _audioMixer = null;
+        [SerializeField] private TMP_Dropdown _qualityDropbox = null;
+        [SerializeField] private TMP_Dropdown _resolutionDropdown = null;
+        [SerializeField] private Toggle _fullscreenToggle = null;
+        [SerializeField] private Slider _volumeSlider = null;
 
         private Resolution[] resolutions;
 

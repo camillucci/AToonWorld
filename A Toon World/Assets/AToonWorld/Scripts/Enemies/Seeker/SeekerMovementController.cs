@@ -13,11 +13,11 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
     public class SeekerMovementController : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private float _speed;
+        [SerializeField] private float _speed = 5f;
         
 
         // Private Fields
-        private SeekerBody _seekeBody;
+        private SeekerBody _seekerBody;
         private SeekerTargetAreaController _targetAreaController;
         private GridController _gridController;
         private Transform _seekerTransform;
@@ -32,8 +32,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         // Initialization
         private void Awake()
         {
-            _seekeBody = GetComponentInChildren<SeekerBody>();
-            _seekerTransform = _seekeBody.transform;
+            _seekerBody = GetComponentInChildren<SeekerBody>();
+            _seekerTransform = _seekerBody.transform;
             _targetAreaController = GetComponentInChildren<SeekerTargetAreaController>();
             _gridController = GetComponentInChildren<GridController>();
             _startPosition = _seekerTransform.position;
