@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
 {
     public static class CameraExtensions
     {
-        public static Task MoveTo(this UnityEngine.Camera @this, Vector3 position, float speed = 10f)
+        public static UniTask MoveTo(this UnityEngine.Camera @this, Vector3 position, float speed = 10f)
         {
             var transform = @this.transform;
             return Animations.Transition
