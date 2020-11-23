@@ -352,12 +352,12 @@ PrefabInstance:
     - target: {fileID: 9202030778897293427, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.6
+      value: -11.54
       objectReference: {fileID: 0}
     - target: {fileID: 9202030778897293427, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.1
+      value: -3.97
       objectReference: {fileID: 0}
     - target: {fileID: 9202030778897293427, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
         type: 3}
@@ -515,6 +515,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5486826057240666371, guid: c40b92b53e1dd074e834341fee88f101,
+        type: 3}
+      propertyPath: _tombstonePrefab
+      value: 
+      objectReference: {fileID: 7455401932700396498, guid: 09cb6c1055b23cc4b920e7a75aecc75d,
+        type: 3}
     - target: {fileID: 5486826058985832350, guid: c40b92b53e1dd074e834341fee88f101,
         type: 3}
       propertyPath: m_Name
