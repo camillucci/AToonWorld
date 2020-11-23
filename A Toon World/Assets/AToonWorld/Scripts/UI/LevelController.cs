@@ -9,12 +9,20 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelController : MonoBehaviour
     {
+        private Button _button;
         [SerializeField] private int _levelNumber;
         [SerializeField] private bool _isLocked;
         [SerializeField] private Image _unlockImage;
         [SerializeField] private Image[] _stars;
         [SerializeField] private Sprite _starBlankSprite;
         [SerializeField] private Sprite _starFullSprite;
+
+        void Awake()
+        {
+            _button = GetComponent<Button>();
+            if (_isLocked)
+                _button.interactable = false;
+        }
 
         void Update()
         {
@@ -38,6 +46,7 @@ namespace Assets.AToonWorld.Scripts.UI
             if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1]) > 0)
             {
                 _isLocked = false;
+                _button.interactable = true;
             }
         }
 
@@ -52,7 +61,10 @@ namespace Assets.AToonWorld.Scripts.UI
         public void ResetLevel()
         {
             if(_levelNumber != 1)
+            {
                 _isLocked = true;
+                _button.interactable = false;
+            }
             for (int i = 0; i < _stars.Length; i++)
                 _stars[i].gameObject.GetComponent<Image>().sprite = _starBlankSprite;
         }
