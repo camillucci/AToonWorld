@@ -17,6 +17,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _levels = FindObjectsOfType<LevelController>();
         }
 
+        // Unlock all levels that have the previous level with at least one star
         void Update()
         {
             int sum = 0;

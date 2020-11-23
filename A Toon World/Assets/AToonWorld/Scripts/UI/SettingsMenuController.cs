@@ -18,11 +18,9 @@ namespace Assets.AToonWorld.Scripts.UI
 
         private Resolution[] resolutions;
 
+        // Refresh settings values based on settings of the last session
         void Start()
         {
-            if (_audioMixer.GetFloat("Volume", out float startingVolume))
-                _volumeSlider.value = Mathf.Pow(10, startingVolume / 20);
-
             _qualityDropbox.value = QualitySettings.GetQualityLevel();
             _resolutionDropdown.RefreshShownValue();
 
@@ -44,6 +42,9 @@ namespace Assets.AToonWorld.Scripts.UI
             _resolutionDropdown.RefreshShownValue();
 
             _fullscreenToggle.isOn = Screen.fullScreen;
+
+            if (_audioMixer.GetFloat("Volume", out float startingVolume))
+                _volumeSlider.value = Mathf.Pow(10, startingVolume / 20);
         }
 
         public void SetVolume(float volume)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityAsync;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Mathf.MoveTowards(current, to, speed * Time.deltaTime);
 
                 callback.Invoke(current);
-                await new WaitForFrames(frameSensitivity);
+                await UniTask.WaitForEndOfFrame();
                 isCancelled = CheckIsCancelled();
             }
 
@@ -52,7 +53,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Vector2.MoveTowards(current, to, speed * Time.deltaTime);
 
                 callback.Invoke(current);
-                await new WaitForFrames(frameSensitivity);
+                await UniTask.WaitForEndOfFrame();
                 isCancelled = CheckIsCancelled();
             }
 
@@ -79,7 +80,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Vector3.MoveTowards(current, to, speed * Time.deltaTime);
 
                 callback.Invoke(current);
-                await new WaitForFrames(frameSensitivity);
+                await UniTask.WaitForEndOfFrame();
                 isCancelled = CheckIsCancelled();
             }
 
