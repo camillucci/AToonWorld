@@ -164,7 +164,7 @@ public class ObjectPool
 	public void DeactivateAllObjects()
 	{
 		foreach(GameObject gameObject in pooledObjects)
-			if (gameObject.activeSelf == true)
+			if (gameObject != null)
 				gameObject.SetActive(false);
 	}
 }
