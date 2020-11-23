@@ -2069,7 +2069,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4637142751057345158}
-        m_MethodName: ExitGame
+        m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5199,7 +5199,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenuUI: {fileID: 4637142750236571965}
-  _qualityDropDown: {fileID: 4637142749581604296}
 --- !u!1 &4637142751064154852
 GameObject:
   m_ObjectHideFlags: 0

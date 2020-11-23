@@ -33,7 +33,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
             return new PolarVector2D(r, theta);
         }
 
-        public static bool Parellel(this Vector2 v1, Vector2 v2)
+        public static bool Parallel(this Vector2 v1, Vector2 v2)
             => Vector2.Distance(v1.normalized, v2.normalized) < Mathf.Epsilon;
     }
 }

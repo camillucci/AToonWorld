@@ -70,7 +70,7 @@ public class InkDirector : Singleton<InkDirector>
     public void OnDirectedAreaActivated(DirectedAreaComponent areaComponent)
     {
         _directedAreas.Add(areaComponent);
-        areaComponent.ProcessChilds(ProcessOnePickup);
+        areaComponent.ProcessChildren(ProcessOnePickup);
     }
 
     public void OnDirectedAreaDeactivated(DirectedAreaComponent areaComponent)
@@ -97,6 +97,6 @@ public class InkDirector : Singleton<InkDirector>
     private void OnDirectorUpdate()
     {
         _globalPickpups.ForEach(pickup => ProcessOnePickup(pickup, false));
-        _directedAreas.ForEach(directedArea => directedArea.ProcessChilds(ProcessOnePickup));
+        _directedAreas.ForEach(directedArea => directedArea.ProcessChildren(ProcessOnePickup));
     }
 }

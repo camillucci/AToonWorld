@@ -28,6 +28,8 @@ namespace Assets.AToonWorld.Scripts.UI
             _totalStarsNumber.text = sum + "/" + (UnityScenes.Levels.Length - 1) * 3;
         }
 
+        #region Buttons
+
         public void BackButton()
         {
             Time.timeScale = 1f;
@@ -42,5 +44,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 level.ResetLevel();
             }
         }
+
+        #endregion
     }
 }

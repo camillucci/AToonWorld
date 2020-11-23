@@ -24,6 +24,8 @@ namespace Assets.AToonWorld.Scripts.UI
                 PlayButton();
         }
 
+        #region Buttons
+
         public void PlayButton()
         {
             SceneManager.LoadScene(UnityScenes.LevelsMenu);
@@ -38,5 +40,7 @@ namespace Assets.AToonWorld.Scripts.UI
             #endif
             
         }
+
+        #endregion
     }
 }

@@ -9,6 +9,9 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelController : MonoBehaviour
     {
+
+        #region Fields
+
         private Button _button = null;
         [SerializeField] private int _levelNumber = -1;
         [SerializeField] private bool _isLocked = true;
@@ -16,6 +19,8 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private Image[] _stars = null;
         [SerializeField] private Sprite _starBlankSprite = null;
         [SerializeField] private Sprite _starFullSprite = null;
+
+        #endregion
 
         void Awake()
         {
@@ -30,6 +35,7 @@ namespace Assets.AToonWorld.Scripts.UI
             UpdateStatus();
         }
 
+        // If the level is locked visualize a lock, otherwise the number of stars obtained
         private void UpdateImages()
         {
             _unlockImage.gameObject.SetActive(_isLocked);
@@ -41,6 +47,7 @@ namespace Assets.AToonWorld.Scripts.UI
             }
         }
 
+        // Update the locked status based on the previous level completion
         private void UpdateStatus()
         {
             if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1]) > 0)
@@ -58,6 +65,7 @@ namespace Assets.AToonWorld.Scripts.UI
             }
         }
 
+        // Start a new game, mainly for debugging reasons
         public void ResetLevel()
         {
             if(_levelNumber != 1)
