@@ -42,6 +42,7 @@ namespace Assets.AToonWorld.Scripts.UI
             Time.timeScale = 0f;
             _isGamePaused = true;
             _playerController.DisablePlayer();
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
         }
 
         public void Resume()
@@ -50,6 +51,7 @@ namespace Assets.AToonWorld.Scripts.UI
             Time.timeScale = 1f;
             _isGamePaused = false;
             _playerController.EnablePlayer();
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
         }
 
         public void Restart()
@@ -62,6 +64,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(UnityScenes.LevelsMenu);
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
         }
     }
 }

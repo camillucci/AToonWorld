@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using InkType = PlayerInkController.InkType;
@@ -52,6 +53,7 @@ public class InkWheelController : MonoBehaviour
         this.gameObject.SetActive(true);
         UnSelectCurrent();
         this._selected = null;
+        Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
     }
 
     public void Hide()
@@ -59,6 +61,7 @@ public class InkWheelController : MonoBehaviour
         this.gameObject.SetActive(false);
         if (_selected.HasValue)
             Events.InterfaceEvents.InkSelectionRequested.Invoke(_selected.Value);
+        Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
     }
 
     void Update()

@@ -46,6 +46,7 @@ namespace Assets.AToonWorld.Scripts.UI
             if (!_isLocked)
             {
                 SceneManager.LoadScene(UnityScenes.Levels[_levelNumber]);
+                Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             }
         }
 
