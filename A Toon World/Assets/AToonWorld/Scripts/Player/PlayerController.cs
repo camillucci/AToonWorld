@@ -37,6 +37,10 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             _playerInput.enabled = false;
             _playerMovementController.enabled = false;
+            
+            if(PlayerInkController.IsDrawing)
+                PlayerInkController.OnDrawReleased();
+                
             PlayerInkController.enabled = false;
             _rigidBody.isKinematic = true;
         }

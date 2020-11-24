@@ -44,6 +44,12 @@ public class PlayerInkController : MonoBehaviour
 
         Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
     }
+
+    private void OnDestroy() 
+    {
+        _playerBody.TriggerEnter.UnSubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
+        Events.InterfaceEvents.InkSelectionRequested.RemoveListener(OnInkSelected);
+    }
     
     void Start()
     {
