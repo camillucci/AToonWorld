@@ -73,11 +73,18 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             var nodeCenter =  NodeToWorldPoint(node);
             yield return nodeCenter;
             var deltaPos = new Vector2(_nodeRadius / 2, _nodeRadius / 2);
-            yield return deltaPos + nodeCenter;
-            yield return nodeCenter - nodeCenter;
+            yield return nodeCenter + deltaPos;
+            yield return nodeCenter - deltaPos;
             var ortogonalDeltaPos = new Vector2(-deltaPos.y, deltaPos.x);
             yield return nodeCenter + ortogonalDeltaPos;
             yield return nodeCenter - ortogonalDeltaPos;
+        }
+
+        public Rect GetNodeBounds(INode node) 
+        {
+            var nodeCenter =  NodeToWorldPoint(node);
+            var deltaPos = new Vector2(_nodeRadius / 2, _nodeRadius / 2);
+            return new Rect(nodeCenter, deltaPos);
         }
 
 
