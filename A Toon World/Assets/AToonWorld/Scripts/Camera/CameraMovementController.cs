@@ -1,14 +1,13 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityAsync;
 using UnityEngine;
-using WaitForSeconds = UnityAsync.WaitForSeconds;
 
 namespace Assets.AToonWorld.Scripts.Camera
 {
@@ -27,7 +26,7 @@ namespace Assets.AToonWorld.Scripts.Camera
         private bool _manuallyMovingCamera;
         private Transform _transform;
         private ZoomTaskCancellation _zoomTaskCancellation = new ZoomTaskCancellation();
-        private Task _currentZoomTask = Task.CompletedTask;
+        private UniTask _currentZoomTask = UniTask.CompletedTask;
         private PlayerController _playerController;
 
 
@@ -53,7 +52,7 @@ namespace Assets.AToonWorld.Scripts.Camera
                                        
 
 
-        public async Task MoveCameraToTarget()
+        public async UniTask MoveCameraToTarget()
         {
             _manuallyMovingCamera = true;
             await _camera.MoveTo(_playerTransform.position, _cameraSpeed);
@@ -61,7 +60,7 @@ namespace Assets.AToonWorld.Scripts.Camera
         }
 
 
-        public async Task MoveCameraToPosition(Vector3 position)
+        public async UniTask MoveCameraToPosition(Vector3 position)
         {            
             _manuallyMovingCamera = true;
             await _camera.MoveTo(position, _cameraSpeed);
@@ -105,14 +104,13 @@ namespace Assets.AToonWorld.Scripts.Camera
 
 
 
-        private Task ZoomTo(float to, ZoomTaskCancellation zoomCancellation) => Animations.Transition
+        private UniTask ZoomTo(float to, ZoomTaskCancellation zoomCancellation) => Animations.Transition
         (
             from: _camera.orthographicSize,
             to: to,
             callback: val => _camera.orthographicSize = val,
             speed: _zoomAnimationSpeed,
             smooth: true,
-            frameSensitivity: 1,
             cancelCondition: () => zoomCancellation.IsCancellationRequested
         );
         

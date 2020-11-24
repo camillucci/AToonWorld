@@ -2,14 +2,10 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityAsync;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
-using WaitForSeconds = UnityAsync.WaitForSeconds;
-using WaitForSecondsRealtime = UnityAsync.WaitForSecondsRealtime;
-using WaitUntil = UnityAsync.WaitUntil;
-using WaitWhile = UnityAsync.WaitWhile;
 
+/*
 public class Tests : MonoBehaviour
 {
 	//System.Diagnostics.Stopwatch sw;
@@ -274,3 +270,4 @@ public class Tests : MonoBehaviour
 	// 	}
 	// }
 }
+*/

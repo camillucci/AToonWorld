@@ -1,6 +1,7 @@
 ﻿using Assets.AToonWorld.Scripts.Camera;
 using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,12 @@ namespace Assets.AToonWorld.Scripts.Level
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
-            Events.PlayerEvents.Death.AddListener(OnPlayerDead);
+            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().Forget());
         }      
 
 
         // Public Methods
-        public async Task SpawnFromLastCheckpoint()
+        public async UniTask SpawnFromLastCheckpoint()
         {
             RespawningPlayer = true;
 
@@ -60,12 +61,12 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Update()
         {
             if (InputUtils.KillPlayer && !RespawningPlayer)
-                OnPlayerDead();
+                OnPlayerDead().Forget();
         }
 
 
         // Level Events
-        private async void OnPlayerDead()
+        private async UniTaskVoid OnPlayerDead()
         {
             if (!_playerController.IsImmortal)
             {
@@ -74,6 +75,6 @@ namespace Assets.AToonWorld.Scripts.Level
                 _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
             }
-        }
+        }      
     }
 }
