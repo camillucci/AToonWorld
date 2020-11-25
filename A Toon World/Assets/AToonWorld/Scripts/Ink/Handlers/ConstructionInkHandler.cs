@@ -12,7 +12,7 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
         _playerInkController = playerInkController;
     }
 
-    public override float MaxCapacity => 100.0f;
+    public override float MaxCapacity => 25.0f;
 
     public void BindSpline(DrawSplineController splineController)
     {

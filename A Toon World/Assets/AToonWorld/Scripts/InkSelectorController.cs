@@ -9,14 +9,21 @@ using Events;
 
 public class InkSelectorController : MonoBehaviour
 {
-    [SerializeField] private GameObject ConstructorInk;   
+    [SerializeField] private Color _selectedTint = Color.red;
+    [SerializeField] private Color _emptyTint = Color.grey;
+    [SerializeField] private GameObject ConstructorInk;
+    [SerializeField] private UIInkGauge ConstructorInkGauge;      
     [SerializeField] private GameObject ClimbInk;
+    [SerializeField] private UIInkGauge ClimbInkGauge;   
     [SerializeField] private GameObject ClearInk;
+    [SerializeField] private UIInkGauge ClearInkGauge;   
     [SerializeField] private GameObject DamageInk;
+    [SerializeField] private UIInkGauge DamageInkGauge;   
     
     //TODO: se ancora inutilizzato rimuovere
     private Dictionary<InkType, GameObject> _inks;
     private Dictionary<InkType, Image> _inksImages;
+    private Dictionary<InkType, UIInkGauge> _inkGauges;
 
     void Awake()
     {
@@ -36,6 +43,13 @@ public class InkSelectorController : MonoBehaviour
             [InkType.Damage] = DamageInk.GetComponent<Image>()
         };
 
+        _inkGauges = new Dictionary<InkType, UIInkGauge>()
+        {
+            [InkType.Construction] = ConstructorInkGauge,
+            [InkType.Climb] = ClimbInkGauge,
+            [InkType.Damage] = DamageInkGauge,
+        };
+
         InterfaceEvents.InkSelected.AddListener(selectedInk => ChangeSelectedInk(selectedInk));
         InterfaceEvents.InkCapacityChanged.AddListener(tuple => ChangeInkCapacity(tuple.Item1, tuple.Item2));
     }
@@ -51,16 +65,17 @@ public class InkSelectorController : MonoBehaviour
 
     private void Select(InkType inkType)
     {
-        Color newColor = Color.red;
-        newColor.a = _inksImages[inkType].color.a;
-        _inksImages[inkType].color = newColor;
+        _inksImages[inkType].color = _selectedTint;
     }
 
     private void UnSelect(InkType inkType)
     {
-        Color newColor = Color.white;
-        newColor.a = _inksImages[inkType].color.a;
-        _inksImages[inkType].color = newColor;
+        Empty(inkType);
+    }
+
+    private void Empty(InkType inkType)
+    {
+        _inksImages[inkType].color = _emptyTint;
     }
     
     private void ChangeInkCapacity(InkType inkType, float capacity)
@@ -70,8 +85,9 @@ public class InkSelectorController : MonoBehaviour
             throw new Exception("Ink capacity not normalized, it should be in [0, 1]");
         #endif
 
-        // TODO: Se manteniamo la gestione con l'alpha allora cachare il getComponent
-        Color selectedInkColor = _inksImages[inkType].color;
-        _inksImages[inkType].color = new Color(selectedInkColor.r, selectedInkColor.g, selectedInkColor.b, capacity);
+        _inkGauges[inkType].SetFillAmmount(capacity);
+
+        if(capacity == 0)
+            Empty(inkType);
     }
 }
