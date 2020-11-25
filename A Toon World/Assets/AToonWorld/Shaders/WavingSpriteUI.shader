@@ -94,5 +94,5 @@ Shader "Custom/Waving Sprite UI"
         }
         ENDCG
     }
-    FallBack "TextMeshPro\Sprite"
+    FallBack "TextMeshPro/Sprite"
 }
