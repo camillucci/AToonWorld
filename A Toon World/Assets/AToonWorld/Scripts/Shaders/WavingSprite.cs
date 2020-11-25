@@ -11,7 +11,10 @@ public class WavingSprite : MonoBehaviour
 
     void Start() 
     {
-        _imageMaterial = gameObject.GetComponent<Image>().material;
+        //Copy material
+        _imageMaterial = new Material(gameObject.GetComponent<Image>().material);
+        gameObject.GetComponent<Image>().material = _imageMaterial;
+
         UpdateShaderProperties();
         _canvasController = _canvas.GetComponent<CanvasController>();
         _canvasController.CanvasSizeChanged.AddListener(UpdateShaderProperties);
