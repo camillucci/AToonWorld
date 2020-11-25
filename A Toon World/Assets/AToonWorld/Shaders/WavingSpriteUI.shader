@@ -94,5 +94,78 @@ Shader "Custom/Waving Sprite UI"
         }
         ENDCG
     }
+
+    //No tessellation variant
+    SubShader 
+    {
+        Tags 
+        { 
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+            "PreviewType"="Plane"
+            "CanUseSpriteAtlas"="True"
+            "DisableBatching"="True"
+        }
+
+        Cull Off
+        Lighting Off
+        ZWrite Off
+        Blend One OneMinusSrcAlpha
+
+        CGPROGRAM
+        #pragma surface surf NoLighting vertex:vert nofog noambient nolightmap nodynlightmap keepalpha alpha noinstancing
+        #pragma multi_compile _ PIXELSNAP_ON
+        #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
+        #include "UnitySprites.cginc"
+
+        float _Dampening;
+        float4 _UIElementOrigin;
+        float4 _UIElementUpDirection;
+        float4 _UIElementUpQuaternion;
+        half _Frequency;
+        half _MinY;
+        half _MaxY;
+        half _Amplitude;
+
+        fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
+        {
+            fixed4 c;
+            c.rgb = s.Albedo; 
+            c.a = s.Alpha;
+            return c;
+        }
+
+        struct Input 
+        {
+            float2 uv_MainTex;
+            float4 color : COLOR;
+        };
+
+        void vert(inout appdata_full v)
+        {
+            //Waving calculation
+            float4 relativeCoords = v.vertex - _UIElementOrigin;
+            float3 rotatedVert = relativeCoords + 2.0 * cross(_UIElementUpQuaternion.xyz, cross(_UIElementUpQuaternion.xyz, relativeCoords) + _UIElementUpQuaternion.w * relativeCoords);
+
+            half waveAmplitude = _Amplitude * clamp((rotatedVert.y  - _MinY) / (_MaxY - _MinY), 0, 1);
+            v.vertex += _UIElementUpDirection * (1 - sin(rotatedVert.x/_Dampening + _Time.y * _Frequency)) * waveAmplitude;
+
+            v.vertex = UnityFlipSprite(v.vertex, _Flip);
+
+            #if defined(PIXELSNAP_ON)
+            v.vertex = UnityPixelSnap (v.vertex);
+            #endif
+        }
+
+        void surf (Input IN, inout SurfaceOutput o) 
+        {
+            fixed4 c = SampleSpriteTexture (IN.uv_MainTex) * IN.color * _Color * _RendererColor;
+            o.Albedo = c.rgb * c.a;
+            o.Alpha = c.a;
+        }
+        ENDCG
+    }
+
     FallBack "TextMeshPro/Sprite"
 }
