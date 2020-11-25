@@ -36,14 +36,15 @@ namespace Assets.AToonWorld.Scripts.UI
             UpdateStatus();
         }
 
-        // If the level is locked visualize a lock, otherwise the number of stars obtained
+        // Visualize a lock if the level is locked, the number of stars obtained if it is completed
         private void UpdateImages()
         {
             _unlockImage.gameObject.SetActive(_isLocked);
             for (int i = 0; i < _stars.Length; i++)
             {
-                _stars[i].gameObject.SetActive(!_isLocked);
-                if (i < PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber], 0))
+                int starsNumber = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber], -1);
+                _stars[i].gameObject.SetActive(starsNumber >= 0);
+                if (starsNumber > i)
                     _stars[i].gameObject.GetComponent<Image>().sprite = _starFullSprite;
             }
         }
@@ -51,7 +52,7 @@ namespace Assets.AToonWorld.Scripts.UI
         // Update the locked status based on the previous level completion
         private void UpdateStatus()
         {
-            if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1]) > 0)
+            if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1], -1) >= 0)
             {
                 _isLocked = false;
                 _button.interactable = true;

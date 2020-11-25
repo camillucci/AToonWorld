@@ -3427,6 +3427,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneFader
       objectReference: {fileID: 0}
+    - target: {fileID: 1644517642373725338, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1644517642373725340, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -10,12 +10,14 @@ namespace Assets.AToonWorld.Scripts.Level
     public class CheckPointsManager : MonoBehaviour
     { 
         private List<CheckPoint> _checkPoints = new List<CheckPoint>();
+        private CollectiblesManager _collectibleManager;
         private int _checkPointIndex = 0;
 
 
         // Initialization
         private void Awake()
         {
+            _collectibleManager = FindObjectOfType<CollectiblesManager>();
             var checkPoints = FindObjectsOfType<CheckPoint>();
             AddCheckPoints(checkPoints);
         }
@@ -49,6 +51,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private void SetupCheckPoint(CheckPoint checkPoint)
         {
             checkPoint.PlayerHit += CheckPoint_PlayerHit;
+            checkPoint.PlayerHit += _collectibleManager.OnPlayerHitCheckpoint;
         }
 
         private void CheckPoint_PlayerHit(CheckPoint checkPoint)

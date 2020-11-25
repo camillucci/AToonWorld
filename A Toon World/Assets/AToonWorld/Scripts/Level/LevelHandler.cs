@@ -14,14 +14,18 @@ namespace Assets.AToonWorld.Scripts.Level
     {
         // Editor Fields
         [SerializeField] private float _respawnSpeed;
+        [SerializeField] private int _maxDeathsForAchievement = 5;
 
 
         // Editor Fields
         private CheckPointsManager _checkPointsManager;
+        public CollectiblesManager _collectiblesManager { get; private set; }
+        public TimeManager _timeManager { get; private set; }
         private PlayerController _playerController;
         private CameraMovementController _cameraMovementController;
         private DeathObserver _deathObserver;
         private MapBorders _mapBorders;
+        public int _deathCounter { get; private set; }
 
 
         // Public Properties
@@ -33,11 +37,15 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Awake()
         {
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
+            _collectiblesManager = GetComponentInChildren<CollectiblesManager>();
+            _timeManager = GetComponentInChildren<TimeManager>();
             _playerController = FindObjectOfType<PlayerController>();
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
+            _deathCounter = 0;
             Events.PlayerEvents.Death.AddListener(OnPlayerDead);
+            Time.timeScale = 1f;
         }      
 
 
@@ -48,6 +56,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
             _playerController.DisablePlayer();
+            _collectiblesManager.OnPlayerRespawn();
             lastCheckPoint.OnPlayerRespawnStart();      
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
@@ -73,7 +82,10 @@ namespace Assets.AToonWorld.Scripts.Level
                 await SpawnFromLastCheckpoint();
                 _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
+                _deathCounter += 1;
             }
         }
+
+        public bool GotDeathsAchievement => _deathCounter <= _maxDeathsForAchievement;
     }
 }

@@ -29,7 +29,7 @@ namespace Assets.AToonWorld.Scripts.UI
             float time = 1f;
             while(time > 0f)
             {
-                time -= Time.deltaTime * _fadingSpeed;
+                time -= Time.unscaledDeltaTime * _fadingSpeed;
                 float alpha = _animationCurve.Evaluate(time);
                 _image.color = new Color(0f, 0f, 0f, alpha);
                 await UniTask.WaitForEndOfFrame();
@@ -42,7 +42,7 @@ namespace Assets.AToonWorld.Scripts.UI
             float time = 0f;
             while(time < 1f)
             {
-                time += Time.deltaTime * _fadingSpeed;
+                time += Time.unscaledDeltaTime * _fadingSpeed;
                 float alpha = _animationCurve.Evaluate(time);
                 _image.color = new Color(0f, 0f, 0f, alpha);
                 await UniTask.WaitForEndOfFrame();
