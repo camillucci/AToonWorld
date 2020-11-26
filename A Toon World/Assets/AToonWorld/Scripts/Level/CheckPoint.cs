@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Utils;
+using Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,9 @@ namespace Assets.AToonWorld.Scripts.Level
                 return;
 
             _hit = true;
+            
+            //Events
+            LevelEvents.CheckpointReached.Invoke();
             _checkpointTaken?.Invoke();
             PlayerHit?.Invoke(this);
         }

@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,10 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             _playerInput.enabled = false;
             _playerMovementController.enabled = false;
+            
+            if(PlayerInkController.IsDrawing)
+                PlayerInkController.OnDrawReleased();
+                
             PlayerInkController.enabled = false;
             _rigidBody.isKinematic = true;
         }
@@ -49,6 +54,6 @@ namespace Assets.AToonWorld.Scripts.Player
             _rigidBody.isKinematic = false;
         }
 
-        public Task MoveToPosition(Vector3 position, float speed) => transform.MoveToAnimated(position, speed);
+        public UniTask MoveToPosition(Vector3 position, float speed) => transform.MoveToAnimated(position, speed);
     }
 }

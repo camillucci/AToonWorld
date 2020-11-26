@@ -3389,6 +3389,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 713730294481279874, guid: e64264fbabe2f0945b922f1473d4c112,
+        type: 3}
+      propertyPath: _menuCursor
+      value: 
+      objectReference: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 713730294481279874, guid: e64264fbabe2f0945b922f1473d4c112,
+        type: 3}
+      propertyPath: _hotspot.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 713730294481279874, guid: e64264fbabe2f0945b922f1473d4c112,
+        type: 3}
+      propertyPath: _hotspot.y
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5416300699529364635, guid: e64264fbabe2f0945b922f1473d4c112,
         type: 3}
       propertyPath: m_LocalPosition.z

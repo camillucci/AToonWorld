@@ -44,6 +44,12 @@ public class PlayerInkController : MonoBehaviour
 
         Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
     }
+
+    private void OnDestroy() 
+    {
+        _playerBody.TriggerEnter.UnSubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
+        Events.InterfaceEvents.InkSelectionRequested.RemoveListener(OnInkSelected);
+    }
     
     void Start()
     {
@@ -143,6 +149,10 @@ public class PlayerInkController : MonoBehaviour
         if(IsDrawing)
         {
             _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
+
+            if(_inkHandlers[_selectedInk] is ISplineInk _selectedSplineInk)
+                LevelEvents.SplineDrawn.Invoke(_selectedSplineInk?.BoundSpline);
+
             IsDrawing = false;
         }
     }

@@ -12,7 +12,7 @@ namespace Assets.AToonWorld.Scripts.Player
     {
         // Editor Fields
         [SerializeField] private float _maxFallDistanceBeforeDeath = 3;
-
+        [SerializeField] private GameObject _tombstonePrefab;
 
         // Private Fields
         private PlayerMovementController _playerMovementController;
@@ -21,7 +21,7 @@ namespace Assets.AToonWorld.Scripts.Player
         private MapBorders _mapBorders;
         private bool _isImmortal;
         private bool _wasInTheAir;
-
+        private GameObject _tombstone;
 
         // Initialization
         private void Awake()
@@ -30,14 +30,15 @@ namespace Assets.AToonWorld.Scripts.Player
             _mapBorders = FindObjectOfType<MapBorders>();
             if(_mapBorders != null)
                 InitializeMapBorders();
+
+            _tombstone = Instantiate(_tombstonePrefab);
+            _tombstone.SetActive(false);
         }
 
         private void InitializeMapBorders()
         {
             _mapBorders.TriggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerOutOfMapBorders);
         }
-
-
 
         private void Start()
         {
@@ -92,7 +93,7 @@ namespace Assets.AToonWorld.Scripts.Player
 
         private void OnGroundEnter()
         {
-            CheckDeath();
+            CheckFallDeath();
             UpdateFallDistance();
         }
 
@@ -103,7 +104,7 @@ namespace Assets.AToonWorld.Scripts.Player
 
         private void OnDrawingEnter()
         {
-            CheckDeath();
+            CheckFallDeath();
             UpdateFallDistance();
         }
 
@@ -132,7 +133,7 @@ namespace Assets.AToonWorld.Scripts.Player
             _previousGroundedPosition = _playerTransform.position;
         }
 
-        private void CheckDeath()
+        private void CheckFallDeath()
         {
             if (!_wasInTheAir && !_playerMovementController.IsClimbing)
                 return;
@@ -145,11 +146,20 @@ namespace Assets.AToonWorld.Scripts.Player
         private bool IsFallDeath(Vector3 start, Vector3 end) 
             => start.y - end.y > _maxFallDistanceBeforeDeath;
 
-
-        // FIXME: discutere dove gestire la morte del player
+        
         private void InvokeDeathEvent()
         {
+            Vector2 playerPosition = _playerMovementController.PlayerBody.transform.parent.position;
+            UpdateTombstone(playerPosition);
+            Events.AnaliticsEvents.PlayerDeath.Invoke(playerPosition);
             Events.PlayerEvents.Death.Invoke();
+        }
+
+        private void UpdateTombstone(Vector2 position)
+        {
+            _tombstone.transform.position = position;
+            if (!_tombstone.activeSelf)
+                _tombstone.SetActive(true);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityAsync;
 using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Seeker
@@ -25,7 +25,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private bool _isPlayerInside;
         private bool _canFollow;
         private Vector3 _startPosition;
-        private Task _currentMovementTask = Task.CompletedTask;
+        private UniTask _currentMovementTask = UniTask.CompletedTask;
 
 
 
@@ -48,16 +48,16 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
 
         // Public Methods
-        public Task TranslateTo(Vector3 position) => _seekerTransform.MoveToAnimated(position, _speed, false);
+        public UniTask TranslateTo(Vector3 position) => _seekerTransform.MoveToAnimated(position, _speed, false);
 
 
 
         // Seeker Events
-        private async void OnPlayerEnter(Collider2D collision)
+        private void OnPlayerEnter(Collider2D collision)
         {
             _playerTransform = collision.gameObject.transform;
             _isPlayerInside = true;
-            await FollowPlayer();
+            FollowPlayer().Forget();
         }
 
         private async void OnPlayerExit(Collider2D collision)
@@ -70,9 +70,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
 
         // Private Methods
-        private async Task GoBackToStart()
+        private async UniTask GoBackToStart()
         {
-            async Task GoBackToStartTask()
+            async UniTask GoBackToStartTask()
             {
                 var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
                 foreach (var position in path)
@@ -86,9 +86,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             _currentMovementTask = GoBackToStartTask();
         }
 
-        private async Task FollowPlayer()
+        private async UniTask FollowPlayer()
         {            
-            async Task FollowTask()
+            async UniTask FollowTask()
             {
                 while(_canFollow && _isPlayerInside)
                 {
@@ -100,7 +100,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                         if (nextPositions.Any())
                             await TranslateTo(nextPositions.First());
                     }
-                    await new WaitForEndOfFrame();
+                    await UniTask.WaitForEndOfFrame();
                 }
             }
 
@@ -108,7 +108,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             _currentMovementTask = FollowTask();
         }
 
-        private async Task CancelFollowTask()
+        private async UniTask CancelFollowTask()
         {
             _canFollow = false;
             await _currentMovementTask;

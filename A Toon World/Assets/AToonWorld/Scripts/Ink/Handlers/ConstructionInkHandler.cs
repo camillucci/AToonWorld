@@ -14,6 +14,7 @@ public class ConstructionInkHandler : ExpendableResource, IInkHandler, ISplineIn
 
     public override float MaxCapacity => 100.0f;
 
+    public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;

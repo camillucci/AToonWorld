@@ -1,6 +1,7 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding.Math;
 using Assets.AToonWorld.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Utils
 {
     public static class CurvePathAnimations
     {
-       public static Task CubicBezierFromPoints(Vector2 start, Vector2 middlePoint, Vector2 end, float speed, Action<Vector2> callback)
+       public static UniTask CubicBezierFromPoints(Vector2 start, Vector2 middlePoint, Vector2 end, float speed, Action<Vector2> callback)
        {
             Vector2 PositionAtTime(float t)
             {
@@ -31,13 +32,13 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Utils
        }
 
 
-        public static Task CubicBezierFromDirections(Vector2 start, Vector2 end, Vector2 startDirection, Vector2 endDirection, float speed, Action<Vector2> positionCallback)
+        public static UniTask CubicBezierFromDirections(Vector2 start, Vector2 end, Vector2 startDirection, Vector2 endDirection, float speed, Action<Vector2> positionCallback)
         {
             var lineStart = new StraightLine(start, startDirection);
             var lineEnd = new StraightLine(end, endDirection);
             if (StraightLine.TryFindSingleInterception(lineStart, lineEnd, out Vector2 intersection))
                 return CubicBezierFromPoints(start, intersection, end, speed, positionCallback);
-            return Task.CompletedTask;
+            return UniTask.CompletedTask;
         }      
     }
 }

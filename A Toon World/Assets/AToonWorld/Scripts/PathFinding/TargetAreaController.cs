@@ -164,11 +164,10 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
         private bool IsNodeWalkable(INode node)
         {
-            var nodePositions = _gridController.GetNodeBoundsAndCenter(node);
-            foreach (var nodePosition in nodePositions)
-                foreach (var collider in NotWalkableColliders)
-                    if (collider.bounds.Contains(nodePosition))
-                        return false;
+            var nodePositions = _gridController.GetNodeBounds(node);
+            var collider = Physics2D.OverlapArea(nodePositions.min, nodePositions.max, LayerMask.GetMask(UnityTag.NonWalkable));
+            if(collider != null)
+                return false;
             return true;
         }
 

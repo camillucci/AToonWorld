@@ -42,6 +42,7 @@ namespace Assets.AToonWorld.Scripts.UI
             Time.timeScale = 0f;
             _isGamePaused = true;
             _playerController.DisablePlayer();
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
         }
 
         #region Buttons
@@ -53,6 +54,7 @@ namespace Assets.AToonWorld.Scripts.UI
             Time.timeScale = 1f;
             _isGamePaused = false;
             _playerController.EnablePlayer();
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
         }
 
         // Restart from last checkpoint
@@ -66,6 +68,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void Exit()
         {
             Time.timeScale = 1f;
+
             // Deactivate all inks in the scene
             ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
             
