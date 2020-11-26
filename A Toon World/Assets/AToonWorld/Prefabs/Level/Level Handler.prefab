@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxFallDistanceBeforeDeath: 6
+  _tombstonePrefab: {fileID: 7455401932700396498, guid: 09cb6c1055b23cc4b920e7a75aecc75d,
+    type: 3}
 --- !u!1 &5486826057862279808
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _respawnSpeed: 10
+  _maxDeathsForAchievement: 5
 --- !u!1 &5806683213184375814
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,3 +224,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e11e3e860b0824eb0e166677855195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _achievementTimeInSeconds: 600

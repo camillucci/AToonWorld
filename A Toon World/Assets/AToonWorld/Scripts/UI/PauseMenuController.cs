@@ -13,13 +13,14 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         private static bool _isGamePaused = false;
         private PlayerController _playerController;
+        private SceneFaderController _sceneFaderController;
 
         [SerializeField] private GameObject _pauseMenuUI = null;
-        [SerializeField] private SceneFaderController _sceneFaderController = null;
 
         void Awake()
         {
             _playerController = FindObjectOfType<PlayerController>();
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
         void Update()

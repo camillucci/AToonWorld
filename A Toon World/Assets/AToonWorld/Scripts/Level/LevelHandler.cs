@@ -120,7 +120,10 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void DrawingCreated(DrawSplineController splineController)
         {
-            _enabledObjectsSinceCheckpoint.Add(splineController.gameObject.GetInstanceID(), splineController.gameObject);
+            if(! _enabledObjectsSinceCheckpoint.ContainsKey(splineController.gameObject.GetInstanceID()))
+            {
+                _enabledObjectsSinceCheckpoint.Add(splineController.gameObject.GetInstanceID(), splineController.gameObject);
+            }
         }
 
         private void EnemyKilled(GameObject enemy)

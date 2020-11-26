@@ -10,11 +10,12 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
+        private SceneFaderController _sceneFaderController;
         [SerializeField] private AudioMixer _audioMixer = null;
-        [SerializeField] private SceneFaderController _sceneFaderController = null;
         
-        void Start()
+        void Awake()
         {
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
             float volumePref = PlayerPrefs.GetFloat("Volume", 1);
             _audioMixer.SetFloat("Volume", volumePref);
         }

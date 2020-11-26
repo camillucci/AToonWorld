@@ -8,14 +8,16 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelsMenuController : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _totalStarsNumber = null;
-        [SerializeField] private SceneFaderController _sceneFaderController = null;
-
         private LevelController[] _levels;
+        private SceneFaderController _sceneFaderController;
+
+        [SerializeField] private TMP_Text _totalStarsNumber = null;
 
         private void Awake()
         {
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
             _levels = FindObjectsOfType<LevelController>();
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
         // Unlock all levels that have the previous level with at least one star

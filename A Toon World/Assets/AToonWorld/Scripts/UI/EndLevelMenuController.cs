@@ -13,29 +13,32 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         private PlayerController _playerController;
         private LevelHandler _levelHandler;
+        private SceneFaderController _sceneFaderController;
 
+        [SerializeField] private Canvas _endLevelCanvas = null;
         [SerializeField] private TMP_Text _timeText = null;
         [SerializeField] private TMP_Text _deathsText = null;
         [SerializeField] private TMP_Text _collectibleText = null;
         [SerializeField] private Image _timeStar = null;
         [SerializeField] private Image _deathsStar = null;
         [SerializeField] private Image _collectiblesStar = null;
-        [SerializeField] private SceneFaderController _sceneFaderController = null;
         [SerializeField] private Sprite _starFullSprite = null;
 
         void Awake()
         {
             _playerController = FindObjectOfType<PlayerController>();
             _levelHandler = FindObjectOfType<LevelHandler>();
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
-        void Start()
+        public void ShowEndLevelMenu()
         {
             // Freeze time and disable player movements
             Time.timeScale = 0f;
             _playerController.DisablePlayer();
 
             // Show player achievements
+            _endLevelCanvas.gameObject.SetActive(true);
             _timeText.text = _levelHandler._timeManager.getFormattedTime();
             _deathsText.text = _levelHandler._deathCounter.ToString();
             _collectibleText.text = _levelHandler._collectiblesManager._currentCollectibles.ToString()

@@ -13,13 +13,14 @@ namespace Assets.AToonWorld.Scripts.UI
         #region Fields
 
         private Button _button = null;
+        private SceneFaderController _sceneFaderController;
+        
         [SerializeField] private int _levelNumber = -1;
         [SerializeField] private bool _isLocked = true;
         [SerializeField] private Image _unlockImage = null;
         [SerializeField] private Image[] _stars = null;
         [SerializeField] private Sprite _starBlankSprite = null;
         [SerializeField] private Sprite _starFullSprite = null;
-        [SerializeField] private SceneFaderController _sceneFaderController = null;
 
         #endregion
 
@@ -28,6 +29,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _button = GetComponent<Button>();
             if (_isLocked)
                 _button.interactable = false;
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
         void Update()

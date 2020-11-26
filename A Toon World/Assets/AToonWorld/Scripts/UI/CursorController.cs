@@ -4,8 +4,8 @@ public class CursorController : MonoBehaviour
 {
     public enum CursorType { Game, Menu}
 
-    [SerializeField] private Texture2D _menuCursor;
-    [SerializeField] private Vector2 _hotspot;
+    [SerializeField] private Texture2D _menuCursor = null;
+    [SerializeField] private Vector2 _hotspot = Vector2.zero;
 
     void Awake()
     {

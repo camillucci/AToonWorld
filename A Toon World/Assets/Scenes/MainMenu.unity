@@ -734,8 +734,8 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1115947032}
     m_SelectOnDown: {fileID: 811016518}
-    m_SelectOnLeft: {fileID: 811016518}
-    m_SelectOnRight: {fileID: 1937566158}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.78431374}
@@ -876,17 +876,6 @@ MonoBehaviour:
       - m_Target: {fileID: 269533741}
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 286712234}
-        m_MethodName: Select
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3554,18 +3543,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36, type: 3}
---- !u!114 &1305708907 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1644517642373725341, guid: f2a3b2dd5e0f9e94aaa71e6fadaa2a36,
-    type: 3}
-  m_PrefabInstance: {fileID: 1305708906}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9a5cc6b2382511469ea74058c7356e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1357943488
 GameObject:
   m_ObjectHideFlags: 0
@@ -4971,7 +4948,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioMixer: {fileID: 24100000, guid: 6d9a76e8042ad99459dae8f4617ab2fc, type: 2}
-  _sceneFaderController: {fileID: 1305708907}
 --- !u!1 &1740605328
 GameObject:
   m_ObjectHideFlags: 0

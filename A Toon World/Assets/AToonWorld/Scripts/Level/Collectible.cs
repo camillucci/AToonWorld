@@ -11,7 +11,6 @@ namespace Assets.AToonWorld.Scripts.Level
     {
         public event Action<Collectible> PlayerHit;
         [SerializeField] private UnityEvent _collectibleTaken = null;
-        private readonly TaggedEvent<string, Collider2D> _triggerEnter = new TaggedEvent<string, Collider2D>();
 
         // When hit, disable object and call subscribed events
         private void OnTriggerEnter2D(Collider2D other)
