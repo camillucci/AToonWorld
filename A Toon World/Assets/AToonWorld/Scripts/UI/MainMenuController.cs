@@ -10,22 +10,27 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
-        [SerializeField] private AudioMixer _audioMixer;
+        private SceneFaderController _sceneFaderController;
+        [SerializeField] private AudioMixer _audioMixer = null;
         
-        void Start()
+        void Awake()
         {
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
             float volumePref = PlayerPrefs.GetFloat("Volume", 1);
             _audioMixer.SetFloat("Volume", volumePref);
         }
+
         void Update()
         {
             if (InputUtils.EnterButton)
                 PlayButton();
         }
 
+        #region Buttons
+
         public void PlayButton()
         {
-            SceneManager.LoadScene(UnityScenes.LevelsMenu);
+            _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
         }
 
         public void QuitButton()
@@ -37,5 +42,7 @@ namespace Assets.AToonWorld.Scripts.UI
             #endif
             
         }
+
+        #endregion
     }
 }

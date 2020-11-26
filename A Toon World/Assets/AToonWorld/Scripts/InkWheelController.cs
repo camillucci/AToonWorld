@@ -14,10 +14,10 @@ public class InkWheelController : MonoBehaviour
         public float endAngle;
     }
 
-    [SerializeField] private GameObject ConstructionInk;   
-    [SerializeField] private GameObject ClimbInk;
-    [SerializeField] private GameObject CancelInk;
-    [SerializeField] private GameObject DamageInk;
+    [SerializeField] private GameObject ConstructionInk = null;   
+    [SerializeField] private GameObject ClimbInk = null;
+    [SerializeField] private GameObject CancelInk = null;
+    [SerializeField] private GameObject DamageInk = null;
 
     private Dictionary<InkType, Image> _inksImages;
     private Dictionary<InkType, InkPosition> _inksPositions;

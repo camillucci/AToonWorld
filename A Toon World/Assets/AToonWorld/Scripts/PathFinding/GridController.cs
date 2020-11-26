@@ -11,8 +11,8 @@ namespace Assets.AToonWorld.Scripts.PathFinding
     public class GridController : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private Vector2 _pathFindingRange;
-        [SerializeField] private float _nodeRadius;
+        [SerializeField] private Vector2 _pathFindingRange = Vector2.zero;
+        [SerializeField] private float _nodeRadius = 0.7f;
 
         // Private Fields
         private Transform _transform;        
@@ -75,9 +75,9 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             var deltaPos = new Vector2(_nodeRadius / 2, _nodeRadius / 2);
             yield return nodeCenter + deltaPos;
             yield return nodeCenter - deltaPos;
-            var ortogonalDeltaPos = new Vector2(-deltaPos.y, deltaPos.x);
-            yield return nodeCenter + ortogonalDeltaPos;
-            yield return nodeCenter - ortogonalDeltaPos;
+            var orthogonalDeltaPos = new Vector2(-deltaPos.y, deltaPos.x);
+            yield return nodeCenter + orthogonalDeltaPos;
+            yield return nodeCenter - orthogonalDeltaPos;
         }
 
         public Rect GetNodeBounds(INode node) 

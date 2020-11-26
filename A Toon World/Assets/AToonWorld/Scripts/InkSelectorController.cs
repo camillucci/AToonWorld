@@ -9,10 +9,10 @@ using Events;
 
 public class InkSelectorController : MonoBehaviour
 {
-    [SerializeField] private GameObject ConstructorInk;   
-    [SerializeField] private GameObject ClimbInk;
-    [SerializeField] private GameObject ClearInk;
-    [SerializeField] private GameObject DamageInk;
+    [SerializeField] private GameObject ConstructorInk = null;   
+    [SerializeField] private GameObject ClimbInk = null;
+    [SerializeField] private GameObject ClearInk = null;
+    [SerializeField] private GameObject DamageInk = null;
     
     //TODO: se ancora inutilizzato rimuovere
     private Dictionary<InkType, GameObject> _inks;

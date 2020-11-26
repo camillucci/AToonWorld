@@ -10,19 +10,22 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class SettingsMenuController : MonoBehaviour
     {
-        [SerializeField] private AudioMixer _audioMixer;
-        [SerializeField] private TMP_Dropdown _qualityDropbox;
-        [SerializeField] private TMP_Dropdown _resolutionDropdown;
-        [SerializeField] private Toggle _fullscreenToggle;
-        [SerializeField] private Slider _volumeSlider;
+        #region Fields
+
+        [SerializeField] private AudioMixer _audioMixer = null;
+        [SerializeField] private TMP_Dropdown _qualityDropbox = null;
+        [SerializeField] private TMP_Dropdown _resolutionDropdown = null;
+        [SerializeField] private Toggle _fullscreenToggle = null;
+        [SerializeField] private Slider _volumeSlider = null;
+
+        #endregion
 
         private Resolution[] resolutions;
 
+        // Refresh settings values based on settings of the last session
         void Start()
         {
-            if (_audioMixer.GetFloat("Volume", out float startingVolume))
-                _volumeSlider.value = Mathf.Pow(10, startingVolume / 20);
-
+            // Update quality dropbox
             _qualityDropbox.value = QualitySettings.GetQualityLevel();
             _resolutionDropdown.RefreshShownValue();
 
@@ -38,13 +41,21 @@ namespace Assets.AToonWorld.Scripts.UI
                     currentResolutionIndex = i;
             }
             
+            // Update resolution dropbox
             _resolutionDropdown.ClearOptions();
             _resolutionDropdown.AddOptions(options);
             _resolutionDropdown.value = currentResolutionIndex;
             _resolutionDropdown.RefreshShownValue();
 
+            // Update fullscreen toggle
             _fullscreenToggle.isOn = Screen.fullScreen;
+
+            // Update volume slider
+            if (_audioMixer.GetFloat("Volume", out float startingVolume))
+                _volumeSlider.value = Mathf.Pow(10, startingVolume / 20);
         }
+
+        #region Buttons
 
         public void SetVolume(float volume)
         {
@@ -59,5 +70,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void SetResolution(int resIndex) =>
             Screen.SetResolution(resolutions[resIndex].width, resolutions[resIndex].height, Screen.fullScreen);
+        
+        #endregion
     }
 }

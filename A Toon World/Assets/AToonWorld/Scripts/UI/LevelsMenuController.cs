@@ -8,15 +8,19 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelsMenuController : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _totalStarsNumber;
-
         private LevelController[] _levels;
+        private SceneFaderController _sceneFaderController;
+
+        [SerializeField] private TMP_Text _totalStarsNumber = null;
 
         private void Awake()
         {
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
             _levels = FindObjectsOfType<LevelController>();
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
+        // Unlock all levels that have the previous level with at least one star
         void Update()
         {
             int sum = 0;
@@ -27,10 +31,12 @@ namespace Assets.AToonWorld.Scripts.UI
             _totalStarsNumber.text = sum + "/" + (UnityScenes.Levels.Length - 1) * 3;
         }
 
+        #region Buttons
+
         public void BackButton()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene(UnityScenes.MainMenu);
+            _sceneFaderController.FadeTo(UnityScenes.MainMenu);
         }
 
         public void ResetButton()
@@ -41,5 +47,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 level.ResetLevel();
             }
         }
+
+        #endregion
     }
 }
