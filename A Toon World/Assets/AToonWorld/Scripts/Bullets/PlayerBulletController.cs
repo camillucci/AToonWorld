@@ -12,6 +12,7 @@ public class PlayerBulletController : BulletController
         {
             this.gameObject.SetActive(false);
             other.gameObject.SetActive(false);
+            Events.LevelEvents.EnemyKilled.Invoke(other.gameObject);
             return;
         }
 

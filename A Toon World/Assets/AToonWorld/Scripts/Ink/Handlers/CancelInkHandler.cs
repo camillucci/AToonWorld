@@ -15,6 +15,7 @@ public class CancelInkHandler : IInkHandler, ISplineInk
         _playerInkController = playerInkController;
     }
 
+    public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;

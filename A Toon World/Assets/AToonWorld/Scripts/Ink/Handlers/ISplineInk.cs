@@ -12,4 +12,5 @@ public interface ISplineInk
     /// </summary>
     /// <param name="splineController">Assigned spline to the current drawing</param>
     void BindSpline(DrawSplineController splineController);
+    DrawSplineController BoundSpline { get; }
 }

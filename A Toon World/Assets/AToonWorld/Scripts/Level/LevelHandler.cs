@@ -24,6 +24,10 @@ namespace Assets.AToonWorld.Scripts.Level
         private DeathObserver _deathObserver;
         private MapBorders _mapBorders;
 
+        //Reset tables, we use IDs to keep track of duplicates
+        private Dictionary<int, GameObject> _enabledObjectsSinceCheckpoint;
+        private Dictionary<int, GameObject> _disabledObjectsSinceCheckpoint;
+
 
         // Public Properties
         public bool RespawningPlayer { get; private set; }
@@ -38,7 +42,12 @@ namespace Assets.AToonWorld.Scripts.Level
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
+            _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
+            _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().Forget());
+            Events.LevelEvents.CheckpointReached.AddListener(CheckpointReached);
+            Events.LevelEvents.SplineDrawn.AddListener(DrawingCreated);
+            Events.LevelEvents.EnemyKilled.AddListener(EnemyKilled);
         }      
 
 
@@ -49,11 +58,28 @@ namespace Assets.AToonWorld.Scripts.Level
 
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
             _playerController.DisablePlayer();
-            lastCheckPoint.OnPlayerRespawnStart();      
+            lastCheckPoint.OnPlayerRespawnStart();     
+            ResetLevelStateFromCheckpoint(); 
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
             lastCheckPoint.OnPlayerRespawnEnd();  
             RespawningPlayer = false;
+        }
+
+        // Private Methods
+        void ResetLevelStateFromCheckpoint()
+        {
+            //Disables all the drawings
+            foreach(GameObject enabledItem in _enabledObjectsSinceCheckpoint.Values)
+                enabledItem.gameObject.SetActive(false);
+
+            //Enables all killed enemies
+            foreach(GameObject disabledItem in _disabledObjectsSinceCheckpoint.Values)
+                disabledItem.SetActive(true);
+
+            //Clears the tracking list
+            _enabledObjectsSinceCheckpoint.Clear();
+            _disabledObjectsSinceCheckpoint.Clear();
         }
       
 
@@ -75,6 +101,21 @@ namespace Assets.AToonWorld.Scripts.Level
                 _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
             }
-        }      
+        }
+ 
+        private void CheckpointReached()
+        {
+            _enabledObjectsSinceCheckpoint.Clear();
+        }
+
+        private void DrawingCreated(DrawSplineController splineController)
+        {
+            _enabledObjectsSinceCheckpoint.Add(splineController.gameObject.GetInstanceID(), splineController.gameObject);
+        }
+
+        private void EnemyKilled(GameObject enemy)
+        {
+            _disabledObjectsSinceCheckpoint.Add(enemy.gameObject.GetInstanceID(), enemy);
+        }
     }
 }
