@@ -9,15 +9,16 @@ public class WavingSprite : MonoBehaviour
     [SerializeField] private Canvas _canvas;
     private CanvasController _canvasController;
 
-    void Start() 
+    protected virtual void Awake() 
     {
         //Copy material
         _imageMaterial = new Material(gameObject.GetComponent<Image>().material);
         gameObject.GetComponent<Image>().material = _imageMaterial;
 
-        UpdateShaderProperties();
         _canvasController = _canvas.GetComponent<CanvasController>();
         _canvasController.CanvasSizeChanged.AddListener(UpdateShaderProperties);
+        
+        UpdateShaderProperties();
     }
 
     private void OnDestroy() {
@@ -35,7 +36,7 @@ public class WavingSprite : MonoBehaviour
 
     protected virtual void DestroyInherited() {}
 
-    void UpdateShaderProperties()
+    public void UpdateShaderProperties()
     {
         Quaternion rotationQuaternion = Quaternion.FromToRotation(Vector3.up, transform.up);
         _imageMaterial.SetVector("_UIElementOrigin", transform.position - _canvas.transform.position);

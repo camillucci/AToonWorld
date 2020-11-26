@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5583651981424630550}
   - component: {fileID: 871959626379476035}
   - component: {fileID: 45291051787224184}
+  - component: {fileID: 6417526722208644002}
   m_Layer: 0
   m_Name: ClimbInkPickup
   m_TagString: InkPickup
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 272ff737a1e718c488a919543b95853f, type: 3}
-  m_Color: {r: 0.015686275, g: 0.5294118, b: 0.12156863, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -114,3 +115,18 @@ MonoBehaviour:
   _refillQuantity: 100
   _refillIsPercentage: 1
   _inkType: 1
+  _isDirected: 1
+  _respawnThreshold: 0
+--- !u!114 &6417526722208644002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621653135407619112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69ca61e49af75c4895e52df4e4faf32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _boundInkHandler: {fileID: 11400000, guid: a7ba444f7dba8b947b8d7ad145e25de5, type: 2}

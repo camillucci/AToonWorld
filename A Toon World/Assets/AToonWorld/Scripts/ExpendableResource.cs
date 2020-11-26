@@ -1,9 +1,15 @@
+using System;
+using UnityEngine;
 using UnityEngine.Events;
-
-public abstract class ExpendableResource
+[CreateAssetMenu(fileName = "ExpendableResource", menuName = "Inkverse/Resources/Expendable Resource", order = 1)]
+public class ExpendableResource : ScriptableObject
 {
+    public event Action OnCapacityChanged;
+
     private float _capacity;
-    public abstract float MaxCapacity { get; }
+    
+    [SerializeField] private float _maxCapacity;
+    public float MaxCapacity => _maxCapacity;
 
     public float Capacity => _capacity;
 
@@ -20,6 +26,7 @@ public abstract class ExpendableResource
             throw new System.Exception("Tried to set more capacity than allowed");
 
         this._capacity = newCapacity;
+        OnCapacityChanged?.Invoke();
     }
 
     /// <summary>

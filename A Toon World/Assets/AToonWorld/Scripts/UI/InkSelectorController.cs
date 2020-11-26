@@ -11,13 +11,13 @@ public class InkSelectorController : MonoBehaviour
 {
     [SerializeField] private Color _selectedTint = Color.red;
     [SerializeField] private Color _emptyTint = Color.grey;
-    [SerializeField] private GameObject ConstructorInk;
-    [SerializeField] private UIInkGauge ConstructorInkGauge;      
-    [SerializeField] private GameObject ClimbInk;
-    [SerializeField] private UIInkGauge ClimbInkGauge;   
-    [SerializeField] private GameObject ClearInk;
-    [SerializeField] private UIInkGauge ClearInkGauge;   
-    [SerializeField] private GameObject DamageInk;
+    [SerializeField] private InkPaletteSO _inkPalette;
+    [SerializeField] private GameObject ConstructorInkContainer;   
+    [SerializeField] private GameObject ClimbInkContainer;  
+    [SerializeField] private GameObject ClearInkContainer;
+    [SerializeField] private GameObject DamageInkContainer;
+    [SerializeField] private UIInkGauge ConstructionInkGauge;   
+    [SerializeField] private UIInkGauge ClimbInkGauge; 
     [SerializeField] private UIInkGauge DamageInkGauge;   
     
     //TODO: se ancora inutilizzato rimuovere
@@ -29,23 +29,23 @@ public class InkSelectorController : MonoBehaviour
     {
         _inks = new Dictionary<InkType, GameObject>()
         {
-            [InkType.Construction] = ConstructorInk,
-            [InkType.Climb] = ClimbInk,
-            [InkType.Cancel] = ClearInk,
-            [InkType.Damage] = DamageInk
+            [InkType.Construction] = ConstructorInkContainer,
+            [InkType.Climb] = ClimbInkContainer,
+            [InkType.Cancel] = ClearInkContainer,
+            [InkType.Damage] = DamageInkContainer
         };
 
         _inksImages = new Dictionary<InkType, Image>()
         {
-            [InkType.Construction] = ConstructorInk.GetComponent<Image>(),
-            [InkType.Climb] = ClimbInk.GetComponent<Image>(),
-            [InkType.Cancel] = ClearInk.GetComponent<Image>(),
-            [InkType.Damage] = DamageInk.GetComponent<Image>()
+            [InkType.Construction] = ConstructorInkContainer.GetComponent<Image>(),
+            [InkType.Climb] = ClimbInkContainer.GetComponent<Image>(),
+            [InkType.Cancel] = ClearInkContainer.GetComponent<Image>(),
+            [InkType.Damage] = DamageInkContainer.GetComponent<Image>()
         };
 
         _inkGauges = new Dictionary<InkType, UIInkGauge>()
         {
-            [InkType.Construction] = ConstructorInkGauge,
+            [InkType.Construction] = ConstructionInkGauge,
             [InkType.Climb] = ClimbInkGauge,
             [InkType.Damage] = DamageInkGauge,
         };

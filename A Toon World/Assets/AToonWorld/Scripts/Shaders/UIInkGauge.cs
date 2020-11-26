@@ -10,7 +10,8 @@ public class UIInkGauge : WavingSprite
 
     private Image _imageComponent;
 
-    void Awake() {
+    protected override void Awake() {
+        base.Awake();
         _imageComponent = GetComponent<Image>();
     }
 
