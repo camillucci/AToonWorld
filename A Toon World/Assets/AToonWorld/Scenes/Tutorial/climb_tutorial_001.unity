@@ -504,7 +504,17 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _refillQuantity
-      value: 100
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
+        type: 3}
+      propertyPath: _refillIsPercentage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
+        type: 3}
+      propertyPath: _respawnThreshold
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
