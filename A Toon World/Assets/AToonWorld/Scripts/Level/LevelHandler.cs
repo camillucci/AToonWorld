@@ -50,7 +50,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _mapBorders = FindObjectOfType<MapBorders>();
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
-            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().Forget());
+            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget());
             Events.LevelEvents.CheckpointReached.AddListener(CheckpointReached);
             Events.LevelEvents.SplineDrawn.AddListener(DrawingCreated);
             Events.LevelEvents.EnemyKilled.AddListener(EnemyKilled);

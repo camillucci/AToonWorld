@@ -733,7 +733,7 @@ PrefabInstance:
     - target: {fileID: 1753383202286084908, guid: 6526e8c0d2311a847826b0339c25e4a5,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.94538176
+      value: 0.8458623
       objectReference: {fileID: 0}
     - target: {fileID: 1753383202286084909, guid: 6526e8c0d2311a847826b0339c25e4a5,
         type: 3}
@@ -1529,12 +1529,12 @@ PrefabInstance:
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.114
+      value: 2.13
       objectReference: {fileID: 0}
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.814
+      value: -8.029
       objectReference: {fileID: 0}
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
@@ -1584,12 +1584,12 @@ PrefabInstance:
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.9235187
+      value: 0.9026186
       objectReference: {fileID: 0}
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.72352195
+      value: 0.5858425
       objectReference: {fileID: 0}
     - target: {fileID: 8452637499622393036, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
@@ -1714,7 +1714,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _refillQuantity
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -3240,7 +3240,7 @@ PrefabInstance:
     - target: {fileID: 1753383202286084899, guid: 6526e8c0d2311a847826b0339c25e4a5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.847
+      value: -2.919
       objectReference: {fileID: 0}
     - target: {fileID: 1753383202286084899, guid: 6526e8c0d2311a847826b0339c25e4a5,
         type: 3}
@@ -3290,7 +3290,7 @@ PrefabInstance:
     - target: {fileID: 1753383202286084899, guid: 6526e8c0d2311a847826b0339c25e4a5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.715282
+      value: 0.7615198
       objectReference: {fileID: 0}
     - target: {fileID: 1753383202286084899, guid: 6526e8c0d2311a847826b0339c25e4a5,
         type: 3}
