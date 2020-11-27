@@ -20,6 +20,11 @@ namespace Assets.AToonWorld.Scripts.UI
             _audioMixer.SetFloat("Volume", volumePref);
         }
 
+        private void Start() 
+        {
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
+        }
+
         void Update()
         {
             if (InputUtils.EnterButton)

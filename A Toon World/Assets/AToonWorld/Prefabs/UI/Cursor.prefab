@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bc91a6b7e6e0342a267d5e0d062c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _menuCursor: {fileID: 2800000, guid: 738a9d66c90b87b4691419adc17b6a4b, type: 3}
+  _hotspot: {x: 0, y: 0}
 --- !u!212 &3715081772951652243
 SpriteRenderer:
   m_ObjectHideFlags: 0
