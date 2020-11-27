@@ -11,7 +11,7 @@ using UnityEngine;
 public class CancelInkObserver : Singleton<CancelInkObserver>
 {
     // Editor Fields
-    [SerializeField] private GameObject _cancelEffectPrefab;
+    [SerializeField] private GameObject _cancelEffectPrefab = null;
 
     private List<GameObject> _inkToDelete;
     private Dictionary<GameObject, LineRenderer> _renderersCache;

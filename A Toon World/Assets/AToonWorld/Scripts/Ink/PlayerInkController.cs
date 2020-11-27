@@ -141,6 +141,9 @@ public class PlayerInkController : MonoBehaviour
         if(IsDrawing)
         {
             _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawReleased(_mouseWorldPosition);
+
+            if(_inkHandlers[_inkPaletteSettings.SelectedInk] is ISplineInk _selectedSplineInk)
+                LevelEvents.SplineDrawn.Invoke(_selectedSplineInk?.BoundSpline);
             IsDrawing = false;
         }
     }

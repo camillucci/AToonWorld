@@ -14,11 +14,11 @@ public class DirectedAreaComponent : MonoBehaviour
 
     void Start()
     {
-        //At the start of the levels finds it's childs
+        //At the start of the levels finds it's children
         _childPickups = new List<InkPickupController>(GetComponentsInChildren<InkPickupController>().Where(pickup => pickup.IsDirected));
     }
 
-    public void ProcessChilds(Action<InkPickupController, bool> processAction) => _childPickups.ForEach(pickup => processAction.Invoke(pickup, _limitedResourcesArea));
+    public void ProcessChildren(Action<InkPickupController, bool> processAction) => _childPickups.ForEach(pickup => processAction.Invoke(pickup, _limitedResourcesArea));
 
     void OnTriggerEnter2D(Collider2D collider)
     {

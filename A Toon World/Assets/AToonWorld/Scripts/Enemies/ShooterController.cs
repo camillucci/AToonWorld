@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ShooterController : MonoBehaviour
 {
-    [SerializeField] private GameObject _bulletSpawner;
-    [SerializeField] private GameObject _target;
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject _bulletSpawner = null;
+    [SerializeField] private GameObject _target = null;
+    [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private float _bulletsInterleavingSeconds = 1;
     private bool _canFire;
 

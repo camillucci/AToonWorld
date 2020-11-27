@@ -15,10 +15,10 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Math
             (StartingPoint, Direction) = (startingPoint, direction.normalized);
         }
 
-        public static StraightLine FromTwoPoints(Vector2 pointaA, Vector2 pointB)
+        public static StraightLine FromTwoPoints(Vector2 pointA, Vector2 pointB)
         {
-            var direction = (pointB - pointaA).normalized;
-            return new StraightLine(pointaA, direction);
+            var direction = (pointB - pointA).normalized;
+            return new StraightLine(pointA, direction);
         }
 
 

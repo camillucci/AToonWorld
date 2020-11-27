@@ -17,14 +17,14 @@ public class InkWheelController : MonoBehaviour
     [SerializeField] private Color _selectionRequestTint = Color.red;
     [SerializeField] private Color _selectedTint = Color.white;
     [SerializeField] private Color _emptyTint = Color.grey;
-    [SerializeField] private InkPaletteSO _inkPalette;
-    [SerializeField] private GameObject ConstructionInkContainer;   
-    [SerializeField] private GameObject ClimbInkContainer;
-    [SerializeField] private GameObject CancelInkContainer;
-    [SerializeField] private GameObject DamageInkContainer;
-    [SerializeField] private UIInkGauge ConstructionInkGauge;   
-    [SerializeField] private UIInkGauge ClimbInkGauge;
-    [SerializeField] private UIInkGauge DamageInkGauge;
+    [SerializeField] private InkPaletteSO _inkPalette = null;
+    [SerializeField] private GameObject ConstructionInkContainer = null;   
+    [SerializeField] private GameObject ClimbInkContainer = null;
+    [SerializeField] private GameObject CancelInkContainer = null;
+    [SerializeField] private GameObject DamageInkContainer = null;
+    [SerializeField] private UIInkGauge ConstructionInkGauge = null;   
+    [SerializeField] private UIInkGauge ClimbInkGauge = null;
+    [SerializeField] private UIInkGauge DamageInkGauge = null;
 
     private Dictionary<InkType, Image> _inksImages;
     private Dictionary<InkType, InkPosition> _inksPositions;

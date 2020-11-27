@@ -18,7 +18,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         private readonly TaggedEvent<string, Collider2D> _triggerExit = new TaggedEvent<string, Collider2D>();
         private readonly HashSet<string> _obstaclesTags = new HashSet<string>();
         private readonly HashSet<Collider2D> _obstaclesColliders = new HashSet<Collider2D>();
-        protected readonly PathStepsContainer _fobiddenStepsContainer = new PathStepsContainer();
+        protected readonly PathStepsContainer _forbiddenStepsContainer = new PathStepsContainer();
         protected GridController _gridController;
         private BoxCollider2D _boxCollider;
 
@@ -47,7 +47,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         public IList<Vector2> MinimumPathTo(Vector2 from, Vector2 to)
         {
             var (startNode, destinationNode) = (_gridController.WorldPointToNode(from), _gridController.WorldPointToNode(to));
-            var path = _gridController.Grid.FindMinimumPath(startNode, destinationNode, _fobiddenStepsContainer)
+            var path = _gridController.Grid.FindMinimumPath(startNode, destinationNode, _forbiddenStepsContainer)
                            .Select(node => _gridController.NodeToWorldPoint(node))
                            .ToList();
             if (path.Any())
@@ -104,13 +104,13 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         private void OnNotWalkableEnter(Collider2D collision)
         {
             _obstaclesColliders.Add(collision);
-            UpdateUnwalkableArea();
+            UpdateNotWalkableArea();
         }
 
         private void OnNotWalkableExit(Collider2D collision)
         {
             _obstaclesColliders.Remove(collision);
-            UpdateUnwalkableArea();
+            UpdateNotWalkableArea();
         }
 
 
@@ -154,7 +154,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
                 _triggerEnter.InvokeWithTag(collider.gameObject.tag, collider);
         }
 
-        private void UpdateUnwalkableArea()
+        private void UpdateNotWalkableArea()
         {
             var grid = _gridController.Grid;
             foreach (var node in grid)
@@ -203,7 +203,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             void AddIfIsForbiddenStep((int, int) nodeACoordinates, (int, int) nodeBCoordinates)
             {
                 if (IsForbiddenStep(nodeACoordinates, nodeBCoordinates))
-                    _fobiddenStepsContainer.Add(grid[nodeACoordinates], grid[nodeBCoordinates]);
+                    _forbiddenStepsContainer.Add(grid[nodeACoordinates], grid[nodeBCoordinates]);
             }
         }
     }

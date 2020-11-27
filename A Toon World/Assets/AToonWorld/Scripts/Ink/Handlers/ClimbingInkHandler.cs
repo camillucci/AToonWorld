@@ -21,8 +21,8 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
     {
         // First point must be on the boarder of a Ground object
         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, LayerMask.GetMask(UnityTag.Default));
-        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibilty, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
-        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(-_sensibilty, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
+        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibility, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
+        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(-_sensibility, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
         
         // Check if mouse is clicking a Ground object or it is near one, otherwise cancel
         if (hit && hit.collider.gameObject.CompareTag(UnityTag.Ground)) {
@@ -32,11 +32,11 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
             float downDistance = Mathf.Abs(wallBounds.min.y - mouseWorldPosition.y);
 
             // Check if mouse is near the border of a Ground object, otherwise cancel
-            if (leftDistance < rightDistance && leftDistance < _sensibilty)
+            if (leftDistance < rightDistance && leftDistance < _sensibility)
                 _lastPoint = new Vector2(wallBounds.min.x - _distanceFromBorder, mouseWorldPosition.y);
-            else if (rightDistance < _sensibilty)
+            else if (rightDistance < _sensibility)
                 _lastPoint = new Vector2(wallBounds.max.x + _distanceFromBorder, mouseWorldPosition.y);
-            else if (downDistance < _sensibilty)
+            else if (downDistance < _sensibility)
                 _lastPoint = mouseWorldPosition;
             else
             {

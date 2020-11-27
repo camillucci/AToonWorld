@@ -55,7 +55,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 
         // Public Methods
-        public IEnumerable<Node> GetNeighbours(Node node)
+        public IEnumerable<Node> GetNeighbors(Node node)
         {
             bool IsBetween(int from, int length, int val) => from <= val && val < from + length;
 
@@ -69,8 +69,8 @@ namespace Assets.AToonWorld.Scripts.PathFinding
                     }
         }
 
-        public IEnumerable<INode> GetNeighbours(INode node) 
-            => GetNeighbours(node as Node);
+        public IEnumerable<INode> GetNeighbors(INode node) 
+            => GetNeighbors(node as Node);
         
         public IEnumerable<INode> FindMinimumPath(INode start, INode destination)
             => _pathFinding.FindMinimumPath(this, start as Node, destination as Node);
