@@ -16,6 +16,10 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
     {
         _boundSplineController.Clear();
         _boundSplineController.AddPoint(mouseWorldPosition);
+        _boundSplineController.Color = new Color(this.InkColor.r,
+                                                this.InkColor.g,
+                                                this.InkColor.b,
+                                                0.5f);
     }
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition)
@@ -46,7 +50,10 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
     public override void OnDrawReleased(Vector2 mouseWorldPosition)
     {
         if(_boundSplineController.PointCount > 1)
+        {
             _boundSplineController.EnableSimulation();
+            _boundSplineController.Color = this.InkColor;
+        }
         else
             _boundSplineController.gameObject.SetActive(false);
     }

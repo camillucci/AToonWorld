@@ -46,6 +46,10 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
             _isDrawing = true;
             _boundSplineController.Clear();
             _boundSplineController.AddPoint(_lastPoint);
+            _boundSplineController.Color = new Color(this.InkColor.r,
+                                                    this.InkColor.g,
+                                                    this.InkColor.b,
+                                                    0.5f);
         }
         else
         {
@@ -86,7 +90,10 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
         {
             _isDrawing = false;
             if(_boundSplineController.PointCount > 1)
+            {
                 _boundSplineController.EnableSimulation();
+                _boundSplineController.Color = this.InkColor;
+            }
             else
                 _boundSplineController.gameObject.SetActive(false);
         }
