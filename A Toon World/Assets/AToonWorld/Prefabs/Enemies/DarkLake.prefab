@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8452637499622393033}
   - component: {fileID: 8452637499622393038}
   - component: {fileID: 8452637499622393039}
+  - component: {fileID: 3130829401388204675}
   m_Layer: 0
   m_Name: DarkLake
   m_TagString: DarkLake
@@ -109,6 +110,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.12, y: 2.9746032}
   m_EdgeRadius: 0
+--- !u!114 &3130829401388204675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452637499622393036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a588abbf8165494a8b9b1a78328951c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshOverride: {fileID: -2432090755550338912, guid: dfc6cbfeb715fd8419471a3a458c9016,
+    type: 3}
+  _maximumGraphicShaderLevel: 46
 --- !u!1 &8452637500259562810
 GameObject:
   m_ObjectHideFlags: 0
