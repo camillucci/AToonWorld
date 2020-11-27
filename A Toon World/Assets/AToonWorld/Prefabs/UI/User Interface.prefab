@@ -90,7 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 4
+  _maxAmplitude: 2
 --- !u!114 &1222131021181325736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 4
+  _maxAmplitude: 2
 --- !u!114 &8739554886712163568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 4
+  _maxAmplitude: 2
 --- !u!114 &1354328924439728974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,7 +778,7 @@ MonoBehaviour:
   ConstructionInkGauge: {fileID: 464817243684833223}
   ClimbInkGauge: {fileID: 6240263338603808799}
   DamageInkGauge: {fileID: 2163741869238473868}
-  _mouseDeadzone: 15
+  _mouseDeadzone: 40
 --- !u!1 &5416300699529364631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,7 +1504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 4
+  _maxAmplitude: 2
 --- !u!114 &6863789964163872226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 4
+  _maxAmplitude: 2
 --- !u!114 &4939823769496635183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1789,7 +1789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 4
+  _maxAmplitude: 2
 --- !u!114 &1099808009956479360
 MonoBehaviour:
   m_ObjectHideFlags: 0

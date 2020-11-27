@@ -67,17 +67,18 @@ Material:
     - _Amplitude: 4
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _Dampening: 10
+    - _Dampening: 0.3
     - _DetailNormalMapScale: 1
     - _Displacement: 0
     - _DstBlend: 0
-    - _Frequency: 10
+    - _EdgeLength: 15
+    - _Frequency: 8.5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaxY: 1
+    - _MaxY: 0.5
     - _Metallic: 0
-    - _MinY: -20
+    - _MinY: -0.5
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -94,5 +95,6 @@ Material:
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _UIElementOrigin: {r: 0, g: 0, b: 0, a: 0}
+    - _UIElementSize: {r: 0, g: 0, b: 0, a: 0}
     - _UIElementUpDirection: {r: 0, g: 0, b: 0, a: 0}
     - _UIElementUpQuaternion: {r: 0, g: 0, b: 0, a: 0}
