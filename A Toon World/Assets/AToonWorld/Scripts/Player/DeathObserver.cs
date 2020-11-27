@@ -151,7 +151,7 @@ namespace Assets.AToonWorld.Scripts.Player
         {
             Vector2 playerPosition = _playerMovementController.PlayerBody.transform.parent.position;
             UpdateTombstone(playerPosition);
-            Events.AnaliticsEvents.PlayerDeath.Invoke(playerPosition);
+            Events.AnaliticsEvents.PlayerDeath.Invoke(new Analitic(playerPosition.x, playerPosition.y));
             Events.PlayerEvents.Death.Invoke();
         }
 

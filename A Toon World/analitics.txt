@@ -1,0 +1,11 @@
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:28 CheckpointTime  1 63742109332,375
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:28 InkFinished Construction
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:29 PlayerDeath 50,36847 -5,18448
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:29 CheckpointTime 1 2 63742109369,5519
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:29 InkFinished Construction
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:29 PlayerDeath 77,46338 7,312267
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:30 CheckpointTime 2 3 63742109409,7751
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:30 PlayerDeath 79,75935 -4,68917
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:30 CheckpointTime 3 4 63742109441,8553
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:30 PlayerDeath 111,0199 10,0132
+e7287272-ddee-4b0f-a49a-4ad39777d68f MirkoScene 27/11/2020 21:31 LevelTime 63742109465,7731

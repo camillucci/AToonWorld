@@ -21,6 +21,7 @@ namespace Assets.AToonWorld.Scripts.Level
         {
             if (other.CompareTag(UnityTag.Player))
             {
+                Events.AnaliticsEvents.LevelEnd.Invoke(new Analitic());
                 _endLevelTaken?.Invoke();
                 _endLevelMenuController.ShowEndLevelMenu();
             }
