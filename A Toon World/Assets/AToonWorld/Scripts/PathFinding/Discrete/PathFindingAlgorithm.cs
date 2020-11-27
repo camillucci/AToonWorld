@@ -25,16 +25,16 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 			
 			for (Node curNode = startNode; openNodes.Count > 0 && curNode != destNode; curNode = openNodes.MinimumPoint(NodeCostLessThan))
 			{
-				foreach (Node neighbour in grid.GetNeighbours(curNode))
-					if (neighbour.Walkable && !closedNodes.Contains(neighbour) && !forbiddenSteps.Contains(curNode, neighbour))
+				foreach (Node neighbor in grid.GetNeighbors(curNode))
+					if (neighbor.Walkable && !closedNodes.Contains(neighbor) && !forbiddenSteps.Contains(curNode, neighbor))
 					{
-						int newCostToNeighbour = curNode.GCost + Distance(curNode, neighbour);
-						if (newCostToNeighbour < neighbour.GCost || !openNodes.Contains(neighbour))
+						int newCostToNeighbor = curNode.GCost + Distance(curNode, neighbor);
+						if (newCostToNeighbor < neighbor.GCost || !openNodes.Contains(neighbor))
 						{
-							neighbour.GCost = newCostToNeighbour;
-							neighbour.HCost = Distance(neighbour, destNode);
-							neighbour.Parent = curNode;
-							openNodes.Add(neighbour);
+							neighbor.GCost = newCostToNeighbor;
+							neighbor.HCost = Distance(neighbor, destNode);
+							neighbor.Parent = curNode;
+							openNodes.Add(neighbor);
 						}
 					}
 

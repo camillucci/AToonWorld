@@ -4,30 +4,26 @@ using UnityEngine;
 using Assets.AToonWorld.Scripts;
 
 //TODO: TrailRenderer or Shooting mechanic for this one
-public class CancelInkHandler : IInkHandler, ISplineInk
+[CreateAssetMenu(fileName = "CancelInkHandler", menuName = "Inkverse/Inks/Handlers/Cancel Ink Handler", order = 4)]
+public class CancelInkHandler : ScriptableInkHandler, ISplineInk
 {
-    private PlayerInkController _playerInkController;
     private DrawSplineController _boundSplineController;
     private Vector2 _lastPoint;
 
-    public CancelInkHandler(PlayerInkController playerInkController)
-    {
-        _playerInkController = playerInkController;
-    }
-
+    public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;
     }
 
-    public void OnDrawDown(Vector2 mouseWorldPosition)
+    public override void OnDrawDown(Vector2 mouseWorldPosition)
     {
         _boundSplineController.Clear();
         _boundSplineController.AddPoint(mouseWorldPosition);
         _lastPoint = mouseWorldPosition;
     }
 
-    public bool OnDrawHeld(Vector2 mouseWorldPosition)
+    public override bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
         _boundSplineController.AddPoint(mouseWorldPosition);
         ProcessToDelete(mouseWorldPosition);
@@ -35,7 +31,7 @@ public class CancelInkHandler : IInkHandler, ISplineInk
         return true; //Infinite Ink
     }
 
-    public void OnDrawReleased(Vector2 mouseWorldPosition)
+    public override void OnDrawReleased(Vector2 mouseWorldPosition)
     {
         ProcessToDelete(mouseWorldPosition);
         CancelInkObserver.Instance.Commit();

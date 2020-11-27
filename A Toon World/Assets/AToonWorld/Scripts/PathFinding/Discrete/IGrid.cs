@@ -17,7 +17,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         INode TopRight { get; }
         INode this[int row, int column] { get; }
         INode this[(int row, int column) coordinates] { get; }
-        IEnumerable<INode> GetNeighbours(INode node);
+        IEnumerable<INode> GetNeighbors(INode node);
         IEnumerable<INode> FindMinimumPath(INode start, INode destination);
         IEnumerable<INode> FindMinimumPath(INode start, INode destination, PathStepsContainer forbiddenSteps);
         bool TryGetValue(int x, int y, out INode node);

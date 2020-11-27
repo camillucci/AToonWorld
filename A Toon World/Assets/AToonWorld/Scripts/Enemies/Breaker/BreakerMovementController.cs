@@ -16,7 +16,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
     public class BreakerMovementController : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private float _speed;
+        [SerializeField] private float _speed = 5f;
         [SerializeField] private float _turnSpeed;
         [SerializeField] private float _turnOffset;
 

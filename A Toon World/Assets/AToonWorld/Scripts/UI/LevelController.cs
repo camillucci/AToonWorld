@@ -9,12 +9,28 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class LevelController : MonoBehaviour
     {
-        [SerializeField] private int _levelNumber;
-        [SerializeField] private bool _isLocked;
-        [SerializeField] private Image _unlockImage;
-        [SerializeField] private Image[] _stars;
-        [SerializeField] private Sprite _starBlankSprite;
-        [SerializeField] private Sprite _starFullSprite;
+
+        #region Fields
+
+        private Button _button = null;
+        private SceneFaderController _sceneFaderController;
+        
+        [SerializeField] private int _levelNumber = -1;
+        [SerializeField] private bool _isLocked = true;
+        [SerializeField] private Image _unlockImage = null;
+        [SerializeField] private Image[] _stars = null;
+        [SerializeField] private Sprite _starBlankSprite = null;
+        [SerializeField] private Sprite _starFullSprite = null;
+
+        #endregion
+
+        void Awake()
+        {
+            _button = GetComponent<Button>();
+            if (_isLocked)
+                _button.interactable = false;
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
+        }
 
         void Update()
         {
@@ -22,22 +38,26 @@ namespace Assets.AToonWorld.Scripts.UI
             UpdateStatus();
         }
 
+        // Visualize a lock if the level is locked, the number of stars obtained if it is completed
         private void UpdateImages()
         {
             _unlockImage.gameObject.SetActive(_isLocked);
             for (int i = 0; i < _stars.Length; i++)
             {
-                _stars[i].gameObject.SetActive(!_isLocked);
-                if (i < PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber], 0))
+                int starsNumber = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber], -1);
+                _stars[i].gameObject.SetActive(starsNumber >= 0);
+                if (starsNumber > i)
                     _stars[i].gameObject.GetComponent<Image>().sprite = _starFullSprite;
             }
         }
 
+        // Update the locked status based on the previous level completion
         private void UpdateStatus()
         {
-            if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1]) > 0)
+            if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1], -1) >= 0)
             {
                 _isLocked = false;
+                _button.interactable = true;
             }
         }
 
@@ -45,15 +65,18 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             if (!_isLocked)
             {
-                SceneManager.LoadScene(UnityScenes.Levels[_levelNumber]);
-                Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
+                _sceneFaderController.FadeTo(UnityScenes.Levels[_levelNumber]);
             }
         }
 
+        // Start a new game, mainly for debugging reasons
         public void ResetLevel()
         {
             if(_levelNumber != 1)
+            {
                 _isLocked = true;
+                _button.interactable = false;
+            }
             for (int i = 0; i < _stars.Length; i++)
                 _stars[i].gameObject.GetComponent<Image>().sprite = _starBlankSprite;
         }

@@ -12,7 +12,7 @@ namespace Assets.AToonWorld.Scripts.Player
     {
         // Editor Fields
         [SerializeField] private float _maxFallDistanceBeforeDeath = 3;
-        [SerializeField] private GameObject _tombstonePrefab;
+        [SerializeField] private GameObject _tombstonePrefab = null;
 
         // Private Fields
         private PlayerMovementController _playerMovementController;

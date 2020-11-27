@@ -12,15 +12,15 @@ namespace Assets.AToonWorld.Scripts.UI
     public class PauseMenuController : MonoBehaviour
     {
         private static bool _isGamePaused = false;
-
-        [SerializeField] private GameObject _pauseMenuUI;
-        [SerializeField] private TMP_Dropdown _qualityDropDown;
-
         private PlayerController _playerController;
+        private SceneFaderController _sceneFaderController;
+
+        [SerializeField] private GameObject _pauseMenuUI = null;
 
         void Awake()
         {
             _playerController = FindObjectOfType<PlayerController>();
+            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
         void Update()
@@ -36,6 +36,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public static bool IsGamePaused => _isGamePaused;
 
+        // Freeze time, disable player movements and enable menu
         void Pause()
         {
             _pauseMenuUI.SetActive(true);
@@ -45,6 +46,9 @@ namespace Assets.AToonWorld.Scripts.UI
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
         }
 
+        #region Buttons
+
+        // Restart time, enable player movements and disable menu
         public void Resume()
         {
             _pauseMenuUI.SetActive(false);
@@ -54,17 +58,25 @@ namespace Assets.AToonWorld.Scripts.UI
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
         }
 
+        // Restart from last checkpoint
         public void Restart()
         {
             Events.PlayerEvents.Death.Invoke();
             Resume();
         }
 
-        public void ExitGame()
+        // Return to the LevelsMenu scene
+        public void Exit()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene(UnityScenes.LevelsMenu);
-            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
+
+            // Deactivate all inks in the scene
+            ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
+            
+            // Return to the LevelsMenu scene
+            _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
         }
+
+        #endregion
     }
 }

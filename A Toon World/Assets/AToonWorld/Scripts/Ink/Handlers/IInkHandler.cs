@@ -1,12 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerInkController;
 
 /// <summary>
 /// Generic ink in the game
 /// </summary>
 public interface IInkHandler
 {
+    //Scriptable Properties
+    GameObject InkPrefab { get; }
+    InkType InkType { get; }
+    Color InkColor { get; }
+    int MinPoolSize { get; }
+    int MaxPoolSize { get; }
+
+    void BindInkController(PlayerInkController playerInkController);
+
     void OnDrawDown(Vector2 mouseWorldPosition);
 
     /// <summary>

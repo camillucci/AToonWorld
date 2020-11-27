@@ -99,4 +99,13 @@ public class ObjectPoolingManager<T>
 		//Find the right pool and ask it for an object.
 		return ObjectPoolingManager<T>.Instance.objectPools[key].GetObject();
 	}
+
+	/// <summary>
+	/// Deactivate all the objects from all the pools in the dictionary without deleting them
+	/// </summary>
+	public void DeactivateAllObjects()
+	{
+		foreach(KeyValuePair<T, ObjectPool> entry in objectPools)
+			entry.Value.DeactivateAllObjects();
+	}
 }

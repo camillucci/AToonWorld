@@ -31,7 +31,13 @@ public class DrawSplineController : MonoBehaviour
     protected Vector3[] _splinePoints;
     public IReadOnlyList<Vector3> SpLinePoints => _splinePoints;
 
-
+    public Color Color {
+        get { return _inkLineRenderer.startColor; }
+        set {
+            _inkLineRenderer.startColor = value;
+            _inkLineRenderer.endColor = value;
+        }
+    }
 
     protected Transform _splineTransform;
     protected int _currentSplineIndex;

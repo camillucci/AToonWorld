@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Utils;
+using Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace Assets.AToonWorld.Scripts.Level
     public class CheckPoint : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private int _checkPointNumber;
-        [SerializeField] private bool _isStart;
+        [SerializeField] private int _checkPointNumber = -1;
+        [SerializeField] private bool _isStart = false;
 
 
         
@@ -33,9 +34,9 @@ namespace Assets.AToonWorld.Scripts.Level
 
         // Events
         public event Action<CheckPoint> PlayerHit;
-        [SerializeField] private UnityEvent _checkpointTaken;
-        [SerializeField] private UnityEvent _playerSpawning;
-        [SerializeField] private UnityEvent _playerSpawned;
+        [SerializeField] private UnityEvent _checkpointTaken = null;
+        [SerializeField] private UnityEvent _playerSpawning = null;
+        [SerializeField] private UnityEvent _playerSpawned = null;
 
 
 
@@ -67,6 +68,9 @@ namespace Assets.AToonWorld.Scripts.Level
                 return;
 
             _hit = true;
+            
+            //Events
+            LevelEvents.CheckpointReached.Invoke();
             _checkpointTaken?.Invoke();
             PlayerHit?.Invoke(this);
         }

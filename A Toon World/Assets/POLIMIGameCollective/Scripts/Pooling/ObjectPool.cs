@@ -158,4 +158,13 @@ public class ObjectPool
 //		}
 //	}
 
+	/// <summary>
+	/// Deactivate all the objects in the pool without deleting them
+	/// </summary>
+	public void DeactivateAllObjects()
+	{
+		foreach(GameObject gameObject in pooledObjects)
+			if (gameObject != null)
+				gameObject.SetActive(false);
+	}
 }

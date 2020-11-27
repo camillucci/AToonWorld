@@ -262,14 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30f8e2aca3d23e4ebb3eb18d1ba1777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _constructionInkPrefab: {fileID: 127351474040341893, guid: 724286faac5091d42953b11d6491bdc6,
-    type: 3}
-  _climbingInkPrefab: {fileID: 127351474040341893, guid: 3a25f0aed1b5d0049bc75dc1c7b613b1,
-    type: 3}
-  _damageInkPrefab: {fileID: 7253575289307407535, guid: 46c35c65dc5a48f489ce0003fdc53fe7,
-    type: 3}
-  _cancelInkPrefab: {fileID: 8704305555763218382, guid: e36cc2e6a4221b24f8add07ab21b35ad,
-    type: 3}
+  _inkPaletteSettings: {fileID: 11400000, guid: 02c1a3bd0e7c0584084e3ed1af8d0c7d,
+    type: 2}
 --- !u!114 &9202030778897293426
 MonoBehaviour:
   m_ObjectHideFlags: 0
