@@ -64,8 +64,14 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 		{
 			List<Node> path = new List<Node>();
 
-			for (Node currentNode = endNode; currentNode != startNode; currentNode = currentNode.Parent)
+			Node currentNode = endNode;
+			while(currentNode != startNode)
+            {
 				path.Add(currentNode);				
+				if (currentNode.Parent != null)
+					currentNode = currentNode.Parent;
+				else return new List<Node>();
+			}
 			path.Reverse();
 
 			return path;

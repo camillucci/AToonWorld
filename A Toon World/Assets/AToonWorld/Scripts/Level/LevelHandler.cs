@@ -38,7 +38,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
-            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().Forget());
+            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget());
         }      
 
 
@@ -49,8 +49,8 @@ namespace Assets.AToonWorld.Scripts.Level
 
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
             _playerController.DisablePlayer();
-            lastCheckPoint.OnPlayerRespawnStart();      
-            await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
+            lastCheckPoint.OnPlayerRespawnStart();
+            await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed).WithCancellation(this.GetCancellationTokenOnDestroy());
             _playerController.EnablePlayer();
             lastCheckPoint.OnPlayerRespawnEnd();  
             RespawningPlayer = false;
@@ -61,12 +61,12 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Update()
         {
             if (InputUtils.KillPlayer && !RespawningPlayer)
-                OnPlayerDead().Forget();
+                OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
         }
 
 
         // Level Events
-        private async UniTaskVoid OnPlayerDead()
+        private async UniTask OnPlayerDead()
         {
             if (!_playerController.IsImmortal)
             {

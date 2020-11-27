@@ -19,10 +19,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
 
-
-    
     // Private fields
-    private Rigidbody2D _rigidBody;
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
     private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
@@ -36,10 +33,10 @@ public class PlayerMovementController : MonoBehaviour
     // Initialization
     private void Awake()
     {        
-        _rigidBody = GetComponent<Rigidbody2D>();
+        RigidBody = GetComponent<Rigidbody2D>();
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
-        _gravityScale = _rigidBody.gravityScale;
+        _gravityScale = RigidBody.gravityScale;
         InitializeJumpingStates();
         InitializeFeet();
         InitializeBody();
@@ -106,8 +103,8 @@ public class PlayerMovementController : MonoBehaviour
     public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);    
     public bool IsGravityEnabled 
     {
-        get => Math.Abs(_rigidBody.gravityScale) > float.Epsilon;
-        private set => _rigidBody.gravityScale = value ? _gravityScale : 0;
+        get => Math.Abs(RigidBody.gravityScale) > float.Epsilon;
+        private set => RigidBody.gravityScale = value ? _gravityScale : 0;
     }
     public int GroundsCollidedCount
     {
@@ -143,7 +140,7 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
     public bool IsInTheAir => !IsClimbing && !IsGrounded && !IsOnDrawingPlatform;
-
+    public Rigidbody2D RigidBody { get; private set; }
 
 
 
@@ -253,13 +250,13 @@ public class PlayerMovementController : MonoBehaviour
         float totForce = 0;
         bool jumpHeld;
         yield return _waitForFixedUpdate;
-        _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, 0);
+        RigidBody.velocity = new Vector2(RigidBody.velocity.x, 0);
         IsGravityEnabled = true;
         do
         {
             float forceIncrement = Mathf.Min(_jumpStepForce, _maxJumpForce - totForce);
             yield return _waitForFixedUpdate;
-            _rigidBody.AddForce(forceIncrement * Vector2.up);
+            RigidBody.AddForce(forceIncrement * Vector2.up);
             yield return new WaitForSeconds(_jumpHoldStepMs / 1000);
             jumpHeld = _jumpHeldCondition?.Invoke() ?? false;
             totForce += forceIncrement;
@@ -286,14 +283,14 @@ public class PlayerMovementController : MonoBehaviour
     private void DoubleJump()
     {        
         CurrentJumpState = JumpState.DoubleJumping;        
-        var velocity = new Vector2(_rigidBody.velocity.x, _doubleJumpSpeed);
-        _fixedUpdateAction += () => _rigidBody.velocity = velocity;
+        var velocity = new Vector2(RigidBody.velocity.x, _doubleJumpSpeed);
+        _fixedUpdateAction += () => RigidBody.velocity = velocity;
     }
 
     private void MoveHorizontal()
     {
         float xVelocity = HorizontalMovementDirection * _speed;        
-        _rigidBody.velocity = new Vector2(xVelocity, _rigidBody.velocity.y);
+        RigidBody.velocity = new Vector2(xVelocity, RigidBody.velocity.y);
     }
 
     private void MoveVertical()
@@ -301,7 +298,7 @@ public class PlayerMovementController : MonoBehaviour
         if(IsClimbing && CanJump)
         {
             float yVelocity = VerticalMovementDirection * _climbingSpeed;        
-            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, yVelocity);
+            RigidBody.velocity = new Vector2(RigidBody.velocity.x, yVelocity);
         }
     }
 

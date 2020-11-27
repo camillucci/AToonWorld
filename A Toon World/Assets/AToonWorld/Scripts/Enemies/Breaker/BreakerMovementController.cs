@@ -28,7 +28,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private Transform _breakerTransform;                
         private GridController _gridController;
         private bool _canFollowPath;
-        private UniTask _followPathTask = UniTask.CompletedTask;
+        private UniTask? _followPathTask = UniTask.CompletedTask;
 
 
 
@@ -41,7 +41,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerTransform = _breakerBody.transform;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
             BreakerTargetAreaHandlerInitialization();
-
         }
 
         private void BreakerTargetAreaHandlerInitialization()
@@ -111,7 +110,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private async UniTask CancelExistingPath()
         {
             _canFollowPath = false;
-            await _followPathTask;
+            if(_followPathTask != null)
+            {
+                var task = _followPathTask.Value;
+                _followPathTask = null;
+                await task;
+            }
             _canFollowPath = true;
         }
     }
