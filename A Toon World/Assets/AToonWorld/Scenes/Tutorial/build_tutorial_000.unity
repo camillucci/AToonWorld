@@ -483,7 +483,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -1076,7 +1076,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -1358,7 +1358,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -1448,7 +1448,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -1703,7 +1703,8 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1764517985422755279, guid: 4a58a0fb19fecc34eaa1d6d1df413835, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4a58a0fb19fecc34eaa1d6d1df413835, type: 3}
 --- !u!1001 &521797767
 PrefabInstance:
@@ -2415,6 +2416,16 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 9187402765722575038, guid: a36f86115645a7e44bbba95e08b6b47d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.2534962
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187402765722575038, guid: a36f86115645a7e44bbba95e08b6b47d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7887155
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a36f86115645a7e44bbba95e08b6b47d, type: 3}
 --- !u!4 &744079941 stripped
@@ -2784,7 +2795,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -3464,6 +3475,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2988577772125123542, guid: e64264fbabe2f0945b922f1473d4c112,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5416300699529364635, guid: e64264fbabe2f0945b922f1473d4c112,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -4574,6 +4590,11 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 8452637499622393038, guid: 32d131ad03368cd489309878d37de182,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 88e53b39234618e4cb2c6f97b3b1e737, type: 2}
     - target: {fileID: 8452637500259562810, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
       propertyPath: m_Layer
@@ -4646,7 +4667,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -4731,7 +4752,7 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -5020,6 +5041,11 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 8452637499622393038, guid: 32d131ad03368cd489309878d37de182,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f7c62f0b51dc34b4bb99d2e376b8b4d5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32d131ad03368cd489309878d37de182, type: 3}
 --- !u!4 &1679025959 stripped
@@ -5218,6 +5244,11 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 8452637499622393038, guid: 32d131ad03368cd489309878d37de182,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e24a9948c9e6b646a26a5c3ef01fff9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32d131ad03368cd489309878d37de182, type: 3}
 --- !u!4 &1710808010 stripped

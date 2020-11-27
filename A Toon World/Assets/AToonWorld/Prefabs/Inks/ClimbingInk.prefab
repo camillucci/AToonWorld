@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 127351474040341892}
   - component: {fileID: 5985393448981026747}
   - component: {fileID: 6722994781567644847}
+  - component: {fileID: -1136837585227766581}
   m_Layer: 8
   m_Name: ClimbingInk
   m_TagString: ClimbingWall
@@ -122,8 +123,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.01744394, g: 0.5283019, b: 0.123076566, a: 1}
-      key1: {r: 0.01744394, g: 0.5283019, b: 0.123076566, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -157,3 +158,16 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &-1136837585227766581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127351474040341893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69ca61e49af75c4895e52df4e4faf32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _boundInkHandler: {fileID: 11400000, guid: a7ba444f7dba8b947b8d7ad145e25de5, type: 2}

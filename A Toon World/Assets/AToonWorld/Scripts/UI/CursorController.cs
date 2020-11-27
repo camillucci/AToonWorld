@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CursorController : MonoBehaviour
 {
-    public enum CursorType { Game, Menu}
+    public enum CursorType { Game, Menu, None}
 
     [SerializeField] private Texture2D _menuCursor = null;
     [SerializeField] private Vector2 _hotspot = Vector2.zero;
@@ -22,6 +22,6 @@ public class CursorController : MonoBehaviour
     {
         bool gameCursor = cursorType == CursorType.Game;
         this.gameObject.SetActive(gameCursor);
-        Cursor.visible = !gameCursor;
+        Cursor.visible = cursorType == CursorType.Menu;
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6623083218708835360}
   - component: {fileID: 1913225364227853173}
   - component: {fileID: 1599922479513285454}
+  - component: {fileID: 6085061373811873393}
   m_Layer: 0
   m_Name: ConstructionInkPickup
   m_TagString: InkPickup
@@ -114,3 +115,18 @@ MonoBehaviour:
   _refillQuantity: 100
   _refillIsPercentage: 1
   _inkType: 0
+  _isDirected: 1
+  _respawnThreshold: 0
+--- !u!114 &6085061373811873393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7003859540737239838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69ca61e49af75c4895e52df4e4faf32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _boundInkHandler: {fileID: 11400000, guid: de1970262527dad4b86a89dcbd589143, type: 2}

@@ -9,38 +9,30 @@ using System;
 
 public class PlayerInkController : MonoBehaviour
 {
-    //TODO: Logica selezione ink
-    //TODO: Interfaccia e gestione ink
-    [SerializeField] private GameObject _constructionInkPrefab = null;
-    [SerializeField] private GameObject _climbingInkPrefab = null;
-    [SerializeField] private GameObject _damageInkPrefab = null;
-    [SerializeField] private GameObject _cancelInkPrefab = null;
+    [SerializeField] private InkPaletteSO _inkPaletteSettings = null;
+
     private PlayerBody _playerBody;
-    private InkType _selectedInk = InkType.Construction;
     private Vector2 _mouseWorldPosition;
     private Dictionary<InkType, IInkHandler> _inkHandlers;
-    public InkType SelectedInk => _selectedInk;
+    public InkType SelectedInk => _inkPaletteSettings.SelectedInk;
     public bool IsDrawing { get; private set; } = false;
 
     void Awake()
     {
-        //TODO: Handler assegnati da codice? Forse è meglio usare qualcosa di assegnabile da Editor? (da Editor non possiamo usare le interfacce)
-        _inkHandlers = new Dictionary<InkType, IInkHandler>()
-        {
-            [InkType.Construction] = new ConstructionInkHandler(this), //Spline Ink
-            [InkType.Climb] = new ClimbingInkHandler(this),
-            [InkType.Damage] = new DamageInkHandler(this),
-            [InkType.Cancel] = new CancelInkHandler(this), //Spline Ink (for now?)
-            //TODO: Others
-        };
+        //Parse degli InkHandler caricati da ScriptableObject
+        _inkHandlers = new Dictionary<InkType, IInkHandler>();
+        _inkPaletteSettings.InkPalette.ForEach(inkHandler => {
+            _inkHandlers.Add(inkHandler.InkType, inkHandler);
+            ObjectPoolingManager<InkType>.Instance.CreatePool(inkHandler.InkType, inkHandler.InkPrefab, inkHandler.MinPoolSize, inkHandler.MaxPoolSize, true);
+        });
 
         _playerBody = GetComponentInChildren<PlayerBody>();
         _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
 
-        ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
-        ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
-        ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Damage, _damageInkPrefab, 20, 50, true);
-        ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
+        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
+        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
+        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Damage, _damageInkPrefab, 20, 50, true);
+        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
 
         Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
     }
@@ -63,8 +55,8 @@ public class PlayerInkController : MonoBehaviour
     {
         savedState.ForEach(savedInk => 
         {
-            if (_inkHandlers[savedInk.Item1] is ExpendableResource expendable)
-                expendable.SetCapacity(savedInk.Item2);
+            if (_inkHandlers[savedInk.Item1] is ScriptableExpendableInkHandler expendableInk)
+                expendableInk.Expendable.SetCapacity(savedInk.Item2);
         });
     }
 
@@ -74,8 +66,8 @@ public class PlayerInkController : MonoBehaviour
         {
             if (IsAvailableInk(newInk))
             {
-                _selectedInk = newInk;
-                InterfaceEvents.InkSelected.Invoke(_selectedInk);
+                _inkPaletteSettings.SelectedInk = newInk;
+                InterfaceEvents.InkSelected.Invoke(_inkPaletteSettings.SelectedInk);
             }
         }
     }
@@ -85,7 +77,7 @@ public class PlayerInkController : MonoBehaviour
         if(!IsDrawing)
         {
             int totalInks = Enum.GetValues(typeof(InkType)).Length;
-            int nextInk = ((int)_selectedInk + (int)inkSelection + totalInks) % totalInks;
+            int nextInk = ((int)_inkPaletteSettings.SelectedInk + (int)inkSelection + totalInks) % totalInks;
             for (int i = 0; i < totalInks; i++)
             {
                 if (IsAvailableInk((InkType)nextInk))
@@ -93,12 +85,12 @@ public class PlayerInkController : MonoBehaviour
                 nextInk = ((int)nextInk + (int)inkSelection + totalInks) % totalInks;
             }
 
-            _selectedInk = (InkType)nextInk;
-            InterfaceEvents.InkSelected.Invoke(_selectedInk);
+            _inkPaletteSettings.SelectedInk = (InkType)nextInk;
+            InterfaceEvents.InkSelected.Invoke(_inkPaletteSettings.SelectedInk);
         }
     }
 
-    private bool IsAvailableInk(InkType ink) => _inkHandlers[ink] is ExpendableResource expendable ? expendable.Capacity > 0 : true;
+    private bool IsAvailableInk(InkType ink) => _inkHandlers[ink] is ScriptableExpendableInkHandler expendable ? expendable.CurrentCapacity > 0 : true;
 
     private void OnInkPickup(Collider2D collider)
     {
@@ -108,8 +100,8 @@ public class PlayerInkController : MonoBehaviour
             if(pickupController.IsPercentage && pickupController.RefillQuantity > 100)
                 throw new System.Exception("Picked up refill with percentage higher than 100%");
 
-            if(_inkHandlers[pickupController.InkType] is ExpendableResource expendableInk)
-                expendableInk.Refill(pickupController.IsPercentage ? expendableInk.MaxCapacity * (pickupController.RefillQuantity / 100) 
+            if(_inkHandlers[pickupController.InkType] is ScriptableExpendableInkHandler expendableInk)
+                expendableInk.Expendable.Refill(pickupController.IsPercentage ? expendableInk.MaxCapacity * (pickupController.RefillQuantity / 100) 
                                                                    : pickupController.RefillQuantity);
             else
                 throw new System.Exception("Picked up refill for non expendable ink!");
@@ -124,14 +116,16 @@ public class PlayerInkController : MonoBehaviour
         IsDrawing = true;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_selectedInk);
+        GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_inkPaletteSettings.SelectedInk);
         
-        if(_inkHandlers[_selectedInk] is ISplineInk _selectedSplineInk)
+        if(_inkHandlers[_inkPaletteSettings.SelectedInk] is ISplineInk _selectedSplineInk)
             _selectedSplineInk?.BindSpline(pooledSpline.GetComponent<DrawSplineController>());
-        else if (_inkHandlers[_selectedInk] is IBulletInk _selectedBulletInk)
+        else if (_inkHandlers[_inkPaletteSettings.SelectedInk] is IBulletInk _selectedBulletInk)
             _selectedBulletInk?.BindBulletAndPosition(pooledSpline.GetComponent<BulletController>(), transform.position);
 
-        _inkHandlers[_selectedInk].OnDrawDown(_mouseWorldPosition);
+        _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition);
+        
+        InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
     }
 
     public void WhileDrawHeld()
@@ -139,7 +133,7 @@ public class PlayerInkController : MonoBehaviour
         if(IsDrawing)
         {
             _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if(!_inkHandlers[_selectedInk].OnDrawHeld(_mouseWorldPosition))
+            if(!_inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawHeld(_mouseWorldPosition))
                 OnDrawReleased();
         }
     }
@@ -148,11 +142,12 @@ public class PlayerInkController : MonoBehaviour
     {
         if(IsDrawing)
         {
-            _inkHandlers[_selectedInk].OnDrawReleased(_mouseWorldPosition);
+            _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawReleased(_mouseWorldPosition);
 
-            if(_inkHandlers[_selectedInk] is ISplineInk _selectedSplineInk)
+            if(_inkHandlers[_inkPaletteSettings.SelectedInk] is ISplineInk _selectedSplineInk)
                 LevelEvents.SplineDrawn.Invoke(_selectedSplineInk?.BoundSpline);
 
+            InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             IsDrawing = false;
         }
     }
