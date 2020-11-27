@@ -11,7 +11,6 @@ public class InkSelectorController : MonoBehaviour
 {
     [SerializeField] private Color _selectedTint = Color.red;
     [SerializeField] private Color _emptyTint = Color.grey;
-    [SerializeField] private InkPaletteSO _inkPalette = null;
     [SerializeField] private GameObject ConstructorInkContainer = null;   
     [SerializeField] private GameObject ClimbInkContainer = null;  
     [SerializeField] private GameObject ClearInkContainer = null;

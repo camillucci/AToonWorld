@@ -8,7 +8,7 @@ public class ExpendableResource : ScriptableObject
 
     private float _capacity;
     
-    [SerializeField] private float _maxCapacity;
+    [SerializeField] private float _maxCapacity = 25;
     public float MaxCapacity => _maxCapacity;
 
     public float Capacity => _capacity;

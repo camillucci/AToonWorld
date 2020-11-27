@@ -9,7 +9,7 @@ using System;
 
 public class PlayerInkController : MonoBehaviour
 {
-    [SerializeField] private InkPaletteSO _inkPaletteSettings;
+    [SerializeField] private InkPaletteSO _inkPaletteSettings = null;
 
     private PlayerBody _playerBody;
     private Vector2 _mouseWorldPosition;
@@ -124,6 +124,8 @@ public class PlayerInkController : MonoBehaviour
             _selectedBulletInk?.BindBulletAndPosition(pooledSpline.GetComponent<BulletController>(), transform.position);
 
         _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition);
+        
+        InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
     }
 
     public void WhileDrawHeld()
@@ -144,6 +146,8 @@ public class PlayerInkController : MonoBehaviour
 
             if(_inkHandlers[_inkPaletteSettings.SelectedInk] is ISplineInk _selectedSplineInk)
                 LevelEvents.SplineDrawn.Invoke(_selectedSplineInk?.BoundSpline);
+
+            InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             IsDrawing = false;
         }
     }

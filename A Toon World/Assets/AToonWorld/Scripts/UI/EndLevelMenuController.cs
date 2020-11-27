@@ -33,6 +33,9 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void ShowEndLevelMenu()
         {
+            //Request Cursor Change
+            Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
+
             // Freeze time and disable player movements
             Time.timeScale = 0f;
             _playerController.DisablePlayer();

@@ -7,7 +7,7 @@ using static PlayerInkController;
 public class InkPaletteSO : ScriptableObject
 {
     public InkType SelectedInk { get; set; }
-    [SerializeField] private List<ScriptableInkHandler> _inkPalette;
+    [SerializeField] private List<ScriptableInkHandler> _inkPalette = new List<ScriptableInkHandler>();
 
     public List<ScriptableInkHandler> InkPalette => _inkPalette;
 }

@@ -7,6 +7,7 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
 {
     private DrawSplineController _boundSplineController;
 
+    public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;

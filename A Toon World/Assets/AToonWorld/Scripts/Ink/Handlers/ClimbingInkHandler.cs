@@ -8,10 +8,11 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
 {
     private DrawSplineController _boundSplineController;
     private bool _isDrawing = false;
-    [SerializeField] private float _sensibilty = 0.5f;
+    [SerializeField] private float _sensibility = 0.5f;
     [SerializeField] private float _distanceFromBorder = 0.05f;
     private Vector2 _lastPoint;
 
+    public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;

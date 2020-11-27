@@ -10,6 +10,7 @@ public class CancelInkHandler : ScriptableInkHandler, ISplineInk
     private DrawSplineController _boundSplineController;
     private Vector2 _lastPoint;
 
+    public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;

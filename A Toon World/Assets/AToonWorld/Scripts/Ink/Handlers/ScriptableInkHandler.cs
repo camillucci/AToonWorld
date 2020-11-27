@@ -8,19 +8,19 @@ public abstract class ScriptableInkHandler : ScriptableObject, IInkHandler
     protected PlayerInkController _playerInkController;
     
     #region Scriptable IInkHandler
-    [SerializeField] private GameObject _inkPrefab;
+    [SerializeField] private GameObject _inkPrefab = null;
     public GameObject InkPrefab =>_inkPrefab;
 
-    [SerializeField] private PlayerInkController.InkType _inkType;
+    [SerializeField] private PlayerInkController.InkType _inkType = PlayerInkController.InkType.Construction;
     public PlayerInkController.InkType InkType => _inkType;
 
-    [SerializeField] private Color _inkColor;
+    [SerializeField] private Color _inkColor = Color.white;
     public Color InkColor =>_inkColor;
 
-    [SerializeField] private int _minPoolSize;
+    [SerializeField] private int _minPoolSize = 1;
     public int MinPoolSize => _minPoolSize;
 
-    [SerializeField] private int _maxPoolSize;
+    [SerializeField] private int _maxPoolSize = 2;
     public int MaxPoolSize => _maxPoolSize;
 
     #endregion

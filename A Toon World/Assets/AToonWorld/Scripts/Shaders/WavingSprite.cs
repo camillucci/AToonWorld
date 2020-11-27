@@ -7,7 +7,7 @@ public class WavingSprite : MonoBehaviour
 {
     protected Material _imageMaterial;
     private Image _imageComponent;
-    [SerializeField] private Canvas _canvas;
+    [SerializeField] private Canvas _canvas = null;
     private CanvasController _canvasController;
 
     protected virtual void Awake() 
