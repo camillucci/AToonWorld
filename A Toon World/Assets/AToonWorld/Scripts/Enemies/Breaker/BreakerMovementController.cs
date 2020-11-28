@@ -40,7 +40,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerAreaHandler = GetComponentInChildren<BreakerTargetAreaHandler>();
             _breakerTransform = _breakerBody.transform;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
-            Events.PlayerEvents.Death.AddListener(() => FollowBestPath().Forget());
             BreakerTargetAreaHandlerInitialization();
         }
 

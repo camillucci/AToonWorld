@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,12 +46,19 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         // Breaker Events
         private void OnDrawingEnter(Collider2D collision)
         {
-            collision.gameObject.SetActive(false);
+            // Workaround. OnTriggerExit can be called before onTriggerEnter if entering and exeting happens in the same instant
+            DeleteLineAfter(100, collision.gameObject).Forget();
         }
 
         private void OnDrawingExit(Collider2D collision)
         {
             
+        }
+
+        private async UniTaskVoid DeleteLineAfter(int ms, GameObject line)
+        {
+            await UniTask.Delay(ms);
+            line.SetActive(false);
         }
     }
 }
