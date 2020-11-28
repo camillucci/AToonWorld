@@ -44,8 +44,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         private void InitializeAreaController()
         {
-            _targetAreaController.TriggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerEnter);
-            _targetAreaController.TriggerExit.SubscribeWithTag(UnityTag.Player, OnPlayerExit);
+            _targetAreaController.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.Player, OnPlayerEnter);
+            _targetAreaController.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.Player, OnPlayerExit);
         }
 
 

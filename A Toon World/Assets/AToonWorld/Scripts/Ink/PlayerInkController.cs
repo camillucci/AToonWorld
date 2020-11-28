@@ -27,7 +27,7 @@ public class PlayerInkController : MonoBehaviour
         });
 
         _playerBody = GetComponentInChildren<PlayerBody>();
-        _playerBody.TriggerEnter.SubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
+        _playerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
 
         //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
         //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
@@ -39,7 +39,7 @@ public class PlayerInkController : MonoBehaviour
 
     private void OnDestroy() 
     {
-        _playerBody.TriggerEnter.UnSubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
+        _playerBody.ColliderTrigger.Enter.UnSubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
         Events.InterfaceEvents.InkSelectionRequested.RemoveListener(OnInkSelected);
     }
     

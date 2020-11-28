@@ -31,8 +31,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
         private void InitializeDrawings()
         {
-            TriggerEnter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
-            TriggerExit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);
+            ColliderTrigger.Enter.SubscribeWithTag(UnityTag.Drawing, OnDrawingEnter);
+            ColliderTrigger.Exit.SubscribeWithTag(UnityTag.Drawing, OnDrawingExit);
         }
 
 
@@ -45,7 +45,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Breaker Events     
-        private int _drawingsCounter = 0;
         private void OnDrawingEnter(Collider2D collision)
         {
             var gameObject = collision.gameObject;

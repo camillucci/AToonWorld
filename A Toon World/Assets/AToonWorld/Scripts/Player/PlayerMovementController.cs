@@ -44,21 +44,21 @@ public class PlayerMovementController : MonoBehaviour
 
     private void InitializeBody()
     {
-        PlayerBody.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
-        PlayerBody.TriggerExit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
+        PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
+        PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
     }
 
     private void InitializeFeet()
     {
         var walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
 
-        PlayerFeet.TriggerEnter.SubscribeWithTag
+        PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag
         (
             (UnityTag.Ground, OnGroundEnter),
             (UnityTag.Drawing, OnDrawingEnter)
         );
 
-        PlayerFeet.TriggerExit.SubscribeWithTag
+        PlayerFeet.ColliderTrigger.Exit.SubscribeWithTag
         (
             (UnityTag.Ground, OnGroundExit),
             (UnityTag.Drawing, OnDrawingExit)
@@ -66,8 +66,8 @@ public class PlayerMovementController : MonoBehaviour
       
         foreach(var walkableTag in walkableTags)
         {
-            PlayerFeet.TriggerEnter.SubscribeWithTag(walkableTag, OnWalkableEnter);
-            PlayerFeet.TriggerExit.SubscribeWithTag(walkableTag, OnWalkableExit);
+            PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag(walkableTag, OnWalkableEnter);
+            PlayerFeet.ColliderTrigger.Exit.SubscribeWithTag(walkableTag, OnWalkableExit);
         }
     }
 
