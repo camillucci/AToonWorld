@@ -48,7 +48,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private int _drawingsCounter = 0;
         private void OnDrawingEnter(Collider2D collision)
         {
-            print(++_drawingsCounter);
             var gameObject = collision.gameObject;
             var spLineController = gameObject.GetComponent<DrawSplineController>();
             AddLine(spLineController);
@@ -57,7 +56,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
         private void OnDrawingExit(Collider2D collision)
         {
-            print(--_drawingsCounter);
             var gameObject = collision.gameObject;
             var spLineController = gameObject.GetComponent<DrawSplineController>();
             RemoveLine(spLineController);
