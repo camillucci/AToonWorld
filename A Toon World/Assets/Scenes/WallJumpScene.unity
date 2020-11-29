@@ -1456,18 +1456,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 581256137769066231}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1644517642726493944 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9125330191301560601, guid: ea106c01abb7a9e49a47c77829651688,
-    type: 3}
-  m_PrefabInstance: {fileID: 7525848544884688865}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9a5cc6b2382511469ea74058c7356e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5116649662440228483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1539,7 +1527,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneFaderController
       value: 
-      objectReference: {fileID: 1644517642726493944}
+      objectReference: {fileID: 0}
     - target: {fileID: 8664229997489324139, guid: 12327e3f307d5de4693259aedbefe4af,
         type: 3}
       propertyPath: _endLevelMenuController
@@ -1553,37 +1541,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5116649662440228483}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7525848544884688865
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7525848543969226462, guid: ea106c01abb7a9e49a47c77829651688,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525848543969226462, guid: ea106c01abb7a9e49a47c77829651688,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525848543969226462, guid: ea106c01abb7a9e49a47c77829651688,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525848543969226462, guid: ea106c01abb7a9e49a47c77829651688,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525848543969226463, guid: ea106c01abb7a9e49a47c77829651688,
-        type: 3}
-      propertyPath: m_Name
-      value: UI
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ea106c01abb7a9e49a47c77829651688, type: 3}

@@ -9,7 +9,6 @@ namespace Assets.AToonWorld.Scripts.UI
     public class LevelsMenuController : MonoBehaviour
     {
         private LevelController[] _levels;
-        private SceneFaderController _sceneFaderController;
 
         [SerializeField] private TMP_Text _totalStarsNumber = null;
 
@@ -17,10 +16,10 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
             _levels = FindObjectsOfType<LevelController>();
-            _sceneFaderController = FindObjectOfType<SceneFaderController>();
+            InGameUIController.PrefabInstance.FadeInMenu();
         }
 
-        // Unlock all levels that have the previous level with at least one star
+        // Visualize the total number of star collected
         void Update()
         {
             int sum = 0;
@@ -33,12 +32,14 @@ namespace Assets.AToonWorld.Scripts.UI
 
         #region Buttons
 
+        // Return to main menu
         public void BackButton()
         {
             Time.timeScale = 1f;
-            _sceneFaderController.FadeTo(UnityScenes.MainMenu);
+            InGameUIController.PrefabInstance.FadeTo(UnityScenes.MainMenu);
         }
 
+        // Reset all progression
         public void ResetButton()
         {
             foreach(LevelController level in _levels)

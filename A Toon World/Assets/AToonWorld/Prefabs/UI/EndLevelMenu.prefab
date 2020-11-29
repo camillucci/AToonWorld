@@ -1843,14 +1843,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee8e28e4d4387043969506323204b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endLevelCanvas: {fileID: 2720405644637289077}
+  _endLevelMenuUI: {fileID: 0}
   _timeText: {fileID: 1393619912839204742}
   _deathsText: {fileID: 8315650265358523638}
   _collectibleText: {fileID: 5393640636342170452}
   _timeStar: {fileID: 669057961369772324}
   _deathsStar: {fileID: 8003846507271607152}
   _collectiblesStar: {fileID: 629772636464978082}
-  _sceneFaderController: {fileID: 0}
+  _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
   _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
 --- !u!1 &9221177373896467334
 GameObject:

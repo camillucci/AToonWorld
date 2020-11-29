@@ -1,5 +1,6 @@
 ﻿using Assets.AToonWorld.Scripts.Camera;
 using Assets.AToonWorld.Scripts.Player;
+using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using System;
@@ -57,6 +58,7 @@ namespace Assets.AToonWorld.Scripts.Level
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             _deathCounter = 0;
             Time.timeScale = 1f;
+            InGameUIController.PrefabInstance.FadeInLevel();
         }      
 
 

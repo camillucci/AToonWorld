@@ -10,14 +10,13 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
-        private SceneFaderController _sceneFaderController;
         [SerializeField] private AudioMixer _audioMixer = null;
         
         void Awake()
         {
-            _sceneFaderController = FindObjectOfType<SceneFaderController>();
             float volumePref = PlayerPrefs.GetFloat("Volume", 1);
             _audioMixer.SetFloat("Volume", volumePref);
+            InGameUIController.PrefabInstance.FadeInMenu();
         }
 
         private void Start() 
@@ -35,12 +34,12 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void PlayButton()
         {
-            _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
+            InGameUIController.PrefabInstance.FadeTo(UnityScenes.LevelsMenu);
         }
 
         public void QuitButton()
         {
-            _sceneFaderController.FadeToExit();
+            InGameUIController.PrefabInstance.FadeToExit();
         }
 
         #endregion

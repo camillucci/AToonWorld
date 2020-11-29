@@ -13,11 +13,6 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private float _fadingSpeed = 1f;
         [SerializeField] private AnimationCurve _animationCurve = null;
 
-        void Start()
-        {
-            FadeIn();
-        }
-
         public void FadeTo(string scene)
         {
             FadeOut(scene);
@@ -29,7 +24,7 @@ namespace Assets.AToonWorld.Scripts.UI
         }
 
         // At the beginning of a scene do a fade in lasting 1/_fadingSpeed seconds
-        private async void FadeIn()
+        public async UniTask FadeIn()
         {
             float time = 1f;
             while(time > 0f)
