@@ -109,7 +109,8 @@ public class AnaliticsManager : MonoBehaviour
         #if UNITY_EDITOR
         analitics.Add(analitic);
         #endif
-        // todo
+        
+        RemoteSheetUploader.Create(analitic).Upload().Forget();
     }
 }
 
