@@ -23,6 +23,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public static readonly string[] Levels = {
             "We count levels from number one",
             "AToonWorld/Scenes/Tutorial/build_tutorial_000",
+            "AToonWorld/Scenes/Tutorial/climb_tutorial_001",
             "Scenes/WallJumpScene",
             "Scenes/BuildLineScene",
             "Scenes/climb-color",

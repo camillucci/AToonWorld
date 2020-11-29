@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/AToonWorld/Scenes/Tutorial/build_tutorial_000.unity
     guid: db0d59305cb3ddc4ba6745dc5decb3dc
   - enabled: 1
+    path: Assets/AToonWorld/Scenes/Tutorial/climb_tutorial_001.unity
+    guid: aea7262fa29564842ad0deeb04e6cf1c
+  - enabled: 1
     path: Assets/Scenes/WallJumpScene.unity
     guid: 2fd2fdcb286882040b6dc6baeca5d224
   - enabled: 1
