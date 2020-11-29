@@ -16,7 +16,8 @@ namespace Assets.AToonWorld.Scripts.UI
 
         [SerializeField] private GameObject _pauseMenuUI = null;
 
-        void Awake()
+        // Initialization
+        private void Start()
         {
             RefreshValues();
         }

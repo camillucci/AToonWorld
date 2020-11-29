@@ -13,10 +13,10 @@ namespace Assets.AToonWorld.Scripts.UI
         private PauseMenuController _pauseMenuController;
         private EndLevelMenuController _endLevelMenuController;
 
-        [SerializeField] GameObject _inkSelector = null;
-        [SerializeField] GameObject _inkWheel = null;
-        [SerializeField] GameObject _pauseMenuUI = null;
-        [SerializeField] GameObject _endLevelMenuUI = null;
+        [SerializeField] private GameObject _inkSelector = null;
+        [SerializeField] private GameObject _inkWheel = null;
+        [SerializeField] private GameObject _pauseMenuUI = null;
+        [SerializeField] private GameObject _endLevelMenuUI = null;
 
         #endregion
 
@@ -30,6 +30,8 @@ namespace Assets.AToonWorld.Scripts.UI
             _endLevelMenuController = GetComponent<EndLevelMenuController>();
         }
 
+        # region ChangeSceneLogic
+
         // Setup the UI for the level and do a fade in
         public async void FadeInLevel()
         {
@@ -42,6 +44,13 @@ namespace Assets.AToonWorld.Scripts.UI
             await _sceneFaderController.FadeIn();
         }
 
+        // Refresh values that depend on a level when a new level is loaded
+        private void RefreshValues()
+        {
+            _pauseMenuController.RefreshValues();
+            _endLevelMenuController.RefreshValues();
+        }
+
         // Setup the UI for the menu and do a fade in
         public async void FadeInMenu()
         {
@@ -51,13 +60,6 @@ namespace Assets.AToonWorld.Scripts.UI
             _inkWheel.SetActive(false);
             await _sceneFaderController.FadeIn();
             _inGameCanvas.gameObject.SetActive(false);
-        }
-
-        // Refresh values that depend on a level when a new level is loaded
-        public void RefreshValues()
-        {
-            _pauseMenuController.RefreshValues();
-            _endLevelMenuController.RefreshValues();
         }
 
         // Do a fade out when changing scene
@@ -73,5 +75,9 @@ namespace Assets.AToonWorld.Scripts.UI
             _inGameCanvas.gameObject.SetActive(true);
             _sceneFaderController.FadeToExit();
         }
+
+        #endregion
+
+        public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
     }
 }

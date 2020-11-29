@@ -1,4 +1,5 @@
-﻿using Assets.AToonWorld.Scripts.Utils;
+﻿using Assets.AToonWorld.Scripts.UI;
+using Assets.AToonWorld.Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,12 @@ namespace Assets.AToonWorld.Scripts
         {
             _playerMovementController = GetComponent<PlayerMovementController>();
             _playerInkController = GetComponent<PlayerInkController>();
-            _inkWheelController = FindObjectOfType<Canvas>().GetComponentInChildren<InkWheelController>(true);
         }
 
-                                      
+        private void Start()
+        {
+            _inkWheelController = InGameUIController.PrefabInstance.inkWheelController;
+        }
 
         // Unity events
         private void Update()

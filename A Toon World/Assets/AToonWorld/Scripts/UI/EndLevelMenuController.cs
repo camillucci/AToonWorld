@@ -24,7 +24,8 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private Sprite _starBlankSprite = null;
         [SerializeField] private Sprite _starFullSprite = null;
 
-        void Awake()
+        // Initialization
+        private void Start()
         {
             RefreshValues();
         }

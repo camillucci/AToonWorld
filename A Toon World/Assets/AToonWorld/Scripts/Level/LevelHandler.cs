@@ -45,10 +45,6 @@ namespace Assets.AToonWorld.Scripts.Level
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
             _collectiblesManager = GetComponentInChildren<CollectiblesManager>();
             _timeManager = GetComponentInChildren<TimeManager>();
-            _playerController = FindObjectOfType<PlayerController>();
-            _cameraMovementController = FindObjectOfType<CameraMovementController>();
-            _deathObserver = FindObjectOfType<DeathObserver>();
-            _mapBorders = FindObjectOfType<MapBorders>();
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget());
@@ -58,8 +54,16 @@ namespace Assets.AToonWorld.Scripts.Level
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             _deathCounter = 0;
             Time.timeScale = 1f;
+        }
+
+        private void Start()
+        {
+            _playerController = FindObjectOfType<PlayerController>();
+            _cameraMovementController = FindObjectOfType<CameraMovementController>();
+            _deathObserver = FindObjectOfType<DeathObserver>();
+            _mapBorders = FindObjectOfType<MapBorders>();
             InGameUIController.PrefabInstance.FadeInLevel();
-        }      
+        }
 
 
         // Public Methods

@@ -11,7 +11,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private EndLevelMenuController _endLevelMenuController;
         [SerializeField] private UnityEvent _endLevelTaken = null;
 
-        void Awake()
+        private void Start()
         {
             _endLevelMenuController = FindObjectOfType<EndLevelMenuController>();
         }

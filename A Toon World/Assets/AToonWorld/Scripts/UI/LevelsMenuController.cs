@@ -15,6 +15,11 @@ namespace Assets.AToonWorld.Scripts.UI
         private void Awake()
         {
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
+        }
+
+        // Initialization
+        private void Start()
+        {
             _levels = FindObjectsOfType<LevelController>();
             InGameUIController.PrefabInstance.FadeInMenu();
         }
