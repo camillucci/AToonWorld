@@ -37,7 +37,7 @@ namespace Assets.AToonWorld.Scripts.Player
 
         private void InitializeMapBorders()
         {
-            _mapBorders.TriggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerOutOfMapBorders);
+            _mapBorders.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.Player, OnPlayerOutOfMapBorders);
         }
 
         private void Start()
@@ -53,9 +53,9 @@ namespace Assets.AToonWorld.Scripts.Player
             _playerMovementController.AllDrawingExit += OnWalkableOrDrawingExit;
             _playerMovementController.AllClimbingExit += OnWalkableOrDrawingExit;
             _playerMovementController.AllGroundsExit += OnWalkableOrDrawingExit;
-            _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Ground, _ => OnGroundEnter());
-            _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(UnityTag.ClimbingWall, _ => OnClimbingWallEnter());
-            _playerMovementController.PlayerFeet.TriggerEnter.SubscribeWithTag(UnityTag.Drawing, _ => OnDrawingEnter());
+            _playerMovementController.PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.Ground, _ => OnGroundEnter());
+            _playerMovementController.PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, _ => OnClimbingWallEnter());
+            _playerMovementController.PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.Drawing, _ => OnDrawingEnter());
         }
 
         private void SubscribeToEnemyDeathEvents()
@@ -64,7 +64,7 @@ namespace Assets.AToonWorld.Scripts.Player
 
             foreach (var tag in enemyDeathTagsToCheck)
             {
-                _playerMovementController.PlayerBody.TriggerEnter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
+                _playerMovementController.PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
             }
         }
 

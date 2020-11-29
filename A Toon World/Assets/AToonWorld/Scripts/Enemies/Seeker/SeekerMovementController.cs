@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -24,26 +25,27 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private Transform _playerTransform;
         private bool _isPlayerInside;
         private bool _canFollow;
-        private Vector3 _startPosition;
-        private UniTask _currentMovementTask = UniTask.CompletedTask;
+        private Vector3 _startPosition;        
+        private UniTask? _currentMovementTask = UniTask.CompletedTask;
 
 
 
         // Initialization
+
         private void Awake()
         {
             _seekerBody = GetComponentInChildren<SeekerBody>();
             _seekerTransform = _seekerBody.transform;
             _targetAreaController = GetComponentInChildren<SeekerTargetAreaController>();
             _gridController = GetComponentInChildren<GridController>();
-            _startPosition = _seekerTransform.position;
+            _startPosition = _seekerTransform.position;            
             InitializeAreaController();
         }
 
         private void InitializeAreaController()
         {
-            _targetAreaController.TriggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerEnter);
-            _targetAreaController.TriggerExit.SubscribeWithTag(UnityTag.Player, OnPlayerExit);
+            _targetAreaController.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.Player, OnPlayerEnter);
+            _targetAreaController.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.Player, OnPlayerExit);
         }
 
 
@@ -52,7 +54,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
 
 
-        // Seeker Events
         private void OnPlayerEnter(Collider2D collision)
         {
             _playerTransform = collision.gameObject.transform;
@@ -77,7 +78,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                 var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
                 foreach (var position in path)
                     if (_canFollow)
-                        await TranslateTo(position);
+                        await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
                     else
                         return;
             }
@@ -98,7 +99,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                         var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, playerPosition);
                         var nextPositions = from pos in path where Vector2.Distance(_seekerTransform.position, pos) > _gridController.NodeRadius select pos;
                         if (nextPositions.Any())
-                            await TranslateTo(nextPositions.First());
+                            await TranslateTo(nextPositions.First()).WithCancellation(this.GetCancellationTokenOnDestroy());
                     }
                     await UniTask.WaitForEndOfFrame();
                 }
@@ -111,7 +112,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private async UniTask CancelFollowTask()
         {
             _canFollow = false;
-            await _currentMovementTask;
+            if (_currentMovementTask != null)
+            {
+                var task = _currentMovementTask.Value;
+                _currentMovementTask = null;
+                await task;
+            }
             _canFollow = true;
         }
 

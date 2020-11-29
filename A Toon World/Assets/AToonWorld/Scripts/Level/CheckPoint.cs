@@ -1,4 +1,5 @@
 ﻿using Assets.AToonWorld.Scripts.Utils;
+using Assets.AToonWorld.Scripts.Utils.Events.TaggedEvents;
 using Events;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Awake()
         {
             _transform = transform;
-            _triggerEnter.SubscribeWithTag(UnityTag.Player, OnPlayerHit);
+            _colliderTrigger.Enter.SubscribeWithTag(UnityTag.Player, OnPlayerHit);
         }
 
 
@@ -41,7 +42,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
 
         // Private Fields
-        private readonly TaggedEvent<string, Collider2D> _triggerEnter = new TaggedEvent<string, Collider2D>();
+        private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
         private Transform _transform;
 
 
@@ -50,7 +51,7 @@ namespace Assets.AToonWorld.Scripts.Level
         // Public Properties
         public Vector3 Position => _transform.position;
         public int CheckPointNumber => _checkPointNumber;
-        public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
+        public IColliderTaggedEvents<Collider2D> ColliderTrigger => _colliderTrigger;
 
         public bool Hit => _hit || IsStart;
         public bool IsStart => _isStart;
@@ -59,7 +60,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
 
         // Unity Events
-        private void OnTriggerEnter2D(Collider2D collision) => _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
+        private void OnTriggerEnter2D(Collider2D collision) => _colliderTrigger.NotifyEnter(collision.gameObject.tag, collision);
 
         // CheckPoint events        
         private void OnPlayerHit(Collider2D collision)

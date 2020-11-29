@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Assets.AToonWorld.Scripts.Utils.Events.TaggedEvents;
 
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
@@ -14,8 +15,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
     public class TargetAreaController : MonoBehaviour
     {
         // Private Fields
-        private readonly TaggedEvent<string, Collider2D> _triggerEnter = new TaggedEvent<string, Collider2D>();
-        private readonly TaggedEvent<string, Collider2D> _triggerExit = new TaggedEvent<string, Collider2D>();
+        private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
         private readonly HashSet<string> _obstaclesTags = new HashSet<string>();
         private readonly HashSet<Collider2D> _obstaclesColliders = new HashSet<Collider2D>();
         protected readonly PathStepsContainer _forbiddenStepsContainer = new PathStepsContainer();
@@ -37,8 +37,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 
         // Public Properties
-        public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
-        public ITaggedEvent<string, Collider2D> TriggerExit => _triggerExit;
+        public IColliderTaggedEvents<Collider2D> ColliderTrigger => _colliderTrigger;
         public IReadOnlyCollection<Collider2D> NotWalkableColliders => _obstaclesColliders;
 
 
@@ -89,12 +88,12 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         // UnityEvents
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
+            _colliderTrigger.NotifyEnter(collision.gameObject.tag, collision);
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            _triggerExit.InvokeWithTag(collision.gameObject.tag, collision);
+            _colliderTrigger.NotifyExit(collision.gameObject.tag, collision);
         }
 
 
@@ -130,15 +129,15 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         private void AddObstacleTag(string tag)
         {
             _obstaclesTags.Add(tag);
-            TriggerEnter.SubscribeWithTag(tag, OnNotWalkableEnter);
-            TriggerExit.SubscribeWithTag(tag, OnNotWalkableExit);
+            ColliderTrigger.Enter.SubscribeWithTag(tag, OnNotWalkableEnter);
+            ColliderTrigger.Exit.SubscribeWithTag(tag, OnNotWalkableExit);
         }
 
         private void RemoveObstacleTag(string tag)
         {
             _obstaclesTags.Remove(tag);
-            TriggerExit.UnSubscribeWithTag(tag, OnNotWalkableEnter);
-            TriggerExit.UnSubscribeWithTag(tag, OnNotWalkableExit);
+            ColliderTrigger.Exit.UnSubscribeWithTag(tag, OnNotWalkableEnter);
+            ColliderTrigger.Exit.UnSubscribeWithTag(tag, OnNotWalkableExit);
         }
 
 
@@ -151,7 +150,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             foreach (var collider in NotWalkableColliders)
                 OnNotWalkableExit(collider);
             foreach (var collider in colliders)
-                _triggerEnter.InvokeWithTag(collider.gameObject.tag, collider);
+                _colliderTrigger.NotifyEnter(collider.gameObject.tag, collider);
         }
 
         private void UpdateNotWalkableArea()
