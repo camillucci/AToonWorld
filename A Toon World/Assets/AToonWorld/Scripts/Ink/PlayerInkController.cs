@@ -6,6 +6,7 @@ using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts;
 using Events;
 using System;
+using Object = System.Object;
 
 public class PlayerInkController : MonoBehaviour
 {
@@ -35,6 +36,26 @@ public class PlayerInkController : MonoBehaviour
         //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
 
         Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
+        Events.LevelEvents.CheckpointReached.AddListener(SendInksLevelForAnalitics);
+    }
+
+    private void SendInksLevelForAnalitics(int checkpointNumber)
+    {
+        List<float> inksLevels = GetInksLevels();
+        Object[] values = new Object[inksLevels.Count + 1];
+        values[0] = checkpointNumber;
+        for(int i = 1; i < values.Length; i++)
+            values[i] = inksLevels[i -1];
+        Events.AnaliticsEvents.InksLevelAtCheckpoint.Invoke(new Analitic(values));
+    }
+
+    private List<float> GetInksLevels()
+    {
+        List<float> inksLevel = new List<float>();
+        foreach (IInkHandler inkHandler in _inkHandlers.Values)
+            if (inkHandler is ScriptableExpendableInkHandler expendableInk)
+                inksLevel.Add(expendableInk.CurrentCapacity/expendableInk.MaxCapacity);
+        return inksLevel;
     }
 
     private void OnDestroy() 

@@ -11,20 +11,42 @@ public enum EventName
     LevelTime,                      // Seconds spent on a level
     CheckpointTime,                 // Seconds spent to reach a checkpoint from the previous one - [ 2, 3, 26 ]
     InkFinished,                    // A specific ink is finished
+    InkStatusAtCheckpoint,          // Inks status (amount) when the player reach a checkpoint
 }
 
 public class AnaliticsManager : MonoBehaviour
 {
-    // todo salvare in modo persistente
+    
+    private const string userKey = "UserGuid";
+    private const string gamesKey = "UserGames";
+
     private Guid _user;
-    private long _game = 0;
+    private Int32 _game;
 
     void Awake()
     {
         DontDestroyOnLoad(this);
-        _user = Guid.NewGuid();
+        InitUserAndGames();
         SubscribeToAnaliticsEvents();
     }
+
+    private void InitUserAndGames()
+    {
+        if (PlayerPrefs.HasKey(userKey) && PlayerPrefs.HasKey(gamesKey))
+        {
+            _user = Guid.Parse(PlayerPrefs.GetString(userKey));
+            _game = (Int32)PlayerPrefs.GetInt(gamesKey) + 1;
+        }
+        else
+        {
+            _user = Guid.NewGuid();
+            _game = 0;
+            PlayerPrefs.SetString(userKey, _user.ToString());
+            PlayerPrefs.SetInt(gamesKey, _game);
+        }
+    }
+
+    private void UpdateGames() => PlayerPrefs.SetInt(gamesKey, _game = (_game++) % Int32.MaxValue);
 
     private void SubscribeToAnaliticsEvents()
     {
@@ -32,27 +54,32 @@ public class AnaliticsManager : MonoBehaviour
         Events.AnaliticsEvents.LevelStart.AddListener(analitic => SetLevelStart(analitic));
         Events.AnaliticsEvents.LevelEnd.AddListener(analitic => SetLevelEnd(analitic));
         Events.AnaliticsEvents.Checkpoint.AddListener(analitic => SetCheckpointTime(analitic));
+        Events.AnaliticsEvents.InksLevelAtCheckpoint.AddListener(analitic => CompleteAndSend(EventName.InkStatusAtCheckpoint, analitic));
         Events.AnaliticsEvents.InkFinished.AddListener(analitic => CompleteAndSend(EventName.InkFinished, analitic));
     }
 
     #region LevelTime and CheckpointTime
     private DateTime _startTime;
-    private string _previousCheckpoint;
-    private void SetLevelStart(Analitic analitic) => _startTime = analitic.dateTime;
+    private (string, DateTime) _previousCheckpoint;
+    private void SetLevelStart(Analitic analitic)
+    {
+        _startTime = analitic.dateTime;
+        _previousCheckpoint = ("0", _startTime);
+    }
 
     private void SetCheckpointTime(Analitic analitic)
     {
         string currentCheckpoint = analitic.value[0];
-        analitic.value = new string[] { _previousCheckpoint, currentCheckpoint, (analitic.dateTime - _startTime).TotalSeconds.ToString() };
-        _previousCheckpoint = currentCheckpoint;
+        analitic.value = new string[] { _previousCheckpoint.Item1, currentCheckpoint, DateTimeDifferenceInSeconds(analitic.dateTime, _previousCheckpoint.Item2) };
+        _previousCheckpoint = (currentCheckpoint, analitic.dateTime);
         CompleteAndSend(EventName.CheckpointTime, analitic);
     }
 
     private void SetLevelEnd(Analitic analitic)
     {
-        analitic.value = new string[] { (analitic.dateTime - _startTime).TotalSeconds.ToString() };
+        analitic.value = new string[] { DateTimeDifferenceInSeconds(analitic.dateTime, _startTime) };
         CompleteAndSend(EventName.LevelTime, analitic);
-        _game = (_game++) % long.MaxValue;
+        UpdateGames();
 
         #if UNITY_EDITOR
         string[] analiticsReadable = new string[analitics.Count];
@@ -61,6 +88,8 @@ public class AnaliticsManager : MonoBehaviour
         File.WriteAllLines("analitics.txt", analiticsReadable);
         #endif
     }
+
+    private string DateTimeDifferenceInSeconds(DateTime d1, DateTime d2) => ((int)(d1 - d2).TotalSeconds).ToString();
     #endregion
 
     private void CompleteAndSend(EventName eventName, Analitic analitic)
@@ -79,7 +108,6 @@ public class AnaliticsManager : MonoBehaviour
     {
         #if UNITY_EDITOR
         analitics.Add(analitic);
-        Debug.Log(analitic.ToString());
         #endif
         // todo
     }

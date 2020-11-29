@@ -22,5 +22,8 @@ namespace Events
 
         /// <summary>Evento scatenato quando il giocatore finisce un inchiostro</summary>
         public static Event<Analitic> InkFinished = new Event<Analitic>();
+
+        /// <summary>Evento scatenato quando il giocatore passa sopra un chekpoint</summary>
+        public static Event<Analitic> InksLevelAtCheckpoint = new Event<Analitic>();
     }
 }

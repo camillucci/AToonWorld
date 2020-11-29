@@ -10,7 +10,7 @@ public class Analitic
     public string level;
     public DateTime dateTime;
     public EventName eventName;
-    public long game;
+    public Int32 game;
     public string[] value;
 
     public Analitic(params Object[] value)
@@ -25,7 +25,7 @@ public class Analitic
 
     public override string ToString()
     {
-        return $"{user} {level} {dateTime.ToShortDateString()} {dateTime.ToShortTimeString()} {eventName.ToString()} {string.Join(" ", value)}";
+        return $"{user} {level} {game} {dateTime.ToString("dd/MM/yy HH:mm:ss")} {eventName.ToString()} {string.Join(" ", value)}";
     }
 }
 

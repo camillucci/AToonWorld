@@ -66,7 +66,6 @@ namespace Assets.AToonWorld.Scripts.UI
             if (!_isLocked)
             {
                 _sceneFaderController.FadeTo(UnityScenes.Levels[_levelNumber]);
-                Events.AnaliticsEvents.LevelStart.Invoke(new Analitic());
             }
         }
 

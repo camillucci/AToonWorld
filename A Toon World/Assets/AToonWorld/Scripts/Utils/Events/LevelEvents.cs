@@ -12,7 +12,7 @@ namespace Events
         public static Event<DrawSplineController> SplineDrawn = new Event<DrawSplineController>();
 
         /// <summary>Event notified when a checkpoint is reached</summary>
-        public static UnityEvent CheckpointReached = new UnityEvent();
+        public static Event<int> CheckpointReached = new Event<int>();
 
         /// <summary>Event notified when an enemy is killed</summary>
         public static Event<GameObject> EnemyKilled = new Event<GameObject>();

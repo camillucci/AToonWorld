@@ -51,12 +51,14 @@ namespace Assets.AToonWorld.Scripts.Level
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().Forget());
-            Events.LevelEvents.CheckpointReached.AddListener(CheckpointReached);
+            Events.LevelEvents.CheckpointReached.AddListener(checkpointNumber => CheckpointReached());
             Events.LevelEvents.SplineDrawn.AddListener(DrawingCreated);
             Events.LevelEvents.EnemyKilled.AddListener(EnemyKilled);
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             _deathCounter = 0;
             Time.timeScale = 1f;
+
+            Events.AnaliticsEvents.LevelStart.Invoke(new Analitic());
         }      
 
 
