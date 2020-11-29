@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class WavingSprite : MonoBehaviour
 {
     protected Material _imageMaterial;
-    private Image _imageComponent;
-    [SerializeField] private Canvas _canvas = null;
+    protected Image _imageComponent;
+    private Canvas _canvas;
     private CanvasController _canvasController;
 
     protected virtual void Awake() 
@@ -17,6 +17,7 @@ public class WavingSprite : MonoBehaviour
         _imageMaterial = new Material(_imageComponent.material);
         _imageComponent.material = _imageMaterial;
 
+        _canvas = FindObjectOfType<Canvas>();
         _canvasController = _canvas.GetComponent<CanvasController>();
         _canvasController.CanvasSizeChanged.AddListener(UpdateShaderProperties);
         

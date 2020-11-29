@@ -23,6 +23,11 @@ namespace Assets.AToonWorld.Scripts.UI
             FadeOut(scene);
         }
 
+        public void FadeToExit()
+        {
+            FadeExit();
+        }
+
         // At the beginning of a scene do a fade in lasting 1/_fadingSpeed seconds
         private async void FadeIn()
         {
@@ -49,6 +54,25 @@ namespace Assets.AToonWorld.Scripts.UI
             }
 
             SceneManager.LoadScene(scene);
+        }
+
+        // When exiting the game do a fade out lasting 1/_fadingSpeed seconds
+        private async void FadeExit()
+        {
+            float time = 0f;
+            while(time < 1f)
+            {
+                time += Time.unscaledDeltaTime * _fadingSpeed;
+                float alpha = _animationCurve.Evaluate(time);
+                _image.color = new Color(0f, 0f, 0f, alpha);
+                await UniTask.WaitForEndOfFrame();
+            }
+
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         }
     }
 }

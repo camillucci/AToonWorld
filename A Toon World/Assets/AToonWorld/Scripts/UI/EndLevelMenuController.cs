@@ -15,7 +15,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private LevelHandler _levelHandler;
         private SceneFaderController _sceneFaderController;
 
-        [SerializeField] private Canvas _endLevelCanvas = null;
+        [SerializeField] private GameObject _endLevelMenuUI = null;
         [SerializeField] private TMP_Text _timeText = null;
         [SerializeField] private TMP_Text _deathsText = null;
         [SerializeField] private TMP_Text _collectibleText = null;
@@ -41,7 +41,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _playerController.DisablePlayer();
 
             // Show player achievements
-            _endLevelCanvas.gameObject.SetActive(true);
+            _endLevelMenuUI.SetActive(true);
             _timeText.text = _levelHandler._timeManager.getFormattedTime();
             _deathsText.text = _levelHandler._deathCounter.ToString();
             _collectibleText.text = _levelHandler._collectiblesManager._currentCollectibles.ToString()

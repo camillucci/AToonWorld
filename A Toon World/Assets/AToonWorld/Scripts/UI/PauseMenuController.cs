@@ -61,8 +61,8 @@ namespace Assets.AToonWorld.Scripts.UI
         // Restart from last checkpoint
         public void Restart()
         {
-            Events.PlayerEvents.Death.Invoke();
-            Resume();
+            ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
+            _sceneFaderController.FadeTo(SceneManager.GetActiveScene().name);
         }
 
         // Return to the LevelsMenu scene

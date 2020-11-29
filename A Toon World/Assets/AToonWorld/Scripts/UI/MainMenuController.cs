@@ -40,12 +40,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void QuitButton()
         {
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                Application.Quit();
-            #endif
-            
+            _sceneFaderController.FadeToExit();
         }
 
         #endregion

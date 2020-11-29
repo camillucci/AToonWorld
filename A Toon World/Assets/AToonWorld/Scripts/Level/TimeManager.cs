@@ -18,7 +18,7 @@ namespace Assets.AToonWorld.Scripts.Level
         public string getFormattedTime()
         {
             TimeSpan time = TimeSpan.FromSeconds(timeInSeconds);
-            return time.ToString(@"hh\:mm\:ss\:fff");
+            return time.ToString(@"mm\:ss\:fff");
         }
 
         public bool GotAchievement => timeInSeconds <= _achievementTimeInSeconds;

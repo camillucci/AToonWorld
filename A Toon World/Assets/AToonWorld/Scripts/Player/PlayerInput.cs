@@ -20,17 +20,7 @@ namespace Assets.AToonWorld.Scripts
         {
             _playerMovementController = GetComponent<PlayerMovementController>();
             _playerInkController = GetComponent<PlayerInkController>();
-
-            var userInterface = FindObjectsOfType<Canvas>();
-            foreach(Canvas c in userInterface)
-            {
-                InkWheelController inkWheel = c.GetComponentInChildren<InkWheelController>(true);
-                if(inkWheel != null)
-                {
-                    _inkWheelController = inkWheel;
-                    break;
-                }
-            }
+            _inkWheelController = FindObjectOfType<Canvas>().GetComponentInChildren<InkWheelController>(true);
         }
 
                                       
