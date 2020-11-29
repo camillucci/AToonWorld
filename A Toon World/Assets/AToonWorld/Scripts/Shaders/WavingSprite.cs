@@ -43,7 +43,7 @@ public class WavingSprite : MonoBehaviour
     public void UpdateShaderProperties()
     {
         Quaternion rotationQuaternion = Quaternion.FromToRotation(Vector3.up, transform.up);
-        _imageMaterial.SetVector("_UIElementOrigin", transform.position - _canvas.transform.position);
+        _imageMaterial.SetVector("_UIElementOrigin", transform.position - _canvas.transform.position * 2.5f);
         _imageMaterial.SetVector("_UIElementSize", new Vector4(
             _imageComponent.rectTransform.rect.width *  _imageComponent.rectTransform.lossyScale.x,
             _imageComponent.rectTransform.rect.height *  _imageComponent.rectTransform.lossyScale.y,
