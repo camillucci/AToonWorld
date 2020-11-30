@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 0.8
+  _maxAmplitude: 2
 --- !u!114 &3241721929571291349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 0.8
+  _maxAmplitude: 2
 --- !u!114 &7436114711160407674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,7 +1672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 0.8
+  _maxAmplitude: 2
 --- !u!114 &3976744424010998296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2401,7 +2401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 0.8
+  _maxAmplitude: 2
 --- !u!114 &8843562905901483188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8553,7 +8553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 0.8
+  _maxAmplitude: 2
 --- !u!114 &8684293378171438674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8906,7 +8906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decreaseAmplitudeWhenFull: 1
-  _maxAmplitude: 0.8
+  _maxAmplitude: 2
 --- !u!114 &1240756803358288650
 MonoBehaviour:
   m_ObjectHideFlags: 0
