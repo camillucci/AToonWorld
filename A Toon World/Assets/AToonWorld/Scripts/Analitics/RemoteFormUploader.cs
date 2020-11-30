@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,39 +5,25 @@ using UnityEngine.Networking;
 
 public class RemoteFormUploader : MonoBehaviour
 {
-    private const string _developmentForm = "1FAIpQLSfnUUwmk5rI8CJO47DiFcpG0qE6mqTvW6AQQAP8LRCg6iazgA";
-    private const string _productionForm = "1TXuOnD_bbq78st2ieqD96lKQdTVh1R_ZpwdwKHjQu-4";
+    private GoogleForm _form;
+    private Analitic _analitic;
 
-    private string _formId;
-    private string _uri;
-    private List<Analitic> _analitics;
-
-    private RemoteFormUploader(List<Analitic> analitics)
+    private RemoteFormUploader(Analitic analitic)
     {
-        _analitics = analitics;
+        _analitic = analitic;
         
         #if Production
-        _spreadsheetId = _productionForm;
+        _form = GoogleForm.Production;
         #else
-        _formId = _developmentForm;
+        _form = GoogleForm.Development;
         #endif
-
-        _uri = $"https://docs.google.com/forms/u/0/d/e/{_formId}/formResponse";
     }
 
-    public static RemoteFormUploader Create(List<Analitic> analitics) => new RemoteFormUploader(analitics);
+    public static RemoteFormUploader Create(Analitic analitic) => new RemoteFormUploader(analitic);
 
     public void Upload()
     {
-        string content = string.Empty;
-        foreach (Analitic analitic in _analitics)
-            content += analitic.ToString() + Environment.NewLine;
-
-        WWWForm form = new WWWForm();
-        form.AddField("entry.1195978271", content);
-
-        UnityWebRequest request = UnityWebRequest.Post(_uri, form);
-
+        UnityWebRequest request = UnityWebRequest.Post(_form.ID, CompileForm());
         request.SendWebRequest();
         
         #if UNITY_EDITOR
@@ -51,6 +32,14 @@ public class RemoteFormUploader : MonoBehaviour
         else
             Debug.Log("Form upload complete!");
         #endif
+    }
+
+    private WWWForm CompileForm()
+    {
+        WWWForm form = new WWWForm();
+        foreach ((string, string) pair in _form.CreateForm(_analitic))
+            form.AddField(pair.Item1, pair.Item2);
+        return form;
     }
 }
 

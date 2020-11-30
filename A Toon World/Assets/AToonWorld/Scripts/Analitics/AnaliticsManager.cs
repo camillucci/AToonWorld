@@ -23,12 +23,9 @@ public class AnaliticsManager : MonoBehaviour
 
     private Guid _user;
     private Int32 _game;
-    
-    private List<Analitic> _analitics;
 
     void Awake()
     {
-        _analitics = new List<Analitic>();
         DontDestroyOnLoad(this);
         InitUserAndGames();
         SubscribeToAnaliticsEvents();
@@ -54,12 +51,12 @@ public class AnaliticsManager : MonoBehaviour
 
     private void SubscribeToAnaliticsEvents()
     {
-        Events.AnaliticsEvents.PlayerDeath.AddListener(analitic => CompleteAndQueue(EventName.PlayerDeath, analitic));
+        Events.AnaliticsEvents.PlayerDeath.AddListener(analitic => CompleteAndSend(EventName.PlayerDeath, analitic));
         Events.AnaliticsEvents.LevelStart.AddListener(analitic => SetLevelStart(analitic));
         Events.AnaliticsEvents.LevelEnd.AddListener(analitic => SetLevelEnd(analitic));
         Events.AnaliticsEvents.Checkpoint.AddListener(analitic => SetCheckpointTime(analitic));
-        Events.AnaliticsEvents.InksLevelAtCheckpoint.AddListener(analitic => CompleteAndQueue(EventName.InkStatusAtCheckpoint, analitic));
-        Events.AnaliticsEvents.InkFinished.AddListener(analitic => CompleteAndQueue(EventName.InkFinished, analitic));
+        Events.AnaliticsEvents.InksLevelAtCheckpoint.AddListener(analitic => CompleteAndSend(EventName.InkStatusAtCheckpoint, analitic));
+        Events.AnaliticsEvents.InkFinished.AddListener(analitic => CompleteAndSend(EventName.InkFinished, analitic));
     }
 
     #region LevelTime and CheckpointTime
@@ -76,39 +73,35 @@ public class AnaliticsManager : MonoBehaviour
         string currentCheckpoint = analitic.value[0];
         analitic.value = new string[] { _previousCheckpoint.Item1, currentCheckpoint, DateTimeDifferenceInSeconds(analitic.dateTime, _previousCheckpoint.Item2) };
         _previousCheckpoint = (currentCheckpoint, analitic.dateTime);
-        CompleteAndQueue(EventName.CheckpointTime, analitic);
+        CompleteAndSend(EventName.CheckpointTime, analitic);
     }
 
     private void SetLevelEnd(Analitic analitic)
     {
         analitic.value = new string[] { DateTimeDifferenceInSeconds(analitic.dateTime, _startTime) };
-        CompleteAndQueue(EventName.LevelTime, analitic);
+        CompleteAndSend(EventName.LevelTime, analitic);
         UpdateGames();
-        StartCoroutine(UploadToRemoteForm());
-
-        #if UNITY_EDITOR
-        string[] analiticsReadable = new string[_analitics.Count];
-        for (int i = 0; i < _analitics.Count; i++)
-            analiticsReadable[i] = _analitics[i].ToString();
-        File.WriteAllLines("analitics.txt", analiticsReadable);
-        #endif
     }
 
     private string DateTimeDifferenceInSeconds(DateTime d1, DateTime d2) => ((int)(d1 - d2).TotalSeconds).ToString();
     #endregion
 
-    private void CompleteAndQueue(EventName eventName, Analitic analitic)
+    private void CompleteAndSend(EventName eventName, Analitic analitic)
     {
         analitic.user = _user;
         analitic.eventName = eventName;
         analitic.game = _game;
-        _analitics.Add(analitic);
+        StartCoroutine(UploadToRemoteForm(analitic));
     }
 
-    private IEnumerator UploadToRemoteForm()
+    private IEnumerator UploadToRemoteForm(Analitic analitic)
     {        
-        RemoteFormUploader.Create(_analitics).Upload();
-        _analitics = new List<Analitic>();
+        RemoteFormUploader.Create(analitic).Upload();
+
+        #if UNITY_EDITOR
+        File.AppendAllText("analitics.txt", analitic.ToString());
+        #endif
+
         yield return null;
     }
 }
