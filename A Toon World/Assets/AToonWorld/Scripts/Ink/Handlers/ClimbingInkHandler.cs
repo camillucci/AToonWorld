@@ -52,10 +52,6 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
                                                     this.InkColor.b,
                                                     0.5f);
         }
-        else
-        {
-            _boundSplineController.gameObject.SetActive(false);
-        }
     }
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition)
