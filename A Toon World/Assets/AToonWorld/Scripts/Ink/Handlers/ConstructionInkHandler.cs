@@ -17,7 +17,8 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
 
     public override void OnDrawDown(Vector2 mouseWorldPosition)
     {
-        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.Player));
+        // Do not start the line if a player or a enemy is met
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.Player, UnityTag.Enemy));
         if(!hit)
         {
             _isDrawing = true;
@@ -32,7 +33,8 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition)
     {
-        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.Player));
+        // Do not continue the line if a player or a enemy is met
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.Player, UnityTag.Enemy));
         
         //If I can't consume anything, return
         if(_isDrawing && !hit && this.CurrentCapacity > 0)

@@ -118,9 +118,9 @@ GameObject:
   - component: {fileID: 9187402764789971044}
   - component: {fileID: 9187402764789971043}
   - component: {fileID: 9187402764789971046}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Breaker
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 9187402765722575037}
   - component: {fileID: 9187402765722575035}
   - component: {fileID: 9187402765722575034}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Breaker Body
   m_TagString: Enemy
   m_Icon: {fileID: 0}
