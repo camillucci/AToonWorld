@@ -76,6 +76,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _collectiblesManager.OnPlayerRespawn();
             lastCheckPoint.OnPlayerRespawnStart();     
             ResetLevelStateFromCheckpoint(); 
+            InGameUIController.PrefabInstance.FadeOutAndIn(2f, 500, 2f).Forget();
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
             lastCheckPoint.OnPlayerRespawnEnd();  

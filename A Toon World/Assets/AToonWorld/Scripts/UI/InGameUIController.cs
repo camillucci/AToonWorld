@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.UI
@@ -12,6 +13,8 @@ namespace Assets.AToonWorld.Scripts.UI
         private SceneFaderController _sceneFaderController;
         private PauseMenuController _pauseMenuController;
         private EndLevelMenuController _endLevelMenuController;
+        private const float _defaultSpeed = 1f;
+        private const int _defaultDelay = 1000;
 
         [SerializeField] private GameObject _inkSelector = null;
         [SerializeField] private GameObject _inkWheel = null;
@@ -30,10 +33,29 @@ namespace Assets.AToonWorld.Scripts.UI
             _endLevelMenuController = GetComponent<EndLevelMenuController>();
         }
 
-        # region ChangeSceneLogic
+        # region Faders
+
+        // Awaitable fade in
+        public async UniTask FadeIn(float fadingSpeed = _defaultSpeed)
+        {
+            await _sceneFaderController.FadeIn(fadingSpeed);
+        }
+
+        // Awaitable fade out
+        public async UniTask FadeOut(float fadingSpeed = _defaultSpeed)
+        {
+            await _sceneFaderController.FadeOut(fadingSpeed);
+        }
+
+        // Awaitable fade blink
+        public async UniTask FadeOutAndIn(float fadeOutSpeed = _defaultSpeed, int delayInMs = _defaultDelay, float fadeInSpeed = _defaultSpeed){
+            await FadeOut(fadeOutSpeed);
+            await UniTask.Delay(delayInMs);
+            await FadeIn(fadeInSpeed);
+        }
 
         // Setup the UI for the level and do a fade in
-        public async void FadeInLevel()
+        public void FadeInLevel(float fadingSpeed = _defaultSpeed)
         {
             _inGameCanvas.gameObject.SetActive(true);
             _pauseMenuUI.SetActive(false);
@@ -41,7 +63,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _inkSelector.SetActive(true);
             _inkWheel.SetActive(false);
             RefreshValues();
-            await _sceneFaderController.FadeIn();
+            _sceneFaderController.FadeIn(fadingSpeed).Forget();
         }
 
         // Refresh values that depend on a level when a new level is loaded
@@ -52,28 +74,28 @@ namespace Assets.AToonWorld.Scripts.UI
         }
 
         // Setup the UI for the menu and do a fade in
-        public async void FadeInMenu()
+        public void FadeInMenu(float fadingSpeed = _defaultSpeed)
         {
             _pauseMenuUI.SetActive(false);
             _endLevelMenuUI.SetActive(false);
             _inkSelector.SetActive(false);
             _inkWheel.SetActive(false);
-            await _sceneFaderController.FadeIn();
-            _inGameCanvas.gameObject.SetActive(false);
+            _sceneFaderController.FadeIn(fadingSpeed).ContinueWith(() =>
+                _inGameCanvas.gameObject.SetActive(false)).Forget();
         }
 
         // Do a fade out when changing scene
-        public void FadeTo(string scene)
+        public void FadeTo(string scene, float fadingSpeed = _defaultSpeed)
         {
             _inGameCanvas.gameObject.SetActive(true);
-            _sceneFaderController.FadeTo(scene);
+            _sceneFaderController.FadeTo(scene, fadingSpeed).Forget();
         }
 
         // Do a fade out when exiting the game
-        public void FadeToExit()
+        public void FadeToExit(float fadingSpeed = _defaultSpeed)
         {
             _inGameCanvas.gameObject.SetActive(true);
-            _sceneFaderController.FadeToExit();
+            _sceneFaderController.FadeExit(fadingSpeed).Forget();
         }
 
         #endregion

@@ -24,9 +24,6 @@ EditorBuildSettings:
     path: Assets/Scenes/BuildLineScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/climb-color.unity
-    guid: bac8efe6dd04f3f49a47a074e35d1df6
-  - enabled: 1
     path: Assets/Scenes/EnemyJumper.unity
     guid: baeba5b7cb4c5ca46bf847a6b28cf39a
   - enabled: 1
