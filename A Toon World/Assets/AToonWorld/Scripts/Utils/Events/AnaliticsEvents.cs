@@ -25,5 +25,8 @@ namespace Events
 
         /// <summary>Evento scatenato quando il giocatore passa sopra un chekpoint</summary>
         public static Event<Analitic> InksLevelAtCheckpoint = new Event<Analitic>();
+        
+        /// <summary>Evento scatenato alla selezione del feedback nella schermata di fine livello</summary>
+        public static Event<Analitic> FeedbackSurvey = new Event<Analitic>();
     }
 }

@@ -13,6 +13,7 @@ public enum EventName
     CheckpointTime,                 // Seconds spent to reach a checkpoint from the previous one - [ 2, 3, 26 ]
     InkFinished,                    // A specific ink is finished
     InkStatusAtCheckpoint,          // Inks status (amount) when the player reach a checkpoint
+    LevelFeedback,                 // Scene and user feedback
 }
 
 public class AnaliticsManager : MonoBehaviour
@@ -57,6 +58,7 @@ public class AnaliticsManager : MonoBehaviour
         Events.AnaliticsEvents.Checkpoint.AddListener(analitic => SetCheckpointTime(analitic));
         Events.AnaliticsEvents.InksLevelAtCheckpoint.AddListener(analitic => CompleteAndSend(EventName.InkStatusAtCheckpoint, analitic));
         Events.AnaliticsEvents.InkFinished.AddListener(analitic => CompleteAndSend(EventName.InkFinished, analitic));
+        Events.AnaliticsEvents.FeedbackSurvey.AddListener(analitic => CompleteAndSend(EventName.LevelFeedback, analitic));
     }
 
     #region LevelTime and CheckpointTime
