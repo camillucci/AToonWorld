@@ -33,7 +33,7 @@ namespace Assets.AToonWorld.Scripts.Utils
         public void InvokeWithTag(TTag tag, VArgs args)
         {
             if (_handlersDictionary.TryGetValue(tag, out var handler))
-                handler.Invoke(args);
+                handler?.Invoke(args);
             Invoke(args);
         }
 

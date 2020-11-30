@@ -16,11 +16,21 @@ namespace Assets.AToonWorld.Scripts.Player
         public ITaggedEvent<string, Collider2D> TriggerEnter => _triggerEnter;
         public ITaggedEvent<string, Collider2D> TriggerExit => _triggerExit;
 
+        private Collider2D _collider;
+
+        void Awake()
+        {
+            this._collider = GetComponent<Collider2D>();
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)
             => _triggerEnter.InvokeWithTag(collision.gameObject.tag, collision);
 
         private void OnTriggerExit2D(Collider2D collision)
             => _triggerExit.InvokeWithTag(collision.gameObject.tag, collision);
+
+        public void EnableCollider() => _collider.enabled = true;
+
+        public void DisableCollider() => _collider.enabled = false;
     }
 }
