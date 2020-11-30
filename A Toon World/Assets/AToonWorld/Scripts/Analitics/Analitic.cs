@@ -25,7 +25,7 @@ public class Analitic
 
     public override string ToString()
     {
-        return $"{user} {level} {game} {dateTime.ToString("dd/MM/yy HH:mm:ss")} {eventName.ToString()} {string.Join(" ", value)}";
+        return $"{user}|{level}|{game}|{dateTime.ToString("dd/MM/yy HH:mm:ss")}|{eventName.ToString()}|{string.Join("|", value)}";
     }
 }
 
