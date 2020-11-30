@@ -21,9 +21,9 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
     public override void OnDrawDown(Vector2 mouseWorldPosition)
     {
         // First point must be on the boarder of a Ground object
-        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, LayerMask.GetMask(UnityTag.Default));
-        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibility, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
-        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(-_sensibility, 0), Vector2.zero, LayerMask.GetMask(UnityTag.Default));
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
+        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibility, 0), Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
+        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(-_sensibility, 0), Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
         
         // Check if mouse is clicking a Ground object or it is near one, otherwise cancel
         if (hit && hit.collider.gameObject.CompareTag(UnityTag.Ground)) {

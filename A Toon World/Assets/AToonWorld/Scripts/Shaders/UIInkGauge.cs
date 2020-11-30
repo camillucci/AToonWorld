@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIInkGauge : WavingSprite
 {
     [SerializeField] private bool _decreaseAmplitudeWhenFull = true;
-    [SerializeField] private float _maxAmplitude = 0.8f;
+    [SerializeField] private float _maxAmplitude = 2f;
 
     public void SetFillAmount(float fillAmount)
     {
