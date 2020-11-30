@@ -101,7 +101,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                         if (nextPositions.Any())
                             await TranslateTo(nextPositions.First()).WithCancellation(this.GetCancellationTokenOnDestroy());
                     }
-                    await UniTask.WaitForEndOfFrame();
+                    await UniTask.NextFrame();
                 }
             }
 
