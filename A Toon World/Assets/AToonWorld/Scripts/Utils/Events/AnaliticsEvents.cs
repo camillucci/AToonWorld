@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+#if AnaliticsEnabled
 namespace Events
 {
     public static class AnaliticsEvents
@@ -30,3 +31,4 @@ namespace Events
         public static Event<Analitic> FeedbackSurvey = new Event<Analitic>();
     }
 }
+#endif

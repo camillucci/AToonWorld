@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+#if AnaliticsEnabled
 public class GoogleForm 
 {
     private string _id;
@@ -27,3 +28,4 @@ public class GoogleForm
         return pairs;
     }
 }
+#endif

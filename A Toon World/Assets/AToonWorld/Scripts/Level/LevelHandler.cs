@@ -56,7 +56,9 @@ namespace Assets.AToonWorld.Scripts.Level
             _deathCounter = 0;
             Time.timeScale = 1f;
 
-            Events.AnaliticsEvents.LevelStart.Invoke(new Analitic());
+            #if AnaliticsEnabled
+                Events.AnaliticsEvents.LevelStart.Invoke(new Analitic());
+            #endif
         }
 
         private void Start()

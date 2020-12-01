@@ -46,7 +46,10 @@ public class PlayerInkController : MonoBehaviour
         values[0] = checkpointNumber;
         for(int i = 1; i < values.Length; i++)
             values[i] = inksLevels[i -1];
-        Events.AnaliticsEvents.InksLevelAtCheckpoint.Invoke(new Analitic(values));
+
+        #if AnaliticsEnabled
+            Events.AnaliticsEvents.InksLevelAtCheckpoint.Invoke(new Analitic(values));
+        #endif
     }
 
     private List<float> GetInksLevels()

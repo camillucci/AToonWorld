@@ -18,5 +18,10 @@ public class FeedbackButtonController : MonoBehaviour
     public void SendBad() => Send(Feedback.Bad);
     public void SendVeryBad() => Send(Feedback.VeryBad);
 
-    private void Send(Feedback feedback) => Events.AnaliticsEvents.FeedbackSurvey.Invoke(new Analitic(feedback));
+    private void Send(Feedback feedback) 
+    {
+        #if AnaliticsEnabled
+        Events.AnaliticsEvents.FeedbackSurvey.Invoke(new Analitic(feedback));
+        #endif
+    }
 }
