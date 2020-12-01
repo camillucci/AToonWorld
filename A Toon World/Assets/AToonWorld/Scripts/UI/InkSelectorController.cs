@@ -20,9 +20,16 @@ public class InkSelectorController : MonoBehaviour
     [SerializeField] private UIInkGauge DamageInkGauge = null;   
     private Dictionary<InkType, Image> _inksImages;
     private Dictionary<InkType, UIInkGauge> _inkGauges;
+    
+    #if AnaliticsEnabled
+        private bool[] _initialEmptyCapacity;
+    #endif
 
     void Awake()
     {
+        #if AnaliticsEnabled
+            _initialEmptyCapacity = new bool[] { true, true, true, true };
+        #endif
         _inksImages = new Dictionary<InkType, Image>()
         {
             [InkType.Construction] = ConstructorInkContainer.GetComponent<Image>(),
@@ -76,6 +83,13 @@ public class InkSelectorController : MonoBehaviour
         _inkGauges[inkType].SetFillAmount(capacity);
 
         if(capacity == 0)
+        {
             Empty(inkType);
+            #if AnaliticsEnabled
+                if (!_initialEmptyCapacity[(int)inkType])
+                    Events.AnaliticsEvents.InkFinished.Invoke(new Analitic(inkType));
+                _initialEmptyCapacity[(int)inkType] = false;
+            #endif
+        }
     }
 }
