@@ -13,7 +13,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void Start()
         {
-            _endLevelMenuController = FindObjectOfType<EndLevelMenuController>();
+            _endLevelMenuController = InGameUIController.PrefabInstance.GetComponent<EndLevelMenuController>();
         }
 
         // Show the end of level menu
