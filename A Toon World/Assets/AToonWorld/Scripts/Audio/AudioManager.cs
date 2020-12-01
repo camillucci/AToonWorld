@@ -9,24 +9,46 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Audio
 {
-    [ExecuteInEditMode]
     public class AudioManager : MonoBehaviour
     {
         // Editor Fields        
         [SerializeField] private List<Sound> _soundtrack = new List<Sound>();
         [SerializeField] private bool _refresh = true;
+        [SerializeField] private GameObject _soundEffectPrefab;
 
 
-        // Private Fields        
-        private int _currentMusicIndex;
+
+        // Private Fields                
         private bool _resfreshing;
+        private MusicSourceHandler _musicSource;
+
+
 
 
         // Initialization
         private void Awake()
         {
-            MusicSource = GetComponent<AudioSource>();            
-        }        
+            var musicAudioSource = GetComponent<AudioSource>();
+            _musicSource = new MusicSourceHandler(musicAudioSource);
+            Test().Forget();
+        }
+
+        private void SetupMusicSource()
+        {
+            _musicSource.MusicEnd += MusicSource_MusicEnd;
+        }
+
+
+        private async UniTask Test()
+        {
+            PlayNextMusic();
+            await UniTask.Delay(2000);
+            PlayNextMusic();
+            await UniTask.Delay(2000);
+            PlayNextMusic();
+            await UniTask.Delay(2000);
+            PlayNextMusic();
+        }
 
 
 
@@ -38,9 +60,9 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
 
-        // Public Properties
-        public AudioSource MusicSource { get; private set; }
-        public Sound CurrentMusic => _soundtrack[_currentMusicIndex];
+
+        // Public Properties        
+        public Sound CurrentMusic => _musicSource.CurrentMusic;
 
 
 
@@ -63,11 +85,24 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         public void PlayMusic(string musicName)
         {
-            MusicSource.Stop();
-            var sound = SoundByName(musicName, _soundtrack);
-            MusicSource.clip = sound.Clip;
-            MusicSource.Play();            
+            var music = SoundByName(musicName, _soundtrack);
+            PlayMusic(music);
         }
+
+        public void PlayMusic() => _musicSource.Play();
+
+        public void PlayNextMusic()
+        {
+            var currentMusicIndex = _soundtrack.IndexOf(CurrentMusic ?? _soundtrack.Last());
+            var next = currentMusicIndex + 1 < _soundtrack.Count ? _soundtrack[currentMusicIndex + 1] : _soundtrack?[0];
+            PlayMusic(next);
+        }
+
+        public void PauseMusic() => _musicSource.Pause();
+
+        public void StopMusic() => _musicSource.Stop();
+
+
 
         public void PlaySound(Sound sound)
         {
@@ -95,9 +130,27 @@ namespace Assets.AToonWorld.Scripts.Audio
         }
 
 
+        
+        
+        // AudioManager events
+        private void MusicSource_MusicEnd(Sound music)
+        {
+
+        }
+
+
 
 
         // Private Methods
+        private void PlayMusic(Sound music)
+        {
+            if (music is null)
+                return;
+
+            _musicSource.Stop();
+            _musicSource.Play(music);
+        }        
+
         private void SetupAudioSource(Sound sound, AudioSource audioSource)
         {
             audioSource.clip = sound.Clip;
