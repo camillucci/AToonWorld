@@ -24,16 +24,12 @@ public class PlayerInkController : MonoBehaviour
         _inkHandlers = new Dictionary<InkType, IInkHandler>();
         _inkPaletteSettings.InkPalette.ForEach(inkHandler => {
             _inkHandlers.Add(inkHandler.InkType, inkHandler);
+            inkHandler.Init();
             ObjectPoolingManager<InkType>.Instance.CreatePool(inkHandler.InkType, inkHandler.InkPrefab, inkHandler.MinPoolSize, inkHandler.MaxPoolSize, true);
         });
 
         _playerBody = GetComponentInChildren<PlayerBody>();
         _playerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
-
-        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Construction, _constructionInkPrefab, 50, 200, true);
-        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Climb, _climbingInkPrefab, 20, 50, true);
-        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Damage, _damageInkPrefab, 20, 50, true);
-        //ObjectPoolingManager<InkType>.Instance.CreatePool(InkType.Cancel, _cancelInkPrefab, 1, 2, true);
 
         Events.InterfaceEvents.InkSelectionRequested.AddListener(OnInkSelected);
         Events.LevelEvents.CheckpointReached.AddListener(SendInksLevelForAnalitics);

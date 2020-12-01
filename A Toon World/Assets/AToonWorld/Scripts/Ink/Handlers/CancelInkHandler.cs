@@ -8,12 +8,19 @@ using Assets.AToonWorld.Scripts;
 public class CancelInkHandler : ScriptableInkHandler, ISplineInk
 {
     private DrawSplineController _boundSplineController;
+    private CancelInkObserver _cancelInkObserver;
     private Vector2 _lastPoint;
 
     public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
     {
         _boundSplineController = splineController;
+    }
+
+    public override void Init()
+    {
+        base.Init();
+        _cancelInkObserver = FindObjectOfType<CancelInkObserver>();
     }
 
     public override void OnDrawDown(Vector2 mouseWorldPosition)
@@ -34,7 +41,7 @@ public class CancelInkHandler : ScriptableInkHandler, ISplineInk
     public override void OnDrawReleased(Vector2 mouseWorldPosition)
     {
         ProcessToDelete(mouseWorldPosition);
-        CancelInkObserver.Instance.Commit();
+        _cancelInkObserver.Commit();
         _boundSplineController.gameObject.SetActive(false);
     }
 
@@ -45,6 +52,6 @@ public class CancelInkHandler : ScriptableInkHandler, ISplineInk
         Vector2 direction = diff.normalized;
         RaycastHit2D hit;
         if((hit = Physics2D.Raycast(_lastPoint, direction, diff.magnitude, LayerMask.GetMask(UnityTag.Drawing))))
-            CancelInkObserver.Instance.NotifyDelete(hit.collider.gameObject, hit.point, direction);
+            _cancelInkObserver.NotifyDelete(hit.collider.gameObject, hit.point, direction);
     }
 }

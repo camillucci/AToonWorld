@@ -12,7 +12,7 @@ using System.Linq;
 /// Some InkPickups are "directed" which means they will respawn under certain circumstances
 /// Some Pickups can be "partially-directed" which means that the director is only part of the logic which determines if they respawn
 /// </summary>
-public class InkDirector : Singleton<InkDirector>
+public class InkDirector : MonoBehaviour
 {
     [SerializeField] private int _directorUpdateTime = 1000;
     private List<DirectedAreaComponent> _directedAreas;

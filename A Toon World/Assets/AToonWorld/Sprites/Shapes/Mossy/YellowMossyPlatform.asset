@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: YellowMossyPlatform
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -45
+    m_End: 45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -5358193005459730691, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+    - {fileID: 4514297465504893602, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_Start: -225
+    m_End: -135
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -6984676847694573578, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+    - {fileID: 4514297465504893602, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_Start: -135
+    m_End: -45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -124832681209933803, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+    - {fileID: 4514297465504893602, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_Start: 45
+    m_End: 135
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -4673458259943427248, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+    - {fileID: 4514297465504893602, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  m_FillTexture: {fileID: 2800000, guid: d825b082227c05a42a670d4b744b0cee, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: 7780190520650127750, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: -8013599348960855253, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: -4183846049574238538, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: -4102537442370791014, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 7789460486736427789, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: -2891453398403303555, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: -3685418513897516578, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 6928388786959331256, guid: aa80eea0fb61def468e6af83f684ef35, type: 3}
+  m_FillOffset: 0
+  m_UseSpriteBorders: 1
