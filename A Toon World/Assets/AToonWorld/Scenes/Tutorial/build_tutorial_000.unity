@@ -1738,7 +1738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 93091945}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2891,11 +2891,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1586725311930955504, guid: b6c22cf85316ea24894fdeb94c74a1cb,
         type: 3}
-      propertyPath: m_ClearFlags
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1586725311930955504, guid: b6c22cf85316ea24894fdeb94c74a1cb,
-        type: 3}
       propertyPath: m_BackGroundColor.r
       value: 0.4156863
       objectReference: {fileID: 0}
@@ -2913,6 +2908,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4057485944590679456, guid: b6c22cf85316ea24894fdeb94c74a1cb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618125197185763711, guid: b6c22cf85316ea24894fdeb94c74a1cb,
+        type: 3}
+      propertyPath: volumeTrigger
+      value: 
+      objectReference: {fileID: 1520793573}
+    - target: {fileID: 8618125197185763711, guid: b6c22cf85316ea24894fdeb94c74a1cb,
+        type: 3}
+      propertyPath: m_ShowCustomSorter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618125197185763711, guid: b6c22cf85316ea24894fdeb94c74a1cb,
+        type: 3}
+      propertyPath: antialiasingMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6c22cf85316ea24894fdeb94c74a1cb, type: 3}
@@ -3643,7 +3658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 327135514}
   - component: {fileID: 327135515}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: CaveBacground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19997,7 +20012,7 @@ PrefabInstance:
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8452637499622393033, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
@@ -20028,16 +20043,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DarkLake
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452637499622393036, guid: 32d131ad03368cd489309878d37de182,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452637499622393038, guid: 32d131ad03368cd489309878d37de182,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8452637499622393038, guid: 32d131ad03368cd489309878d37de182,
         type: 3}
@@ -20742,6 +20747,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aa895653f8c7554c99a5d5a370cb2e5, type: 3}
+--- !u!4 &1520793573 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7512256918292212920, guid: b6c22cf85316ea24894fdeb94c74a1cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 237372391}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1531092786
 GameObject:
   m_ObjectHideFlags: 0
@@ -22507,7 +22518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1744961248}
   - component: {fileID: 1744961247}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: OuterWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28946,7 +28957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2121165095}
   - component: {fileID: 2121165096}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: OuterWorld_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
