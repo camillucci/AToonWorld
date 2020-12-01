@@ -11,7 +11,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private EndLevelMenuController _endLevelMenuController;
         [SerializeField] private UnityEvent _endLevelTaken = null;
 
-        void Awake()
+        private void Start()
         {
             _endLevelMenuController = FindObjectOfType<EndLevelMenuController>();
         }
@@ -21,6 +21,9 @@ namespace Assets.AToonWorld.Scripts.Level
         {
             if (other.CompareTag(UnityTag.Player))
             {
+                #if AnaliticsEnabled
+                    Events.AnaliticsEvents.LevelEnd.Invoke(new Analitic());
+                #endif
                 _endLevelTaken?.Invoke();
                 _endLevelMenuController.ShowEndLevelMenu();
             }

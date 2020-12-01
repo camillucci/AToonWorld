@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: bd6dc02dd9a64ea4e8eb5fd4118c375d
+<<<<<<< HEAD:A Toon World/Assets/AToonWorld/Animations/Ink.meta
+guid: 1e943d346ee2d8c4fb63bb6c81f20108
+=======
+guid: 8f1e6a060aa91f544a22a58ab81f2c2f
+>>>>>>> origin:A Toon World/Assets/AToonWorld/Scripts/Analitics.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

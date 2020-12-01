@@ -13,7 +13,6 @@ namespace Assets.AToonWorld.Scripts.UI
         #region Fields
 
         private Button _button = null;
-        private SceneFaderController _sceneFaderController;
         
         [SerializeField] private int _levelNumber = -1;
         [SerializeField] private bool _isLocked = true;
@@ -29,7 +28,6 @@ namespace Assets.AToonWorld.Scripts.UI
             _button = GetComponent<Button>();
             if (_isLocked)
                 _button.interactable = false;
-            _sceneFaderController = FindObjectOfType<SceneFaderController>();
         }
 
         void Update()
@@ -65,7 +63,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             if (!_isLocked)
             {
-                _sceneFaderController.FadeTo(UnityScenes.Levels[_levelNumber]);
+                InGameUIController.PrefabInstance.FadeTo(UnityScenes.Levels[_levelNumber]);
             }
         }
 

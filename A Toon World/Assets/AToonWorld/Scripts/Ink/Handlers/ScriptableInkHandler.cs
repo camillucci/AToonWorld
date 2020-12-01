@@ -30,6 +30,8 @@ public abstract class ScriptableInkHandler : ScriptableObject, IInkHandler
         _playerInkController = playerInkController;
     }
 
+    public virtual void Init() { }
+
     public abstract void OnDrawDown(Vector2 mouseWorldPosition);
 
     public abstract bool OnDrawHeld(Vector2 mouseWorldPosition);

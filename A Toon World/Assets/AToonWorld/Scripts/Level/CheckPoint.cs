@@ -71,7 +71,10 @@ namespace Assets.AToonWorld.Scripts.Level
             _hit = true;
             
             //Events
-            LevelEvents.CheckpointReached.Invoke();
+            #if AnaliticsEnabled
+                Events.AnaliticsEvents.Checkpoint.Invoke(new Analitic(_checkPointNumber));
+            #endif
+            Events.LevelEvents.CheckpointReached.Invoke(_checkPointNumber);
             _checkpointTaken?.Invoke();
             PlayerHit?.Invoke(this);
         }
