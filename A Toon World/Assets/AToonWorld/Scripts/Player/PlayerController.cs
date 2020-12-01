@@ -15,7 +15,8 @@ namespace Assets.AToonWorld.Scripts.Player
         // Private fields
         private Rigidbody2D _rigidBody;
         private PlayerInput _playerInput;
-        private PlayerMovementController _playerMovementController;        
+        private PlayerMovementController _playerMovementController;
+        private PlayerBody _playerBodyCollider;        
 
         public PlayerInkController PlayerInkController { get; private set; }
         
@@ -29,6 +30,7 @@ namespace Assets.AToonWorld.Scripts.Player
             _playerInput = GetComponent<PlayerInput>();
             _playerMovementController = GetComponent<PlayerMovementController>();
             PlayerInkController = GetComponent<PlayerInkController>();
+            _playerBodyCollider = GetComponentInChildren<PlayerBody>();
         }
 
         // Public Methods
@@ -43,6 +45,8 @@ namespace Assets.AToonWorld.Scripts.Player
                 
             PlayerInkController.enabled = false;
             _rigidBody.isKinematic = true;
+
+            _playerBodyCollider.DisableCollider();
         }
 
 
@@ -52,6 +56,8 @@ namespace Assets.AToonWorld.Scripts.Player
             _playerMovementController.enabled = true;
             PlayerInkController.enabled = true;
             _rigidBody.isKinematic = false;
+
+            _playerBodyCollider.EnableCollider();
         }
 
         public UniTask MoveToPosition(Vector3 position, float speed) => transform.MoveToAnimated(position, speed);

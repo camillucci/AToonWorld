@@ -1,5 +1,6 @@
 ﻿using Assets.AToonWorld.Scripts.Camera;
 using Assets.AToonWorld.Scripts.Player;
+using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using System;
@@ -44,13 +45,10 @@ namespace Assets.AToonWorld.Scripts.Level
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
             _collectiblesManager = GetComponentInChildren<CollectiblesManager>();
             _timeManager = GetComponentInChildren<TimeManager>();
-            _playerController = FindObjectOfType<PlayerController>();
-            _cameraMovementController = FindObjectOfType<CameraMovementController>();
-            _deathObserver = FindObjectOfType<DeathObserver>();
-            _mapBorders = FindObjectOfType<MapBorders>();
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
-            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().Forget());
+            
+            Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget());
             Events.LevelEvents.CheckpointReached.AddListener(checkpointNumber => CheckpointReached());
             Events.LevelEvents.SplineDrawn.AddListener(DrawingCreated);
             Events.LevelEvents.EnemyKilled.AddListener(EnemyKilled);
@@ -59,7 +57,16 @@ namespace Assets.AToonWorld.Scripts.Level
             Time.timeScale = 1f;
 
             Events.AnaliticsEvents.LevelStart.Invoke(new Analitic());
-        }      
+        }
+
+        private void Start()
+        {
+            _playerController = FindObjectOfType<PlayerController>();
+            _cameraMovementController = FindObjectOfType<CameraMovementController>();
+            _deathObserver = FindObjectOfType<DeathObserver>();
+            _mapBorders = FindObjectOfType<MapBorders>();
+            InGameUIController.PrefabInstance.FadeInLevel();
+        }
 
 
         // Public Methods
@@ -72,6 +79,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _collectiblesManager.OnPlayerRespawn();
             lastCheckPoint.OnPlayerRespawnStart();     
             ResetLevelStateFromCheckpoint(); 
+            InGameUIController.PrefabInstance.FadeOutAndIn(2f, 500, 2f).Forget();
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
             lastCheckPoint.OnPlayerRespawnEnd();  
@@ -99,12 +107,12 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Update()
         {
             if (InputUtils.KillPlayer && !RespawningPlayer)
-                OnPlayerDead().Forget();
+                OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
         }
 
 
         // Level Events
-        private async UniTaskVoid OnPlayerDead()
+        private async UniTask OnPlayerDead()
         {
             if (!_playerController.IsImmortal)
             {

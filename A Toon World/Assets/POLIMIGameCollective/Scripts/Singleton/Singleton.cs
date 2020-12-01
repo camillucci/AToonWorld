@@ -38,6 +38,34 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
 		}
 	}
 
+	/// <summary>
+	/// Gets the instance from a prefab.
+	/// </summary>
+	/// <value>The instance.</value>
+	public static T PrefabInstance
+	{
+		get
+		{
+			if (instance == null)
+			{
+				GameObject prefab = Resources.Load(typeof(T).Name) as GameObject;
+
+                if (prefab == null || prefab.GetComponent<T>() == null)
+                {
+                    Debug.LogError("Prefab " + typeof(T).Name + " in folder Assets/Resources was not found");
+                }
+                else
+                {
+                    GameObject gameObject = Instantiate(prefab);
+					
+                    instance = gameObject.GetComponent<T>();
+
+                }
+			}
+			return instance;
+		}
+	}
+
 	#endregion
 
 	#region Methods

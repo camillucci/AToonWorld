@@ -75,7 +75,7 @@ public class InkSelectorController : MonoBehaviour
             throw new Exception("Ink capacity not normalized, it should be in [0, 1]");
         #endif
 
-        _inkGauges[inkType].SetFillAmmount(capacity);
+        _inkGauges[inkType].SetFillAmount(capacity);
 
         if(capacity == 0)
         {

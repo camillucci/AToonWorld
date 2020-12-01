@@ -27,10 +27,27 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private BreakerTargetAreaHandler _breakerAreaHandler;
         private Transform _breakerTransform;                
         private GridController _gridController;
-        private bool _canFollowPath;
-        private UniTask _followPathTask = UniTask.CompletedTask;
+        private UniTask? _followPathTask = UniTask.CompletedTask;
+        private bool _seakerActive;
 
+        public BreakerMovementController(bool seakerActive)
+        {
+            _seakerActive = seakerActive;
+        }
 
+        private bool _linesUpdated;
+
+        // Private Properties
+        private bool LinesUpdated 
+        { 
+            get => _linesUpdated;  
+            set
+            {
+                _linesUpdated = value;
+                if (value && !_seakerActive)
+                    SeakerMovement().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
+            }
+        }
 
         // Initialization
         private void Awake()
@@ -41,7 +58,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerTransform = _breakerBody.transform;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
             BreakerTargetAreaHandlerInitialization();
-
         }
 
         private void BreakerTargetAreaHandlerInitialization()
@@ -49,7 +65,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerAreaHandler.NewLineInRange += OnNewLineInRange;
             _breakerAreaHandler.LineOutOfRange += OnLineOutOfRange; 
         }
-
 
         // Public Properties
         public INode CurrentNode => _gridController.WorldPointToNode(_breakerTransform.position);
@@ -60,12 +75,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         public UniTask TranslateTo(Vector3 position) => _breakerTransform.MoveToAnimated(position, _speed, false);
         public UniTask TranslateTo(INode node) => _breakerTransform.MoveToAnimated(_gridController.NodeToWorldPoint(node), _speed, false);
         public void TeleportTo(INode node) => _breakerTransform.position = _gridController.NodeToWorldPoint(node);
-        public void TeleportTo(Vector3 position) => _breakerTransform.position = position;
-        public async UniTask TryMoveTo(Vector3 position)
-        {            
-            var path = _breakerAreaHandler.MinimumPathTo(_breakerTransform.position, position);
-            await FollowPath(path);
-        }
+        public void TeleportTo(Vector3 position) => _breakerTransform.position = position;       
 
 
         
@@ -73,46 +83,40 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private void OnNewLineInRange(DiscreteLine line)
         {
             _breakerDrawingHandler.AddLine(line);
-            FollowBestPath().Forget();
+            LinesUpdated = true;
         }
 
         private void OnLineOutOfRange(DiscreteLine line)
         {
             _breakerDrawingHandler.RemoveLine(line);
-            FollowBestPath().Forget();
+            LinesUpdated = true;
         }
 
 
         // Private Methods
-        private async UniTask FollowBestPath()
+        private async UniTask SeakerMovement()
         {
-            var bestPosition = _breakerDrawingHandler.FindNextPointToGo(_breakerTransform.position);
-            var path = _breakerAreaHandler.MinimumPathTo(_breakerTransform.position, bestPosition);
-            await FollowPath(path);
-        }
-
-
-        private async UniTask FollowPath(IList<Vector2> positions)
-        {
-            await CancelExistingPath();
-            async UniTask FollowPathTask()
+            _seakerActive = true;
+            bool anyLineToFind;
+            do
             {
-                foreach (var position in positions)
-                    if (!_canFollowPath)
-                        return;
-                    else 
-                        await TranslateTo(position);
+                var bestPosition = _breakerDrawingHandler.FindNextPointToGo(_breakerTransform.position);
+                var path = _breakerAreaHandler.MinimumPathTo(_breakerTransform.position, bestPosition);
+                LinesUpdated = false;
+                anyLineToFind = path.Any();
+                await FollowPathUntilUpdate(path);
             }
+            while (anyLineToFind);
+            _seakerActive = false;
+        }     
 
-            _followPathTask = FollowPathTask();
-        }        
-
-
-        private async UniTask CancelExistingPath()
+        private async UniTask FollowPathUntilUpdate(IEnumerable<Vector2> path)
         {
-            _canFollowPath = false;
-            await _followPathTask;
-            _canFollowPath = true;
+            foreach (var position in path)
+                if (LinesUpdated)
+                    return;
+                else
+                    await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
         }
     }
 }

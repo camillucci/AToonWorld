@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8799735747240348458}
   - component: {fileID: 7677370279222870997}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CancelInkObserver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 9202030778567197828}
   - component: {fileID: 9202030778567197830}
   - component: {fileID: 9202030778567197831}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 9202030778897293430}
   - component: {fileID: 9202030778897293426}
   - component: {fileID: -3494102643704562212}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 9202030780216119491}
   - component: {fileID: 9202030780216119493}
   - component: {fileID: 9202030780216119490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player Body
   m_TagString: Player
   m_Icon: {fileID: 0}

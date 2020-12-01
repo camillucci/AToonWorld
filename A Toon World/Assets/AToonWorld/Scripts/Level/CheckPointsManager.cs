@@ -15,7 +15,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
 
         // Initialization
-        private void Awake()
+        private void Start()
         {
             _collectibleManager = FindObjectOfType<CollectiblesManager>();
             var checkPoints = FindObjectsOfType<CheckPoint>();

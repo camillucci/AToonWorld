@@ -20,13 +20,13 @@ namespace Assets.AToonWorld.Scripts.Utils
             bool isCancelled = CheckIsCancelled();
             while (Math.Abs(current - to) > _epsilon && !isCancelled)
             {
-                var deltaTime = Time.deltaTime;
+                var deltaPos = speed * Time.deltaTime;
                 current = smooth
-                    ? Mathf.Lerp(current, to, deltaTime * speed)
-                    : Mathf.MoveTowards(current, to, speed * Time.deltaTime);
+                    ? Mathf.Lerp(current, to, deltaPos)
+                    : Mathf.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await UniTask.WaitForEndOfFrame();
+                await UniTask.NextFrame();
                 isCancelled = CheckIsCancelled();
             }
 
@@ -46,13 +46,13 @@ namespace Assets.AToonWorld.Scripts.Utils
             bool isCancelled = CheckIsCancelled();
             while (Vector2.Distance(current, to) > _epsilon && !isCancelled)
             {
-                var deltaTime = Time.deltaTime;
+                var deltaPos = speed * Time.deltaTime;
                 current = smooth
-                    ? Vector2.Lerp(current, to, deltaTime * speed)
-                    : Vector2.MoveTowards(current, to, speed * Time.deltaTime);
+                    ? Vector2.Lerp(current, to, deltaPos)
+                    : Vector2.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await UniTask.WaitForEndOfFrame();
+                await UniTask.NextFrame();
                 isCancelled = CheckIsCancelled();
             }
 
@@ -73,13 +73,13 @@ namespace Assets.AToonWorld.Scripts.Utils
             bool isCancelled = CheckIsCancelled();
             while (Vector3.Distance(current, to) > _epsilon && !isCancelled)
             {
-                var deltaTime = Time.deltaTime;
+                var deltaPos = speed * Time.deltaTime;
                 current = smooth
-                    ? Vector3.Lerp(current, to, deltaTime * speed)
-                    : Vector3.MoveTowards(current, to, speed * Time.deltaTime);
+                    ? Vector3.Lerp(current, to, deltaPos)
+                    : Vector3.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await UniTask.WaitForEndOfFrame();
+                await UniTask.NextFrame();
                 isCancelled = CheckIsCancelled();
             }
 
