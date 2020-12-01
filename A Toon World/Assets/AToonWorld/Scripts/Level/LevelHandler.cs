@@ -24,6 +24,7 @@ namespace Assets.AToonWorld.Scripts.Level
         public CollectiblesManager _collectiblesManager { get; private set; }
         public TimeManager _timeManager { get; private set; }
         private PlayerController _playerController;
+        private PlayerMovementController _playerMovementController;
         private CameraMovementController _cameraMovementController;
         private DeathObserver _deathObserver;
         private MapBorders _mapBorders;
@@ -64,6 +65,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Start()
         {
             _playerController = FindObjectOfType<PlayerController>();
+            _playerMovementController = FindObjectOfType<PlayerMovementController>();
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
@@ -75,7 +77,8 @@ namespace Assets.AToonWorld.Scripts.Level
         public async UniTask SpawnFromLastCheckpoint()
         {
             RespawningPlayer = true;
-
+            _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, true);
+            _playerMovementController.AnimatorController.SetTrigger(PlayerAnimatorParameters.Death);
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
             _playerController.DisablePlayer();
             _collectiblesManager.OnPlayerRespawn();
@@ -85,6 +88,7 @@ namespace Assets.AToonWorld.Scripts.Level
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
             _playerController.EnablePlayer();
             lastCheckPoint.OnPlayerRespawnEnd();  
+            _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, false);
             RespawningPlayer = false;
         }
 
