@@ -44,6 +44,8 @@ namespace Assets.AToonWorld.Scripts.Player
                 PlayerInkController.OnDrawReleased();
                 
             PlayerInkController.enabled = false;
+            
+            _rigidBody.velocity = Vector2.zero;
             _rigidBody.isKinematic = true;
 
             _playerBodyCollider.DisableCollider();
