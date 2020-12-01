@@ -118,11 +118,6 @@ public class AnaliticsManager : MonoBehaviour
     private IEnumerator UploadToRemoteForm(Analitic analitic)
     {        
         RemoteFormUploader.Create(analitic).Upload();
-
-        #if UNITY_EDITOR
-        File.AppendAllText("analitics.txt", analitic.ToString());
-        #endif
-
         yield return null;
     }
 }
