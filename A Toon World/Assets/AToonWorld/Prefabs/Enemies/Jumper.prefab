@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 62109845757878702}
   - component: {fileID: 62109845757878703}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Eraser
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 62109845936002044}
   - component: {fileID: 62109845936002047}
   - component: {fileID: 62109845936001920}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Jumper
   m_TagString: Enemy
   m_Icon: {fileID: 0}

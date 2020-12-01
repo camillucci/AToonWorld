@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class WavingSprite : MonoBehaviour
 {
     protected Material _imageMaterial;
-    private Image _imageComponent;
-    [SerializeField] private Canvas _canvas = null;
+    protected Image _imageComponent;
+    private Canvas _canvas;
     private CanvasController _canvasController;
 
     protected virtual void Awake() 
@@ -17,10 +17,20 @@ public class WavingSprite : MonoBehaviour
         _imageMaterial = new Material(_imageComponent.material);
         _imageComponent.material = _imageMaterial;
 
+        _canvas = FindParentCanvas();
         _canvasController = _canvas.GetComponent<CanvasController>();
         _canvasController.CanvasSizeChanged.AddListener(UpdateShaderProperties);
         
         UpdateShaderProperties();
+    }
+
+    private Canvas FindParentCanvas()
+    {
+        Transform currentObject = transform.parent;
+        Canvas parentCanvas = null;
+        while(currentObject != null && (parentCanvas = currentObject.GetComponent<Canvas>()) == null)
+            currentObject = currentObject.parent;
+        return parentCanvas;
     }
 
     private void OnDestroy() {
@@ -29,6 +39,7 @@ public class WavingSprite : MonoBehaviour
         #if UNITY_EDITOR
             //Clean Up
             _imageMaterial.SetVector("_UIElementOrigin", Vector4.zero);
+            _imageMaterial.SetVector("_UIScale", Vector4.zero);
             _imageMaterial.SetVector("_UIElementSize", Vector4.zero);
             _imageMaterial.SetVector("_UIElementUpQuaternion", Vector4.zero);
             _imageMaterial.SetVector("_UIElementUpDirection", Vector3.up);
@@ -43,6 +54,7 @@ public class WavingSprite : MonoBehaviour
     {
         Quaternion rotationQuaternion = Quaternion.FromToRotation(Vector3.up, transform.up);
         _imageMaterial.SetVector("_UIElementOrigin", transform.position - _canvas.transform.position);
+        _imageMaterial.SetVector("_UIScale", _canvas.transform.localScale);
         _imageMaterial.SetVector("_UIElementSize", new Vector4(
             _imageComponent.rectTransform.rect.width *  _imageComponent.rectTransform.lossyScale.x,
             _imageComponent.rectTransform.rect.height *  _imageComponent.rectTransform.lossyScale.y,

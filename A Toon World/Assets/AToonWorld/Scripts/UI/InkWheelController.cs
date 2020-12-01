@@ -134,7 +134,7 @@ public class InkWheelController : MonoBehaviour
                 _inkGauges.ContainsKey(expendableInk.InkType))
             {
                 _inkGauges[expendableInk.InkType].UpdateShaderProperties();
-                _inkGauges[expendableInk.InkType].SetFillAmmount(expendableInk.CurrentCapacity/expendableInk.MaxCapacity);
+                _inkGauges[expendableInk.InkType].SetFillAmount(expendableInk.CurrentCapacity/expendableInk.MaxCapacity);
             }
         });
     }

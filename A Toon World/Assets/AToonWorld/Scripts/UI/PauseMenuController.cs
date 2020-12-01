@@ -13,14 +13,13 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         private static bool _isGamePaused = false;
         private PlayerController _playerController;
-        private SceneFaderController _sceneFaderController;
 
         [SerializeField] private GameObject _pauseMenuUI = null;
 
-        void Awake()
+        // Initialization
+        private void Start()
         {
-            _playerController = FindObjectOfType<PlayerController>();
-            _sceneFaderController = FindObjectOfType<SceneFaderController>();
+            RefreshValues();
         }
 
         void Update()
@@ -32,6 +31,11 @@ namespace Assets.AToonWorld.Scripts.UI
                 else
                     Pause();
             }
+        }
+
+        public void RefreshValues()
+        {
+            _playerController = FindObjectOfType<PlayerController>();
         }
 
         public static bool IsGamePaused => _isGamePaused;
@@ -61,20 +65,21 @@ namespace Assets.AToonWorld.Scripts.UI
         // Restart from last checkpoint
         public void Restart()
         {
-            Events.PlayerEvents.Death.Invoke();
-            Resume();
+            // Deactivate all inks in the scene
+            ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
+
+            // Return to the LevelsMenu scene
+            InGameUIController.PrefabInstance.FadeTo(SceneManager.GetActiveScene().name);
         }
 
         // Return to the LevelsMenu scene
         public void Exit()
         {
-            Time.timeScale = 1f;
-
             // Deactivate all inks in the scene
             ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
             
             // Return to the LevelsMenu scene
-            _sceneFaderController.FadeTo(UnityScenes.LevelsMenu);
+            InGameUIController.PrefabInstance.FadeTo(UnityScenes.LevelsMenu);
         }
 
         #endregion

@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1270032245370688099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8799735747240348458}
-  - component: {fileID: 7677370279222870997}
-  m_Layer: 0
-  m_Name: CancelInkObserver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8799735747240348458
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1270032245370688099}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 9202030778897293427}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7677370279222870997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1270032245370688099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d27222730af4e14f8bd4ad51761bbfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cancelEffectPrefab: {fileID: 1454082156193004359, guid: b215578331b99434487e4863881b3250,
-    type: 3}
 --- !u!1 &9202030778567197829
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +11,7 @@ GameObject:
   - component: {fileID: 9202030778567197828}
   - component: {fileID: 9202030778567197830}
   - component: {fileID: 9202030778567197831}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +91,7 @@ GameObject:
   - component: {fileID: 9202030778897293430}
   - component: {fileID: 9202030778897293426}
   - component: {fileID: -3494102643704562212}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -156,7 +111,6 @@ Transform:
   m_Children:
   - {fileID: 9202030778567197828}
   - {fileID: 9202030780216119491}
-  - {fileID: 8799735747240348458}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -299,7 +253,7 @@ GameObject:
   - component: {fileID: 9202030780216119491}
   - component: {fileID: 9202030780216119493}
   - component: {fileID: 9202030780216119490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player Body
   m_TagString: Player
   m_Icon: {fileID: 0}

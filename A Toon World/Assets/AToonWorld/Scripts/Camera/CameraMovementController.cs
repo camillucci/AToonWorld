@@ -34,11 +34,14 @@ namespace Assets.AToonWorld.Scripts.Camera
         private void Awake()
         {
             _transform = transform;
-            _playerController = FindObjectOfType<PlayerController>();
             _camera = GetComponent<UnityEngine.Camera>();
-            _playerTransform = _playerController.transform;
         }
 
+        private void Start()
+        {
+            _playerController = FindObjectOfType<PlayerController>();
+            _playerTransform = _playerController.transform;
+        }
 
         private bool CanFollowPlayer => ShouldFollowPlayer && !_manuallyMovingCamera
                                        && (_followPlayerWhenDrawing || !_playerController.PlayerInkController.IsDrawing);

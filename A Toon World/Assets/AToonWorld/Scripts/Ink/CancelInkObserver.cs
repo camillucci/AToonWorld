@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-//FIXME: Singleton in questo caso probabilmente crea più problemi di quanti ne risolve
 //TODO: Effetto particellare migliore
-public class CancelInkObserver : Singleton<CancelInkObserver>
+public class CancelInkObserver : MonoBehaviour
 {
     // Editor Fields
     [SerializeField] private GameObject _cancelEffectPrefab = null;

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class DirectedAreaComponent : MonoBehaviour
 {
+    private InkDirector _inkDirector;
     private List<InkPickupController> _childPickups;
 
     // Istruisce il GameDirector a rimuovere pickup se il player ha abbastanza inchiostro
@@ -16,6 +17,7 @@ public class DirectedAreaComponent : MonoBehaviour
     {
         //At the start of the levels finds it's children
         _childPickups = new List<InkPickupController>(GetComponentsInChildren<InkPickupController>().Where(pickup => pickup.IsDirected));
+        _inkDirector = FindObjectOfType<InkDirector>();
     }
 
     public void ProcessChildren(Action<InkPickupController, bool> processAction) => _childPickups.ForEach(pickup => processAction.Invoke(pickup, _limitedResourcesArea));
@@ -23,12 +25,12 @@ public class DirectedAreaComponent : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.CompareTag(UnityTag.Player))
-            InkDirector.Instance.OnDirectedAreaActivated(this);
+            _inkDirector.OnDirectedAreaActivated(this);
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
         if(collider.CompareTag(UnityTag.Player))
-            InkDirector.Instance.OnDirectedAreaDeactivated(this);
+            _inkDirector.OnDirectedAreaDeactivated(this);
     }
 }

@@ -13,6 +13,7 @@ Shader "Custom/Waving Sprite UI"
         _Frequency ("Wave Frequency", Float) = 10
         _Amplitude ("Wave Amplitude", Float) = 0.1
         _UIElementOrigin("UI Origin", Vector) = (0,0,0,0)
+        _UIScale("UI Scale", Vector) = (0,0,0,0)
         _UIElementSize("UI Size", Vector) = (0,0,0,0)
         _UIElementUpDirection("Up Direction", Vector) = (1,0,0,0)
         _UIElementUpQuaternion("Up Rotation Quaternion", Vector) = (0,0,0,0)
@@ -23,6 +24,7 @@ Shader "Custom/Waving Sprite UI"
 
     float _Dampening;
     float4 _UIElementOrigin;
+    float4 _UIScale;
     float4 _UIElementSize;
     float4 _UIElementUpDirection;
     float4 _UIElementUpQuaternion;
@@ -48,13 +50,12 @@ Shader "Custom/Waving Sprite UI"
     void vert(inout appdata_full v)
     {
         //Waving calculation
-        float4 relativeCoords = v.vertex - _UIElementOrigin;
-        
+        float4 relativeCoords = v.vertex*_UIScale - _UIElementOrigin;
         float3 rotatedVert = relativeCoords + 2.0 * cross(_UIElementUpQuaternion.xyz, cross(_UIElementUpQuaternion.xyz, relativeCoords) + _UIElementUpQuaternion.w * relativeCoords);
         rotatedVert.xy /= _UIElementSize.xy;
 
         half waveAmplitude = _Amplitude * clamp((rotatedVert.y  - _MinY) / (_MaxY - _MinY), 0, 1);
-        v.vertex += _UIElementUpDirection * (1 - sin(rotatedVert.x/_Dampening + _Time.y * _Frequency)) * waveAmplitude * (_UIElementSize.y / 10);
+        v.vertex += _UIElementUpDirection * (1 - sin(rotatedVert.x/_Dampening + _Time.y * _Frequency)) * waveAmplitude * (_UIElementSize.y / 10) / _UIScale.y;
         v.vertex = UnityFlipSprite(v.vertex, _Flip);
 
         #if defined(PIXELSNAP_ON)

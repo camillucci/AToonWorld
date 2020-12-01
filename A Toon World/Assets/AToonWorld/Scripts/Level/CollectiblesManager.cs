@@ -12,7 +12,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private List<Collectible> _collectiblesSinceLastCheckpoint =  new List<Collectible>();
 
         // Initialization
-        private void Awake()
+        private void Start()
         {
             Collectible[] collectibles = FindObjectsOfType<Collectible>();
             foreach (var collectible in collectibles)
