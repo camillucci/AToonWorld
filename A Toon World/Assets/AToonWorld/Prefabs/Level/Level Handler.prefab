@@ -227,8 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9c7266edbb3dd4db246ba12ff5ef87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnSpeed: 10
   _maxDeathsForAchievement: 5
+  _inkPalette: {fileID: 11400000, guid: 02c1a3bd0e7c0584084e3ed1af8d0c7d, type: 2}
 --- !u!1 &5806683213184375814
 GameObject:
   m_ObjectHideFlags: 0

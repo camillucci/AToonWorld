@@ -15,8 +15,8 @@ namespace Assets.AToonWorld.Scripts.Level
     public class LevelHandler : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private float _respawnSpeed;
         [SerializeField] private int _maxDeathsForAchievement = 5;
+        [SerializeField] private InkPaletteSO _inkPalette = null;
 
 
         // Editor Fields
@@ -32,7 +32,8 @@ namespace Assets.AToonWorld.Scripts.Level
         //Reset tables, we use IDs to keep track of duplicates
         private Dictionary<int, GameObject> _enabledObjectsSinceCheckpoint;
         private Dictionary<int, GameObject> _disabledObjectsSinceCheckpoint;
-
+        private Dictionary<PlayerInkController.InkType, float> _savedInkCapacity;
+        private PlayerInkController.InkType _savedSelectedInk;
 
         // Public Properties
         public bool RespawningPlayer { get; private set; }
@@ -47,6 +48,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _timeManager = GetComponentInChildren<TimeManager>();
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
+            _savedInkCapacity = new Dictionary<PlayerInkController.InkType, float>();
             
             Events.PlayerEvents.Death.AddListener(() => OnPlayerDead().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget());
             Events.LevelEvents.CheckpointReached.AddListener(checkpointNumber => CheckpointReached());
@@ -99,6 +101,16 @@ namespace Assets.AToonWorld.Scripts.Level
             foreach(GameObject disabledItem in _disabledObjectsSinceCheckpoint.Values)
                 disabledItem.SetActive(true);
 
+            //Restores ink state
+            _inkPalette?.InkPalette.ForEach(inkHandler => {
+                if(inkHandler is ScriptableExpendableInkHandler expendableInkHandler &&
+                    _savedInkCapacity.ContainsKey(expendableInkHandler.InkType))
+                    expendableInkHandler.Expendable.SetCapacity(_savedInkCapacity[expendableInkHandler.InkType]);
+            });
+
+            if(_inkPalette != null)
+                Events.InterfaceEvents.InkSelectionRequested.Invoke(_savedSelectedInk);
+
             //Clears the tracking list
             _enabledObjectsSinceCheckpoint.Clear();
             _disabledObjectsSinceCheckpoint.Clear();
@@ -128,6 +140,14 @@ namespace Assets.AToonWorld.Scripts.Level
         private void CheckpointReached()
         {
             _enabledObjectsSinceCheckpoint.Clear();
+
+            _inkPalette?.InkPalette.ForEach(inkHandler => {
+                if(inkHandler is ScriptableExpendableInkHandler expendableInkHandler)
+                    _savedInkCapacity[expendableInkHandler.InkType] = expendableInkHandler.CurrentCapacity;
+            });
+
+            if(_inkPalette != null)
+                _savedSelectedInk = _inkPalette.SelectedInk;
         }
 
         private void DrawingCreated(DrawSplineController splineController)
