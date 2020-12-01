@@ -69,12 +69,12 @@ Material:
     - _ColorMask: 15
     - _CullMode: 0
     - _Cutoff: 0.5
-    - _Dampening: 0.15
+    - _Dampening: 0.4
     - _DetailNormalMapScale: 1
     - _Displacement: 0
     - _DstBlend: 0
     - _EdgeLength: 10
-    - _Frequency: 4
+    - _Frequency: 7
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
