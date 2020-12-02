@@ -29,9 +29,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         // Private Fields    
         private AudioSourceHandler _musicSource;
-        private List<Sound> _resourcesSoundtrack = new List<Sound>();
         private bool _refreshingSoundtrack;
-        private List<GameObject> _resourcesSfx = new List<GameObject>();
         private bool _refreshingSFx;
 
 
@@ -47,8 +45,8 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         private void Start()
         {
-            if(Application.isPlaying)
-                Test().Forget();            
+            //if(Application.isPlaying)
+            //    Test().Forget();            
         }
 
         private void SetupMusicSource()
@@ -73,7 +71,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         // Private Properties 
         private static string ResourcesPath => $"{Application.dataPath}/Resources/";
         private static string SoundTrackRelativePath => "Audio/Soundtrack/";
-        private static string SoundEffectsRelativePath => "Audio/Sfx/";
+        private static string SfxRelativePath => "Audio/Sfx/";
 
 
 
@@ -88,37 +86,45 @@ namespace Assets.AToonWorld.Scripts.Audio
         // Public Methods
         public async UniTask LoadSoundtrack()
         {
-            var clipsTasks = GetClips(SoundTrackRelativePath);
-            foreach(var clipTask in clipsTasks)
-            {
-                var clip = await clipTask;
-                if(clip != null)
-                {                    
-                    if (!_soundtrack.Any(s => AreClipsEquals(clip, s.Clip)))
-                        _soundtrack.Add(new Sound(clip.name,clip));
-                    var toRemoveSounds = (from sound in _resourcesSoundtrack where AreClipsEquals(sound.Clip, clip) select sound).ToList();
-                    foreach (var sound in toRemoveSounds)
-                        _resourcesSoundtrack.Remove(sound);
-                }
-            }
+            var resourcesMusicTasks = GetClips(SoundTrackRelativePath);
+
+            foreach (var clipTask in resourcesMusicTasks)
+                AddMusicToSoundtrack(await clipTask);
+
+            var toRemoveMusics = from music in _soundtrack where music.Clip == default select music;
+            foreach (var music in toRemoveMusics.ToList())
+                _soundtrack.Remove(music);
         }
+      
 
         public async UniTask LoadSfx()
         {
-            _refreshingSFx = true;
-            var clipsTasks = GetClips(SoundEffectsRelativePath);
-            foreach(var clipTask in clipsTasks)
+            var resourcesSfxTasks = GetClips(SfxRelativePath);
+            foreach (var soundEffectTask in resourcesSfxTasks)
+                AddSoundEffectToSfx(await soundEffectTask);
+
+            var toRemoveSfx = from soundEffectObj in _sfx
+                              let soundEffect = soundEffectObj.GetComponent<SoundEffect>()
+                              where soundEffect.Clip == null
+                              select soundEffectObj;
+            UniTaskCompletionSource<bool> tcs = new UniTaskCompletionSource<bool>();
+            UnityEditor.EditorApplication.delayCall += () =>
             {
-                var clip = await clipTask;
-                if(clip != null)
+                try
                 {
-                    if (!_sfx.Any(s => AreClipsEquals(clip, s.GetComponent<SoundEffect>().Clip)))
-                        _sfx.Add(BuildSoundEffect(clip));
-                    var toRemoveSounds = (from sound in _resourcesSfx where AreClipsEquals(sound.GetComponent<SoundEffect>().Clip, clip) select sound).ToList();
-                    foreach (var sound in toRemoveSounds)
-                        _resourcesSfx.Remove(sound);
+                    foreach (var toRemove in toRemoveSfx.ToList())
+                    {
+                        _sfx.Remove(toRemove);
+                        DestroyImmediate(toRemove);
+                    }
                 }
-            }
+                finally
+                {
+                    tcs.TrySetResult(true);
+                }
+            };
+
+            await tcs.Task;            
         }
 
         
@@ -137,6 +143,13 @@ namespace Assets.AToonWorld.Scripts.Audio
             var currentMusicIndex = _soundtrack.IndexOf(CurrentMusic ?? _soundtrack.Last());
             var next = currentMusicIndex + 1 < _soundtrack.Count ? _soundtrack[currentMusicIndex + 1] : _soundtrack?[0];
             PlayMusic(next);
+        }
+
+        public void PlayPreviousMusic()
+        {
+            var currentMusicIndex = _soundtrack.IndexOf(CurrentMusic ?? _soundtrack.Last());
+            var previous = currentMusicIndex - 1 < 0 ? _soundtrack[_soundtrack.Count - 1] : _soundtrack[currentMusicIndex - 1];
+            PlayMusic(previous);
         }
 
         public void PauseMusic() => _musicSource.Pause();
@@ -217,6 +230,22 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
         // Private Methods
+        
+        
+        // Sountrack helpers
+        private void AddMusicToSoundtrack(AudioClip clip)
+        {
+            if (clip != null && !_soundtrack.Any(s => AreClipsEquals(clip, s.Clip)))
+                _soundtrack.Add(new Sound(clip.name, clip));
+        }
+
+        
+        //  Sfx Helpers
+        private void AddSoundEffectToSfx(AudioClip clip)
+        {
+            if (clip != null && !_sfx.Any(s => AreClipsEquals(clip, s.GetComponent<SoundEffect>().Clip)))
+                _sfx.Add(BuildSoundEffect(clip));
+        }
         private GameObject BuildSoundEffect(AudioClip clip)
         {
             if (_sfxTransform == null)
