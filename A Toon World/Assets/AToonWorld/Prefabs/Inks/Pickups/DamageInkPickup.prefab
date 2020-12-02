@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5583651981424630550}
   - component: {fileID: 871959626379476035}
   - component: {fileID: 45291051787224184}
+  - component: {fileID: 7931463203006147510}
   m_Layer: 0
   m_Name: DamageInkPickup
   m_TagString: InkPickup
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8621653135407619112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.22073965, y: 0.22073965, z: 0.22073965}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -72,7 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 272ff737a1e718c488a919543b95853f, type: 3}
+  m_Sprite: {fileID: -5675122070035168493, guid: 424dda8b7013bd747b74a4ef40164106,
+    type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +100,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.47999996
+  m_Radius: 0.3
 --- !u!114 &45291051787224184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,3 +118,22 @@ MonoBehaviour:
   _inkType: 2
   _isDirected: 1
   _respawnThreshold: 0
+--- !u!95 &7931463203006147510
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621653135407619112}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: feab6682259dfdd4caf9a2386065b596, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
