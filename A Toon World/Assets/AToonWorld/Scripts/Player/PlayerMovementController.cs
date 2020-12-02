@@ -214,13 +214,8 @@ public class PlayerMovementController : MonoBehaviour
         DoFixedUpdateActions();
         MoveHorizontal();
         MoveVertical();
-    }
-  
-    private void Update()
-    {
         UpdateAnimations();
     }
-
 
     // JumpState handlers
     private void OnJump_WhileNoJumping()

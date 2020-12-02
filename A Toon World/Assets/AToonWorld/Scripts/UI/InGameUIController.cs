@@ -35,35 +35,42 @@ namespace Assets.AToonWorld.Scripts.UI
 
         # region Faders
 
-        // Awaitable fade in
+        // Awaitable fade in inside a level
         public async UniTask FadeIn(float fadingSpeed = _defaultSpeed)
         {
+            _sceneFaderController.gameObject.SetActive(true);
             await _sceneFaderController.FadeIn(fadingSpeed);
+            _sceneFaderController.gameObject.SetActive(false);
         }
 
-        // Awaitable fade out
+        // Awaitable fade out inside a level
         public async UniTask FadeOut(float fadingSpeed = _defaultSpeed)
         {
+            _sceneFaderController.gameObject.SetActive(true);
             await _sceneFaderController.FadeOut(fadingSpeed);
+            _sceneFaderController.gameObject.SetActive(false);
         }
 
-        // Awaitable fade blink
-        public async UniTask FadeOutAndIn(float fadeOutSpeed = _defaultSpeed, int delayInMs = _defaultDelay, float fadeInSpeed = _defaultSpeed){
-            await FadeOut(fadeOutSpeed);
+        // Awaitable fade blink inside a level
+        public async UniTask FadeOutAndIn(float fadeOutSpeed = _defaultSpeed, int delayInMs = _defaultDelay, float fadeInSpeed = _defaultSpeed)
+        {
+            _sceneFaderController.gameObject.SetActive(true);
+            await _sceneFaderController.FadeOut(fadeOutSpeed);
             await UniTask.Delay(delayInMs);
-            await FadeIn(fadeInSpeed);
+            await _sceneFaderController.FadeIn(fadeInSpeed);
+            _sceneFaderController.gameObject.SetActive(false);
         }
 
         // Setup the UI for the level and do a fade in
         public void FadeInLevel(float fadingSpeed = _defaultSpeed)
         {
-            _inGameCanvas.gameObject.SetActive(true);
             _pauseMenuUI.SetActive(false);
             _endLevelMenuUI.SetActive(false);
             _inkSelector.SetActive(true);
             _inkWheel.SetActive(false);
             RefreshValues();
-            _sceneFaderController.FadeIn(fadingSpeed).Forget();
+            _sceneFaderController.FadeIn(fadingSpeed).ContinueWith(() =>
+                _sceneFaderController.gameObject.SetActive(false)).Forget();
         }
 
         // Refresh values that depend on a level when a new level is loaded
@@ -88,6 +95,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void FadeTo(string scene, float fadingSpeed = _defaultSpeed)
         {
             _inGameCanvas.gameObject.SetActive(true);
+            _sceneFaderController.gameObject.SetActive(true);
             _sceneFaderController.FadeTo(scene, fadingSpeed).Forget();
         }
 
@@ -95,6 +103,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void FadeToExit(float fadingSpeed = _defaultSpeed)
         {
             _inGameCanvas.gameObject.SetActive(true);
+            _sceneFaderController.gameObject.SetActive(true);
             _sceneFaderController.FadeExit(fadingSpeed).Forget();
         }
 
