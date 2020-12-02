@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.AToonWorld.Scripts.Audio;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +22,8 @@ namespace Assets.AToonWorld.Scripts.Extensions
             yield return new WaitForSeconds(delayInSeconds);
             callback.Invoke();
         }
+
+        public static UniTask PlaySound(this MonoBehaviour @this, string soundName)
+            => AudioManager.Instance.PlaySound(soundName, @this.transform);
     }
 }

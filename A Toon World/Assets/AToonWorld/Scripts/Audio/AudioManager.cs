@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Assets.AToonWorld.Scripts.Audio
 {
     [ExecuteInEditMode]
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : Singleton<AudioManager>
     {
         // Editor Fields                
         [Header("Soundtrack Settings")]
@@ -37,16 +37,12 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
         // Initialization
-        private void Awake()
+        protected override void Awake()
         {
+            if(Application.isPlaying)
+                base.Awake();
             var musicAudioSource = GetComponent<AudioSource>();
             _musicSource = new AudioSourceHandler(musicAudioSource);
-        }
-
-        private void Start()
-        {
-            //if(Application.isPlaying)
-            //    Test().Forget();            
         }
 
         private void SetupMusicSource()
@@ -60,7 +56,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             while(true)
             {
                 Debug.Log("Playing");
-                await PlaySound(SoundEffects.Pop);
+                await PlaySound(SoundEffects.Pop, _playingSfxTransform);
                 await UniTask.Delay(2000);
                 Debug.Log(" Stop Playing");
             }
@@ -159,7 +155,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
         // Sfx
-        public async UniTask PlaySound(string name)
+        public async UniTask PlaySound(string name, Transform transform)
         {
             //TODO add object pooling
             var soundEffectModel = (from sound in _sfx
@@ -169,7 +165,8 @@ namespace Assets.AToonWorld.Scripts.Audio
                 throw new InvalidOperationException($"The sound named {name} does not exist");
 
             var newSound = Instantiate(soundEffectModel);
-            newSound.transform.parent = _playingSfxTransform;
+            newSound.transform.parent = transform;
+            newSound.transform.position = transform.position;
             var soundEffect = newSound.GetComponent<SoundEffect>();
             await soundEffect.Play();
             Destroy(newSound);
@@ -268,10 +265,6 @@ namespace Assets.AToonWorld.Scripts.Audio
             _musicSource.Play(music);
         }        
 
-        private void SetupAudioSource(Sound sound, AudioSource audioSource)
-        {
-            audioSource.clip = sound.Clip;
-        }
 
         private IEnumerable<UniTask<AudioClip>> GetClips(string relativePath)
         {

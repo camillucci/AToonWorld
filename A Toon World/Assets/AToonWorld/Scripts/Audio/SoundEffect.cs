@@ -45,7 +45,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         private async UniTask OnValidateAsync()
         {
-            if(_testPlay)
+            if(_testPlay && Application.isEditor)
             {
                 _audioSource = GetComponent<AudioSource>();
                 await Play();
