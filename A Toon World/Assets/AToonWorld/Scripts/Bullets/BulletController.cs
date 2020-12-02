@@ -8,6 +8,8 @@ public abstract class BulletController : MonoBehaviour
 {
     private Rigidbody2D _bullet;
     private float _gravity;
+
+    [SerializeField] protected GameObject _explosion = null;
     [SerializeField] private float _maxBulletSpeed = 40f;
 
     private void Awake()
