@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Audio
 {
-    public class MusicSourceHandler
+    public class AudioSourceHandler
     {
         // Private Fields
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
 
         // Initialization
-        public MusicSourceHandler(AudioSource audioSource)
+        public AudioSourceHandler(AudioSource audioSource)
         {
             MusicSource = audioSource;
             MusicSource.Stop();

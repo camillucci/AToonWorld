@@ -14,7 +14,6 @@ namespace Assets.AToonWorld.Scripts.Audio
         [SerializeField] private string _name;
         [SerializeField] private AudioClip _clip;
 
-
         // Initialization
         public Sound(string name, AudioClip clip)
         {
