@@ -23,17 +23,14 @@ namespace Assets.AToonWorld.Scripts.Level
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag(UnityTag.Player))
-                Victory().Forget();
-        }
-
-        private async UniTask Victory()
-        {
-            #if AnaliticsEnabled
-                Events.AnaliticsEvents.LevelEnd.Invoke(new Analitic());
-            #endif
-            await this.PlaySound(SoundEffects.Victory);
-            _endLevelTaken?.Invoke();
-            _endLevelMenuController.ShowEndLevelMenu();
+            {
+                #if AnaliticsEnabled
+                    Events.AnaliticsEvents.LevelEnd.Invoke(new Analitic());
+                #endif
+                this.PlaySound(SoundEffects.Victory).Forget();
+                _endLevelTaken?.Invoke();
+                _endLevelMenuController.ShowEndLevelMenu();
+            }
         }
     }
 }
