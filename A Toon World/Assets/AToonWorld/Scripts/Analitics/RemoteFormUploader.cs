@@ -29,8 +29,6 @@ public class RemoteFormUploader
         #if UNITY_EDITOR
         if (request.isNetworkError)
             Debug.Log(request.error);
-        else
-            Debug.Log("Form upload complete!");
         #endif
     }
 
