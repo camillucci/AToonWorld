@@ -90,19 +90,17 @@ namespace Assets.AToonWorld.Scripts.Utils
         public static UniTask Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
             => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);
 
-        public static async UniTask Transition(Quaternion from, Vector3 direction, Action<Quaternion> callback, float speed, bool smooth, Func<bool> cancelCondition)
+        public static async UniTask Transition(Quaternion from, Quaternion to, Action<Quaternion> callback, float speed, bool smooth, Func<bool> cancelCondition)
         {
             var current = from;
             bool CheckIsCancelled() => cancelCondition?.Invoke() ?? false;
             bool isCancelled = CheckIsCancelled();
-            float rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion toRotation = Quaternion.Euler(0f, 0f, rot_z - 90);
-            while (Quaternion.Angle(current, toRotation) > _epsilon && !isCancelled)
+            while (Quaternion.Angle(current, to) > _epsilon && !isCancelled)
             {
                 var deltaPos = speed * Time.deltaTime;
                 current = smooth
-                    ? Quaternion.Lerp(current, toRotation, deltaPos)
-                    : Quaternion.RotateTowards(current, toRotation, deltaPos);
+                    ? Quaternion.Slerp(current, to, deltaPos)
+                    : Quaternion.RotateTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
                 await UniTask.NextFrame();
@@ -110,10 +108,10 @@ namespace Assets.AToonWorld.Scripts.Utils
             }
 
             if (!isCancelled)
-                callback.Invoke(toRotation);
+                callback.Invoke(to);
         }
 
-        public static UniTask Transition(Quaternion from, Vector3 direction, Action<Quaternion> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
-            => Transition(from, direction, callback, speed, smooth, () => token.IsCancellationRequested);
+        public static UniTask Transition(Quaternion from, Quaternion to, Action<Quaternion> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
+            => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);
     }   
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -20,13 +21,23 @@ namespace Assets.AToonWorld.Scripts.Extensions
             smooth: smooth
         );
 
-        public static UniTask RotateTowardsAnimated(this Transform @this, Vector3 direction, float speed, bool smooth = true) => Animations.Transition
+        public static UniTask RotateTowardsAnimated(this Transform @this, Quaternion rotation, float speed, bool smooth = true) => Animations.Transition
         (
-            from: @this.localRotation,
-            direction: direction,
-            callback: val => @this.localRotation = val,
+            from: @this.rotation,
+            to: rotation,
+            callback: val => @this.rotation = val,
             speed: speed,
             smooth: smooth
+        );
+
+        public static UniTask RotateTowardsAnimatedWithCancellation(this Transform @this, Quaternion rotation, CancellationToken cancellationToken, float speed, bool smooth = true) => Animations.Transition
+        (
+            from: @this.rotation,
+            to: rotation,
+            callback: val => @this.rotation = val,
+            speed: speed,
+            smooth: smooth,
+            cancelCondition: () => cancellationToken.IsCancellationRequested
         );
 
         public static async UniTask FollowPathAnimatd(this Transform @this, IEnumerable<Vector3> positions, float speed, bool smooth = true)
