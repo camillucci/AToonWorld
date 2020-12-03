@@ -44,6 +44,7 @@ namespace Assets.AToonWorld.Scripts.Audio
                 base.Awake();
             var musicAudioSource = GetComponent<AudioSource>();
             _musicSource = new AudioSourceHandler(musicAudioSource);
+            SetupMusicSource();
         }
 
         private void Start()
@@ -85,9 +86,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         // Public Methods
         public IEnumerable<SoundEffect> GetAllSfx()
-        {
-            return from soundObject in _sfx select soundObject.GetComponent<SoundEffect>();
-        }
+            => from soundObject in _sfx select soundObject.GetComponent<SoundEffect>();
 
       
         
@@ -116,7 +115,6 @@ namespace Assets.AToonWorld.Scripts.Audio
         }
 
         public void PauseMusic() => _musicSource.Pause();
-
         public void StopMusic() => _musicSource.Stop();
 
 
@@ -201,8 +199,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
         // Private Methods
-
-
+        
         // Sounds loading
         private async UniTask LoadSoundtrack()
         {
@@ -251,6 +248,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
 
+
         // Sountrack helpers
         private void AddMusicToSoundtrack(AudioClip clip)
         {
@@ -258,7 +256,17 @@ namespace Assets.AToonWorld.Scripts.Audio
                 _soundtrack.Add(new Sound(clip.name, clip));
         }
 
-        
+        private void PlayMusic(Sound music)
+        {
+            if (music is null)
+                return;
+
+            _musicSource.Stop();
+            _musicSource.Play(music);
+        }
+
+
+
 
         //  Sfx Helpers
         private void AddSoundEffectToSfx(AudioClip clip, string relativePath)
@@ -281,16 +289,10 @@ namespace Assets.AToonWorld.Scripts.Audio
             return soundEffectModel;
         }
 
-        private void PlayMusic(Sound music)
-        {
-            if (music is null)
-                return;
-
-            _musicSource.Stop();
-            _musicSource.Play(music);
-        }        
 
 
+
+        // Clips-Sounds helpers        
         private IEnumerable<UniTask<T>> GetClips<T>(string relativePath, Func<string, AudioClip, T> selectFunction)
         {            
             var dirInfo = new DirectoryInfo(ResourcesPath + relativePath);
@@ -301,7 +303,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         }
 
         private Sound SoundByName(string name, IEnumerable<Sound> sounds)
-            => sounds.FirstOrDefault(sound => EqualsSoundName(name, sound)) 
+            => sounds.FirstOrDefault(sound => name.Equals(sound.Name, StringComparison.InvariantCultureIgnoreCase))
             ?? throw new InvalidOperationException($"Can't find a sound named {name}");
 
         private async UniTask<AudioClip> LoadClipFromFile(FileInfo file, string relativePath)
@@ -310,13 +312,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             soundName = soundName.Substring(0, soundName.LastIndexOf('.'));
             var clip = await Resources.LoadAsync(relativePath + soundName) as AudioClip;
             return clip;
-        }        
-
-        private string SoundPoolKeyBySoundName(string name)
-            => $"{nameof(AudioManager)}.Sfx_{name}_pool";
-
-        private bool EqualsSoundName(string name, Sound clip)
-            => name.Equals(clip.Name, StringComparison.InvariantCultureIgnoreCase);
+        }               
 
         private bool AreClipsEquals(AudioClip clipA, AudioClip clipB)
         {
