@@ -23,7 +23,8 @@ public class ShooterController : MonoBehaviour
         {
             _canFire = false;
             GameObject bullet = ObjectPoolingManager<string>.Instance.GetObject(nameof(_bulletPrefab));
-            bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
+            float angle = bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
+            transform.rotation = Quaternion.Euler(0f, 0f, 180f + angle);
             StartCoroutine(EnableFire());
         }
     }
