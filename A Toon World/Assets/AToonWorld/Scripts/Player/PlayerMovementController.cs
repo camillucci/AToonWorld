@@ -36,6 +36,7 @@ public class PlayerMovementController : MonoBehaviour
         RigidBody = GetComponent<Rigidbody2D>();
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
+        AnimatorController = GetComponent<Animator>();
         _gravityScale = RigidBody.gravityScale;
         InitializeJumpingStates();
         InitializeFeet();
@@ -93,9 +94,11 @@ public class PlayerMovementController : MonoBehaviour
     // Public Properties    
     public PlayerBody PlayerBody { get; private set; }
     public PlayerFeet PlayerFeet { get; private set; }
+    public Animator AnimatorController { get; private set; }
     public bool IsDoubleJumpEnabled { get => _isDoubleJumpEnabled; set => _isDoubleJumpEnabled = value; }
     public float HorizontalMovementDirection { get; set; }
     public float VerticalMovementDirection { get; set; }
+    public bool IsFacingRight { get; private set; } = true;
     public JumpState CurrentJumpState { get; private set; }
     public bool IsClimbing => ClimbingWallCollidedCount > 0;
     public bool IsGrounded => GroundsCollidedCount > 0;
@@ -141,7 +144,6 @@ public class PlayerMovementController : MonoBehaviour
     }
     public bool IsInTheAir => !IsClimbing && !IsGrounded && !IsOnDrawingPlatform;
     public Rigidbody2D RigidBody { get; private set; }
-
 
 
 
@@ -212,10 +214,8 @@ public class PlayerMovementController : MonoBehaviour
         DoFixedUpdateActions();
         MoveHorizontal();
         MoveVertical();
+        UpdateAnimations();
     }
-  
-
-
 
     // JumpState handlers
     private void OnJump_WhileNoJumping()
@@ -291,15 +291,36 @@ public class PlayerMovementController : MonoBehaviour
     {
         float xVelocity = HorizontalMovementDirection * _speed;        
         RigidBody.velocity = new Vector2(xVelocity, RigidBody.velocity.y);
+
+        // If the player change direction flip the sprite
+        if ((xVelocity > 0 && !IsFacingRight) || (xVelocity < 0 && IsFacingRight))
+        {
+            Flip();
+        }
+
+        AnimatorController.SetFloat(PlayerAnimatorParameters.VelocityX, Mathf.Abs(xVelocity));
     }
+
+    private void Flip()
+	{
+		// Switch the way the player is labelled as facing.
+		IsFacingRight = !IsFacingRight;
+
+		// Multiply the player's x local scale by -1.
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
+	}
 
     private void MoveVertical()
     {
+        float yVelocity = VerticalMovementDirection * _climbingSpeed;    
         if(IsClimbing && CanJump)
         {
-            float yVelocity = VerticalMovementDirection * _climbingSpeed;        
             RigidBody.velocity = new Vector2(RigidBody.velocity.x, yVelocity);
         }
+
+        AnimatorController.SetFloat(PlayerAnimatorParameters.VelocityY, Mathf.Abs(yVelocity));
     }
 
     private void HandleJump()
@@ -307,6 +328,12 @@ public class PlayerMovementController : MonoBehaviour
         if (_onJumpHandlers.TryGetValue(CurrentJumpState, out Action jumpStateHandler))
             jumpStateHandler.Invoke();
     }   
+
+    private void UpdateAnimations()
+    {
+        AnimatorController.SetBool(PlayerAnimatorParameters.Grounded, IsGrounded || IsOnDrawingPlatform);
+        AnimatorController.SetBool(PlayerAnimatorParameters.Climbing, IsClimbing);
+    }
 
     public enum JumpState
     {

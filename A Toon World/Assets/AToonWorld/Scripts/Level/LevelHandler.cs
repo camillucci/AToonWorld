@@ -24,6 +24,7 @@ namespace Assets.AToonWorld.Scripts.Level
         public CollectiblesManager _collectiblesManager { get; private set; }
         public TimeManager _timeManager { get; private set; }
         private PlayerController _playerController;
+        private PlayerMovementController _playerMovementController;
         private CameraMovementController _cameraMovementController;
         private DeathObserver _deathObserver;
         private MapBorders _mapBorders;
@@ -66,6 +67,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Start()
         {
             _playerController = FindObjectOfType<PlayerController>();
+            _playerMovementController = FindObjectOfType<PlayerMovementController>();
             _cameraMovementController = FindObjectOfType<CameraMovementController>();
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
@@ -76,17 +78,27 @@ namespace Assets.AToonWorld.Scripts.Level
         // Public Methods
         public async UniTask SpawnFromLastCheckpoint()
         {
+            // Disable player
             RespawningPlayer = true;
-
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
             _playerController.DisablePlayer();
+
+            // Play animation
+            _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, true);
+            _playerMovementController.AnimatorController.SetTrigger(PlayerAnimatorParameters.Death);
+            await UniTask.Delay(1000); // Wait for death animation to be played
+
+            // Respawn: reset stuff done since last checkpoint and move player to it
             _collectiblesManager.OnPlayerRespawn();
             lastCheckPoint.OnPlayerRespawnStart();     
             ResetLevelStateFromCheckpoint(); 
             InGameUIController.PrefabInstance.FadeOutAndIn(2f, 500, 2f).Forget();
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
+
+            // Re-enable player
             _playerController.EnablePlayer();
             lastCheckPoint.OnPlayerRespawnEnd();  
+            _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, false);
             RespawningPlayer = false;
         }
 
