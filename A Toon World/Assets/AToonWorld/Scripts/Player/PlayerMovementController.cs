@@ -36,7 +36,7 @@ public class PlayerMovementController : MonoBehaviour
         RigidBody = GetComponent<Rigidbody2D>();
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
-        AnimatorController = GetComponent<Animator>();
+        AnimatorController = PlayerBody.GetComponent<Animator>();
         _gravityScale = RigidBody.gravityScale;
         InitializeJumpingStates();
         InitializeFeet();

@@ -83,9 +83,6 @@ namespace Assets.AToonWorld.Scripts.Level
             var lastCheckPoint = _checkPointsManager.LastCheckPoint;
             _playerController.DisablePlayer();
 
-            // Play animation
-            _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, true);
-            _playerMovementController.AnimatorController.SetTrigger(PlayerAnimatorParameters.Death);
             await UniTask.Delay(1000); // Wait for death animation to be played
 
             // Respawn: reset stuff done since last checkpoint and move player to it
