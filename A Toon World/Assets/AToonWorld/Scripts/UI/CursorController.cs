@@ -10,12 +10,10 @@ public class CursorController : MonoBehaviour
     [SerializeField] private InkPaletteSO _inkPalette = null;
 
     private TrailRenderer _trailRenderer;
-    private float trailRenderTime;
 
     void Awake()
     {
         _trailRenderer = GetComponent<TrailRenderer>();
-        trailRenderTime = _trailRenderer.time;
         Cursor.SetCursor(_menuCursor, _hotspot == null ? Vector2.zero : _hotspot, CursorMode.Auto);
         Events.InterfaceEvents.CursorChangeRequest.AddListener(ChangeCursor);
         Events.InterfaceEvents.InkSelected.AddListener(OnInkChanged);
