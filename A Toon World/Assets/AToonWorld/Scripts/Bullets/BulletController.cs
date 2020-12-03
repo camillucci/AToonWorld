@@ -63,7 +63,7 @@ public abstract class BulletController : MonoBehaviour
         transform.position = startPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, shootingAngle);
         _bullet.velocity = transform.right * Mathf.Min(bulletVelocity, _maxBulletSpeed);
-        this.PlaySound(SoundEffects.BulletSounds.Random()).Forget();
+        this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
     }
 
     private float VelocityFromPointAndVertex(Vector2 direction, float shootingAngle) =>

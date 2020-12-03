@@ -184,7 +184,7 @@ public class PlayerInkController : MonoBehaviour
     {
         _drawingSoundTaskRunning = true;
         while (IsDrawing)
-            await this.PlaySound(SoundEffects.DrawingSounds.Random());
+            await this.PlaySound(SoundEffects.DrawingSounds.RandomOrDefault());
         _drawingSoundTaskRunning = false;
     }
 

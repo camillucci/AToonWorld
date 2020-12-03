@@ -40,10 +40,10 @@ namespace Assets.AToonWorld.Scripts.Audio
         public static IReadOnlyList<SoundEffect> CheckpontSounds => _checkPointsSounds ?? (_checkPointsSounds = GetCategory(VictoryPath));
         public static IReadOnlyList<SoundEffect> HorizontalMovementSounds => _horizontalMovementSounds ?? (_horizontalMovementSounds = GetCategory(MovementPath));
 
-        public static SoundEffect LeftStep => _leftStep ?? (_leftStep = HorizontalMovementSounds.First(sound => sound.name.Equals("Footsteps/Floor/Floor_step0")));
-        public static SoundEffect RightStep => _rightStep ?? (_rightStep = HorizontalMovementSounds.First(sound => sound.name.Equals("Footsteps/Floor/Floor_step1")));
-        public static SoundEffect CheckPoint => _checkPoint ?? (_checkPoint = CheckpontSounds.First(sound => sound.name.Equals("Checkpoint-Collectible-Victory/2")));
-        public static SoundEffect Victory => _victory ?? (_victory = CheckpontSounds.First(sound => sound.name.Equals("Checkpoint-Collectible-Victory/1")));
+        public static SoundEffect LeftStep => _leftStep ?? (_leftStep = HorizontalMovementSounds.FirstOrDefault(sound => sound.name.Equals("Footsteps/Floor/Floor_step0")));
+        public static SoundEffect RightStep => _rightStep ?? (_rightStep = HorizontalMovementSounds.FirstOrDefault(sound => sound.name.Equals("Footsteps/Floor/Floor_step1")));
+        public static SoundEffect CheckPoint => _checkPoint ?? (_checkPoint = CheckpontSounds.FirstOrDefault(sound => sound.name.Equals("Checkpoint-Collectible-Victory/2")));
+        public static SoundEffect Victory => _victory ?? (_victory = CheckpontSounds.FirstOrDefault(sound => sound.name.Equals("Checkpoint-Collectible-Victory/1")));
 
 
 

@@ -9,8 +9,10 @@ namespace Assets.AToonWorld.Scripts.Extensions
     public static class IReadOnlyListExtensions
     {
         private static readonly Random _random = new Random();
-        public static T Random<T>(this IReadOnlyList<T> @this)
+        public static T RandomOrDefault<T>(this IReadOnlyList<T> @this)
         {
+            if (@this.Count == 0)
+                return default;
             var index = _random.Next(@this.Count);
             return @this[index];
         }

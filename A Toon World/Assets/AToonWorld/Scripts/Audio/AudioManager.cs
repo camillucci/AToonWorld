@@ -43,7 +43,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             if(Application.isPlaying)
                 base.Awake();
             var musicAudioSource = GetComponent<AudioSource>();
-            _musicSource = new AudioSourceHandler(musicAudioSource);
+            _musicSource = musicAudioSource != null ? new AudioSourceHandler(musicAudioSource) : null;
             SetupMusicSource();
         }
 
@@ -53,6 +53,8 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         private void SetupMusicSource()
         {
+            if (_musicSource == null)
+                return;
             _musicSource.MusicEnd += MusicSource_MusicEnd;
         }
 
@@ -134,6 +136,12 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         public async UniTask PlaySound(SoundEffect soundEffectModel, Transform transform)
         {
+            if (soundEffectModel == null)
+            {
+                await UniTask.NextFrame();
+                return;
+            }
+
             var newSound = Instantiate(soundEffectModel.gameObject);
             newSound.transform.parent = transform;
             newSound.transform.position = transform.position;

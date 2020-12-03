@@ -156,7 +156,7 @@ namespace Assets.AToonWorld.Scripts.Player
             #if AnaliticsEnabled
                 Events.AnaliticsEvents.PlayerDeath.Invoke(new Analitic(playerPosition.x, playerPosition.y));
 #endif
-            this.PlaySound(SoundEffects.DeathSounds.Random());
+            this.PlaySound(SoundEffects.DeathSounds.RandomOrDefault());
             Events.PlayerEvents.Death.Invoke();
         }
 

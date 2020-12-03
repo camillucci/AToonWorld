@@ -27,7 +27,7 @@ public class ShooterController : MonoBehaviour
             _canFire = false;
             GameObject bullet = ObjectPoolingManager<string>.Instance.GetObject(nameof(_bulletPrefab));
             bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
-            this.PlaySound(SoundEffects.BulletSounds.Random()).Forget();
+            this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
             StartCoroutine(EnableFire());
         }
     }

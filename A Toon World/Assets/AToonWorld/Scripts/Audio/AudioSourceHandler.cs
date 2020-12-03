@@ -19,7 +19,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         public AudioSourceHandler(AudioSource audioSource)
         {
             MusicSource = audioSource;
-            MusicSource.Stop();
+            MusicSource?.Stop();
         }
 
 
