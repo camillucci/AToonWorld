@@ -88,6 +88,32 @@ namespace Assets.AToonWorld.Scripts.Utils
         }
 
         public static UniTask Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
-            => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);              
+            => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);
+
+        public static async UniTask Transition(Quaternion from, Vector3 direction, Action<Quaternion> callback, float speed, bool smooth, Func<bool> cancelCondition)
+        {
+            var current = from;
+            bool CheckIsCancelled() => cancelCondition?.Invoke() ?? false;
+            bool isCancelled = CheckIsCancelled();
+            float rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion toRotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+            while (Quaternion.Angle(current, toRotation) > _epsilon && !isCancelled)
+            {
+                var deltaPos = speed * Time.deltaTime;
+                current = smooth
+                    ? Quaternion.Lerp(current, toRotation, deltaPos)
+                    : Quaternion.RotateTowards(current, toRotation, deltaPos);
+
+                callback.Invoke(current);
+                await UniTask.NextFrame();
+                isCancelled = CheckIsCancelled();
+            }
+
+            if (!isCancelled)
+                callback.Invoke(toRotation);
+        }
+
+        public static UniTask Transition(Quaternion from, Vector3 direction, Action<Quaternion> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
+            => Transition(from, direction, callback, speed, smooth, () => token.IsCancellationRequested);
     }   
 }

@@ -20,6 +20,15 @@ namespace Assets.AToonWorld.Scripts.Extensions
             smooth: smooth
         );
 
+        public static UniTask RotateTowardsAnimated(this Transform @this, Vector3 direction, float speed, bool smooth = true) => Animations.Transition
+        (
+            from: @this.localRotation,
+            direction: direction,
+            callback: val => @this.localRotation = val,
+            speed: speed,
+            smooth: smooth
+        );
+
         public static async UniTask FollowPathAnimatd(this Transform @this, IEnumerable<Vector3> positions, float speed, bool smooth = true)
         {
             foreach (var position in positions)
