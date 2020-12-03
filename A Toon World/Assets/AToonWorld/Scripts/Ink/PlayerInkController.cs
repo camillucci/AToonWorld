@@ -7,6 +7,9 @@ using Assets.AToonWorld.Scripts;
 using Events;
 using System;
 using Object = System.Object;
+using Cysharp.Threading.Tasks;
+using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Audio;
 
 public class PlayerInkController : MonoBehaviour
 {
@@ -17,6 +20,7 @@ public class PlayerInkController : MonoBehaviour
     private Dictionary<InkType, IInkHandler> _inkHandlers;
     public InkType SelectedInk => _inkPaletteSettings.SelectedInk;
     public bool IsDrawing { get; private set; } = false;
+    private bool _drawingSoundTaskRunning;
 
     void Awake()
     {
@@ -144,7 +148,9 @@ public class PlayerInkController : MonoBehaviour
             _selectedBulletInk?.BindBulletAndPosition(pooledSpline.GetComponent<BulletController>(), transform.position);
 
         _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition);
-        
+
+        if (!_drawingSoundTaskRunning)
+            PlayDrawingSounds().Forget();
         InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
     }
 
@@ -170,6 +176,16 @@ public class PlayerInkController : MonoBehaviour
             InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             IsDrawing = false;
         }
+    }
+
+
+    // Sound Effects
+    private async UniTask PlayDrawingSounds()
+    {
+        _drawingSoundTaskRunning = true;
+        while (IsDrawing)
+            await this.PlaySound(SoundEffects.DrawingSounds.Random());
+        _drawingSoundTaskRunning = false;
     }
 
     public enum InkType {

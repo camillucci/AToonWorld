@@ -34,7 +34,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             _audioSource.Stop();
             _audioSource.clip = Clip;            
             _audioSource.Play();
-            return UniTask.Delay((int)(Clip.length + 1) * 1000);
+            return UniTask.Delay((int)(Clip.length * 1000));
         }
 
         

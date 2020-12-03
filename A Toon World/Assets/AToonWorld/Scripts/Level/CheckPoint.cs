@@ -1,5 +1,8 @@
-﻿using Assets.AToonWorld.Scripts.Utils;
+﻿using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Utils;
 using Assets.AToonWorld.Scripts.Utils.Events.TaggedEvents;
+using Cysharp.Threading.Tasks;
 using Events;
 using System;
 using System.Collections.Generic;
@@ -65,7 +68,7 @@ namespace Assets.AToonWorld.Scripts.Level
         // CheckPoint events        
         private void OnPlayerHit(Collider2D collision)
         {
-            if (Hit)
+            if (Hit || IsStart)
                 return;
 
             _hit = true;
@@ -76,6 +79,7 @@ namespace Assets.AToonWorld.Scripts.Level
             #endif
             Events.LevelEvents.CheckpointReached.Invoke(_checkPointNumber);
             _checkpointTaken?.Invoke();
+            this.PlaySound(SoundEffects.CheckPoint).Forget();
             PlayerHit?.Invoke(this);
         }
 

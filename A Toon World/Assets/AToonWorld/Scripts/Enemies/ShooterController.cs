@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.AToonWorld.Scripts;
+using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ShooterController : MonoBehaviour
@@ -24,6 +27,7 @@ public class ShooterController : MonoBehaviour
             _canFire = false;
             GameObject bullet = ObjectPoolingManager<string>.Instance.GetObject(nameof(_bulletPrefab));
             bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
+            this.PlaySound(SoundEffects.BulletSounds.Random()).Forget();
             StartCoroutine(EnableFire());
         }
     }

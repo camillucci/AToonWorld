@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.UI;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,13 +23,17 @@ namespace Assets.AToonWorld.Scripts.Level
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag(UnityTag.Player))
-            {
-                #if AnaliticsEnabled
-                    Events.AnaliticsEvents.LevelEnd.Invoke(new Analitic());
-                #endif
-                _endLevelTaken?.Invoke();
-                _endLevelMenuController.ShowEndLevelMenu();
-            }
+                Victory().Forget();
+        }
+
+        private async UniTask Victory()
+        {
+            #if AnaliticsEnabled
+                Events.AnaliticsEvents.LevelEnd.Invoke(new Analitic());
+            #endif
+            await this.PlaySound(SoundEffects.Victory);
+            _endLevelTaken?.Invoke();
+            _endLevelMenuController.ShowEndLevelMenu();
         }
     }
 }
