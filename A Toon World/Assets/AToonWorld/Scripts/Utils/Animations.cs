@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Utils
 {
-    public static class Animations
+    public class Animations : Singleton<Animations>
     {
         private const float _epsilon = 0.006f;
 
@@ -26,7 +26,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Mathf.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await UniTask.NextFrame();
+                await UniTask.NextFrame(cancellationToken: Instance.GetCancellationTokenOnDestroy());
                 isCancelled = CheckIsCancelled();
             }
 
@@ -52,7 +52,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Vector2.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await UniTask.NextFrame();
+                await UniTask.NextFrame(cancellationToken: Instance.GetCancellationTokenOnDestroy());
                 isCancelled = CheckIsCancelled();
             }
 
@@ -79,7 +79,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Vector3.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await UniTask.NextFrame();
+                await UniTask.NextFrame(cancellationToken: Instance.GetCancellationTokenOnDestroy());
                 isCancelled = CheckIsCancelled();
             }
 
