@@ -18,12 +18,12 @@ namespace Assets.AToonWorld.Scripts.Extensions
         }
 
         private static IEnumerator InvokeDelayCoroutine(Action callback, float delayInSeconds)
-        {
+        {   
             yield return new WaitForSeconds(delayInSeconds);
             callback.Invoke();
         }
 
-        public static UniTask PlaySound(this MonoBehaviour @this, string soundName)
-            => AudioManager.Instance.PlaySound(soundName, @this.transform);
+        public static UniTask PlaySound(this MonoBehaviour @this, SoundEffect soundEffect)
+            => AudioManager.Instance?.PlaySound(soundEffect, @this.transform) ?? UniTask.CompletedTask;
     }
 }

@@ -11,19 +11,21 @@ namespace Assets.AToonWorld.Scripts.Audio
     public class SoundEffect :MonoBehaviour
     {
         [SerializeField] private AudioClip _clip;
+        [SerializeField] private string _relativePath;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private bool _testPlay;
-
 
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+            _audioSource.clip = default;
         }
 
         // Public Properties
+        
         public AudioClip Clip { get => _clip; set => _clip = value; }
-        public AudioSource AudioSource => _audioSource;
-
+        public string RelativePath { get => _relativePath; set => _relativePath = value; }
+        public AudioSource AudioSource => _audioSource;        
 
 
         // Public Methods
