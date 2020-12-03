@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 #if AnaliticsEnabled
 
-public class RemoteFormUploader : MonoBehaviour
+public class RemoteFormUploader
 {
     private GoogleForm _form;
     private Analitic _analitic;

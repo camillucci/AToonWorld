@@ -14,6 +14,7 @@ using UnityEngine.Events;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
+    [RequireComponent(typeof(Animator))]
     public class CheckPoint : MonoBehaviour
     {
         // Editor Fields
@@ -24,6 +25,7 @@ namespace Assets.AToonWorld.Scripts.Level
         
         // Private fields
         private bool _hit;
+        private Animator _animator;
 
 
 
@@ -31,7 +33,9 @@ namespace Assets.AToonWorld.Scripts.Level
         private void Awake()
         {
             _transform = transform;
+            _animator = GetComponent<Animator>();
             _colliderTrigger.Enter.SubscribeWithTag(UnityTag.Player, OnPlayerHit);
+            _animator.SetBool("IsActivated", Hit);
         }
 
 
@@ -72,7 +76,8 @@ namespace Assets.AToonWorld.Scripts.Level
                 return;
 
             _hit = true;
-            
+            _animator.SetBool("IsActivated", Hit);
+
             //Events
             #if AnaliticsEnabled
                 Events.AnaliticsEvents.Checkpoint.Invoke(new Analitic(_checkPointNumber));

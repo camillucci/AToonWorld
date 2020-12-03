@@ -23,6 +23,7 @@ namespace Assets.AToonWorld.Scripts.Camera
         // Private fields
         private Transform _playerTransform;
         private UnityEngine.Camera _camera;
+        private UnityEngine.Camera _postProcessingCamera;
         private bool _manuallyMovingCamera;
         private Transform _transform;
         private ZoomTaskCancellation _zoomTaskCancellation = new ZoomTaskCancellation();
@@ -35,6 +36,7 @@ namespace Assets.AToonWorld.Scripts.Camera
         {
             _transform = transform;
             _camera = GetComponent<UnityEngine.Camera>();
+            _postProcessingCamera = GetComponentsInChildren<UnityEngine.Camera>()[1];
         }
 
         private void Start()
@@ -107,15 +109,25 @@ namespace Assets.AToonWorld.Scripts.Camera
 
 
 
-        private UniTask ZoomTo(float to, ZoomTaskCancellation zoomCancellation) => Animations.Transition
-        (
-            from: _camera.orthographicSize,
-            to: to,
-            callback: val => _camera.orthographicSize = val,
-            speed: _zoomAnimationSpeed,
-            smooth: true,
-            cancelCondition: () => zoomCancellation.IsCancellationRequested
-        );
+        private UniTask ZoomTo(float to, ZoomTaskCancellation zoomCancellation) => UniTask.WhenAll(
+            Animations.Transition
+            (
+                from: _camera.orthographicSize,
+                to: to,
+                callback: val => _camera.orthographicSize = val,
+                speed: _zoomAnimationSpeed,
+                smooth: true,
+                cancelCondition: () => zoomCancellation.IsCancellationRequested
+            ),
+            Animations.Transition
+            (
+                from: _postProcessingCamera.orthographicSize,
+                to: to,
+                callback: val => _postProcessingCamera.orthographicSize = val,
+                speed: _zoomAnimationSpeed,
+                smooth: true,
+                cancelCondition: () => zoomCancellation.IsCancellationRequested
+            ));
         
 
         private class ZoomTaskCancellation

@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 #if AnaliticsEnabled
 
@@ -25,11 +26,28 @@ public class AnaliticsManager : MonoBehaviour
     private Guid _user;
     private Int32 _game;
 
+    private Dictionary<Events.Event<Analitic>, UnityAction<Analitic>> _subscription;
+
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        _subscription = new Dictionary<Events.Event<Analitic>, UnityAction<Analitic>>()
+        {
+            [Events.AnaliticsEvents.PlayerDeath] = analitic => CompleteAndSend(EventName.PlayerDeath, analitic),
+            [Events.AnaliticsEvents.LevelStart] = analitic => SetLevelStart(analitic),
+            [Events.AnaliticsEvents.LevelEnd] = analitic => SetLevelEnd(analitic),
+            [Events.AnaliticsEvents.Checkpoint] = analitic => SetCheckpointTime(analitic),
+            [Events.AnaliticsEvents.InksLevelAtCheckpoint] = analitic => CompleteAndSend(EventName.InkStatusAtCheckpoint, analitic),
+            [Events.AnaliticsEvents.InkFinished] = analitic => CompleteAndSend(EventName.InkFinished, analitic),
+            [Events.AnaliticsEvents.FeedbackSurvey] = analitic => CompleteAndSend(EventName.LevelFeedback, analitic),
+        };
+
         InitUserAndGames();
         SubscribeToAnaliticsEvents();
+    }
+
+    void OnDestroy()
+    {
+        UnSubscribeToAnaliticsEvents();
     }
 
     private void InitUserAndGames()
@@ -52,13 +70,14 @@ public class AnaliticsManager : MonoBehaviour
 
     private void SubscribeToAnaliticsEvents()
     {
-        Events.AnaliticsEvents.PlayerDeath.AddListener(analitic => CompleteAndSend(EventName.PlayerDeath, analitic));
-        Events.AnaliticsEvents.LevelStart.AddListener(analitic => SetLevelStart(analitic));
-        Events.AnaliticsEvents.LevelEnd.AddListener(analitic => SetLevelEnd(analitic));
-        Events.AnaliticsEvents.Checkpoint.AddListener(analitic => SetCheckpointTime(analitic));
-        Events.AnaliticsEvents.InksLevelAtCheckpoint.AddListener(analitic => CompleteAndSend(EventName.InkStatusAtCheckpoint, analitic));
-        Events.AnaliticsEvents.InkFinished.AddListener(analitic => CompleteAndSend(EventName.InkFinished, analitic));
-        Events.AnaliticsEvents.FeedbackSurvey.AddListener(analitic => CompleteAndSend(EventName.LevelFeedback, analitic));
+        foreach (KeyValuePair<Events.Event<Analitic>, UnityAction<Analitic>> pair in _subscription)
+            pair.Key.AddListener(pair.Value);
+    }
+
+    private void UnSubscribeToAnaliticsEvents()
+    {
+        foreach (KeyValuePair<Events.Event<Analitic>, UnityAction<Analitic>> pair in _subscription)
+            pair.Key.RemoveListener(pair.Value);
     }
 
     #region LevelTime and CheckpointTime
@@ -99,11 +118,6 @@ public class AnaliticsManager : MonoBehaviour
     private IEnumerator UploadToRemoteForm(Analitic analitic)
     {        
         RemoteFormUploader.Create(analitic).Upload();
-
-        #if UNITY_EDITOR
-        File.AppendAllText("analitics.txt", analitic.ToString());
-        #endif
-
         yield return null;
     }
 }

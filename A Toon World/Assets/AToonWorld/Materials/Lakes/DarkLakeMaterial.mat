@@ -74,7 +74,7 @@ Material:
     - _Displacement: 0
     - _DstBlend: 0
     - _EdgeLength: 10
-    - _Frequency: 5
+    - _Frequency: 2
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
