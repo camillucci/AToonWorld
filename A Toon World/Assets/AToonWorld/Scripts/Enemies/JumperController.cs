@@ -24,12 +24,17 @@ public class JumperController : MonoBehaviour
     private Vector2 _startPosition;
     private float _jumpVelocity;
     private bool _doneFirstJump;
+
     private Rigidbody2D _rigidBody;
+    private Animator _animator;
     
     void Awake()
     {
+        _doneFirstJump = false;
         _startPosition = transform.position;
         Events.PlayerEvents.Death.AddListener(ResetInitialState);
+        _rigidBody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private void ResetInitialState()
@@ -38,10 +43,9 @@ public class JumperController : MonoBehaviour
         this.transform.position = _startPosition;
     }
 
-    void Start()
+    private void FixedUpdate()
     {
-        _doneFirstJump = false;
-        _rigidBody = GetComponent<Rigidbody2D>();
+        _animator.SetFloat("VelocityY", _rigidBody.velocity.y);
     }
 
     private float CalculateVelocity(float height) => Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * height);

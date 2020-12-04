@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -17,8 +18,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
-        [SerializeField] private float _turnSpeed;
-        [SerializeField] private float _turnOffset;
+        [SerializeField] private float _rotationSpeed = 1f;
+        [SerializeField] private Transform _propulsionLocation = null;
 
 
         // Private Fields
@@ -27,6 +28,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private BreakerTargetAreaHandler _breakerAreaHandler;
         private Transform _breakerTransform;                
         private GridController _gridController;
+        private Animator _animator;
+        private Vector3 _propulsionDirection;
+        private Quaternion _brakerIdleRotation;
         private UniTask? _followPathTask = UniTask.CompletedTask;
         private bool _seakerActive;
 
@@ -54,9 +58,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         {
             _gridController = GetComponent<GridController>();
             _breakerBody = GetComponentInChildren<BreakerBody>();
+            _animator = GetComponentInChildren<Animator>();
             _breakerAreaHandler = GetComponentInChildren<BreakerTargetAreaHandler>();
             _breakerTransform = _breakerBody.transform;
+            _brakerIdleRotation = _breakerTransform.rotation;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
+            _propulsionDirection = (_propulsionLocation.position - _breakerTransform.position).normalized;
             BreakerTargetAreaHandlerInitialization();
         }
 
@@ -73,6 +80,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
         // Public Methods
         public UniTask TranslateTo(Vector3 position) => _breakerTransform.MoveToAnimated(position, _speed, false);
+        public UniTask RotateTowards(Quaternion rotation, CancellationToken cancellationToken) => _breakerTransform.RotateTowardsAnimatedWithCancellation(rotation, cancellationToken, _rotationSpeed, true);
         public UniTask TranslateTo(INode node) => _breakerTransform.MoveToAnimated(_gridController.NodeToWorldPoint(node), _speed, false);
         public void TeleportTo(INode node) => _breakerTransform.position = _gridController.NodeToWorldPoint(node);
         public void TeleportTo(Vector3 position) => _breakerTransform.position = position;       
@@ -112,11 +120,25 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
         private async UniTask FollowPathUntilUpdate(IEnumerable<Vector2> path)
         {
+            _animator.SetBool("IsMoving", true);
+            CancellationTokenSource rotationCancellationSource;
             foreach (var position in path)
                 if (LinesUpdated)
                     return;
                 else
+                {
+                    //await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
+
+                    //Rotate & Translate
+                    Vector3 relativeTarget = ((Vector3)position - _breakerTransform.position).normalized;
+                    Quaternion toQuaternion = Quaternion.FromToRotation(-_propulsionDirection, relativeTarget);
+                    rotationCancellationSource = new CancellationTokenSource();
+                    RotateTowards(toQuaternion, rotationCancellationSource.Token).WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
                     await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
+                    rotationCancellationSource.Cancel();
+                }
+            _breakerTransform.rotation = _brakerIdleRotation;
+            _animator.SetBool("IsMoving", false);
         }
     }
 }
