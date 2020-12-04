@@ -88,6 +88,30 @@ namespace Assets.AToonWorld.Scripts.Utils
         }
 
         public static UniTask Transition(Vector3 from, Vector3 to, Action<Vector3> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
-            => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);              
+            => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);
+
+        public static async UniTask Transition(Quaternion from, Quaternion to, Action<Quaternion> callback, float speed, bool smooth, Func<bool> cancelCondition)
+        {
+            var current = from;
+            bool CheckIsCancelled() => cancelCondition?.Invoke() ?? false;
+            bool isCancelled = CheckIsCancelled();
+            while (Quaternion.Angle(current, to) > _epsilon && !isCancelled)
+            {
+                var deltaPos = speed * Time.deltaTime;
+                current = smooth
+                    ? Quaternion.Slerp(current, to, deltaPos)
+                    : Quaternion.RotateTowards(current, to, deltaPos);
+
+                callback.Invoke(current);
+                await UniTask.NextFrame();
+                isCancelled = CheckIsCancelled();
+            }
+
+            if (!isCancelled)
+                callback.Invoke(to);
+        }
+
+        public static UniTask Transition(Quaternion from, Quaternion to, Action<Quaternion> callback, float speed = 10f, bool smooth = true, CancellationToken token = default)
+            => Transition(from, to, callback, speed, smooth, () => token.IsCancellationRequested);
     }   
 }

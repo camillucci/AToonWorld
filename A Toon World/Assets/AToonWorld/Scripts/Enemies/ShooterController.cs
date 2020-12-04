@@ -13,10 +13,17 @@ public class ShooterController : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private float _bulletsInterleavingSeconds = 1;
     private bool _canFire;
+    private IEnumerator _enableFire;
 
     void Start()
     {
         ObjectPoolingManager<string>.Instance.CreatePool(nameof(_bulletPrefab), _bulletPrefab, 5, 10, true);
+    }
+
+    void OnEnable()
+    {
+       if (_enableFire != null)
+            StopCoroutine(_enableFire);
         _canFire = true;
     }
 
@@ -26,9 +33,9 @@ public class ShooterController : MonoBehaviour
         {
             _canFire = false;
             GameObject bullet = ObjectPoolingManager<string>.Instance.GetObject(nameof(_bulletPrefab));
-            bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
+            float angle = bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
             this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
-            StartCoroutine(EnableFire());
+            StartCoroutine(_enableFire = EnableFire());
         }
     }
 

@@ -10,10 +10,12 @@ public class CursorController : MonoBehaviour
     [SerializeField] private InkPaletteSO _inkPalette = null;
 
     private TrailRenderer _trailRenderer;
+    private SpriteRenderer _spriteRenderer;
 
     void Awake()
     {
         _trailRenderer = GetComponent<TrailRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         Cursor.SetCursor(_menuCursor, _hotspot == null ? Vector2.zero : _hotspot, CursorMode.Auto);
         Events.InterfaceEvents.CursorChangeRequest.AddListener(ChangeCursor);
         Events.InterfaceEvents.InkSelected.AddListener(OnInkChanged);
@@ -47,6 +49,7 @@ public class CursorController : MonoBehaviour
             {
                 if(ink.InkType == inkType)
                 {
+                    _spriteRenderer.color = ink.InkColor;
                     _trailRenderer.startColor = ink.InkColor;
                     _trailRenderer.endColor = ink.InkColor;
                     return;
