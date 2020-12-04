@@ -21,10 +21,23 @@ public class JumperController : MonoBehaviour
     [SerializeField] private float _secondsIntoDarkLake = 2f; //Seconds before next jump
     [SerializeField] private float _secondsBeforeFirstJump = 2f;
     
+    private Vector2 _startPosition;
     private float _jumpVelocity;
     private bool _doneFirstJump;
     private Rigidbody2D _rigidBody;
     
+    void Awake()
+    {
+        _startPosition = transform.position;
+        Events.PlayerEvents.Death.AddListener(ResetInitialState);
+    }
+
+    private void ResetInitialState()
+    {
+        _jumpVelocity = 0;
+        this.transform.position = _startPosition;
+    }
+
     void Start()
     {
         _doneFirstJump = false;
