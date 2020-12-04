@@ -15,6 +15,6 @@ namespace Assets.AToonWorld.Scripts.Extensions
                 return default;
             var index = _random.Next(@this.Count);
             return @this[index];
-        }
+        }       
     }
 }

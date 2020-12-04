@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using Assets.AToonWorld.Scripts.Extensions;
 
 
 public class PlayerMovementController : MonoBehaviour
@@ -322,12 +322,8 @@ public class PlayerMovementController : MonoBehaviour
     private async UniTask PlayHorizontalMovementSound()
     {
         _horizontalMovementSoundTaskRunning = true;
-        while(IsMovinghorizontally && IsGrounded)
-        {
-            await this.PlaySound(SoundEffects.LeftStep);
-            if (IsMovinghorizontally && IsGrounded)
-                await this.PlaySound(SoundEffects.RightStep);
-        }
+        while (IsMovinghorizontally && IsGrounded)
+            await this.PlaySound(SoundEffects.CharacterMovement.RandomOrDefault());
         _horizontalMovementSoundTaskRunning = false;
     }
 

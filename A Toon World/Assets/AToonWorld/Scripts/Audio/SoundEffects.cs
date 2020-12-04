@@ -13,6 +13,8 @@ namespace Assets.AToonWorld.Scripts.Audio
         private const string DrawingsPath = "Drawing/";
         private const string VictoryPath = "Checkpoint-Collectible-Victory/";
         private const string MovementPath = "Footsteps/";
+        private const string CharacterMovemetnPath = "Underwater/";
+
 
         private static List<SoundEffect> _sfx;
         private static List<SoundEffect> _deathSounds;
@@ -20,6 +22,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         private static List<SoundEffect> _drawingSounds;
         private static List<SoundEffect> _checkPointsSounds;
         private static List<SoundEffect> _horizontalMovementSounds;
+        public static List<SoundEffect> _characterMovement;
         private static SoundEffect _leftStep;
         private static SoundEffect _rightStep;
         private static SoundEffect _checkPoint;
@@ -39,6 +42,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         public static IReadOnlyList<SoundEffect> DrawingSounds => _drawingSounds ?? (_drawingSounds = GetCategory(DrawingsPath));
         public static IReadOnlyList<SoundEffect> CheckpontSounds => _checkPointsSounds ?? (_checkPointsSounds = GetCategory(VictoryPath));
         public static IReadOnlyList<SoundEffect> HorizontalMovementSounds => _horizontalMovementSounds ?? (_horizontalMovementSounds = GetCategory(MovementPath));
+        public static IReadOnlyList<SoundEffect> CharacterMovement => _characterMovement ?? (_characterMovement = GetCategory(CharacterMovemetnPath));
 
         public static SoundEffect LeftStep => _leftStep ?? (_leftStep = HorizontalMovementSounds.FirstOrDefault(sound => sound.name.Equals("Footsteps/Floor/Floor_step0")));
         public static SoundEffect RightStep => _rightStep ?? (_rightStep = HorizontalMovementSounds.FirstOrDefault(sound => sound.name.Equals("Footsteps/Floor/Floor_step1")));
