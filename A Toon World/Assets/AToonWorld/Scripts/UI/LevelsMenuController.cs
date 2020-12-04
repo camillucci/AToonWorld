@@ -32,7 +32,7 @@ namespace Assets.AToonWorld.Scripts.UI
             {
                 sum += PlayerPrefs.GetInt(UnityScenes.Levels[i], 0);
             }
-            _totalStarsNumber.text = sum + "/" + (UnityScenes.Levels.Length - 1) * 3;
+            _totalStarsNumber.text = sum + " / " + (UnityScenes.Levels.Length - 1) * 3;
         }
 
         #region Buttons
