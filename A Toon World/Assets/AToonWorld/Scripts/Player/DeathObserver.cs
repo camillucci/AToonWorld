@@ -33,6 +33,8 @@ namespace Assets.AToonWorld.Scripts.Player
 
             _tombstone = Instantiate(_tombstonePrefab);
             _tombstone.SetActive(false);
+
+            Events.PlayerEvents.PlayerRespawning.AddListener(EnableTombstone);
         }
 
         private void InitializeMapBorders()
@@ -46,6 +48,11 @@ namespace Assets.AToonWorld.Scripts.Player
             ResetStatus();
             SubscribeToFallDeathEvents();
             SubscribeToEnemyDeathEvents();
+        }
+
+        private void OnDestroy() 
+        {
+            Events.PlayerEvents.PlayerRespawning.RemoveListener(EnableTombstone);
         }
 
         private void SubscribeToFallDeathEvents()
@@ -168,6 +175,10 @@ namespace Assets.AToonWorld.Scripts.Player
         private void UpdateTombstone(Vector2 position)
         {
             _tombstone.transform.position = position;
+        }
+
+        private void EnableTombstone()
+        {
             if (!_tombstone.activeSelf)
                 _tombstone.SetActive(true);
         }

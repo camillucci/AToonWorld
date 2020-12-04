@@ -90,6 +90,7 @@ namespace Assets.AToonWorld.Scripts.Level
             lastCheckPoint.OnPlayerRespawnStart();     
             ResetLevelStateFromCheckpoint(); 
             InGameUIController.PrefabInstance.FadeOutAndIn(2f, 500, 2f).Forget();
+            Events.PlayerEvents.PlayerRespawning.Invoke();
             await _playerController.MoveToPosition(lastCheckPoint.Position, _cameraMovementController.CameraSpeed);
 
             // Re-enable player
@@ -97,6 +98,7 @@ namespace Assets.AToonWorld.Scripts.Level
             lastCheckPoint.OnPlayerRespawnEnd();  
             _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, false);
             RespawningPlayer = false;
+            Events.PlayerEvents.PlayerRespawned.Invoke();
         }
 
         // Private Methods
