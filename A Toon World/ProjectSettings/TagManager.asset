@@ -48,6 +48,9 @@ TagManager:
   - 
   - OutOfFocus
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1320524925
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
