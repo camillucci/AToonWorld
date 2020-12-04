@@ -15,7 +15,7 @@ MonoBehaviour:
   _inkPrefab: {fileID: 7253575289307407535, guid: 46c35c65dc5a48f489ce0003fdc53fe7,
     type: 3}
   _inkType: 2
-  _inkColor: {r: 1, g: 1, b: 1, a: 1}
+  _inkColor: {r: 0.6981132, g: 0, b: 0.042720966, a: 1}
   _minPoolSize: 20
   _maxPoolSize: 50
   _expendableResource: {fileID: 11400000, guid: 864bdb9ac501cdb4f83fb36a0e418bb6,
