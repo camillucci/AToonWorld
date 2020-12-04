@@ -1,4 +1,6 @@
-﻿using Assets.AToonWorld.Scripts.Level;
+﻿using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Level;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,6 +164,8 @@ namespace Assets.AToonWorld.Scripts.Player
             #if AnaliticsEnabled
                 Events.AnaliticsEvents.PlayerDeath.Invoke(new Analitic(playerPosition.x, playerPosition.y));
             #endif
+            
+            this.PlaySound(SoundEffects.DeathSounds.RandomOrDefault());
 
             // Play animation
             _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, true);

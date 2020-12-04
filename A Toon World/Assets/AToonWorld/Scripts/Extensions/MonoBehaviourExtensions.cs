@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.AToonWorld.Scripts.Audio;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +18,12 @@ namespace Assets.AToonWorld.Scripts.Extensions
         }
 
         private static IEnumerator InvokeDelayCoroutine(Action callback, float delayInSeconds)
-        {
+        {   
             yield return new WaitForSeconds(delayInSeconds);
             callback.Invoke();
         }
+
+        public static UniTask PlaySound(this MonoBehaviour @this, SoundEffect soundEffect)
+            => AudioManager.Instance?.PlaySound(soundEffect, @this.transform) ?? UniTask.CompletedTask;
     }
 }

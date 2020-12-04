@@ -1,11 +1,14 @@
 ﻿using Assets.AToonWorld.Scripts;
+using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Player;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using Assets.AToonWorld.Scripts.Extensions;
 
 
 public class PlayerMovementController : MonoBehaviour
@@ -28,6 +31,7 @@ public class PlayerMovementController : MonoBehaviour
     private int _groundsCollidedCount;
     private int _climbingWallCollidedCount;
     private float _gravityScale;
+    private bool _horizontalMovementSoundTaskRunning;
     
 
     // Initialization
@@ -103,7 +107,8 @@ public class PlayerMovementController : MonoBehaviour
     public bool IsClimbing => ClimbingWallCollidedCount > 0;
     public bool IsGrounded => GroundsCollidedCount > 0;
     public bool IsOnDrawingPlatform => DrawingPlatformsCollidedCount > 0;   
-    public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);    
+    public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
+    public bool IsMovinghorizontally => Mathf.Abs(HorizontalMovementDirection) > 0 && enabled;
     public bool IsGravityEnabled 
     {
         get => Math.Abs(RigidBody.gravityScale) > float.Epsilon;
@@ -214,6 +219,7 @@ public class PlayerMovementController : MonoBehaviour
         DoFixedUpdateActions();
         MoveHorizontal();
         MoveVertical();
+        PlaySounds(); 
         UpdateAnimations();
     }
 
@@ -269,6 +275,7 @@ public class PlayerMovementController : MonoBehaviour
 
     // Private methods 
 
+
     private void DoFixedUpdateActions()
     {
         if (_fixedUpdateAction is null)
@@ -322,6 +329,25 @@ public class PlayerMovementController : MonoBehaviour
 
         AnimatorController.SetFloat(PlayerAnimatorParameters.VelocityY, Mathf.Abs(yVelocity));
     }
+
+
+    // Sounds
+    private void PlaySounds()
+    {
+        if (IsMovinghorizontally && IsGrounded && !_horizontalMovementSoundTaskRunning)
+            PlayHorizontalMovementSound().Forget();
+    }
+
+    private async UniTask PlayHorizontalMovementSound()
+    {
+        _horizontalMovementSoundTaskRunning = true;
+        while (IsMovinghorizontally && IsGrounded)
+            await this.PlaySound(SoundEffects.CharacterMovement.RandomOrDefault());
+        _horizontalMovementSoundTaskRunning = false;
+    }
+
+    
+    // Enums
 
     private void HandleJump()
     {

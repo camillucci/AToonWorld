@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.AToonWorld.Scripts;
+using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public abstract class BulletController : MonoBehaviour
@@ -62,7 +65,7 @@ public abstract class BulletController : MonoBehaviour
         transform.position = startPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, shootingAngle);
         _bullet.velocity = transform.right * Mathf.Min(bulletVelocity, _maxBulletSpeed);
-
+        this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
         return shootingAngle;
     }
 
