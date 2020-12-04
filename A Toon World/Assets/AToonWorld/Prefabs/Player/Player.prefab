@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9202030778567197828}
   - component: {fileID: 9202030778567197830}
-  - component: {fileID: 9202030778567197831}
+  - component: {fileID: 2137403102373386945}
   m_Layer: 10
   m_Name: Player Feet
   m_TagString: Untagged
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29ba4025837add4f81143b097a0814b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &9202030778567197831
+--- !u!60 &2137403102373386945
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,16 +150,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.47311172, y: 0.02038002}
-      - {x: -0.48177558, y: 0.023367196}
-      - {x: -0.6803131, y: 0.022614002}
-      - {x: -0.74276656, y: 0.016401194}
-      - {x: -0.66682136, y: -0.19888088}
-      - {x: -0.39627105, y: -0.506029}
-      - {x: 0.3893797, y: -0.50602865}
-      - {x: 0.6561117, y: -0.23958826}
-      - {x: 0.71739936, y: 0.023728147}
-      - {x: 0.4757493, y: 0.015830934}
+    - - {x: 0.050861046, y: 0.12317118}
+      - {x: -0.54749125, y: 0.1283611}
+      - {x: -0.45937106, y: -0.64402777}
+      - {x: 0.4398447, y: -0.6456906}
+      - {x: 0.56579345, y: 0.121909566}
 --- !u!1 &9202030778897293391
 GameObject:
   m_ObjectHideFlags: 0
