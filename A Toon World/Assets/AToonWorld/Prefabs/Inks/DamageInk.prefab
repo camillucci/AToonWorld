@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7253575289307407533}
   - component: {fileID: 7253575289307407534}
   - component: {fileID: 5794888525930953342}
-  - component: {fileID: -3499905399062001274}
   - component: {fileID: -3474213466870896676}
   m_Layer: 0
   m_Name: DamageInk
@@ -139,19 +138,6 @@ MonoBehaviour:
   _explosion: {fileID: 6116556857018368382, guid: 477ca880a19b5334d87773ee135bbf17,
     type: 3}
   _maxBulletSpeed: 40
---- !u!114 &-3499905399062001274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7253575289307407535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e69ca61e49af75c4895e52df4e4faf32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _boundInkHandler: {fileID: 11400000, guid: 20ec7b3b209b41e4cae3fb4dd9ad82fa, type: 2}
 --- !u!95 &-3474213466870896676
 Animator:
   serializedVersion: 3
