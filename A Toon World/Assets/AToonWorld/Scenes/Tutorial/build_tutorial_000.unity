@@ -400,6 +400,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2582858654724729252, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0db65292ba79c584d8e63d48b7d3ccda, type: 2}
     - target: {fileID: 9202030778897293391, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
         type: 3}
       propertyPath: m_Name
@@ -10716,8 +10721,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961250724}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 103.36, y: -11.282311, z: 71.18945}
-  m_LocalScale: {x: 9.208931, y: 4.7592754, z: 1}
+  m_LocalPosition: {x: 103.36, y: -11.239, z: 71.18945}
+  m_LocalScale: {x: 9.208931, y: 4.787202, z: 1}
   m_Children: []
   m_Father: {fileID: 1845130906}
   m_RootOrder: 18
@@ -10843,7 +10848,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.041564703, y: -0.2585441}
+  m_Offset: {x: 0.041564703, y: -0.32691738}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -10854,7 +10859,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2322631, y: 1.3333857}
+  m_Size: {x: 1.2322631, y: 1.1966391}
   m_EdgeRadius: 0
 --- !u!212 &963284887
 SpriteRenderer:
@@ -19626,7 +19631,7 @@ PrefabInstance:
     - target: {fileID: 3798201548343676011, guid: 6aa895653f8c7554c99a5d5a370cb2e5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.62
+      value: 7.85
       objectReference: {fileID: 0}
     - target: {fileID: 3798201548343676011, guid: 6aa895653f8c7554c99a5d5a370cb2e5,
         type: 3}
@@ -25445,7 +25450,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.041564703, y: -0.2585441}
+  m_Offset: {x: 0.041564703, y: -0.32312042}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -25456,7 +25461,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2322631, y: 1.3333857}
+  m_Size: {x: 1.2322631, y: 1.204233}
   m_EdgeRadius: 0
 --- !u!212 &1940397606
 SpriteRenderer:
