@@ -41,6 +41,7 @@ public class AnaliticsManager : MonoBehaviour
             [Events.AnaliticsEvents.FeedbackSurvey] = analitic => CompleteAndSend(EventName.LevelFeedback, analitic),
         };
 
+        SetLevelStart(new Analitic());
         InitUserAndGames();
         SubscribeToAnaliticsEvents();
     }
