@@ -15,7 +15,7 @@ namespace Assets.AToonWorld.Scripts.Level
     public class LevelHandler : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private int _maxDeathsForAchievement = 5;
+        [SerializeField] public int _maxDeathsForAchievement {get; private set; } = 5;
         [SerializeField] private InkPaletteSO _inkPalette = null;
 
 

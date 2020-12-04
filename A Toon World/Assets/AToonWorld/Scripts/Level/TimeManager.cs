@@ -18,7 +18,13 @@ namespace Assets.AToonWorld.Scripts.Level
         public string getFormattedTime()
         {
             TimeSpan time = TimeSpan.FromSeconds(timeInSeconds);
-            return time.ToString(@"mm\:ss\:fff");
+            return time.ToString(@"mm\:ss");
+        }
+
+        public string getFormattedAchievementTime()
+        {
+            TimeSpan time = TimeSpan.FromSeconds(_maxTimeForAchievementInSeconds);
+            return time.ToString(@"mm\:ss");
         }
 
         public bool GotAchievement => timeInSeconds <= _maxTimeForAchievementInSeconds;

@@ -47,10 +47,12 @@ namespace Assets.AToonWorld.Scripts.UI
 
             // Show player achievements
             _endLevelMenuUI.SetActive(true);
-            _timeText.text = _levelHandler._timeManager.getFormattedTime();
-            _deathsText.text = _levelHandler._deathCounter.ToString();
+            _timeText.text = _levelHandler._timeManager.getFormattedTime()
+                + " / " + _levelHandler._timeManager.getFormattedAchievementTime();
+            _deathsText.text = _levelHandler._deathCounter.ToString()
+                + " / " + _levelHandler._maxDeathsForAchievement.ToString();
             _collectibleText.text = _levelHandler._collectiblesManager._currentCollectibles.ToString()
-                + "/" + _levelHandler._collectiblesManager._totalCollectibles.ToString();
+                + " / " + _levelHandler._collectiblesManager._totalCollectibles.ToString();
 
             // Calculate and show player stars
             int stars = 0;
