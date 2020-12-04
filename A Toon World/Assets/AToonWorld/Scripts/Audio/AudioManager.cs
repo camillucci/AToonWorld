@@ -15,15 +15,15 @@ namespace Assets.AToonWorld.Scripts.Audio
         // Editor Fields                
         [Header("Soundtrack Settings")]
         [SerializeField] private List<Sound> _soundtrack = new List<Sound>();
-        [SerializeField] private bool _refreshSoundtrack;        
+        [SerializeField] private bool _refreshSoundtrack = false;        
 
 
         [Header("Sfx settings")]
-        [SerializeField] private Transform _sfxTransform;
-        [SerializeField] private Transform _playingSfxTransform;
-        [SerializeField] private GameObject _soundEffectPrefab;
+        [SerializeField] private Transform _sfxTransform = null;
+        [SerializeField] private Transform _playingSfxTransform = null;
+        [SerializeField] private GameObject _soundEffectPrefab = null;
         [SerializeField] private List<GameObject> _sfx = new List<GameObject>();
-        [SerializeField] private bool _refreshSfx;
+        [SerializeField] private bool _refreshSfx = false;
 
 
 
@@ -235,21 +235,24 @@ namespace Assets.AToonWorld.Scripts.Audio
                               where soundEffect.Clip == null
                               select soundEffectObj;
             UniTaskCompletionSource<bool> tcs = new UniTaskCompletionSource<bool>();
-            UnityEditor.EditorApplication.delayCall += () =>
-            {
-                try
+            
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.delayCall += () =>
                 {
-                    foreach (var toRemove in toRemoveSfx.ToList())
+                    try
                     {
-                        _sfx.Remove(toRemove);
-                        DestroyImmediate(toRemove);
+                        foreach (var toRemove in toRemoveSfx.ToList())
+                        {
+                            _sfx.Remove(toRemove);
+                            DestroyImmediate(toRemove);
+                        }
                     }
-                }
-                finally
-                {
-                    tcs.TrySetResult(true);
-                }
-            };
+                    finally
+                    {
+                        tcs.TrySetResult(true);
+                    }
+                };
+            #endif
 
             await tcs.Task;
         }
