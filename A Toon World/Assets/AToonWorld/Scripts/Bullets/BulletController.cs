@@ -8,6 +8,8 @@ public abstract class BulletController : MonoBehaviour
 {
     private Rigidbody2D _bullet;
     private float _gravity;
+
+    [SerializeField] protected GameObject _explosion = null;
     [SerializeField] private float _maxBulletSpeed = 40f;
 
     private void Awake()
@@ -18,7 +20,7 @@ public abstract class BulletController : MonoBehaviour
 
     protected abstract void OnTriggerEnter2D(Collider2D other);
 
-    public void Shoot(Vector2 startPosition, Vector2 targetPosition)
+    public float Shoot(Vector2 startPosition, Vector2 targetPosition)
     {
         Vector2 direction = targetPosition - startPosition, shootingDirection;
         float shootingAngle, bulletVelocity;
@@ -60,6 +62,8 @@ public abstract class BulletController : MonoBehaviour
         transform.position = startPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, shootingAngle);
         _bullet.velocity = transform.right * Mathf.Min(bulletVelocity, _maxBulletSpeed);
+
+        return shootingAngle;
     }
 
     private float VelocityFromPointAndVertex(Vector2 direction, float shootingAngle) =>

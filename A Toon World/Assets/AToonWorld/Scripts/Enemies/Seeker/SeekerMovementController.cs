@@ -25,7 +25,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private Transform _playerTransform;
         private bool _isPlayerInside;
         private bool _canFollow;
-        private Vector3 _startPosition;        
+        private Vector3 _startPosition;   
+        private Animator _animator;
         private UniTask? _currentMovementTask = UniTask.CompletedTask;
 
 
@@ -38,7 +39,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             _seekerTransform = _seekerBody.transform;
             _targetAreaController = GetComponentInChildren<SeekerTargetAreaController>();
             _gridController = GetComponentInChildren<GridController>();
-            _startPosition = _seekerTransform.position;            
+            _startPosition = _seekerTransform.position;  
+            _animator = GetComponentInChildren<Animator>();     
             InitializeAreaController();
         }
 
@@ -51,7 +53,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         // Public Methods
         public UniTask TranslateTo(Vector3 position) => _seekerTransform.MoveToAnimated(position, _speed, false);
-
 
 
         private void OnPlayerEnter(Collider2D collision)
@@ -75,12 +76,14 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         {
             async UniTask GoBackToStartTask()
             {
+                _animator.SetBool("IsMoving", true);
                 var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
                 foreach (var position in path)
                     if (_canFollow)
                         await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
                     else
                         return;
+                _animator.SetBool("IsMoving", false);
             }
 
             await CancelFollowTask();
@@ -91,6 +94,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         {            
             async UniTask FollowTask()
             {
+                _animator.SetBool("IsMoving", true);
                 while(_canFollow && _isPlayerInside)
                 {
                     if (!IsSeekerNearToPlayer)
@@ -103,6 +107,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                     }
                     await UniTask.NextFrame();
                 }
+                _animator.SetBool("IsMoving", false);
             }
 
             await CancelFollowTask();

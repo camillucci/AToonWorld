@@ -10,6 +10,7 @@ public class PlayerBulletController : BulletController
     {
         if (other.CompareTag(UnityTag.Enemy))
         {
+            Instantiate(_explosion, gameObject.transform.position, gameObject.transform.rotation);
             this.gameObject.SetActive(false);
             other.gameObject.SetActive(false);
             Events.LevelEvents.EnemyKilled.Invoke(other.gameObject);
@@ -17,6 +18,9 @@ public class PlayerBulletController : BulletController
         }
 
         if (other.CompareTag(UnityTag.Ground))
+        {
+            Instantiate(_explosion, gameObject.transform.position, gameObject.transform.rotation);
             this.gameObject.SetActive(false);
+        }
     }
 }

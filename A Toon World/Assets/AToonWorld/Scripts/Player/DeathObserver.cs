@@ -33,6 +33,8 @@ namespace Assets.AToonWorld.Scripts.Player
 
             _tombstone = Instantiate(_tombstonePrefab);
             _tombstone.SetActive(false);
+
+            Events.PlayerEvents.PlayerRespawning.AddListener(EnableTombstone);
         }
 
         private void InitializeMapBorders()
@@ -46,6 +48,11 @@ namespace Assets.AToonWorld.Scripts.Player
             ResetStatus();
             SubscribeToFallDeathEvents();
             SubscribeToEnemyDeathEvents();
+        }
+
+        private void OnDestroy() 
+        {
+            Events.PlayerEvents.PlayerRespawning.RemoveListener(EnableTombstone);
         }
 
         private void SubscribeToFallDeathEvents()
@@ -64,7 +71,7 @@ namespace Assets.AToonWorld.Scripts.Player
 
             foreach (var tag in enemyDeathTagsToCheck)
             {
-                _playerMovementController.PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(tag, collider => InvokeDeathEvent());
+                _playerMovementController.PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(tag, collider => InvokeDeathEvent(DeathType.Enemy));
             }
         }
 
@@ -79,7 +86,7 @@ namespace Assets.AToonWorld.Scripts.Player
         // DeathObserver Events
         private void OnPlayerOutOfMapBorders(Collider2D collision)
         {
-            InvokeDeathEvent();
+            InvokeDeathEvent(DeathType.OutOfBound);
         }
 
         private void OnWalkableOrDrawingExit()
@@ -140,28 +147,47 @@ namespace Assets.AToonWorld.Scripts.Player
             _wasInTheAir = false;
             var (previousPos, currentPos) = (_previousGroundedPosition, _playerTransform.position);
             if (IsFallDeath(previousPos, currentPos))
-                InvokeDeathEvent();
+                InvokeDeathEvent(DeathType.Fall);
         }
 
         private bool IsFallDeath(Vector3 start, Vector3 end) 
             => start.y - end.y > _maxFallDistanceBeforeDeath;
 
         
-        private void InvokeDeathEvent()
+        private void InvokeDeathEvent(DeathType deathType)
         {
             Vector2 playerPosition = _playerMovementController.PlayerBody.transform.parent.position;
+            _tombstone.SetActive(false);
             UpdateTombstone(playerPosition);
             #if AnaliticsEnabled
                 Events.AnaliticsEvents.PlayerDeath.Invoke(new Analitic(playerPosition.x, playerPosition.y));
             #endif
+
+            // Play animation
+            _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, true);
+            if (deathType == DeathType.OutOfBound)
+                _playerMovementController.AnimatorController.SetTrigger(PlayerAnimatorParameters.DeathOOB);
+            else
+                _playerMovementController.AnimatorController.SetTrigger(PlayerAnimatorParameters.DeathNormal);
+
             Events.PlayerEvents.Death.Invoke();
         }
 
         private void UpdateTombstone(Vector2 position)
         {
             _tombstone.transform.position = position;
+        }
+
+        private void EnableTombstone()
+        {
             if (!_tombstone.activeSelf)
                 _tombstone.SetActive(true);
         }
+    }
+
+    public enum DeathType {
+        Enemy,
+        Fall,
+        OutOfBound
     }
 }

@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 277960708}
   - component: {fileID: 277960707}
   - component: {fileID: 277960706}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall2
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 641736402}
   - component: {fileID: 641736401}
   - component: {fileID: 641736400}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -723,7 +723,7 @@ GameObject:
   - component: {fileID: 1129961869}
   - component: {fileID: 1129961868}
   - component: {fileID: 1129961867}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 1787969526}
   - component: {fileID: 1787969525}
   - component: {fileID: 1787969524}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DummyEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

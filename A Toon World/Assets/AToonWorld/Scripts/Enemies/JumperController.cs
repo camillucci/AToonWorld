@@ -23,12 +23,20 @@ public class JumperController : MonoBehaviour
     
     private float _jumpVelocity;
     private bool _doneFirstJump;
+
     private Rigidbody2D _rigidBody;
-    
-    void Start()
+    private Animator _animator;
+
+    private void Awake()
     {
         _doneFirstJump = false;
         _rigidBody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+    }
+
+    private void FixedUpdate()
+    {
+        _animator.SetFloat("VelocityY", _rigidBody.velocity.y);
     }
 
     private float CalculateVelocity(float height) => Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * height);
