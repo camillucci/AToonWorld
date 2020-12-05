@@ -61,7 +61,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void SetVolume(float volume)
         {
             float newVolume = Mathf.Log10(volume)*20;
-            AudioManager.Instance.GlobalVolume = volume;
+            AudioManager.PrefabInstance.GlobalVolume = volume;
             _audioMixer.SetFloat("Volume", newVolume);
             PlayerPrefs.SetFloat("Volume", newVolume);
         }

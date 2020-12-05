@@ -1287,7 +1287,7 @@ Transform:
   - {fileID: 524001348}
   - {fileID: 998317548}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &162954088
 GameObject:
@@ -6546,7 +6546,7 @@ Transform:
   m_Children:
   - {fileID: 1278289928}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &834826204
 GameObject:
@@ -10820,7 +10820,7 @@ Transform:
   - {fileID: 1277950082}
   - {fileID: 1007133197}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1290147150 stripped
 Transform:
@@ -18410,95 +18410,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71a721cab5994834eae5c14f9b84eea6, type: 3}
---- !u!1001 &2764804198824608088
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 622431552697572356, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_Name
-      value: Audio Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572357, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: _refreshSfx
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 622431552697572358, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1610149736240750557, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1610149736240750557, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
-      value: 0.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 2764804199623795571, guid: b8224e22fcc315844bca9d070108c718,
-        type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b8224e22fcc315844bca9d070108c718, type: 3}
 --- !u!1001 &8471955854539556303
 PrefabInstance:
   m_ObjectHideFlags: 0
