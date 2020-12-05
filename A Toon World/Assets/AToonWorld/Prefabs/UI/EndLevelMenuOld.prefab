@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3157839857753663901}
   - component: {fileID: 3625207446598581833}
   - component: {fileID: 5410658293129591858}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FeedbackSmiles_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 3357528137867614418}
   - component: {fileID: 2272167018006413519}
   - component: {fileID: 6020057370606838949}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FeedbackSmiles_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -838,7 +838,7 @@ GameObject:
   - component: {fileID: 4554167764454625680}
   - component: {fileID: 3151232647365713769}
   m_Layer: 5
-  m_Name: RestartBut
+  m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1253,7 +1253,7 @@ GameObject:
   - component: {fileID: 480734065008930872}
   - component: {fileID: 2033181584709015205}
   - component: {fileID: 7181956368236135288}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FeedbackSmiles_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1730,7 +1730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9115153220169075540}
   - component: {fileID: 2275089423952719246}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FeedbackSmiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1773,11 +1773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74289b670f5bd4b4bafb867d238c46b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _veryBad: {fileID: 86187414593599232}
-  _bad: {fileID: 2071083668643683399}
-  _medium: {fileID: 6593602633102745718}
-  _happy: {fileID: 8261237496886849736}
-  _veryHappy: {fileID: 3696589827497071385}
 --- !u!1 &6593602633102745718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,7 +1784,7 @@ GameObject:
   - component: {fileID: 5084736296235560418}
   - component: {fileID: 8863482200207822303}
   - component: {fileID: 911707460251636723}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FeedbackSmiles_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2281,7 +2276,7 @@ GameObject:
   - component: {fileID: 687851534089085664}
   - component: {fileID: 4004439210850227124}
   - component: {fileID: 4281456674875850438}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FeedbackSmiles_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2551,7 +2546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4185474230309595682}
   - component: {fileID: 2687618251716565533}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EndLevelMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
