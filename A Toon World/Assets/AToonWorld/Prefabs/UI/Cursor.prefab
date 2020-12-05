@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bc91a6b7e6e0342a267d5e0d062c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuCursor: {fileID: 2800000, guid: 844e73c125ccae8428f63645aa3be261, type: 3}
+  _menuCursor: {fileID: 0}
   _hotspot: {x: 0, y: 0}
   _inkPalette: {fileID: 11400000, guid: 02c1a3bd0e7c0584084e3ed1af8d0c7d, type: 2}
 --- !u!212 &3715081772951652243
