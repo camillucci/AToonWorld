@@ -13,7 +13,6 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         #region Fields
 
-        [SerializeField] private AudioMixer _audioMixer = null;
         [SerializeField] private TMP_Dropdown _qualityDropbox = null;
         [SerializeField] private TMP_Dropdown _resolutionDropdown = null;
         [SerializeField] private Toggle _fullscreenToggle = null;
@@ -52,18 +51,15 @@ namespace Assets.AToonWorld.Scripts.UI
             _fullscreenToggle.isOn = Screen.fullScreen;
 
             // Update volume slider
-            if (_audioMixer.GetFloat("Volume", out float startingVolume))
-                _volumeSlider.value = Mathf.Pow(10, startingVolume / 20);
+            _volumeSlider.value =  AudioManager.PrefabInstance.GlobalVolume;
         }
 
         #region Buttons
 
         public void SetVolume(float volume)
         {
-            float newVolume = Mathf.Log10(volume)*20;
             AudioManager.PrefabInstance.GlobalVolume = volume;
-            _audioMixer.SetFloat("Volume", newVolume);
-            PlayerPrefs.SetFloat("Volume", newVolume);
+            PlayerPrefs.SetFloat("Volume", volume);
         }
 
         public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex);
