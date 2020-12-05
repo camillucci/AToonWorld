@@ -648,7 +648,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1117186687}
   m_HandleRect: {fileID: 1705324819}
   m_Direction: 0
-  m_MinValue: 0.0001
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -726,7 +726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efba8c9b879bcf84a85823c323591ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioMixer: {fileID: 24100000, guid: 6d9a76e8042ad99459dae8f4617ab2fc, type: 2}
   _qualityDropbox: {fileID: 286712234}
   _resolutionDropdown: {fileID: 529988676}
   _fullscreenToggle: {fileID: 1115947032}
@@ -5830,7 +5829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1545380e72c1c4b8db8a96c596d928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioMixer: {fileID: 24100000, guid: 6d9a76e8042ad99459dae8f4617ab2fc, type: 2}
 --- !u!224 &1744322106 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,

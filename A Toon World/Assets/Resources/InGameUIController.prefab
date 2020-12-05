@@ -4784,7 +4784,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 7525848545194282591}
   m_HandleRect: {fileID: 7525848543891570388}
   m_Direction: 0
-  m_MinValue: 0.0001
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -6523,7 +6523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efba8c9b879bcf84a85823c323591ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioMixer: {fileID: 24100000, guid: 6d9a76e8042ad99459dae8f4617ab2fc, type: 2}
   _qualityDropbox: {fileID: 7525848545418312490}
   _resolutionDropdown: {fileID: 7525848545752179911}
   _fullscreenToggle: {fileID: 7525848545186473186}

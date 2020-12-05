@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.Audio;
 using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
 using UnityEngine;
@@ -10,12 +11,9 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
-        [SerializeField] private AudioMixer _audioMixer = null;
-        
         void Awake()
         {
-            float volumePref = PlayerPrefs.GetFloat("Volume", 1);
-            _audioMixer.SetFloat("Volume", volumePref);
+            AudioManager.PrefabInstance.GlobalVolume = PlayerPrefs.GetFloat("Volume", 1);
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 
