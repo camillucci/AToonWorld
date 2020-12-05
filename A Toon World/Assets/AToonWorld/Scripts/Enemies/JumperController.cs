@@ -32,7 +32,7 @@ public class JumperController : MonoBehaviour
     {
         _doneFirstJump = false;
         _startPosition = transform.position;
-        Events.PlayerEvents.Death.AddListener(ResetInitialState);
+        Events.PlayerEvents.PlayerRespawned.AddListener(ResetInitialState);
         _rigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
