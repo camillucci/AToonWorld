@@ -1,3 +1,5 @@
+using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Level;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,7 @@ public class CancelInkObserver : MonoBehaviour
     {
         if(!_inkToDelete.Contains(inkToDelete))
         {
+            inkToDelete.PlaySound(SoundEffects.DrawingSounds.RandomOrDefault());
             _inkToDelete.Add(inkToDelete);
             ApplyEffect(inkToDelete, effectLocation, direction);
         }
