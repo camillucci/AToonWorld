@@ -1,16 +1,19 @@
 fileFormatVersion: 2
-guid: 562cd2a079d40cb49bc65b5175887dad
+guid: 696f84d80cd253a4b8b7adbc5f5b3cfd
 TextureImporter:
   internalIDToNameTable:
+  - first:
+      213: -3074370544717463846
+    second: Controls_Panel_0
+  - first:
+      213: -7797600560102118379
+    second: Controls_Panel_1
   - first:
       213: -7113479977989563460
     second: Controls_0
   - first:
       213: 7908859509845356740
     second: Controls_1
-  - first:
-      213: -1182029525264311852
-    second: Controls_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -49,12 +52,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 200
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,7 +109,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Controls_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 157
+        width: 1573
+        height: 701
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbb141b16a7d74d90800000000000000
+      internalID: -7113479977989563460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Controls_1
+      rect:
+        serializedVersion: 2
+        x: 1648
+        y: 199
+        width: 207
+        height: 781
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c07dce32d9e1cd60800000000000000
+      internalID: 7908859509845356740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

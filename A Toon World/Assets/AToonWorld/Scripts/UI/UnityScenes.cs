@@ -26,11 +26,6 @@ namespace Assets.AToonWorld.Scripts.UI
             "AToonWorld/Scenes/Tutorial/climb_tutorial_001",
             "AToonWorld/Scenes/Tutorial/damage_tutorial_002",
             "Scenes/WallJumpScene",
-            "Scenes/BuildLineScene",
-            "Scenes/climb-color",
-            "Scenes/EnemyJumper",
-            "Scenes/PathFinding",
-            "Scenes/GameDirectorExample",
         };
 
         #endregion
