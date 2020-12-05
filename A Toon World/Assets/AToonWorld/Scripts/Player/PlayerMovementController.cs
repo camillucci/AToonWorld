@@ -334,7 +334,7 @@ public class PlayerMovementController : MonoBehaviour
     private void PlaySounds()
     {
         if (IsMovinghorizontally && IsGrounded && !_horizontalMovementSoundTaskRunning)
-            PlayHorizontalMovementSound().Forget();
+            PlayHorizontalMovementSound().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
     private async UniTask PlayHorizontalMovementSound()

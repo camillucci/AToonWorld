@@ -21886,7 +21886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3df9b71a435e54c813e10a79e97257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsToTrigger: 15
+  _secondsToTrigger: 5
   _secondsPassed:
     m_PersistentCalls:
       m_Calls:
