@@ -1,4 +1,6 @@
-﻿using Assets.AToonWorld.Scripts.Camera;
+﻿using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Camera;
+using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Player;
 using Assets.AToonWorld.Scripts.UI;
 using Assets.AToonWorld.Scripts.Utils;
@@ -141,6 +143,7 @@ namespace Assets.AToonWorld.Scripts.Level
         {
             if (!_playerController.IsImmortal)
             {
+                this.PlaySound(SoundEffects.DeathSounds.RandomOrDefault()).Forget();
                 _playerController.IsImmortal = true;
                 await SpawnFromLastCheckpoint();
                 _deathObserver.ResetStatus();

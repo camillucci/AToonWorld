@@ -165,7 +165,6 @@ namespace Assets.AToonWorld.Scripts.Player
                 Events.AnaliticsEvents.PlayerDeath.Invoke(new Analitic(playerPosition.x, playerPosition.y));
             #endif
             
-            _playerMovementController.PlaySound(SoundEffects.DeathSounds.RandomOrDefault());
 
             // Play animation
             _playerMovementController.AnimatorController.SetBool(PlayerAnimatorParameters.Spawning, true);

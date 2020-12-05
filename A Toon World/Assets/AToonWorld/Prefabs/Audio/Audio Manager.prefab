@@ -47,10 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundtrack:
-  - _name: Jaunty Gumption
-    _clip: {fileID: 8300000, guid: 697060609d061c445b4eb38233787637, type: 3}
-  - _name: music1
-    _clip: {fileID: 8300000, guid: f72e2082849237447af8985e28cee990, type: 3}
   - _name: african_son
     _clip: {fileID: 8300000, guid: 44649be37ac94c7488a958dc293f6c19, type: 3}
   _refreshSoundtrack: 0
@@ -15909,7 +15905,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 113
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 35
   Pan2D: 0
@@ -15946,7 +15942,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -15976,7 +15972,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.72
       inSlope: 0
       outSlope: 0
       tangentMode: 0
