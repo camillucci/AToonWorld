@@ -21,11 +21,12 @@ namespace Assets.AToonWorld.Scripts.UI
         private void Start()
         {
             _levels = FindObjectsOfType<LevelController>();
+            UpdateTotalStars();
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 
         // Visualize the total number of star collected
-        void Update()
+        private void UpdateTotalStars()
         {
             int sum = 0;
             for(int i = 1; i < UnityScenes.Levels.Length; i++)
