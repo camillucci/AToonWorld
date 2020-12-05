@@ -25,7 +25,7 @@ namespace Assets.AToonWorld.Scripts.UI
             "AToonWorld/Scenes/Tutorial/build_tutorial_000",
             "AToonWorld/Scenes/Tutorial/climb_tutorial_001",
             "AToonWorld/Scenes/Tutorial/damage_tutorial_002",
-            "Scenes/WallJumpScene",
+            "Scenes/ThanksForPlaying",
         };
 
         #endregion
