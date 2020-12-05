@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 62109845757878702}
   - component: {fileID: 62109845757878703}
   m_Layer: 12
-  m_Name: Eraser
+  m_Name: JumperEraser
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

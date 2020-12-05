@@ -29,6 +29,9 @@ namespace Events
         
         /// <summary>Evento scatenato alla selezione del feedback nella schermata di fine livello</summary>
         public static Event<Analitic> FeedbackSurvey = new Event<Analitic>();
+        
+        /// <summary>Evento scatenato all' uccisione di un nemico</summary>
+        public static Event<Analitic> EnemyKilled = new Event<Analitic>();
     }
 }
 #endif

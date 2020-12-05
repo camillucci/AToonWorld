@@ -14,7 +14,8 @@ public enum EventName
     CheckpointTime,                 // Seconds spent to reach a checkpoint from the previous one - [ 2, 3, 26 ]
     InkFinished,                    // A specific ink is finished
     InkStatusAtCheckpoint,          // Inks status (amount) when the player reach a checkpoint
-    LevelFeedback,                 // Scene and user feedback
+    LevelFeedback,                  // Scene and user feedback
+    EnemyKilled,                    // Enemy name, id and position - [ "jumper2", -6784, 32, 54]
 }
 
 public class AnaliticsManager : MonoBehaviour
@@ -39,6 +40,7 @@ public class AnaliticsManager : MonoBehaviour
             [Events.AnaliticsEvents.InksLevelAtCheckpoint] = analitic => CompleteAndSend(EventName.InkStatusAtCheckpoint, analitic),
             [Events.AnaliticsEvents.InkFinished] = analitic => CompleteAndSend(EventName.InkFinished, analitic),
             [Events.AnaliticsEvents.FeedbackSurvey] = analitic => CompleteAndSend(EventName.LevelFeedback, analitic),
+            [Events.AnaliticsEvents.EnemyKilled] = analitic => CompleteAndSend(EventName.EnemyKilled, analitic),
         };
 
         SetLevelStart(new Analitic());
