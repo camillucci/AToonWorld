@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
@@ -74,6 +75,9 @@ namespace Assets.AToonWorld.Scripts.Level
             _deathObserver = FindObjectOfType<DeathObserver>();
             _mapBorders = FindObjectOfType<MapBorders>();
             InGameUIController.PrefabInstance.FadeInLevel();
+
+            PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0);
+            PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, 0);
         }
 
 
