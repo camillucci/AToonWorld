@@ -50,8 +50,7 @@ public class CancelInkHandler : ScriptableInkHandler, ISplineInk
         //TODO: Forse se l'inchiostro è fatto così sarebbe meglio avere un collider invisibile attaccato al mouse invece che fare raycast
         Vector2 diff = _lastPoint - currentPoint;
         Vector2 direction = diff.normalized;
-        RaycastHit2D hit;
-        if((hit = Physics2D.Raycast(_lastPoint, direction, diff.magnitude, LayerMask.GetMask(UnityTag.Drawing))))
+        foreach(RaycastHit2D hit in Physics2D.RaycastAll(_lastPoint, direction, diff.magnitude, LayerMask.GetMask(UnityTag.Drawing)))
             _cancelInkObserver.NotifyDelete(hit.collider.gameObject, hit.point, direction);
     }
 }

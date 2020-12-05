@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 62109845936002047}
   - component: {fileID: 62109845936001920}
   - component: {fileID: 7591901704642955229}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Jumper
   m_TagString: Enemy
   m_Icon: {fileID: 0}
