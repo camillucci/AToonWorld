@@ -88,7 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e43f06367740d44adf41c20cc9f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
   _maxAmplitude: 2
 --- !u!114 &1222131021181325736
@@ -368,7 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e43f06367740d44adf41c20cc9f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
   _maxAmplitude: 2
 --- !u!114 &8739554886712163568
@@ -472,7 +470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e43f06367740d44adf41c20cc9f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
   _maxAmplitude: 2
 --- !u!114 &1354328924439728974
@@ -573,7 +570,7 @@ GameObject:
   - component: {fileID: 5416300699314692110}
   - component: {fileID: 5416300699314692109}
   - component: {fileID: 5416300699314692108}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1501,7 +1498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e43f06367740d44adf41c20cc9f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
   _maxAmplitude: 2
 --- !u!114 &6863789964163872226
@@ -1526,7 +1522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8090772369531094004}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: User Interface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1637,7 +1633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e43f06367740d44adf41c20cc9f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
   _maxAmplitude: 2
 --- !u!114 &4939823769496635183
@@ -1741,7 +1736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e43f06367740d44adf41c20cc9f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 5416300699529364634}
   _decreaseAmplitudeWhenFull: 1
   _maxAmplitude: 2
 --- !u!114 &1099808009956479360

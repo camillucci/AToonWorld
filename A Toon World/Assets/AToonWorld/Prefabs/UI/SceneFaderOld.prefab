@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1644517642373725340}
   - component: {fileID: 1644517642373725341}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SceneFader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 1644517642859159482}
-  _fadingSpeed: 1
   _animationCurve:
     serializedVersion: 2
     m_Curve:
