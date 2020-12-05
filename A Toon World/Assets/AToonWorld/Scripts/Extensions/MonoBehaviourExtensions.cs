@@ -24,6 +24,6 @@ namespace Assets.AToonWorld.Scripts.Extensions
         }
 
         public static UniTask PlaySound(this MonoBehaviour @this, SoundEffect soundEffect)
-            => AudioManager.Instance?.PlaySound(soundEffect, @this.transform) ?? UniTask.CompletedTask;
+            => AudioManager.PrefabInstance?.PlaySound(soundEffect, @this.transform) ?? UniTask.CompletedTask;
     }
 }

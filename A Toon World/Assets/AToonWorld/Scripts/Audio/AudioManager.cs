@@ -260,7 +260,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
 
-        // Sountrack helpers
+        // Soundtrack helpers
         private void AddMusicToSoundtrack(AudioClip clip)
         {
             if (clip != null && !_soundtrack.Any(s => AreClipsEquals(clip, s.Clip)))
