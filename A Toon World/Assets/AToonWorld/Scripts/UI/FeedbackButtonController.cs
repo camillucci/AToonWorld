@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FeedbackButtonController : MonoBehaviour
 {
@@ -17,5 +18,14 @@ public class FeedbackButtonController : MonoBehaviour
         #if AnaliticsEnabled
         Events.AnaliticsEvents.FeedbackSurvey.Invoke(new Analitic(feedback));
         #endif
+    }
+
+    public void RefreshButtons()
+    {
+        foreach(Button button in GetComponentsInChildren<Button>(true))
+        {
+            button.gameObject.SetActive(true);
+            button.interactable = true;
+        }
     }
 }

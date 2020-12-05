@@ -88,6 +88,8 @@ namespace Assets.AToonWorld.Scripts.UI
             }
             stars = Mathf.Max(stars, PlayerPrefs.GetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0));
 
+            GetComponentInChildren<FeedbackButtonController>().RefreshButtons();
+
             // Save player progresses
             PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, stars);
             PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, stars);
