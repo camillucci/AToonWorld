@@ -17,12 +17,13 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
 
     public override void OnDrawDown(Vector2 mouseWorldPosition)
     {
+        _boundSplineController.Clear(); //Clear even if can't draw
+        
         // Do not start the line if a player or a enemy is met
         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.Player, UnityTag.Enemy));
         if(!hit)
         {
             _isDrawing = true;
-            _boundSplineController.Clear();
             _boundSplineController.AddPoint(mouseWorldPosition);
             _boundSplineController.Color = new Color(this.InkColor.r,
                                                     this.InkColor.g,

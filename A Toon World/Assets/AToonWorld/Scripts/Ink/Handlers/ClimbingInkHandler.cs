@@ -20,6 +20,8 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
 
     public override void OnDrawDown(Vector2 mouseWorldPosition)
     {
+        _boundSplineController.Clear(); //Clear even if can't draw
+        
         // First point must be on the boarder of a Ground object
         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
         if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibility, 0), Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
@@ -45,7 +47,6 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
                 return;
             }
             _isDrawing = true;
-            _boundSplineController.Clear();
             _boundSplineController.AddPoint(_lastPoint);
             _boundSplineController.Color = new Color(this.InkColor.r,
                                                     this.InkColor.g,
