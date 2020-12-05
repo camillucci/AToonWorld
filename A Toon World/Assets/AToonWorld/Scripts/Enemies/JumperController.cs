@@ -27,20 +27,29 @@ public class JumperController : MonoBehaviour
 
     private Rigidbody2D _rigidBody;
     private Animator _animator;
+    private IEnumerator _jumpCoroutine;
     
     void Awake()
     {
-        _doneFirstJump = false;
         _startPosition = transform.position;
         Events.PlayerEvents.PlayerRespawned.AddListener(ResetInitialState);
         _rigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
 
+    private void OnEnable() 
+    {
+        ResetInitialState();
+    }
+
     private void ResetInitialState()
     {
         _jumpVelocity = 0;
+        _doneFirstJump = false;
         this.transform.position = _startPosition;
+
+        if(_jumpCoroutine != null)
+            StopCoroutine(_jumpCoroutine);
     }
 
     private void FixedUpdate()
@@ -53,7 +62,7 @@ public class JumperController : MonoBehaviour
     private void StartFirstJumpSession()
     {
         _jumpVelocity = CalculateVelocity(_jumpMode == JumpMode.FixedHeight ? _value : _value - transform.position.y);
-        StartCoroutine(Jump(_secondsBeforeFirstJump));
+        StartCoroutine(_jumpCoroutine = Jump(_secondsBeforeFirstJump));
         _doneFirstJump = true;
     }
 
@@ -68,7 +77,7 @@ public class JumperController : MonoBehaviour
     {
         if (other.gameObject.CompareTag(UnityTag.DarkLakeFloor))
             if (_doneFirstJump)
-                StartCoroutine(Jump(_secondsIntoDarkLake));
+                StartCoroutine(_jumpCoroutine = Jump(_secondsIntoDarkLake));
             else
                 StartFirstJumpSession();
     }
