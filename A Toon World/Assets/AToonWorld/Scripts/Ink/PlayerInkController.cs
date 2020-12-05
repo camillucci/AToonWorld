@@ -149,7 +149,7 @@ public class PlayerInkController : MonoBehaviour
 
         _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition);
 
-        if (!_drawingSoundTaskRunning)
+        if (_inkPaletteSettings.SelectedInk != InkType.Cancel && !_drawingSoundTaskRunning)
             PlayDrawingSounds().Forget();
         InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
     }
