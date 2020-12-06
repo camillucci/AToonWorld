@@ -62,9 +62,9 @@ namespace Assets.AToonWorld.Scripts.UI
         // Update the locked status based on the previous level completion
         private void UpdateStatus()
         {
-            _isLocked = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1], -1) < 0 && _levelNumber > 1;
+            // Unlock the first three levels
+            _isLocked = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1], -1) < 0 && _levelNumber > 3;
             _button.interactable = ! _isLocked;
-
         }
 
         public void StartLevel()

@@ -76,8 +76,9 @@ namespace Assets.AToonWorld.Scripts.Level
             _mapBorders = FindObjectOfType<MapBorders>();
             InGameUIController.PrefabInstance.FadeInLevel();
 
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0);
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, 0);
+            int stars = Mathf.Max(0, PlayerPrefs.GetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0));
+            PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, stars);
+            PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, stars);
         }
 
 
