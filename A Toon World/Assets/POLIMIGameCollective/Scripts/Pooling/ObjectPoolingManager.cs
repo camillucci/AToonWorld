@@ -72,7 +72,8 @@ public class ObjectPoolingManager<T>
 	public bool CreatePool(T key, GameObject objToPool, int initialPoolSize, int maxPoolSize, bool shouldShrink=false)
 	{
 		//Check to see if the pool already exists.
-		if (ObjectPoolingManager<T>.Instance.objectPools.ContainsKey(key))
+		if (ObjectPoolingManager<T>.Instance.objectPools.ContainsKey(key) &&
+			ObjectPoolingManager<T>.Instance.objectPools[key].ObjectsReferencesAreValid())
 		{
 			//let the caller know it already exists, just use the pool out there.
 			return false;

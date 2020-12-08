@@ -65,6 +65,7 @@ public class PlayerInkController : MonoBehaviour
     {
         _playerBody.ColliderTrigger.Enter.UnSubscribeWithTag(UnityTag.InkPickup, OnInkPickup);
         Events.InterfaceEvents.InkSelectionRequested.RemoveListener(OnInkSelected);
+        ObjectPoolingManager<InkType>.Instance.DeactivateAllObjects();
     }
     
     void Start()

@@ -10,6 +10,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// The object pool is a list of already instantiated game objects of the same type.
@@ -29,6 +30,9 @@ public class ObjectPool
 	//initial and default number of objects to have in the list.
 	private int initialPoolSize;
 
+	//re-use old objects if too many
+	private bool isCircularPool;
+
 	/// <summary>
 	/// Constructor for creating a new Object Pool.
 	/// </summary>
@@ -36,7 +40,7 @@ public class ObjectPool
 	/// <param name="initialPoolSize">Initial and default size of the pool.</param>
 	/// <param name="maxPoolSize">Maximum number of objects this pool can contain.</param>
 	/// <param name="shouldShrink">Should this pool shrink back to the initial size.</param>
-	public ObjectPool(GameObject obj, int initialPoolSize, int maxPoolSize, bool shouldShrink = false)
+	public ObjectPool(GameObject obj, int initialPoolSize, int maxPoolSize, bool shouldShrink = false, bool isCircularPool = false)
 	{
 		// Check if an empty object with obj.name exist
 		GameObject parent = GameObject.Find(obj.name);
@@ -76,6 +80,7 @@ public class ObjectPool
 		this.maxPoolSize = maxPoolSize;
 		this.pooledObj = obj;
 		this.initialPoolSize = initialPoolSize;
+		this.isCircularPool = isCircularPool;
 
 		//are we supposed to shrink?
 		if(shouldShrink)
@@ -83,7 +88,14 @@ public class ObjectPool
 			//listen to the game state manager's event for all pools should shrink
 			//back to their initial size.
 			//GameStateManager.Instance.ShrinkPools += new GameStateManager.GameEvent(this.Shrink);
+			SceneManager.activeSceneChanged += ShrinkToInitialSize;
 		}
+	}
+
+	public void ShrinkToInitialSize(Scene oldScene, Scene newScene)
+	{
+		if(this.pooledObjects.Count >= this.initialPoolSize)
+			this.pooledObjects.RemoveRange(this.initialPoolSize, this.pooledObjects.Count - this.initialPoolSize);
 	}
 
 	/// <summary>
@@ -117,6 +129,11 @@ public class ObjectPool
 			pooledObjects.Add(nObj);
 			//return the object to the requestor.
 			return nObj;
+		}
+
+		if(this.isCircularPool)
+		{
+			//TODO: change to circular pool
 		}
 		//if we made it this far obviously we didn't have any inactive objects
 		//we also were unable to grow, so return null as we can't return an object.
@@ -166,5 +183,17 @@ public class ObjectPool
 		foreach(GameObject gameObject in pooledObjects)
 			if (gameObject != null)
 				gameObject.SetActive(false);
+	}
+
+	/// <summary>
+	/// Deactivate all the objects in the pool without deleting them
+	/// </summary>
+	public bool ObjectsReferencesAreValid()
+	{
+		//foreach(GameObject gameObject in pooledObjects)
+		//	if (gameObject != null)
+		//		gameObject.SetActive(false);
+
+		return true;
 	}
 }
