@@ -69,7 +69,7 @@ public class ObjectPoolingManager<T>
 	/// <param name="maxPoolSize">Maximum number of objects allowed to exist in this pool.</param>
 	/// <param name="shouldShrink">Should this pool shrink back down to the initial size when it receives a shrink event.</param>
 	/// <returns></returns>
-	public bool CreatePool(T key, GameObject objToPool, int initialPoolSize, int maxPoolSize, bool shouldShrink=false)
+	public bool CreatePool(T key, GameObject objToPool, int initialPoolSize, int maxPoolSize, bool shouldShrink=false, bool circularPool=false)
 	{
 		//Check to see if the pool already exists.
 		if (ObjectPoolingManager<T>.Instance.objectPools.ContainsKey(key) &&
@@ -81,7 +81,7 @@ public class ObjectPoolingManager<T>
 		else
 		{
 			//create a new pool using the properties
-			ObjectPool nPool = new ObjectPool(objToPool, initialPoolSize, maxPoolSize, shouldShrink);
+			ObjectPool nPool = new ObjectPool(objToPool, initialPoolSize, maxPoolSize, shouldShrink, circularPool);
 			//Add the pool to the dictionary of pools to manage
 			//using the object name as the key and the pool as the value.
 			ObjectPoolingManager<T>.Instance.objectPools.Add(key, nPool);

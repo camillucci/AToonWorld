@@ -17,7 +17,7 @@ public class ShooterController : MonoBehaviour
 
     void Start()
     {
-        ObjectPoolingManager<string>.Instance.CreatePool(nameof(_bulletPrefab), _bulletPrefab, 5, 10, true);
+        ObjectPoolingManager<string>.Instance.CreatePool(nameof(_bulletPrefab), _bulletPrefab, 5, 10, true, true);
     }
 
     void OnEnable()

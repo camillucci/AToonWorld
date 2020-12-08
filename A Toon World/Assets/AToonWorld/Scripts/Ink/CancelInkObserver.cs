@@ -24,7 +24,7 @@ public class CancelInkObserver : MonoBehaviour
         _inkToDelete = new List<GameObject>();
         _renderersCache = new Dictionary<GameObject, LineRenderer>();
         _alphaCache = new Dictionary<GameObject, float>();
-       ObjectPoolingManager<string>.Instance.CreatePool(nameof(_cancelEffectPrefab), _cancelEffectPrefab, 10, 25, true);
+       ObjectPoolingManager<string>.Instance.CreatePool(nameof(_cancelEffectPrefab), _cancelEffectPrefab, 10, 25, true, true);
     }
 
     public void NotifyDelete(GameObject inkToDelete, Vector2 effectLocation, Vector2 direction)

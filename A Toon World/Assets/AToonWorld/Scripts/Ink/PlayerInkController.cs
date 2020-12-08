@@ -29,7 +29,7 @@ public class PlayerInkController : MonoBehaviour
         _inkPaletteSettings.InkPalette.ForEach(inkHandler => {
             _inkHandlers.Add(inkHandler.InkType, inkHandler);
             inkHandler.Init();
-            ObjectPoolingManager<InkType>.Instance.CreatePool(inkHandler.InkType, inkHandler.InkPrefab, inkHandler.MinPoolSize, inkHandler.MaxPoolSize, true);
+            ObjectPoolingManager<InkType>.Instance.CreatePool(inkHandler.InkType, inkHandler.InkPrefab, inkHandler.MinPoolSize, inkHandler.MaxPoolSize, true, true);
         });
 
         _playerBody = GetComponentInChildren<PlayerBody>();

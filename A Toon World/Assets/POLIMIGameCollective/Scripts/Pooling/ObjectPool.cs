@@ -19,6 +19,8 @@ public class ObjectPool
 {
 	//the list of objects.
 	private List<GameObject> pooledObjects;
+	//how old a slot is
+	private long[] poolTimers;
 
 	//sample of the actual object to store.
 	//used if we need to grow the list.
@@ -55,7 +57,7 @@ public class ObjectPool
 
 		//instantiate a new list of game objects to store our pooled objects in.
 		pooledObjects = new List<GameObject>();
-
+		poolTimers = new long[maxPoolSize];
 		//create and add an object based on initial size.
 		for (int i = 0; i < initialPoolSize; i++)
 		{
@@ -105,6 +107,7 @@ public class ObjectPool
 	/// <returns>Game Object of requested type if it is available, otherwise null.</returns>
 	public GameObject GetObject()
 	{
+		int oldestPoolIndex = 0;
 		//iterate through all pooled objects.
 		for (int i = 0; i < pooledObjects.Count; i++)
 		{
@@ -113,9 +116,15 @@ public class ObjectPool
 			{
 				//set the object to active.
 				pooledObjects[i].SetActive(true);
+				poolTimers[i] = DateTime.Now.Ticks;
+
 				//return the object we found.
 				return pooledObjects[i];
 			}
+
+			//update pool timers
+			if(poolTimers[i] < poolTimers[oldestPoolIndex])
+				oldestPoolIndex = i;
 		}
 		//if we make it this far, we obviously didn't find an inactive object.
 		//so we need to see if we can grow beyond our current count.
@@ -126,6 +135,7 @@ public class ObjectPool
 			//set it to active since we are about to use it.
 			nObj.SetActive(true);
 			//add it to the pool of objects
+			poolTimers[pooledObjects.Count] = DateTime.Now.Ticks;
 			pooledObjects.Add(nObj);
 			//return the object to the requestor.
 			return nObj;
@@ -133,7 +143,10 @@ public class ObjectPool
 
 		if(this.isCircularPool)
 		{
-			//TODO: change to circular pool
+			pooledObjects[oldestPoolIndex].SetActive(false);
+			pooledObjects[oldestPoolIndex].SetActive(true);
+			poolTimers[oldestPoolIndex] = DateTime.Now.Ticks;
+			return pooledObjects[oldestPoolIndex];
 		}
 		//if we made it this far obviously we didn't have any inactive objects
 		//we also were unable to grow, so return null as we can't return an object.
