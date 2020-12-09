@@ -25697,7 +25697,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f7c62f0b51dc34b4bb99d2e376b8b4d5, type: 2}
+      objectReference: {fileID: 2100000, guid: 88e53b39234618e4cb2c6f97b3b1e737, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32d131ad03368cd489309878d37de182, type: 3}
 --- !u!4 &1679025959 stripped
@@ -25948,7 +25948,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1e24a9948c9e6b646a26a5c3ef01fff9, type: 2}
+      objectReference: {fileID: 2100000, guid: 88e53b39234618e4cb2c6f97b3b1e737, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32d131ad03368cd489309878d37de182, type: 3}
 --- !u!4 &1710808010 stripped
@@ -34889,6 +34889,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpperLake
       objectReference: {fileID: 0}
+    - target: {fileID: 7550878795296166029, guid: 9a66ffa81bc1f4144b1c3ff5fb04254a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: df1c199b08da0f342bd000e4c2f07702, type: 2}
     - target: {fileID: 7550878795296166030, guid: 9a66ffa81bc1f4144b1c3ff5fb04254a,
         type: 3}
       propertyPath: m_LocalPosition.x

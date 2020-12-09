@@ -12,12 +12,14 @@ Shader "Custom/Waving Sprite"
         _MaxY ("Maximum Vertex Height", Float) = 100
         _Frequency ("Wave Frequency", Float) = 10
         _Amplitude ("Wave Amplitude", Float) = 0.1
+        _PhaseSeed ("Wave Phase", Float) = 0
     }
 
     CGINCLUDE
     #include "UnitySprites.cginc"
 
     float _Dampening;
+    half _PhaseSeed;
     half _Frequency;
     half _MinY;
     half _MaxY;
@@ -41,7 +43,12 @@ Shader "Custom/Waving Sprite"
     {
         //Waving calculation
         half waveAmplitude = _Amplitude * clamp((v.vertex.y - _MinY) / (_MaxY - _MinY), 0, 1);
-        v.vertex.y += (1 - sin(v.vertex.x/_Dampening + _Time.y * _Frequency)) * waveAmplitude;
+        float4 worldPos = mul (unity_ObjectToWorld, v.vertex);
+        float4 worldUpDir = normalize(mul (unity_ObjectToWorld, float3(0, 1, 0)));
+        float4 worldLeftDir = normalize(mul (unity_ObjectToWorld, float3(1, 0, 0)));
+        float xWorldDiff = dot(worldPos, worldLeftDir);
+        worldPos += (1 - sin(xWorldDiff/_Dampening + _Time.y * _Frequency + _PhaseSeed)) * waveAmplitude * worldUpDir;
+        v.vertex = mul (unity_WorldToObject, worldPos);
 
         v.vertex = UnityFlipSprite(v.vertex, _Flip);
 
