@@ -3,7 +3,10 @@ guid: 9ba65026402cef74f832ff2d8615583b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - _editorDeathEventPrefab: {fileID: 2371725890303068087, guid: 8f338d0c07502b54aadb01bbc4a202df,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -10,6 +10,7 @@ using System;
 using System.Globalization;
 
 public class AnaliticsParser : EditorWindow {
+    [SerializeField] private GameObject _editorDeathEventPrefab = null;
     private static AnaliticsParser _instance = null;
 
     private string _analiticsFilePath = "";
@@ -26,6 +27,10 @@ public class AnaliticsParser : EditorWindow {
 
     #region Gizmos
     private Action _currentGizmosDrawer;
+    #endregion
+
+    #region SceneComponents
+    private GameObject _analiticsObject;
     #endregion
 
 
@@ -66,12 +71,24 @@ public class AnaliticsParser : EditorWindow {
 
             if(GUILayout.Button("Plot Data"))
             {
+                if(_analiticsObject != null)
+                    GameObject.Destroy(_analiticsObject);
+
+                _analiticsObject = new GameObject("AnaliticsComponents");
+                _analiticsObject.tag = "EditorOnly";
+
                 switch(_selectedEvent)
                 {
                     case EventName.PlayerDeath: PlotDeaths(); break;
                 }
             }
         }
+    }
+
+    private void OnDestroy() 
+    {
+        if(_analiticsObject != null)
+            GameObject.DestroyImmediate(_analiticsObject, false);
     }
 
     // Custom Gizmos, Create as many as you'd like
@@ -95,37 +112,39 @@ public class AnaliticsParser : EditorWindow {
 
     private void PlotDeaths()
     {
+        IEnumerable<Analitic> deathEvents = _analiticsCollection.Where(a => a.eventName == EventName.PlayerDeath);
+        
+        List<Vector3> deathLocations = new List<Vector3>();
+        CultureInfo italian = CultureInfo.GetCultureInfo("it-IT");
+        foreach(Analitic deathAnalitic in deathEvents)
+        {
+            try
+            {
+                deathLocations.Add(new Vector3(
+                    float.Parse(deathAnalitic.value[0], italian),
+                    float.Parse(deathAnalitic.value[1], italian)
+                ));
+            }
+            catch
+            {
+                deathLocations.Add(new Vector3(
+                    float.Parse(deathAnalitic.value[0], CultureInfo.InvariantCulture),
+                    float.Parse(deathAnalitic.value[1], CultureInfo.InvariantCulture)
+                ));
+            }
+        }
+        
         if(_isHeatmap)
         {
             //plot heatmap
         }
         else
         {
-            List<Vector3> deathLocations = new List<Vector3>();
-            CultureInfo italian = CultureInfo.GetCultureInfo("it-IT");
-            foreach(Analitic deathAnalitic in 
-                    _analiticsCollection.Where(a => a.eventName == EventName.PlayerDeath))
-            {
-                try
-                {
-                    deathLocations.Add(new Vector3(
-                        float.Parse(deathAnalitic.value[0], italian),
-                        float.Parse(deathAnalitic.value[1], italian)
-                    ));
-                }
-                catch
-                {
-                    deathLocations.Add(new Vector3(
-                        float.Parse(deathAnalitic.value[0], CultureInfo.InvariantCulture),
-                        float.Parse(deathAnalitic.value[1], CultureInfo.InvariantCulture)
-                    ));
-                }
-            }
-
-            _currentGizmosDrawer = () => {
-                deathLocations.ForEach(location => Gizmos.DrawSphere(location, _heatmapRadius));
-                //_currentGizmosDrawer = null;
-            };
+            deathLocations.ForEach(location => GameObject.Instantiate(_editorDeathEventPrefab, location, Quaternion.identity, _analiticsObject.transform));
+            //_currentGizmosDrawer = () => {
+            //    deathLocations.ForEach(location => Gizmos.DrawSphere(location, _heatmapRadius));
+            //    //_currentGizmosDrawer = null;
+            //};
         }
     }
 
