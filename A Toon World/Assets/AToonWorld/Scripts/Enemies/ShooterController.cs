@@ -9,15 +9,18 @@ using UnityEngine;
 public class ShooterController : MonoBehaviour
 {
     [SerializeField] private GameObject _bulletSpawner = null;
-    [SerializeField] private GameObject _target = null;
+    [SerializeField] private bool _fixedTarget = true;
+    [SerializeField] private Transform _target = null;
     [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private float _bulletsInterleavingSeconds = 1;
     private bool _canFire;
     private IEnumerator _enableFire;
+    private Transform _transform;
 
     void Start()
     {
-        ObjectPoolingManager<string>.Instance.CreatePool(nameof(_bulletPrefab), _bulletPrefab, 5, 10, true, true);
+        ObjectPoolingManager<string>.Instance.CreatePool(_bulletPrefab.name, _bulletPrefab, 5, 10, true, true);
+        _transform = this.transform;
     }
 
     void OnEnable()
@@ -32,11 +35,26 @@ public class ShooterController : MonoBehaviour
         if (_canFire)
         {
             _canFire = false;
-            GameObject bullet = ObjectPoolingManager<string>.Instance.GetObject(nameof(_bulletPrefab));
-            float angle = bullet.GetComponent<EnemyBulletController>().Shoot(_bulletSpawner.transform.position, _target.transform.position);
-            this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
+            GameObject bullet = ObjectPoolingManager<string>.Instance.GetObject(_bulletPrefab.name);
+
+            if (_fixedTarget) ShootAFixedObject(bullet);
+            else ShootAMovingObject(bullet);
+
             StartCoroutine(_enableFire = EnableFire());
         }
+    }
+
+    private void ShootAMovingObject(GameObject bullet)
+    {
+        BulletController bulletController = bullet.GetComponent<EnemyBulletController>();
+        _transform.rotation = bulletController.CalculateParabola(_bulletSpawner.transform.position, _target.position);
+        bulletController.Shoot();
+    }
+
+    private void ShootAFixedObject(GameObject bullet)
+    {
+        BulletController bulletController = bullet.GetComponent<EnemyBulletController>();
+        bulletController.Shoot(_bulletSpawner.transform.position, _target.position);
     }
 
     IEnumerator EnableFire()

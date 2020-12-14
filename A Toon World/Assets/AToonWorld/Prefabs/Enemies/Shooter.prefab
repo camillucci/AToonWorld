@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395055670925151297}
   - component: {fileID: 5828877004723680502}
+  - component: {fileID: 3604285899466963153}
   m_Layer: 12
   m_Name: Eraser
   m_TagString: Enemy
@@ -46,7 +47,19 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.48
+  m_Radius: 0.5
+--- !u!114 &3604285899466963153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2555543680635283474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d133a2168d72eca4c894d6329b1a6ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5131269977752696151
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5131269977752696151}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4080408271218611329}
@@ -101,7 +114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5957567983559562348}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 0, z: 0}
+  m_LocalPosition: {x: -0.318, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4080408271218611329}
@@ -211,7 +224,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.47999996
+  m_Radius: 0.5
 --- !u!114 &1507939317613123718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,8 +238,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpawner: {fileID: 5957567983559562348}
+  _fixedTarget: 1
   _target: {fileID: 5131269977752696151}
-  _bulletPrefab: {fileID: 2596636012978396827, guid: 452bff9dfae53744ba428c1141712ced,
+  _bulletPrefab: {fileID: 2596636012978396827, guid: 00822a8b2107cd143bc683ed65f9bfa2,
     type: 3}
   _bulletsInterleavingSeconds: 1
 --- !u!50 &1029788888407241121
