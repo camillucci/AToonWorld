@@ -17,10 +17,22 @@ namespace Assets.AToonWorld.Scripts.Extensions
             @this.StartCoroutine(InvokeDelayCoroutine(callback, delayInSeconds));
         }
 
+        public static void InvokeFramwDelayed(this MonoBehaviour @this, Action callback, int frameDelay)
+        {
+            InvokeFrameDelayedTask(@this, callback, frameDelay).Forget();
+        }
+
         private static IEnumerator InvokeDelayCoroutine(Action callback, float delayInSeconds)
         {   
             yield return new WaitForSeconds(delayInSeconds);
             callback.Invoke();
+        }
+
+
+        private static async UniTaskVoid InvokeFrameDelayedTask(MonoBehaviour monoBehaviour, Action action, int frameDelay)
+        {
+            await UniTask.DelayFrame(frameDelay);
+            action.Invoke();
         }
 
         public static UniTask PlaySound(this MonoBehaviour @this, SoundEffect soundEffect)

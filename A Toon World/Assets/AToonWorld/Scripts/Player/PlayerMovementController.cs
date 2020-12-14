@@ -20,6 +20,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] [Range(1, 200)] private float _jumpHoldStepMs = 39.5f;
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
+    [SerializeField] private int _jumpDelaySensitivity = 4;
 
     // Private fields
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
@@ -173,9 +174,9 @@ public class PlayerMovementController : MonoBehaviour
     // Player events
   
     private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;        
-    private void OnGroundExit(Collider2D collider) => GroundsCollidedCount--;    
+    private void OnGroundExit(Collider2D collider) => this.InvokeFramwDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);    
     private void OnDrawingEnter(Collider2D collider) => DrawingPlatformsCollidedCount++;
-    private void OnDrawingExit(Collider2D collider) =>DrawingPlatformsCollidedCount--;
+    private void OnDrawingExit(Collider2D collider) =>this.InvokeFramwDelayed( () =>  DrawingPlatformsCollidedCount--, _jumpDelaySensitivity);
      
 
     
@@ -272,7 +273,7 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
-    // Private methods 
+    // Private methods     
 
 
     private void DoFixedUpdateActions()
