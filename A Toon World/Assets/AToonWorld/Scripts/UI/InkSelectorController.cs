@@ -92,4 +92,9 @@ public class InkSelectorController : MonoBehaviour
             #endif
         }
     }
+
+    public ScreenToWorldPointComponent GetDynamicPointConverter(InkType inkType)
+    {
+        return _inkGauges[inkType].GetComponent<ScreenToWorldPointComponent>();
+    }
 }
