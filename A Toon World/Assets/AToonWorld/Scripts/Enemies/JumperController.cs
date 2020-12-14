@@ -81,10 +81,4 @@ public class JumperController : MonoBehaviour
             else
                 StartFirstJumpSession();
     }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag(UnityTag.Drawing))
-            other.gameObject.SetActive(false);
-    }
 }

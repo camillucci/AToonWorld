@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 62109845757878702}
   - component: {fileID: 62109845757878703}
+  - component: {fileID: 3813529148330196298}
   m_Layer: 12
   m_Name: JumperEraser
   m_TagString: Enemy
@@ -47,6 +48,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3813529148330196298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62109845757878701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d133a2168d72eca4c894d6329b1a6ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &62109845936002043
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +199,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.47999996
+  m_Radius: 0.5
 --- !u!95 &7591901704642955229
 Animator:
   serializedVersion: 3
