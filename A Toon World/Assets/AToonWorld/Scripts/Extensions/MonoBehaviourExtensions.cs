@@ -31,7 +31,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
 
         private static async UniTaskVoid InvokeFrameDelayedTask(MonoBehaviour monoBehaviour, Action action, int frameDelay)
         {
-            await UniTask.DelayFrame(frameDelay);
+            await UniTask.DelayFrame(frameDelay, cancellationToken: monoBehaviour.GetCancellationTokenOnDestroy());
             action.Invoke();
         }
 
