@@ -34,7 +34,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 time += Time.unscaledDeltaTime * fadingSpeed;
                 float alpha = _animationCurve.Evaluate(time);
                 _image.color = new Color(0f, 0f, 0f, alpha);
-                await UniTask.WaitForEndOfFrame();
+                await UniTask.WaitForEndOfFrame(cancellationToken: this.GetCancellationTokenOnDestroy());
             }
         }
 
