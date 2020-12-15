@@ -18,7 +18,7 @@ public class ParabolicBullet : BulletBehaviour
     {
         Vector2 direction = targetPosition - startPosition, shootingDirection;
         float shootingAngle, bulletVelocity;
-        bool leftSide = direction.x <= 0f, upperside = direction.y >= 0f;
+        bool leftSide = direction.x <= 0f, upperside = direction.y > 0f;
         if (leftSide) direction.x = - direction.x;
 
         // Consider the four quadrants separately
@@ -37,7 +37,7 @@ public class ParabolicBullet : BulletBehaviour
             bulletVelocity = VelocityFromHorizontalTangent(direction);
         }
 
-        if (bulletVelocity > _maxBulletSpeed)
+        if (direction.y == 0f || bulletVelocity > _maxBulletSpeed)
         {
             // If too fast, calculate instead tangent versor to parabola with points playerPosition, mouseWorldPosition
             // and (1 / 2 * mouseWorldPosition.x, mouseWorldPosition.y + 1) if on the upper side
@@ -53,9 +53,10 @@ public class ParabolicBullet : BulletBehaviour
         if(leftSide) shootingAngle += 2 * (90f - shootingAngle);
 
         _initialBulletPosition = startPosition;
-        _bulletVelocity = Vector2.one * Mathf.Min(bulletVelocity, _maxBulletSpeed);
+        _bulletVelocity = Mathf.Min(bulletVelocity, _maxBulletSpeed);
 
-        return Quaternion.Euler(0f, 0f, shootingAngle + 180);
+        //return Quaternion.Euler(0f, 0f, shootingAngle + 180);
+        return LookAt(shootingAngle);
     }
 
     private float VelocityFromPointAndVertex(Vector2 direction, float shootingAngle) =>

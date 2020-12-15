@@ -6,7 +6,7 @@ public abstract class BulletBehaviour
     protected Rigidbody2D _rigidBody;
 
     protected Vector2 _initialBulletPosition;
-    protected Vector2 _bulletVelocity;
+    protected float _bulletVelocity;
 
     protected BulletBehaviour(Transform bulletTransform, Rigidbody2D bulletRigidBody)
     {
@@ -16,22 +16,22 @@ public abstract class BulletBehaviour
 
     public abstract Quaternion CalculateRotation(Vector2 startPosition, Vector2 targetPosition);
 
-    /// <summary>
-    /// Rotation performed on parent object by caller
-    /// </summary>
-    public void Shoot()
-    {
-        _transform.transform.position = _initialBulletPosition;
-        _rigidBody.velocity = -_transform.right * _bulletVelocity;
-    }
-
-    /// <summary>
-    /// Rotation applied on the bullet (don't rotate the caller object)
-    /// </summary>
     public void Shoot(Vector2 startPosition, Vector2 targetPosition)
     {
         _transform.position = _initialBulletPosition;
         _transform.rotation = CalculateRotation(startPosition, targetPosition);
-        _rigidBody.velocity = _bulletVelocity;
+        _rigidBody.velocity = _transform.right * _bulletVelocity;
+    }
+
+    protected Quaternion LookAt(Vector2 me, Vector2 target)
+    {
+        Vector2 direction = target - me;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        return Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    protected Quaternion LookAt(float angle)
+    {
+        return Quaternion.AngleAxis(angle, Vector3.forward);
     }
 }
