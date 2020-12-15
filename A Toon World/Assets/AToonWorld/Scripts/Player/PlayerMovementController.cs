@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
 public class PlayerMovementController : MonoBehaviour
 {
     // Editor fields
@@ -21,6 +20,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 4;
+    [SerializeField] private int _slidingAngle = 60;
 
     // Private fields
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
@@ -32,7 +32,10 @@ public class PlayerMovementController : MonoBehaviour
     private int _climbingWallCollidedCount;
     private float _gravityScale;
     private bool _horizontalMovementSoundTaskRunning;
-    
+    private float _currentCollisionAngle;
+    private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
+
+
 
     // Initialization
     private void Awake()
@@ -51,12 +54,11 @@ public class PlayerMovementController : MonoBehaviour
     {
         PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
         PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
+        PlayerBody.CollisionStay.Subscribe(OnBodyCollisionStay);
     }
 
     private void InitializeFeet()
     {
-        var walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
-
         PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag
         (
             (UnityTag.Ground, OnGroundEnter),
@@ -211,6 +213,16 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     
+    private void OnBodyCollisionStay(Collision2D collision)
+    {
+        if (collision.contactCount == 0)
+            return;
+
+        var normalAvg = collision.GetContact(0).normal;
+        _currentCollisionAngle = Mathf.Acos(Mathf.Clamp(Vector2.Dot(normalAvg, Vector2.up), -1, 1)) / Mathf.PI * 180;
+        PlayerBody.FrictionEnabled = _currentCollisionAngle < _slidingAngle;
+        print($"Collision Angle: {_currentCollisionAngle},  Friction Enabled: {PlayerBody.FrictionEnabled}");
+    }
 
 
     // Unity events   
@@ -229,7 +241,7 @@ public class PlayerMovementController : MonoBehaviour
         if (CanJump)
         {
             CurrentJumpState = JumpState.Jumping;
-            StartCoroutine(JumpCoroutine());
+            VariableJump().Forget();
         }
     }
 
@@ -251,19 +263,19 @@ public class PlayerMovementController : MonoBehaviour
     /// until <see cref="_maxJumpForce"/> is reached.
     /// </summary>
     /// <returns> The jump coroutine </returns>
-    private IEnumerator JumpCoroutine()
+    private async UniTaskVoid VariableJump()
     {
         float totForce = 0;
         bool jumpHeld;
-        yield return _waitForFixedUpdate;
+        await UniTask.WaitForFixedUpdate();
         RigidBody.velocity = new Vector2(RigidBody.velocity.x, 0);
         IsGravityEnabled = true;
         do
         {
             float forceIncrement = Mathf.Min(_jumpStepForce, _maxJumpForce - totForce);
-            yield return _waitForFixedUpdate;
+            await UniTask.WaitForFixedUpdate();
             RigidBody.AddForce(forceIncrement * Vector2.up);
-            yield return new WaitForSeconds(_jumpHoldStepMs / 1000);
+            await UniTask.Delay( (int) _jumpHoldStepMs);
             jumpHeld = _jumpHeldCondition?.Invoke() ?? false;
             totForce += forceIncrement;
         }
@@ -274,7 +286,6 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Private methods     
-
 
     private void DoFixedUpdateActions()
     {

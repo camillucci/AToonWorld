@@ -233,6 +233,7 @@ MonoBehaviour:
   _climbingSpeed: 5
   _isDoubleJumpEnabled: 0
   _jumpDelaySensitivity: 7
+  _slidingAngle: 60
 --- !u!114 &9202030778897293430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +398,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 9202030780216119488}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9b18e40c0833f474687163ce97570e2b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Extensions
 {
@@ -28,5 +29,20 @@ namespace Assets.AToonWorld.Scripts.Extensions
 
             return minObj;
         }        
+
+        public static Vector2 Average<T>(this IEnumerable<T> @this, Func<T, Vector2> func)
+        {
+            var enumerator = @this.GetEnumerator();
+            var sum = Vector2.zero;
+            int count = 0;
+
+            while(enumerator.MoveNext())
+            {
+                sum += func(enumerator.Current);
+                count++;
+            }
+
+            return sum / count;
+        }
     }
 }
