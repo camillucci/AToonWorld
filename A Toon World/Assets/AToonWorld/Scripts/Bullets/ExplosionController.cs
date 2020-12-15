@@ -8,6 +8,6 @@ public class ExplosionController : MonoBehaviour
     private const int _animationTime = 1000;
     void Start()
     {
-        UniTask.Delay(_animationTime).ContinueWith(() => Destroy(gameObject)).Forget();
+        UniTask.Delay(_animationTime, cancellationToken: this.GetCancellationTokenOnDestroy()).ContinueWith(() => Destroy(gameObject)).Forget();
     }
 }
