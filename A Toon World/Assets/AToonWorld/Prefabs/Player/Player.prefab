@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 2582858654724729252}
   - component: {fileID: 9202030780216119493}
   - component: {fileID: 4295371419620623800}
-  - component: {fileID: 6947039922476600561}
+  - component: {fileID: 411481619}
   m_Layer: 10
   m_Name: Player Body
   m_TagString: Player
@@ -389,8 +389,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!58 &6947039922476600561
-CircleCollider2D:
+--- !u!61 &411481619
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -403,5 +403,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.6666667, y: 2.6666667}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Size: {x: 0.58215606, y: 1.0433582}
+  m_EdgeRadius: 0
