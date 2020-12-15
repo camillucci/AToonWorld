@@ -73,7 +73,10 @@ namespace Assets.AToonWorld.Scripts.Level
         private void OnPlayerHit(Collider2D collision)
         {
             if (Hit || IsStart)
+            {
+                PlayerHit?.Invoke(this);
                 return;
+            }
 
             _hit = true;
             _animator.SetBool("IsActivated", Hit);

@@ -3166,7 +3166,7 @@ PrefabInstance:
     - target: {fileID: 581256138729989264, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
       propertyPath: m_Name
-      value: Collectible_2
+      value: Collectible_1
       objectReference: {fileID: 0}
     - target: {fileID: 581256138729989276, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
@@ -3206,7 +3206,7 @@ PrefabInstance:
     - target: {fileID: 581256138729989276, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 581256138729989276, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
@@ -3222,6 +3222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 581256138729989278, guid: 1adc2c04ee4f804438439142aa1d71e2,
+        type: 3}
+      propertyPath: _collectibleNumber
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1adc2c04ee4f804438439142aa1d71e2, type: 3}
@@ -7330,7 +7335,7 @@ PrefabInstance:
     - target: {fileID: 581256138729989264, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
       propertyPath: m_Name
-      value: Collectible_1
+      value: Collectible_2
       objectReference: {fileID: 0}
     - target: {fileID: 581256138729989276, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
@@ -7370,7 +7375,7 @@ PrefabInstance:
     - target: {fileID: 581256138729989276, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 581256138729989276, guid: 1adc2c04ee4f804438439142aa1d71e2,
         type: 3}
@@ -7386,6 +7391,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 581256138729989278, guid: 1adc2c04ee4f804438439142aa1d71e2,
+        type: 3}
+      propertyPath: _collectibleNumber
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1adc2c04ee4f804438439142aa1d71e2, type: 3}
@@ -10490,8 +10500,8 @@ Transform:
   - {fileID: 436676290}
   - {fileID: 1345331381}
   - {fileID: 1187801449}
-  - {fileID: 547556479}
   - {fileID: 194007209}
+  - {fileID: 547556479}
   - {fileID: 755176679}
   m_Father: {fileID: 0}
   m_RootOrder: 3

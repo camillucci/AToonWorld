@@ -10,6 +10,8 @@ namespace Assets.AToonWorld.Scripts.Level
     public class Collectible : MonoBehaviour
     {
         public event Action<Collectible> PlayerHit;
+
+        [SerializeField] private int _collectibleNumber = -1;
         [SerializeField] private UnityEvent _collectibleTaken = null;
 
         // When hit, disable object and call subscribed events
@@ -22,5 +24,7 @@ namespace Assets.AToonWorld.Scripts.Level
                 gameObject.SetActive(false);
             }
         }
+
+        public int CollectibleNumber => _collectibleNumber;
     }
 }

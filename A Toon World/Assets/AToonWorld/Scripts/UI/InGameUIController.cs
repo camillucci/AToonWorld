@@ -13,6 +13,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private SceneFaderController _sceneFaderController;
         private PauseMenuController _pauseMenuController;
         private EndLevelMenuController _endLevelMenuController;
+        private CollectiblesMenuController _collectiblesMenuController;
         private const float _defaultSpeed = 1f;
         private const int _defaultDelay = 1000;
 
@@ -20,6 +21,7 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private GameObject _inkWheel = null;
         [SerializeField] private GameObject _pauseMenuUI = null;
         [SerializeField] private GameObject _endLevelMenuUI = null;
+        [SerializeField] private GameObject _collectibleMenuUI = null;
 
         #endregion
 
@@ -31,6 +33,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _sceneFaderController = _inGameCanvas.GetComponentInChildren<SceneFaderController>();
             _pauseMenuController = GetComponent<PauseMenuController>();
             _endLevelMenuController = GetComponent<EndLevelMenuController>();
+            _collectiblesMenuController = GetComponent<CollectiblesMenuController>();
         }
 
         # region Faders
@@ -68,6 +71,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _endLevelMenuUI.SetActive(false);
             _inkSelector.SetActive(true);
             _inkWheel.SetActive(false);
+            _collectibleMenuUI.SetActive(true);
             RefreshValues();
             _sceneFaderController.FadeIn(fadingSpeed).ContinueWith(() =>
                 _sceneFaderController.gameObject.SetActive(false)).Forget();
@@ -78,6 +82,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             _pauseMenuController.RefreshValues();
             _endLevelMenuController.RefreshValues();
+            _collectiblesMenuController.RefreshValues();
         }
 
         // Setup the UI for the menu and do a fade in
@@ -87,6 +92,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _endLevelMenuUI.SetActive(false);
             _inkSelector.SetActive(false);
             _inkWheel.SetActive(false);
+            _collectibleMenuUI.SetActive(false);
             _sceneFaderController.FadeIn(fadingSpeed).ContinueWith(() =>
                 _inGameCanvas.gameObject.SetActive(false)).Forget();
         }

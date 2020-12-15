@@ -50,7 +50,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _timeText.text = _levelHandler._timeManager.getFormattedTime()
                 + " / " + _levelHandler._timeManager.getFormattedAchievementTime();
             _deathsText.text = _levelHandler._deathCounter.ToString()
-                + " / " + _levelHandler._maxDeathsForAchievement.ToString();
+                + " / " + _levelHandler.MaxDeathsForAchievement.ToString();
             _collectibleText.text = _levelHandler._collectiblesManager._currentCollectibles.ToString()
                 + " / " + _levelHandler._collectiblesManager._totalCollectibles.ToString();
 
