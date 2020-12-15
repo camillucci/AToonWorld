@@ -12,3 +12,4 @@ public class ExplosionController : MonoBehaviour
         this.Delay(_animationTime).ContinueWith(() => Destroy(gameObject)).Forget();
     }
 }
+    
