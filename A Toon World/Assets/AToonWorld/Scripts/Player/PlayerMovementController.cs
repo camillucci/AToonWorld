@@ -36,7 +36,7 @@ public class PlayerMovementController : MonoBehaviour
     private bool _horizontalMovementSoundTaskRunning;
     private float _currentCollisionAngle;
     private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
-    private float _forbiddenHorizontalDirection = 0f;
+    private readonly Dictionary<Collider2D, Collision2D> _collisionsByCollider = new Dictionary<Collider2D, Collision2D>();
 
 
     // Initialization
@@ -178,6 +178,8 @@ public class PlayerMovementController : MonoBehaviour
 
     // Player events
   
+
+    // Trigger Collisions
     private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;        
     private void OnGroundExit(Collider2D collider) => this.InvokeFramwDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);    
     private void OnDrawingEnter(Collider2D collider) => DrawingPlatformsCollidedCount++;
@@ -215,22 +217,22 @@ public class PlayerMovementController : MonoBehaviour
             _fixedUpdateAction += () => IsGravityEnabled = true;
     }
 
-    
+
+
+    // Real Collisions
+    private void OnBodyCollisionEnter(Collision2D collision)
+    {
+        _collisionsByCollider.Add(collision.otherCollider, collision);
+    }
+
     private void OnBodyCollisionStay(Collision2D collision)
     {
-        if (collision.contactCount == 0)
-            return;
-
-        var contact = collision.GetContact(0);
-        var normalAvg = contact.normal;
-        _currentCollisionAngle = Vector2.Angle(Vector2.up, normalAvg);
-        if (_currentCollisionAngle > _slidingAngle)
-            _forbiddenHorizontalDirection = -Mathf.Sign(Vector2.Dot(Vector2.right, contact.normal));
+        _collisionsByCollider[collision.otherCollider] = collision;
     }
 
     private void OnBodyCollisionExit(Collision2D collision)
     {
-        _forbiddenHorizontalDirection = 0f;
+        _collisionsByCollider.Remove(collision.otherCollider);
     }
 
 
@@ -239,7 +241,8 @@ public class PlayerMovementController : MonoBehaviour
     // Unity events   
     private void Update()
     {
-        print(_forbiddenHorizontalDirection);
+        //print($"Forbidden Direction: {IsForbiddenDirection(HorizontalMovementDirection)}, colliders inside: {_collisionsByCollider.Count}");
+
     }
 
     private void FixedUpdate()
@@ -272,10 +275,7 @@ public class PlayerMovementController : MonoBehaviour
             DoubleJump();
     }
 
-
-
-
-    // Coroutine
+   
     
 
     /// <summary>
@@ -327,8 +327,8 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     private void MoveHorizontal()
-    {
-        float xVelocity = _forbiddenHorizontalDirection * HorizontalMovementDirection > 0 
+    {        
+        float xVelocity = IsForbiddenDirection(HorizontalMovementDirection) 
                         ? 0 
                         : HorizontalMovementDirection * _speed;    
         
@@ -343,6 +343,30 @@ public class PlayerMovementController : MonoBehaviour
 
         AnimatorController.SetFloat(PlayerAnimatorParameters.VelocityX, Mathf.Abs(xVelocity));
     }
+
+
+    private bool IsForbiddenDirection(float horizontalDirection)
+    {
+        var boxSize = new Vector2(PlayerBody.ColliderSize.x / 2 * 1.02f, PlayerBody.ColliderSize.y);
+        var center = PlayerBody.ColliderCenter + PlayerBody.ColliderSize.x / 4 * Vector2.right;
+        var collidersHit = Physics2D.OverlapBoxAll(center, boxSize, LayerMask.NameToLayer(UnityTag.NonWalkable));
+        foreach(var collider in collidersHit)
+            if(_collisionsByCollider.TryGetValue(collider, out var collision))
+            {
+                var problemContacts = from contact in collision.contacts
+                        let angle = Vector2.Angle(contact.normal, Vector2.up)
+                        where angle > _slidingAngle
+                        where Vector2.Dot(contact.point - RigidBody.position, horizontalDirection * Vector2.right) > 0
+                        select contact;
+                if (problemContacts.Any())
+                {
+                    print($"Problems: {problemContacts.Count()}");
+                    return true;
+                }
+            }
+        return false;
+    }
+
 
     private void Flip()
 	{
@@ -367,6 +391,8 @@ public class PlayerMovementController : MonoBehaviour
     }
 
 
+
+
     // Sounds
     private void PlaySounds()
     {
@@ -383,6 +409,8 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     
+
+
     // Enums
 
     private void HandleJump()
@@ -402,5 +430,11 @@ public class PlayerMovementController : MonoBehaviour
         Jumping,
         DoubleJumping,
         NoJumping,
+    }
+
+    private class ForbiddenDirections
+    {
+        public bool Right { get; set; }
+        public bool Left { get; set; }
     }
 }
