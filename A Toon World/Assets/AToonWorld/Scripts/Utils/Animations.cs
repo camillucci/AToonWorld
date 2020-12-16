@@ -1,5 +1,4 @@
-﻿using Assets.AToonWorld.Scripts.Extensions;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +26,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Mathf.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await Instance.NextFrame();
+                await UniTask.NextFrame(cancellationToken: Instance.GetCancellationTokenOnDestroy());
                 isCancelled = CheckIsCancelled();
             }
 
@@ -53,7 +52,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Vector2.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await Instance.NextFrame();
+                await UniTask.NextFrame(cancellationToken: Instance.GetCancellationTokenOnDestroy());
                 isCancelled = CheckIsCancelled();
             }
 
@@ -80,7 +79,7 @@ namespace Assets.AToonWorld.Scripts.Utils
                     : Vector3.MoveTowards(current, to, deltaPos);
 
                 callback.Invoke(current);
-                await Instance.NextFrame();
+                await UniTask.NextFrame(cancellationToken: Instance.GetCancellationTokenOnDestroy());
                 isCancelled = CheckIsCancelled();
             }
 

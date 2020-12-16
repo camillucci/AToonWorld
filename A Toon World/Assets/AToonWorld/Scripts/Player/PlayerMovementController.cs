@@ -22,6 +22,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private int _jumpDelaySensitivity = 4;
     [SerializeField] private int _slidingAngle = 60;
 
+
+
     // Private fields
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
@@ -34,7 +36,7 @@ public class PlayerMovementController : MonoBehaviour
     private bool _horizontalMovementSoundTaskRunning;
     private float _currentCollisionAngle;
     private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
-
+    private float _forbiddenHorizontalDirection = 0f;
 
 
     // Initialization
@@ -55,6 +57,7 @@ public class PlayerMovementController : MonoBehaviour
         PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
         PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
         PlayerBody.CollisionStay.Subscribe(OnBodyCollisionStay);
+        PlayerBody.Collision.Exit.Subscribe(OnBodyCollisionExit);
     }
 
     private void InitializeFeet()
@@ -218,14 +221,27 @@ public class PlayerMovementController : MonoBehaviour
         if (collision.contactCount == 0)
             return;
 
-        var normalAvg = collision.GetContact(0).normal;
-        _currentCollisionAngle = Mathf.Acos(Mathf.Clamp(Vector2.Dot(normalAvg, Vector2.up), -1, 1)) / Mathf.PI * 180;
-        PlayerBody.FrictionEnabled = _currentCollisionAngle < _slidingAngle;
-        print($"Collision Angle: {_currentCollisionAngle},  Friction Enabled: {PlayerBody.FrictionEnabled}");
+        var contact = collision.GetContact(0);
+        var normalAvg = contact.normal;
+        _currentCollisionAngle = Vector2.Angle(Vector2.up, normalAvg);
+        if (_currentCollisionAngle > _slidingAngle)
+            _forbiddenHorizontalDirection = -Mathf.Sign(Vector2.Dot(Vector2.right, contact.normal));
+    }
+
+    private void OnBodyCollisionExit(Collision2D collision)
+    {
+        _forbiddenHorizontalDirection = 0f;
     }
 
 
+
+
     // Unity events   
+    private void Update()
+    {
+        print(_forbiddenHorizontalDirection);
+    }
+
     private void FixedUpdate()
     {
         DoFixedUpdateActions();
@@ -234,6 +250,11 @@ public class PlayerMovementController : MonoBehaviour
         PlaySounds(); 
         UpdateAnimations();
     }
+
+
+
+
+
 
     // JumpState handlers
     private void OnJump_WhileNoJumping()
@@ -307,8 +328,12 @@ public class PlayerMovementController : MonoBehaviour
 
     private void MoveHorizontal()
     {
-        float xVelocity = HorizontalMovementDirection * _speed;        
+        float xVelocity = _forbiddenHorizontalDirection * HorizontalMovementDirection > 0 
+                        ? 0 
+                        : HorizontalMovementDirection * _speed;    
+        
         RigidBody.velocity = new Vector2(xVelocity, RigidBody.velocity.y);
+        
 
         // If the player change direction flip the sprite
         if ((xVelocity > 0 && !IsFacingRight) || (xVelocity < 0 && IsFacingRight))

@@ -124,7 +124,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             CancellationTokenSource rotationCancellationSource;
             foreach (var position in path)
                 if (LinesUpdated)
-                    return;
+                    break;
                 else
                 {
                     //await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
