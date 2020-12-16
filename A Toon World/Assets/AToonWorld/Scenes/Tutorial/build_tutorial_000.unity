@@ -592,7 +592,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6729639970007927590, guid: 6cbaa0f65152ea64bb4a49c33c4af259, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6cbaa0f65152ea64bb4a49c33c4af259, type: 3}
 --- !u!1 &21990387
 GameObject:
@@ -9003,6 +9004,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 26233552}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &668422657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9202030780216119488, guid: 6cbaa0f65152ea64bb4a49c33c4af259,
+    type: 3}
+  m_PrefabInstance: {fileID: 20639920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!70 &668422659
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668422657}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 9b18e40c0833f474687163ce97570e2b, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.98029965, y: 1.2521875}
+  m_Direction: 0
 --- !u!1 &670154358
 GameObject:
   m_ObjectHideFlags: 0
