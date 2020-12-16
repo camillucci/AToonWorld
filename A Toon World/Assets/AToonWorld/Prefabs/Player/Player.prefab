@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 2582858654724729252}
   - component: {fileID: 9202030780216119493}
   - component: {fileID: 4295371419620623800}
-  - component: {fileID: 668422659}
+  - component: {fileID: 6729639970007927590}
   m_Layer: 10
   m_Name: Player Body
   m_TagString: Player
@@ -388,8 +388,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!70 &668422659
-CapsuleCollider2D:
+--- !u!60 &6729639970007927590
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -402,5 +402,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.98029965, y: 1.2521875}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.6666667, y: 2.6666667}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.48, y: 0.3}
+      - {x: 0.48, y: 0.3}
+      - {x: 0.25, y: -0.7}
+      - {x: -0.25, y: -0.7}

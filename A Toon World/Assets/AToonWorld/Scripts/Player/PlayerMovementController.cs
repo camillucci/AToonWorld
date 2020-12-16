@@ -346,8 +346,8 @@ public class PlayerMovementController : MonoBehaviour
 
 
     private bool IsForbiddenDirection(float horizontalDirection)
-    {                    
-        var boxSize = new Vector2(PlayerBody.ColliderSize.x / 2 * 1.02f, PlayerBody.ColliderSize.y * 0.9f);
+    {
+        var boxSize = new Vector2(PlayerBody.ColliderSize.x / 2 * 1.02f, PlayerBody.ColliderSize.y);
         var center = PlayerBody.ColliderCenter + PlayerBody.ColliderSize.x / 4 * Vector2.right;
         var collidersHit = Physics2D.OverlapBoxAll(center, boxSize, LayerMask.NameToLayer(UnityTag.NonWalkable));
         foreach(var collider in collidersHit)
@@ -356,20 +356,15 @@ public class PlayerMovementController : MonoBehaviour
                 var problemContacts = from contact in collision.contacts
                         let angle = Vector2.Angle(contact.normal, Vector2.up)
                         where angle > _slidingAngle
-                        where IsInsideBox(contact.point, center, boxSize)
                         where Vector2.Dot(contact.point - RigidBody.position, horizontalDirection * Vector2.right) > 0
                         select contact;
                 if (problemContacts.Any())
+                {
+                    print($"Problems: {problemContacts.Count()}");
                     return true;
+                }
             }
         return false;
-    }
-
-
-    private bool IsInsideBox(Vector2 point, Vector2 center, Vector2 size)
-    {
-        var delta = point - center;
-        return delta.x < size.x && delta.y < size.y;
     }
 
 
