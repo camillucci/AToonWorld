@@ -25,7 +25,6 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Private fields
-    private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>();
     private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
