@@ -17,7 +17,7 @@ namespace Assets.AToonWorld.Scripts.Level
     public class LevelHandler : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] public int _maxDeathsForAchievement {get; private set; } = 5;
+        [SerializeField] private int _maxDeathsForAchievement = 5;
         [SerializeField] private InkPaletteSO _inkPalette = null;
 
 
@@ -178,5 +178,6 @@ namespace Assets.AToonWorld.Scripts.Level
         }
 
         public bool GotDeathsAchievement => _deathCounter <= _maxDeathsForAchievement;
+        public int MaxDeathsForAchievement => _maxDeathsForAchievement;
     }
 }

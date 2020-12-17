@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400934f6c10a7204eaf3a6627246fb7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _removeCollectiblesOnDeath: 1
 --- !u!1 &8315861417742811100
 GameObject:
   m_ObjectHideFlags: 0

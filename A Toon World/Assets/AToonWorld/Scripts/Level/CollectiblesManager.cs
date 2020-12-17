@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
     public class CollectiblesManager : MonoBehaviour
     {
-        private List<Collectible> _collectibles = new List<Collectible>();
+        public List<Collectible> _collectibles { get; private set; } = new List<Collectible>();
         public int _totalCollectibles { get; private set; }
         public int _currentCollectibles { get; private set; }
         private List<Collectible> _collectiblesSinceLastCheckpoint =  new List<Collectible>();
+
+        [SerializeField] private bool _removeCollectiblesOnDeath = true;
 
         // Initialization
         private void Start()
@@ -35,10 +38,15 @@ namespace Assets.AToonWorld.Scripts.Level
         // If the player dies, reset all collectibles obtained after last checkpoint
         public void OnPlayerRespawn()
         {
-            _currentCollectibles -= _collectiblesSinceLastCheckpoint.Count;
-            foreach (Collectible collectible in _collectiblesSinceLastCheckpoint)
-                collectible.gameObject.SetActive(true);
-            _collectiblesSinceLastCheckpoint.Clear();
+            if (_removeCollectiblesOnDeath)
+            {
+                InGameUIController.PrefabInstance.GetComponent<CollectiblesMenuController>()
+                    .ResetCollectibles(_collectiblesSinceLastCheckpoint);
+                _currentCollectibles -= _collectiblesSinceLastCheckpoint.Count;
+                foreach (Collectible collectible in _collectiblesSinceLastCheckpoint)
+                    collectible.gameObject.SetActive(true);
+                _collectiblesSinceLastCheckpoint.Clear();
+            }
         }
 
         // If a player hit a new checkpoint, save all gathered collectibles
