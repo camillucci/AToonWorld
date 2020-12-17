@@ -26,7 +26,7 @@ public class PlayerMovementController : MonoBehaviour
 
     // Private fields
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
-    private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>(); 
+    private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>();
     private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
     private int _drawingPlatformsCollidedCount;
@@ -41,7 +41,7 @@ public class PlayerMovementController : MonoBehaviour
 
     // Initialization
     private void Awake()
-    {        
+    {
         RigidBody = GetComponent<Rigidbody2D>();
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
@@ -55,7 +55,7 @@ public class PlayerMovementController : MonoBehaviour
     private void InitializeBody()
     {
         PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
-        PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);        
+        PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);
         PlayerBody.CollisionStay.Subscribe(OnBodyCollisionStay);
         PlayerBody.Collision.Exit.Subscribe(OnBodyCollisionExit);
     }
@@ -73,8 +73,8 @@ public class PlayerMovementController : MonoBehaviour
             (UnityTag.Ground, OnGroundExit),
             (UnityTag.Drawing, OnDrawingExit)
         );
-      
-        foreach(var walkableTag in walkableTags)
+
+        foreach (var walkableTag in walkableTags)
         {
             PlayerFeet.ColliderTrigger.Enter.SubscribeWithTag(walkableTag, OnWalkableEnter);
             PlayerFeet.ColliderTrigger.Exit.SubscribeWithTag(walkableTag, OnWalkableExit);
@@ -95,7 +95,7 @@ public class PlayerMovementController : MonoBehaviour
     // Events
     public event Action AllGroundsExit;
     public event Action AllClimbingExit;
-    public event Action AllDrawingExit;    
+    public event Action AllDrawingExit;
 
 
 
@@ -111,10 +111,10 @@ public class PlayerMovementController : MonoBehaviour
     public JumpState CurrentJumpState { get; private set; }
     public bool IsClimbing => ClimbingWallCollidedCount > 0;
     public bool IsGrounded => GroundsCollidedCount > 0;
-    public bool IsOnDrawingPlatform => DrawingPlatformsCollidedCount > 0;   
+    public bool IsOnDrawingPlatform => DrawingPlatformsCollidedCount > 0;
     public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
     public bool IsMovinghorizontally => Mathf.Abs(HorizontalMovementDirection) > 0 && enabled;
-    public bool IsGravityEnabled 
+    public bool IsGravityEnabled
     {
         get => Math.Abs(RigidBody.gravityScale) > float.Epsilon;
         private set => RigidBody.gravityScale = value ? _gravityScale : 0;
@@ -160,10 +160,10 @@ public class PlayerMovementController : MonoBehaviour
 
     // Public Methods
     public void JumpWhile(Func<bool> jumpHeldCondition)
-    {        
+    {
         _jumpHeldCondition = jumpHeldCondition ??
                              throw new InvalidOperationException($"{nameof(jumpHeldCondition)} cannot be null");
-        
+
         HandleJump();
     }
 
@@ -177,16 +177,16 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Player events
-  
+
 
     // Trigger Collisions
-    private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;        
-    private void OnGroundExit(Collider2D collider) => this.InvokeFramwDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);    
+    private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;
+    private void OnGroundExit(Collider2D collider) => this.InvokeFramwDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);
     private void OnDrawingEnter(Collider2D collider) => DrawingPlatformsCollidedCount++;
-    private void OnDrawingExit(Collider2D collider) =>this.InvokeFramwDelayed( () =>  DrawingPlatformsCollidedCount--, _jumpDelaySensitivity);
-     
+    private void OnDrawingExit(Collider2D collider) => this.InvokeFramwDelayed(() => DrawingPlatformsCollidedCount--, _jumpDelaySensitivity);
 
-    
+
+
 
     // Both Ground and Drawing. After the specific events
     private void OnWalkableEnter(Collider2D collider)
@@ -211,9 +211,9 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     private void OnClimbingWallExit(Collider2D collider)
-    {        
+    {
         ClimbingWallCollidedCount--;
-        if(!IsClimbing)
+        if (!IsClimbing)
             _fixedUpdateAction += () => IsGravityEnabled = true;
     }
 
@@ -239,18 +239,13 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Unity events   
-    private void Update()
-    {
-        //print($"Forbidden Direction: {IsForbiddenDirection(HorizontalMovementDirection)}, colliders inside: {_collisionsByCollider.Count}");
-
-    }
-
     private void FixedUpdate()
     {
+        PlayerBody.FrictionEnabled = (IsGrounded || IsOnDrawingPlatform) && Mathf.Approximately(HorizontalMovementDirection, 0);
         DoFixedUpdateActions();
         MoveHorizontal();
         MoveVertical();
-        PlaySounds(); 
+        PlaySounds();
         UpdateAnimations();
     }
 
@@ -275,8 +270,8 @@ public class PlayerMovementController : MonoBehaviour
             DoubleJump();
     }
 
-   
-    
+
+
 
     /// <summary>
     /// Implements a variable height jump.
@@ -296,7 +291,7 @@ public class PlayerMovementController : MonoBehaviour
             float forceIncrement = Mathf.Min(_jumpStepForce, _maxJumpForce - totForce);
             await UniTask.WaitForFixedUpdate();
             RigidBody.AddForce(forceIncrement * Vector2.up);
-            await UniTask.Delay( (int) _jumpHoldStepMs);
+            await UniTask.Delay((int)_jumpHoldStepMs);
             jumpHeld = _jumpHeldCondition?.Invoke() ?? false;
             totForce += forceIncrement;
         }
@@ -315,25 +310,23 @@ public class PlayerMovementController : MonoBehaviour
 
         Action action = _fixedUpdateAction;
         _fixedUpdateAction = null;
-        action.Invoke();        
+        action.Invoke();
     }
 
 
     private void DoubleJump()
-    {        
-        CurrentJumpState = JumpState.DoubleJumping;        
+    {
+        CurrentJumpState = JumpState.DoubleJumping;
         var velocity = new Vector2(RigidBody.velocity.x, _doubleJumpSpeed);
         _fixedUpdateAction += () => RigidBody.velocity = velocity;
     }
 
     private void MoveHorizontal()
-    {        
-        float xVelocity = IsForbiddenDirection(HorizontalMovementDirection) 
-                        ? 0 
-                        : HorizontalMovementDirection * _speed;    
-        
+    {
+        float xVelocity = HorizontalMovementDirection * _speed;
+
         RigidBody.velocity = new Vector2(xVelocity, RigidBody.velocity.y);
-        
+
 
         // If the player change direction flip the sprite
         if ((xVelocity > 0 && !IsFacingRight) || (xVelocity < 0 && IsFacingRight))
@@ -346,19 +339,19 @@ public class PlayerMovementController : MonoBehaviour
 
 
     private bool IsForbiddenDirection(float horizontalDirection)
-    {                    
+    {
         var boxSize = new Vector2(PlayerBody.ColliderSize.x / 2 * 1.02f, PlayerBody.ColliderSize.y * 0.9f);
         var center = PlayerBody.ColliderCenter + PlayerBody.ColliderSize.x / 4 * Vector2.right;
         var collidersHit = Physics2D.OverlapBoxAll(center, boxSize, LayerMask.NameToLayer(UnityTag.NonWalkable));
-        foreach(var collider in collidersHit)
-            if(_collisionsByCollider.TryGetValue(collider, out var collision))
+        foreach (var collider in collidersHit)
+            if (_collisionsByCollider.TryGetValue(collider, out var collision))
             {
                 var problemContacts = from contact in collision.contacts
-                        let angle = Vector2.Angle(contact.normal, Vector2.up)
-                        where angle > _slidingAngle
-                        where IsInsideBox(contact.point, center, boxSize)
-                        where Vector2.Dot(contact.point - RigidBody.position, horizontalDirection * Vector2.right) > 0
-                        select contact;
+                                      let angle = Vector2.Angle(contact.normal, Vector2.up)
+                                      where angle > _slidingAngle
+                                      where IsInsideBox(contact.point, center, boxSize)
+                                      where Vector2.Dot(contact.point - RigidBody.position, horizontalDirection * Vector2.right) > 0
+                                      select contact;
                 if (problemContacts.Any())
                     return true;
             }
@@ -374,20 +367,20 @@ public class PlayerMovementController : MonoBehaviour
 
 
     private void Flip()
-	{
-		// Switch the way the player is labelled as facing.
-		IsFacingRight = !IsFacingRight;
+    {
+        // Switch the way the player is labelled as facing.
+        IsFacingRight = !IsFacingRight;
 
-		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
-	}
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
 
     private void MoveVertical()
     {
-        float yVelocity = VerticalMovementDirection * _climbingSpeed;    
-        if(IsClimbing && CanJump)
+        float yVelocity = VerticalMovementDirection * _climbingSpeed;
+        if (IsClimbing && CanJump)
         {
             RigidBody.velocity = new Vector2(RigidBody.velocity.x, yVelocity);
         }
@@ -413,7 +406,7 @@ public class PlayerMovementController : MonoBehaviour
         _horizontalMovementSoundTaskRunning = false;
     }
 
-    
+
 
 
     // Enums
@@ -422,7 +415,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (_onJumpHandlers.TryGetValue(CurrentJumpState, out Action jumpStateHandler))
             jumpStateHandler.Invoke();
-    }   
+    }
 
     private void UpdateAnimations()
     {

@@ -11,17 +11,19 @@ namespace Assets.AToonWorld.Scripts.Player
 {
     public class PlayerBody : MonoBehaviour
     {
+        [SerializeField] private float _frictionWhenIdle = 0.8f;
+
         // private Fields
         private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
         private readonly TaggedEvent<string, Collision2D> _collisionStayHandler = new TaggedEvent<string, Collision2D>();
         private readonly ColliderTaggedEvents<Collision2D> _collisionHandler = new ColliderTaggedEvents<Collision2D>();
         private Collider2D _collider;
-        
-        
+        private bool _frictionEnabled;
+
         // Initialization
         void Awake()
         {
-            this._collider = GetComponent<Collider2D>();            
+            _collider = GetComponent<Collider2D>();
         }
 
 
@@ -31,10 +33,22 @@ namespace Assets.AToonWorld.Scripts.Player
         public ITaggedEvent<string, Collision2D> CollisionStay => _collisionStayHandler;
         public Vector2 ColliderCenter => _collider.bounds.center;
         public Vector2 ColliderSize => _collider.bounds.size;
+        public bool FrictionEnabled
+        {
+            get => _frictionEnabled;
+            set
+            {
+                if (FrictionEnabled == value)
+                    return;
+                _frictionEnabled = value;
+                _collider.sharedMaterial.friction = value ? _frictionWhenIdle : 0f;
+                _collider.sharedMaterial = _collider.sharedMaterial;
+            }
+        }
 
 
 
-  
+
         // Unity Events
 
         private void OnTriggerEnter2D(Collider2D collider)
@@ -55,6 +69,6 @@ namespace Assets.AToonWorld.Scripts.Player
 
         // Public Methods
         public void EnableCollider() => _collider.enabled = true;
-        public void DisableCollider() => _collider.enabled = false;        
+        public void DisableCollider() => _collider.enabled = false;
     }
 }
