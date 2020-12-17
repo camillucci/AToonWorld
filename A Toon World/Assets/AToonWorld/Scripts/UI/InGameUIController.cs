@@ -14,6 +14,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private PauseMenuController _pauseMenuController;
         private EndLevelMenuController _endLevelMenuController;
         private CollectiblesMenuController _collectiblesMenuController;
+        private WorldToUIEffectsController _worldToUIEffectsController = null;
         private const float _defaultSpeed = 1f;
         private const int _defaultDelay = 1000;
 
@@ -34,6 +35,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _pauseMenuController = GetComponent<PauseMenuController>();
             _endLevelMenuController = GetComponent<EndLevelMenuController>();
             _collectiblesMenuController = GetComponent<CollectiblesMenuController>();
+            _worldToUIEffectsController = GetComponentInChildren<WorldToUIEffectsController>();
         }
 
         # region Faders
@@ -117,5 +119,6 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
         public InkSelectorController InkSelector => _inkSelector.GetComponent<InkSelectorController>();
+        public WorldToUIEffectsController WorldToUIEffects => _worldToUIEffectsController;
     }
 }

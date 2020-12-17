@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InkColorBindingController : MonoBehaviour
 {
     [SerializeField] private ScriptableInkHandler _boundInkHandler = null;
+    public Color BoundColor => _boundInkHandler.InkColor;
 
     void Awake()
     {

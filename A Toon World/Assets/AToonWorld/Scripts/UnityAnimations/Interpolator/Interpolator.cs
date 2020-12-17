@@ -41,13 +41,13 @@ public class Interpolator : MonoBehaviour
     [SerializeField] [Range(0,1)] private float _ammount = 0.0f;
     [SerializeField] private bool _disableWhenReached = true;
 
-    private int _currentSelectedPoint = 0;
+    protected int _currentSelectedPoint = 0;
     private float _currentDistance = 0;
     protected Transform _currentTransform;
 
     #if UNITY_EDITOR
 
-    private void OnValidate() 
+    protected virtual void OnValidate() 
     {
         //Can't have a null interpolation points list
         if(_interpolationPoints == null)
@@ -97,11 +97,13 @@ public class Interpolator : MonoBehaviour
             x.interpolationLocation < y.interpolationLocation ? -1 : 0
     ));
 
-    private Vector3 GetInterpolationPoint(InterpolationPoint interpolationPoint)
+    protected Vector3 GetInterpolationPoint(InterpolationPoint interpolationPoint)
     {
-        return interpolationPoint.dynamicPoint?.GetDynamicPoint() ??
-                interpolationPoint.transform?.position ??
-                interpolationPoint.point;
+        if(interpolationPoint.dynamicPoint != null)
+            return interpolationPoint.dynamicPoint.GetDynamicPoint();
+        if(interpolationPoint.transform != null)
+            return interpolationPoint.transform.position;
+        return  interpolationPoint.point;
     }
 
     protected virtual void Awake() 
@@ -136,8 +138,12 @@ public class Interpolator : MonoBehaviour
         float segmentInterpolationAmmount = (_ammount - _interpolationPoints[_currentSelectedPoint-1].interpolationLocation) / _currentDistance;
         Vector3 startPoint = GetInterpolationPoint(_interpolationPoints[_currentSelectedPoint-1]);
         Vector3 endPoint = GetInterpolationPoint(_interpolationPoints[_currentSelectedPoint]);
-        
-        
+
+        Interpolate(startPoint, endPoint, segmentInterpolationAmmount);
+    }
+
+    protected virtual void Interpolate(Vector3 startPoint, Vector3 endPoint, float segmentInterpolationAmmount)
+    {
         switch(_interpolationPoints[_currentSelectedPoint].interpolationMode)
         {
             case InterpolationMode.Lerp:
