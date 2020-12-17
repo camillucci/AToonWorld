@@ -20,9 +20,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 4;
-    [SerializeField] private int _verticalAngle = 80;
-    [SerializeField] private float _frictionWhenIdle = 0.9f;
-    [SerializeField] private float _friction = 0.2f;
+    /*[SerializeField]*/ private int _verticalAngle = 80;
+    [SerializeField] private float _frictionWhenIdle = 0.9f;    
 
 
     // Private fields

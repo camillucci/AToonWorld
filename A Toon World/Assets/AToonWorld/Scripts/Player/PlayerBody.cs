@@ -11,8 +11,6 @@ namespace Assets.AToonWorld.Scripts.Player
 {
     public class PlayerBody : MonoBehaviour
     {
-        [SerializeField] private float _frictionWhenIdle = 0.8f;
-
         // private Fields
         private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
         private readonly TaggedEvent<string, Collision2D> _collisionStayHandler = new TaggedEvent<string, Collision2D>();
