@@ -20,8 +20,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 4;
-    /*[SerializeField]*/ private int _verticalAngle = 80;
     [SerializeField] private float _frictionWhenIdle = 0.9f;    
+    //[SerializeField] private int _verticalAngle = 80;
 
 
     // Private fields
@@ -33,7 +33,6 @@ public class PlayerMovementController : MonoBehaviour
     private int _climbingWallCollidedCount;
     private float _gravityScale;
     private bool _horizontalMovementSoundTaskRunning;
-    private float _currentCollisionAngle;
     private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
     private readonly Dictionary<Collider2D, Collision2D> _collisionsByCollider = new Dictionary<Collider2D, Collision2D>();
     private ContactPoint2D _lastContact;
@@ -56,8 +55,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
         PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);
-        PlayerBody.CollisionStay.Subscribe(OnBodyCollisionStay);
-        PlayerBody.Collision.Exit.Subscribe(OnBodyCollisionExit);
     }
 
     private void InitializeFeet()
@@ -154,7 +151,7 @@ public class PlayerMovementController : MonoBehaviour
     }
     public bool IsInTheAir => !IsClimbing && !IsGrounded && !IsOnDrawingPlatform;
     public Rigidbody2D RigidBody { get; private set; }
-    public float CurrentAngleRadians => Mathf.Acos(Mathf.Abs(Vector2.Dot(_lastContact.normal, Vector2.up))); // Vector2.Angle(_lastContact.normal, Vector2.up);
+    public float CurrentAngleRadians => Mathf.Acos(Mathf.Abs(_lastContact.normal.y)); //  Vector2.Angle(_lastContact.normal, Vector2.up);
 
 
 
@@ -330,24 +327,27 @@ public class PlayerMovementController : MonoBehaviour
 
     private void MoveHorizontal()
     {
-        float backup = HorizontalMovementDirection;
         if (IsGrounded || IsOnDrawingPlatform)
-            HorizontalMovementDirection *= Mathf.Cos(CurrentAngleRadians);      
+        {
+            // Scale velocity according to platforms/drawings angle 
+            var descentHorizontalDirection = _lastContact.normal.x; 
+            if (descentHorizontalDirection * HorizontalMovementDirection < 0) // Not Same direction
+                HorizontalMovementDirection *= Mathf.Cos(CurrentAngleRadians); // Apply psuedo-friction
+        }
+
+
         float xVelocity = HorizontalMovementDirection * _speed;
-
         RigidBody.velocity = new Vector2(xVelocity, RigidBody.velocity.y);
-
 
         // If the player change direction flip the sprite
         if ((xVelocity > 0 && !IsFacingRight) || (xVelocity < 0 && IsFacingRight))
-        {
             Flip();
-        }
 
         AnimatorController.SetFloat(PlayerAnimatorParameters.VelocityX, Mathf.Abs(xVelocity));
     }
 
 
+    /*
     private bool IsForbiddenDirection(float horizontalDirection)
     {
         var boxSize = new Vector2(PlayerBody.ColliderSize.x / 2 * 1.02f, PlayerBody.ColliderSize.y * 0.9f);
@@ -367,7 +367,7 @@ public class PlayerMovementController : MonoBehaviour
             }
         return false;
     }
-
+    */
 
     private bool IsInsideBox(Vector2 point, Vector2 center, Vector2 size)
     {
