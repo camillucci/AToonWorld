@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4514141189215429296}
   - component: {fileID: -438658824570777471}
   m_Layer: 0
-  m_Name: EnemyBullet
+  m_Name: LinearEnemyBullet
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2596636012978396827}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -137,7 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosion: {fileID: 7638791199355345004, guid: f9e76647aefa83d49bb72b5db6627d22,
     type: 3}
-  _maxBulletSpeed: 20
+  _maxBulletSpeed: 15
+  _bulletBehaviourType: 1
 --- !u!95 &-438658824570777471
 Animator:
   serializedVersion: 3
