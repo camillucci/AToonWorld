@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-#if AnaliticsEnabled
-
 public class Analitic
 {
     public Guid user;
@@ -43,5 +41,3 @@ public class Analitic
         return $"{user}|{level}|{game}|{dateTime.ToString("dd/MM/yy HH:mm:ss")}|{eventName.ToString()}|{string.Join("|", value)}";
     }
 }
-
-#endif

@@ -5,8 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-#if AnaliticsEnabled
-
 public enum EventName
 {
     PlayerDeath,
@@ -17,6 +15,8 @@ public enum EventName
     LevelFeedback,                  // Scene and user feedback
     EnemyKilled,                    // Enemy name, id and position - [ "jumper2", -6784, 32, 54]
 }
+
+#if AnaliticsEnabled
 
 public class AnaliticsManager : MonoBehaviour
 {
