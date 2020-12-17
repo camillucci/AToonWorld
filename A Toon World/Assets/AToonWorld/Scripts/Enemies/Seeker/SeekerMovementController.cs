@@ -1,5 +1,6 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding;
+using Assets.AToonWorld.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private Transform _seekerTransform;
         private Transform _playerTransform;
         private bool _isPlayerInside;
-        private bool _canFollow;
         private Vector3 _startPosition;   
         private Animator _animator;
-        private UniTask? _currentMovementTask = UniTask.CompletedTask;
-
-
+        private UniTask? _currentTask;
+        private UniTask _cancellingTask = UniTask.CompletedTask;
+        private bool _isCancellingTask;
+        private int _taskCounter;
 
         // Initialization
 
@@ -51,6 +52,18 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         }
 
 
+        // Public Properties
+        public bool IsMoving
+        {
+            get => _animator.GetBool();
+            private set => _animator.SetProperty(value);
+        }
+
+
+        public SeekerStatus Status { get; private set; }
+
+
+
         // Public Methods
         public UniTask TranslateTo(Vector3 position) => _seekerTransform.MoveToAnimated(position, _speed, false);
 
@@ -62,10 +75,10 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             FollowPlayer().Forget();
         }
 
-        private async void OnPlayerExit(Collider2D collision)
+        private void OnPlayerExit(Collider2D collision)
         {           
             _isPlayerInside = false;
-            await GoBackToStart();
+            GoBackToStart().Forget();
         }
 
 
@@ -76,26 +89,26 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         {
             async UniTask GoBackToStartTask()
             {
-                _animator.SetBool("IsMoving", true);
+                IsMoving = true;
                 var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
                 foreach (var position in path)
-                    if (_canFollow)
-                        await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
+                    if (!_isCancellingTask)
+                        await TranslateTo(position);
                     else
-                        return;
-                _animator.SetBool("IsMoving", false);
+                        break;
+                IsMoving = false;
             }
 
-            await CancelFollowTask();
-            _currentMovementTask = GoBackToStartTask();
+            await CancelCurrentTask();
+            _currentTask = GoBackToStartTask();
         }
 
         private async UniTask FollowPlayer()
         {            
             async UniTask FollowTask()
             {
-                _animator.SetBool("IsMoving", true);
-                while(_canFollow && _isPlayerInside)
+                IsMoving = true;
+                while(!_isCancellingTask && _isPlayerInside)
                 {
                     if (!IsSeekerNearToPlayer)
                     {
@@ -103,29 +116,38 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                         var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, playerPosition);
                         var nextPositions = from pos in path where Vector2.Distance(_seekerTransform.position, pos) > _gridController.NodeRadius select pos;
                         if (nextPositions.Any())
-                            await TranslateTo(nextPositions.First()).WithCancellation(this.GetCancellationTokenOnDestroy());
+                            await TranslateTo(nextPositions.First());
                     }
                     await UniTask.NextFrame();
                 }
-                _animator.SetBool("IsMoving", false);
+                IsMoving = false;
             }
 
-            await CancelFollowTask();
-            _currentMovementTask = FollowTask();
-        }
+            await CancelCurrentTask();
+            _currentTask = FollowTask();
+        }    
 
-        private async UniTask CancelFollowTask()
+        private bool IsSeekerNearToPlayer => Vector2.Distance(_seekerTransform.position, _playerTransform.position) < _gridController.NodeRadius;   
+        
+        private async UniTask CancelCurrentTask()
         {
-            _canFollow = false;
-            if (_currentMovementTask != null)
-            {
-                var task = _currentMovementTask.Value;
-                _currentMovementTask = null;
-                await task;
-            }
-            _canFollow = true;
+            while (_isCancellingTask)
+                await this.NextFrame();
+
+            if (_currentTask == null)
+                return;
+
+            _isCancellingTask = true;
+            await _currentTask.Value;
+            _currentTask = null;
+            _isCancellingTask = false;
         }
 
-        private bool IsSeekerNearToPlayer => Vector2.Distance(_seekerTransform.position, _playerTransform.position) < _gridController.NodeRadius;
+
+        public enum SeekerStatus
+        {
+            FollowingPlayer, 
+            BackToStart
+        }
     }
 }

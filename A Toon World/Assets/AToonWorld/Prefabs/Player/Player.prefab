@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9202030778567197828}
   - component: {fileID: 9202030778567197830}
-  - component: {fileID: 2137403102373386945}
+  - component: {fileID: 8448869521997978403}
   m_Layer: 10
   m_Name: Player Feet
   m_TagString: Untagged
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29ba4025837add4f81143b097a0814b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &2137403102373386945
+--- !u!60 &8448869521997978403
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,11 +150,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.050861046, y: 0.12317118}
-      - {x: -0.54749125, y: 0.1283611}
-      - {x: -0.45937106, y: -0.64402777}
-      - {x: 0.4398447, y: -0.6456906}
-      - {x: 0.56579345, y: 0.121909566}
+    - - {x: -0.40132523, y: -0.42881584}
+      - {x: -0.42167664, y: -0.30310917}
+      - {x: -0.4, y: 0.2}
+      - {x: 0.4, y: 0.2}
+      - {x: 0.41502953, y: -0.3579774}
+      - {x: 0.40154552, y: -0.4449854}
+      - {x: 0.2, y: -0.7}
+      - {x: -0.2, y: -0.7}
 --- !u!1 &9202030778897293391
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +211,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 5
-  m_Material: {fileID: 6200000, guid: 6268e1d51fbad2d4baa2e449dcefe721, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -226,12 +229,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 8
-  _jumpStepForce: 450
+  _jumpStepForce: 700
   _maxJumpForce: 1100
   _doubleJumpSpeed: 15
-  _jumpHoldStepMs: 39.5
+  _jumpHoldStepMs: 35
   _climbingSpeed: 5
   _isDoubleJumpEnabled: 0
+  _jumpDelaySensitivity: 7
+  _slidingAngle: 75
 --- !u!114 &9202030778897293430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +287,7 @@ GameObject:
   - component: {fileID: 2582858654724729252}
   - component: {fileID: 9202030780216119493}
   - component: {fileID: 4295371419620623800}
-  - component: {fileID: 6947039922476600561}
+  - component: {fileID: 1404040633336906918}
   m_Layer: 10
   m_Name: Player Body
   m_TagString: Player
@@ -387,8 +392,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!58 &6947039922476600561
-CircleCollider2D:
+--- !u!70 &1404040633336906918
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -396,10 +401,10 @@ CircleCollider2D:
   m_GameObject: {fileID: 9202030780216119488}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9b18e40c0833f474687163ce97570e2b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.6
+  m_Size: {x: 0.98029965, y: 1.2521875}
+  m_Direction: 0
