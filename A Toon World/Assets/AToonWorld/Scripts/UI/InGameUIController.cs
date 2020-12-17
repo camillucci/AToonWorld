@@ -116,5 +116,6 @@ namespace Assets.AToonWorld.Scripts.UI
         #endregion
 
         public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
+        public InkSelectorController InkSelector => _inkSelector.GetComponent<InkSelectorController>();
     }
 }
