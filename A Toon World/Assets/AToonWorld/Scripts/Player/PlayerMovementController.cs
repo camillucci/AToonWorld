@@ -20,8 +20,9 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 4;
-    [SerializeField] private int _slidingAngle = 60;
-
+    [SerializeField] private int _verticalAngle = 80;
+    [SerializeField] private float _frictionWhenIdle = 0.9f;
+    [SerializeField] private float _friction = 0.2f;
 
 
     // Private fields
@@ -37,6 +38,7 @@ public class PlayerMovementController : MonoBehaviour
     private float _currentCollisionAngle;
     private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
     private readonly Dictionary<Collider2D, Collision2D> _collisionsByCollider = new Dictionary<Collider2D, Collision2D>();
+    private ContactPoint2D _lastContact;
 
 
     // Initialization
@@ -154,7 +156,7 @@ public class PlayerMovementController : MonoBehaviour
     }
     public bool IsInTheAir => !IsClimbing && !IsGrounded && !IsOnDrawingPlatform;
     public Rigidbody2D RigidBody { get; private set; }
-
+    public float CurrentAngleRadians => Mathf.Acos(Mathf.Abs(Vector2.Dot(_lastContact.normal, Vector2.up))); // Vector2.Angle(_lastContact.normal, Vector2.up);
 
 
 
@@ -228,6 +230,7 @@ public class PlayerMovementController : MonoBehaviour
     private void OnBodyCollisionStay(Collision2D collision)
     {
         _collisionsByCollider[collision.otherCollider] = collision;
+        _lastContact = collision.GetContact(0);
     }
 
     private void OnBodyCollisionExit(Collision2D collision)
@@ -241,7 +244,7 @@ public class PlayerMovementController : MonoBehaviour
     // Unity events   
     private void FixedUpdate()
     {
-        PlayerBody.FrictionEnabled = (IsGrounded || IsOnDrawingPlatform) && Mathf.Approximately(HorizontalMovementDirection, 0);
+        SetFriction();
         DoFixedUpdateActions();
         MoveHorizontal();
         MoveVertical();
@@ -302,6 +305,12 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Private methods     
+    private void SetFriction()
+    {
+        PlayerBody.Friction = (IsGrounded || IsOnDrawingPlatform) && Mathf.Approximately(HorizontalMovementDirection, 0)
+                    ? _frictionWhenIdle
+                    : 0;        
+    }
 
     private void DoFixedUpdateActions()
     {
@@ -323,6 +332,9 @@ public class PlayerMovementController : MonoBehaviour
 
     private void MoveHorizontal()
     {
+        float backup = HorizontalMovementDirection;
+        if (IsGrounded || IsOnDrawingPlatform)
+            HorizontalMovementDirection *= Mathf.Cos(CurrentAngleRadians);      
         float xVelocity = HorizontalMovementDirection * _speed;
 
         RigidBody.velocity = new Vector2(xVelocity, RigidBody.velocity.y);
@@ -348,7 +360,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 var problemContacts = from contact in collision.contacts
                                       let angle = Vector2.Angle(contact.normal, Vector2.up)
-                                      where angle > _slidingAngle
+                                      where angle > _verticalAngle
                                       where IsInsideBox(contact.point, center, boxSize)
                                       where Vector2.Dot(contact.point - RigidBody.position, horizontalDirection * Vector2.right) > 0
                                       select contact;

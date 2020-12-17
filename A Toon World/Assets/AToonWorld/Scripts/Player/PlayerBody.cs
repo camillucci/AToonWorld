@@ -17,8 +17,7 @@ namespace Assets.AToonWorld.Scripts.Player
         private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
         private readonly TaggedEvent<string, Collision2D> _collisionStayHandler = new TaggedEvent<string, Collision2D>();
         private readonly ColliderTaggedEvents<Collision2D> _collisionHandler = new ColliderTaggedEvents<Collision2D>();
-        private Collider2D _collider;
-        private bool _frictionEnabled;
+        private Collider2D _collider;        
 
         // Initialization
         void Awake()
@@ -33,15 +32,14 @@ namespace Assets.AToonWorld.Scripts.Player
         public ITaggedEvent<string, Collision2D> CollisionStay => _collisionStayHandler;
         public Vector2 ColliderCenter => _collider.bounds.center;
         public Vector2 ColliderSize => _collider.bounds.size;
-        public bool FrictionEnabled
+        public float Friction
         {
-            get => _frictionEnabled;
+            get => _collider.sharedMaterial.friction;
             set
             {
-                if (FrictionEnabled == value)
+                if (Mathf.Approximately(value, Friction))
                     return;
-                _frictionEnabled = value;
-                _collider.sharedMaterial.friction = value ? _frictionWhenIdle : 0f;
+                _collider.sharedMaterial.friction = value;
                 _collider.sharedMaterial = _collider.sharedMaterial;
             }
         }
