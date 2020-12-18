@@ -23,8 +23,15 @@ public class WorldToUIInterpolatorComponent : BezierInterpolator
             dynamicPoint = _boundUIElement
         };
 
+        Vector3 startPoint = boundPickup.position;
+        Vector3 endPoint = _boundUIElement.GetDynamicPoint();
+        Vector2 centerPoint = (startPoint + endPoint) / 2;
+        Vector2 animationDirection = ((Vector2)(endPoint - startPoint)).normalized;
+        Vector2 orthogonalDirection = new Vector2(-animationDirection.y, animationDirection.x);
+
+
         _midInterpolationPoints[0] = new InterpolationPoint(_midInterpolationPoints[0]) {
-            point = _boundPickup.position + (Vector3)(Vector2.up * Random.Range(0,7) + Vector2.right * (Random.Range(0, 20) - 10))
+            point = _boundPickup.position + (Vector3)(orthogonalDirection * (Random.Range(0,10) - 5))
         };
     }
 }
