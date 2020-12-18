@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WorldToUIEffectsController : MonoBehaviour
 {
-    [SerializeField] private GameObject _worldToUIEffect;
+    [SerializeField] private GameObject _worldToUIEffect = null;
 
     // Start is called before the first frame update
     void Awake()

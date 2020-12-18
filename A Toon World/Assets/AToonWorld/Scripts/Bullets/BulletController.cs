@@ -14,7 +14,7 @@ public abstract class BulletController : MonoBehaviour
     private float _gravity;
     [SerializeField] protected GameObject _explosion = null;
     [SerializeField] private float _maxBulletSpeed = 40f;
-    [SerializeField] private BulletBehaviourType _bulletBehaviourType;
+    [SerializeField] private BulletBehaviourType _bulletBehaviourType = BulletBehaviourType.Linear;
     private BulletBehaviour _bulletBehaviour;
 
     public BulletBehaviourType BehaviourType => _bulletBehaviourType;

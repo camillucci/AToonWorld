@@ -8,10 +8,10 @@ using UnityEngine;
 
 public class ShooterController : MonoBehaviour
 {
-    [SerializeField] private bool _fixedTarget;
-    [SerializeField] private Transform _target;
-    [SerializeField] private Transform _bulletSpawner;
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private bool _fixedTarget = true;
+    [SerializeField] private Transform _target = null;
+    [SerializeField] private Transform _bulletSpawner = null;
+    [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private float _bulletsInterleavingSeconds = 1;
 
     private bool _canFire;

@@ -26,7 +26,7 @@ public class AnaliticsParser : EditorWindow {
 
 
     #region Gizmos
-    private Action _currentGizmosDrawer;
+    private Action _currentGizmosDrawer = null;
     #endregion
 
     #region SceneComponents

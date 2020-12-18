@@ -20,7 +20,6 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         [Header("Sfx settings")]
         [SerializeField] private Transform _sfxTransform = null;
-        [SerializeField] private Transform _playingSfxTransform = null;
         [SerializeField] private GameObject _soundEffectPrefab = null;
         [SerializeField] private List<GameObject> _sfx = new List<GameObject>();
         [SerializeField] private bool _refreshSfx = false;
