@@ -44,6 +44,7 @@ namespace Assets.AToonWorld.Scripts.UI
             // Freeze time and disable player movements
             Time.timeScale = 0f;
             _playerController.DisablePlayer();
+            InGameUIController.PrefabInstance._isEndLevelMenu = true;
 
             // Show player achievements
             _endLevelMenuUI.SetActive(true);

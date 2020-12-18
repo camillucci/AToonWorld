@@ -43,6 +43,8 @@ namespace Assets.AToonWorld.Scripts.UI
         // Freeze time, disable player movements and enable menu
         void Pause()
         {
+            if (! InGameUIController.PrefabInstance.CanPause)
+                return;
             _pauseMenuUI.SetActive(true);
             Time.timeScale = 0f;
             _isGamePaused = true;

@@ -17,6 +17,8 @@ namespace Assets.AToonWorld.Scripts.UI
         private WorldToUIEffectsController _worldToUIEffectsController = null;
         private const float _defaultSpeed = 1f;
         private const int _defaultDelay = 1000;
+        private bool _isInGame = false;
+        public bool _isEndLevelMenu { get; set; } = false;
 
         [SerializeField] private GameObject _inkSelector = null;
         [SerializeField] private GameObject _inkWheel = null;
@@ -77,6 +79,8 @@ namespace Assets.AToonWorld.Scripts.UI
             RefreshValues();
             _sceneFaderController.FadeIn(fadingSpeed).ContinueWith(() =>
                 _sceneFaderController.gameObject.SetActive(false)).Forget();
+            _isInGame = true;
+            _isEndLevelMenu = false;
         }
 
         // Refresh values that depend on a level when a new level is loaded
@@ -97,6 +101,8 @@ namespace Assets.AToonWorld.Scripts.UI
             _collectibleMenuUI.SetActive(false);
             _sceneFaderController.FadeIn(fadingSpeed).ContinueWith(() =>
                 _inGameCanvas.gameObject.SetActive(false)).Forget();
+            _isInGame = false;
+            _isEndLevelMenu = false;
         }
 
         // Do a fade out when changing scene
@@ -120,5 +126,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
         public InkSelectorController InkSelector => _inkSelector.GetComponent<InkSelectorController>();
         public WorldToUIEffectsController WorldToUIEffects => _worldToUIEffectsController;
+
+        public bool CanPause => _isInGame && !_isEndLevelMenu;
     }
 }
