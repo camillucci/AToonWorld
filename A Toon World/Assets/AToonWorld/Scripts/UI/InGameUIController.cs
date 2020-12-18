@@ -125,6 +125,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
         public InkSelectorController InkSelector => _inkSelector.GetComponent<InkSelectorController>();
+        public CollectiblesMenuController CollectibleMenu => _collectiblesMenuController;
         public WorldToUIEffectsController WorldToUIEffects => _worldToUIEffectsController;
 
         public bool CanPause => _isInGame && !_isEndLevelMenu;

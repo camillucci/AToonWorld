@@ -113,9 +113,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae38db9736e6034cbf0c1f2fdcfc13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collectibleNumber: -1
   _collectibleTaken:
     m_PersistentCalls:
       m_Calls: []
+  _collectibleSparks: 5
+  _collectibleSparkSprite: {fileID: 21300000, guid: 272ff737a1e718c488a919543b95853f,
+    type: 3}
+  _collectibleSparkScale: {x: 0.1, y: 0.1, z: 0.1}
+  _collectibleSparkColor: {r: 0.9921569, g: 0.3803922, b: 0.12941177, a: 1}
 --- !u!95 &4354746266695246022
 Animator:
   serializedVersion: 3

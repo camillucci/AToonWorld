@@ -53,12 +53,12 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             if (_isPositionFixed)
             {
-                ShowCollectibleTaken(collectible);
+                UniTask.Delay(1000).ContinueWith(() => ShowCollectibleTaken(collectible)).Forget();
             }
             else
             {
                 _animator.SetTrigger("Show");
-                UniTask.Delay(2000)
+                UniTask.Delay(1000)
                     .ContinueWith(() => ShowCollectibleTaken(collectible))
                     .ContinueWith(() => UniTask.Delay(5000))
                     .ContinueWith(() => _animator.SetTrigger("Hide")).Forget();
@@ -78,6 +78,12 @@ namespace Assets.AToonWorld.Scripts.UI
                 _collectibleCircles[10 - _totalCollectibles + collectible.CollectibleNumber - 1]
                     .transform.GetChild(0).gameObject.SetActive(false);
             }
+        }
+
+        public ScreenToWorldPointComponent GetDynamicPointConverter(int collectibleNumber)
+        {
+        return _collectibleCircles[10 - _totalCollectibles + collectibleNumber - 1]
+            .GetComponent<ScreenToWorldPointComponent>();
         }
     }
 }
