@@ -235,8 +235,8 @@ MonoBehaviour:
   _jumpHoldStepMs: 35
   _climbingSpeed: 5
   _isDoubleJumpEnabled: 0
-  _jumpDelaySensitivity: 7
-  _slidingAngle: 75
+  _jumpDelaySensitivity: 4
+  _frictionWhenIdle: 0.9
 --- !u!114 &9202030778897293430
 MonoBehaviour:
   m_ObjectHideFlags: 0
