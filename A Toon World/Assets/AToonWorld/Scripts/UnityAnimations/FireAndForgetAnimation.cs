@@ -23,7 +23,7 @@ namespace Assets.AToonWorld.Scripts.UnityAnimations
 
 
         // Public Properties
-        public Animator Animator { get; private set; }
+        public Animator Animator { get; private set; } 
 
 
         // Public Methods

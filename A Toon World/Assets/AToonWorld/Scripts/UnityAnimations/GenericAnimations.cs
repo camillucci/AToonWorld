@@ -14,7 +14,7 @@ namespace Assets.AToonWorld.Scripts.UnityAnimations
 
         public static FireAndForgetAnimation InkCloud(Vector2 position)
         {
-            var instance = Instantiate(Instance._inkCloudPrefab);
+            var instance = Instantiate(PrefabInstance._inkCloudPrefab);
             instance.transform.position = position;
             return instance.GetComponent<FireAndForgetAnimation>();
         }
