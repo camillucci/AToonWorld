@@ -163,7 +163,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
                 UpdateForbiddenSteps();
 
                 ExecuteAtEndOfFrame(() => {
-                    _hasUpdatedCollisionsThisFrame = true;
+                    _hasUpdatedCollisionsThisFrame = false;
                 }).Forget();
             }
         }
