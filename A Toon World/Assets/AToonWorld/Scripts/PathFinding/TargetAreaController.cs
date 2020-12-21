@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Assets.AToonWorld.Scripts.Utils.Events.TaggedEvents;
+using Cysharp.Threading.Tasks;
 
 namespace Assets.AToonWorld.Scripts.PathFinding
 {
@@ -21,6 +22,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         protected readonly PathStepsContainer _forbiddenStepsContainer = new PathStepsContainer();
         protected GridController _gridController;
         private BoxCollider2D _boxCollider;
+        private bool _hasUpdatedCollisionsThisFrame = false;
 
 
         // Initialization
@@ -112,9 +114,6 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             UpdateNotWalkableArea();
         }
 
-
-
-
         // Private Methods
         private void UpdateColliderSize()
         {
@@ -155,10 +154,18 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
         private void UpdateNotWalkableArea()
         {
-            var grid = _gridController.Grid;
-            foreach (var node in grid)
-                node.Walkable = IsNodeWalkable(node);
-            UpdateForbiddenSteps();
+            if(!_hasUpdatedCollisionsThisFrame)
+            {
+                _hasUpdatedCollisionsThisFrame = true;
+                var grid = _gridController.Grid;
+                foreach (var node in grid)
+                    node.Walkable = IsNodeWalkable(node);
+                UpdateForbiddenSteps();
+
+                ExecuteAtEndOfFrame(() => {
+                    _hasUpdatedCollisionsThisFrame = true;
+                }).Forget();
+            }
         }
 
         private bool IsNodeWalkable(INode node)
@@ -204,6 +211,12 @@ namespace Assets.AToonWorld.Scripts.PathFinding
                 if (IsForbiddenStep(nodeACoordinates, nodeBCoordinates))
                     _forbiddenStepsContainer.Add(grid[nodeACoordinates], grid[nodeBCoordinates]);
             }
+        }
+
+        private async UniTaskVoid ExecuteAtEndOfFrame(System.Action action)
+        {
+            await UniTask.WaitForEndOfFrame();
+            action.Invoke();
         }
     }
 }
