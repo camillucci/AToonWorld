@@ -9,11 +9,13 @@ public class DamageInkHandler : ScriptableExpendableInkHandler, IBulletInk
     private Vector2 _playerPosition;
     private BulletController _bulletController;
     [SerializeField] private float _distanceFromPlayer = 0.5f;
+    private static BulletBehaviour _bulletBehaviour = new ParabolicBullet();
 
     public void BindBulletAndPosition(BulletController bulletController, Vector2 playerPosition)
     {
         _playerPosition = playerPosition;
         _bulletController = bulletController;
+        _bulletController.BulletBehaviour = _bulletBehaviour;
     }
     
     public override void OnDrawDown(Vector2 mouseWorldPosition)
