@@ -28,7 +28,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         
         // Private Properties
-        private static List<SoundEffect> Sfx => _sfx ?? (_sfx = AudioManager.PrefabInstance.GetAllSfx().ToList());
+        private static List<SoundEffect> Sfx => _sfx ?? LoadSoundEffects();
 
 
 
@@ -42,7 +42,10 @@ namespace Assets.AToonWorld.Scripts.Audio
         public static SoundEffect CheckPoint => _checkPoint ?? (_checkPoint = CheckpontSounds.FirstOrDefault(sound => sound.name.Equals("Checkpoint-Collectible-Victory/2")));
         public static SoundEffect Victory => _victory ?? (_victory = CheckpontSounds.FirstOrDefault(sound => sound.name.Equals("Checkpoint-Collectible-Victory/1")));
 
-
+        public static List<SoundEffect> LoadSoundEffects()
+        {
+            return (_sfx = AudioManager.PrefabInstance.GetAllSfx().ToList());
+        }
 
         // Private Methods
         private static List<SoundEffect> GetCategory(string relativePath)

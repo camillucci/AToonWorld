@@ -32,6 +32,10 @@ namespace Assets.AToonWorld.Scripts.UI
         protected override void Awake()
         {
             base.Awake();
+
+            //Instantiate Sound Effects to avoid locks during gameplay
+            Audio.SoundEffects.LoadSoundEffects();
+
             _inGameCanvas = GetComponentInChildren<Canvas>();
             _sceneFaderController = _inGameCanvas.GetComponentInChildren<SceneFaderController>();
             _pauseMenuController = GetComponent<PauseMenuController>();
