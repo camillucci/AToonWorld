@@ -1,26 +1,22 @@
 using UnityEngine;
 
+public class TrajectoryResult
+{
+    public Vector2 initialBulletPosition;
+    public float bulletVelocity;
+    public Quaternion rotation;
+}
+
 public abstract class BulletBehaviour
 {
-    protected Transform _transform;
-    protected Rigidbody2D _rigidBody;
+    public abstract TrajectoryResult CalculateRotation(Rigidbody2D rigidBody, Vector2 startPosition, Vector2 targetPosition, float maxBulletSpeed);
 
-    protected Vector2 _initialBulletPosition;
-    protected float _bulletVelocity;
-
-    protected BulletBehaviour(Transform bulletTransform, Rigidbody2D bulletRigidBody)
+    public void Shoot(Transform bulletTransform, Rigidbody2D bulletRigidBody, Vector2 startPosition, Vector2 targetPosition, float maxBulletSpeed)
     {
-        _transform = bulletTransform;
-        _rigidBody = bulletRigidBody;
-    }
-
-    public abstract Quaternion CalculateRotation(Vector2 startPosition, Vector2 targetPosition);
-
-    public void Shoot(Vector2 startPosition, Vector2 targetPosition)
-    {
-        _transform.position = _initialBulletPosition;
-        _transform.rotation = CalculateRotation(startPosition, targetPosition);
-        _rigidBody.velocity = _transform.right * _bulletVelocity;
+        TrajectoryResult result = CalculateRotation(bulletRigidBody, startPosition, targetPosition, maxBulletSpeed);
+        bulletTransform.position = result.initialBulletPosition;
+        bulletTransform.rotation = result.rotation;
+        bulletRigidBody.velocity = bulletTransform.right * result.bulletVelocity;
     }
 
     protected Quaternion LookAt(Vector2 me, Vector2 target)

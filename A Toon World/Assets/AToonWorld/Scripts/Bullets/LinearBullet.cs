@@ -5,19 +5,13 @@ using UnityEngine;
 
 public class LinearBullet : BulletBehaviour
 {
-    private float _speed;
-
-    public LinearBullet(Transform bulletTransform, Rigidbody2D bulletRigidBody, float maxBulletSpeed) : base(bulletTransform, bulletRigidBody)
+    public override TrajectoryResult CalculateRotation(Rigidbody2D rigidBody, Vector2 startPosition, Vector2 targetPosition, float speed)
     {
-        _transform = bulletTransform;
-        _rigidBody = bulletRigidBody;
-        _speed = maxBulletSpeed;
-    }
-
-    public override Quaternion CalculateRotation(Vector2 startPosition, Vector2 targetPosition)
-    {
-        _initialBulletPosition = startPosition;
-        _bulletVelocity = _speed;
-        return LookAt(startPosition, targetPosition);
+        return new TrajectoryResult() 
+        { 
+            initialBulletPosition = startPosition,
+            bulletVelocity = speed,
+            rotation = LookAt(startPosition, targetPosition)
+        };
     }
 }
