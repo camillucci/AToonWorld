@@ -41,6 +41,7 @@ namespace Assets.AToonWorld.Scripts.UI
         // At the end of a scene do a fade out lasting 1 / fadingSpeed seconds
         public async UniTask FadeTo(string scene, float fadingSpeed)
         {
+            // Start scene fading
             float time = 0f;
             while(time < 1f)
             {
@@ -50,7 +51,13 @@ namespace Assets.AToonWorld.Scripts.UI
                 await UniTask.WaitForEndOfFrame();
             }
 
-            SceneManager.LoadScene(scene);
+            // Start scene change, change it only when ready
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(scene);
+            asyncOperation.allowSceneActivation = false;
+            while(asyncOperation.progress < 0.89f) {
+                await UniTask.WaitForEndOfFrame();
+            }
+            asyncOperation.allowSceneActivation = true;
         }
 
         // When exiting the game do a fade out lasting 1 / fadingSpeed seconds

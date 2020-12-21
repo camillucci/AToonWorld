@@ -15,7 +15,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private EndLevelMenuController _endLevelMenuController;
         private CollectiblesMenuController _collectiblesMenuController;
         private WorldToUIEffectsController _worldToUIEffectsController = null;
-        private const float _defaultSpeed = 1f;
+        private const float _defaultSpeed = 1.25f;
         private const int _defaultDelay = 1000;
         private bool _isInGame = false;
         public bool _isEndLevelMenu { get; set; } = false;
