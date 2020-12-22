@@ -45,5 +45,15 @@ namespace Assets.AToonWorld.Scripts.Extensions
             foreach (var position in positions)
                 await @this.MoveToAnimated(position, speed, smooth);
         }
+
+        public static UniTask ScaleTo(this Transform @this, Vector2 scale, float speed, bool smooth, CancellationToken cancellationToken) => Animations.Transition
+        (
+            from: (Vector2) @this.localScale,
+            to: scale,
+            callback: s => @this.localScale = new Vector3(s.x, s.y, @this.localScale.z),
+            speed: speed,
+            smooth: smooth,
+            token: cancellationToken
+        );
     }
 }
