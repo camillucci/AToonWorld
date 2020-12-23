@@ -41,14 +41,13 @@ namespace Assets.AToonWorld.Scripts.Level
         // Animation
         private async UniTask ScaleAnimation()
         {
-            UniTask ScaleTo(Vector3 to) => Animations.Transition
+            UniTask ScaleTo(Vector3 to) => this.Transition
             (
                 from: new Vector3(Mathf.Abs(_transform.localScale.x), Mathf.Abs(_transform.localScale.y), Mathf.Abs(transform.localScale.z)),
                 to: to,
                 callback: val => transform.localScale = new Vector3(-_direction * val.x, val.y, to.z),
                 speed: _bouncingSpeed,
-                smooth: false,
-                token: this.GetCancellationTokenOnDestroy()
+                smooth: false
             );
 
             while (true)

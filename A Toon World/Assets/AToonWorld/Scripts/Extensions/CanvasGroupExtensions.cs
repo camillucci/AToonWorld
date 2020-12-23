@@ -11,7 +11,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
 {
     public static class CanvasGroupExtensions
     {
-        public static UniTask FadeTo(this CanvasGroup @this, float to, float speed = 5, bool smooth = true) => Animations.Transition
+        public static UniTask FadeTo(this CanvasGroup @this, float to, float speed = 5, bool smooth = true) => @this.Transition
         (
             from: @this.alpha,
             to: to,
