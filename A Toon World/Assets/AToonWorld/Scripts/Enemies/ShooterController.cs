@@ -5,6 +5,7 @@ using Assets.AToonWorld.Scripts.Audio;
 using Assets.AToonWorld.Scripts.Extensions;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static BulletController;
 
 public class ShooterController : MonoBehaviour
 {
@@ -18,7 +19,9 @@ public class ShooterController : MonoBehaviour
     private IEnumerator _enableFire;
     private Transform _transform;
     private GameObject _bullet;
-    private BulletController _bulletController;
+    private Rigidbody2D _prefabBulletRigidBody;
+    private BulletController _prefabBulletController;
+    private BulletBehaviour _bulletBehaviour;
     private AreaController _areaController;
 
     void Start()
@@ -26,7 +29,11 @@ public class ShooterController : MonoBehaviour
         _areaController = transform.parent.GetComponent<AreaController>();
         ObjectPoolingManager<int>.Instance.CreatePool(this.GetInstanceID(), _bulletPrefab, 5, 10, true, true);
         _transform = this.transform;
-        GetBulletFromPool();
+        _prefabBulletRigidBody = _bulletPrefab.GetComponent<Rigidbody2D>();
+        _prefabBulletController = _bulletPrefab.GetComponent<BulletController>();
+        BulletBehaviourType bulletType = _prefabBulletController.BehaviourType;
+        if (bulletType == BulletBehaviourType.Linear) _bulletBehaviour = new LinearBullet();
+        if (bulletType == BulletBehaviourType.Parabolic) _bulletBehaviour = new ParabolicBullet();
         LookAtTarget();
     }
 
@@ -39,7 +46,7 @@ public class ShooterController : MonoBehaviour
 
     void Update()
     {
-        if (!_fixedTarget)
+        if (!_fixedTarget && _areaController.InSights)
             LookAtTarget();
     }
 
@@ -47,24 +54,18 @@ public class ShooterController : MonoBehaviour
     {
         if (_canFire && _areaController.InSights)
         {
-            _bullet.SetActive(true);
+            _bullet = ObjectPoolingManager<int>.Instance.GetObject(this.GetInstanceID());
+            BulletController _bulletController = _bullet.GetComponent<BulletController>();
+            _bulletController.BulletBehaviour = _bulletBehaviour;
             _bulletController.Shoot(_bulletSpawner.position, _target.position);
             _canFire = false;
-            GetBulletFromPool();
             StartCoroutine(_enableFire = EnableFire());
         }
     }
 
-    private void GetBulletFromPool()
-    {
-        _bullet = ObjectPoolingManager<int>.Instance.GetObject(this.GetInstanceID());
-        _bullet.SetActive(false);
-        _bulletController = _bullet.GetComponent<BulletController>();
-    }
-
     private void LookAtTarget()
     {
-        _transform.rotation = _bulletController.CalculateRotation(_bulletSpawner.position, _target.position);
+        _transform.rotation = _bulletBehaviour.CalculateRotation(_prefabBulletRigidBody, _bulletSpawner.position, _target.position, _prefabBulletController.Speed).rotation;
     }
 
     IEnumerator EnableFire()

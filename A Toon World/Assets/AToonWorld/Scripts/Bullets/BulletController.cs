@@ -18,24 +18,25 @@ public abstract class BulletController : MonoBehaviour
     private BulletBehaviour _bulletBehaviour;
 
     public BulletBehaviourType BehaviourType => _bulletBehaviourType;
+    public BulletBehaviour BulletBehaviour { set { _bulletBehaviour = value; }}
+    public float Speed => _maxBulletSpeed;
+
+    private Transform _transform;
+    private Rigidbody2D _rigidBody;
 
     private void Awake()
     {
-        _gravity = GetComponent<Rigidbody2D>().gravityScale * Physics2D.gravity.magnitude;
-
-        if (_bulletBehaviourType == BulletBehaviourType.Parabolic)
-            _bulletBehaviour = new ParabolicBullet(this.transform, GetComponent<Rigidbody2D>(), _maxBulletSpeed, _gravity);
-        
-        if (_bulletBehaviourType == BulletBehaviourType.Linear)
-            _bulletBehaviour = new LinearBullet(this.transform, GetComponent<Rigidbody2D>(), _maxBulletSpeed);
+        _transform = this.transform;
+        _rigidBody = GetComponent<Rigidbody2D>();
+        _gravity = _rigidBody.gravityScale * Physics2D.gravity.magnitude;
     }
 
-    public Quaternion CalculateRotation(Vector2 startPosition, Vector2 targetPosition) => _bulletBehaviour.CalculateRotation(startPosition, targetPosition);
+    public Quaternion CalculateRotation(Vector2 startPosition, Vector2 targetPosition) => _bulletBehaviour.CalculateRotation(_rigidBody, startPosition, targetPosition, _maxBulletSpeed).rotation;
 
     public void Shoot(Vector2 startPosition, Vector2 targetPosition)
     {
         this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
-        _bulletBehaviour.Shoot(startPosition, targetPosition);
+        _bulletBehaviour.Shoot( _transform, _rigidBody, startPosition, targetPosition, _maxBulletSpeed);
     } 
 
     protected abstract void OnTriggerEnter2D(Collider2D other);

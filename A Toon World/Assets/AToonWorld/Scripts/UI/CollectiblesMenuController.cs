@@ -51,18 +51,11 @@ namespace Assets.AToonWorld.Scripts.UI
 
         private void Collectible_PlayerHit(Collectible collectible)
         {
-            if (_isPositionFixed)
-            {
-                UniTask.Delay(1000).ContinueWith(() => ShowCollectibleTaken(collectible)).Forget();
-            }
-            else
+            if (! _isPositionFixed)
             {
                 _animator.SetTrigger("Show");
-                UniTask.Delay(1000)
-                    .ContinueWith(() => ShowCollectibleTaken(collectible))
-                    .ContinueWith(() => UniTask.Delay(5000))
-                    .ContinueWith(() => _animator.SetTrigger("Hide")).Forget();
             }
+            UniTask.Delay(1000).ContinueWith(() => ShowCollectibleTaken(collectible)).Forget();
         }
 
         private void ShowCollectibleTaken(Collectible collectible)

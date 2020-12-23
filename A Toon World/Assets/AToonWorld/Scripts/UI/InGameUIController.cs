@@ -15,7 +15,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private EndLevelMenuController _endLevelMenuController;
         private CollectiblesMenuController _collectiblesMenuController;
         private WorldToUIEffectsController _worldToUIEffectsController = null;
-        private const float _defaultSpeed = 1f;
+        private const float _defaultSpeed = 1.25f;
         private const int _defaultDelay = 1000;
         private bool _isInGame = false;
         public bool _isEndLevelMenu { get; set; } = false;
@@ -32,6 +32,10 @@ namespace Assets.AToonWorld.Scripts.UI
         protected override void Awake()
         {
             base.Awake();
+
+            //Instantiate Sound Effects to avoid locks during gameplay
+            Audio.SoundEffects.LoadSoundEffects();
+
             _inGameCanvas = GetComponentInChildren<Canvas>();
             _sceneFaderController = _inGameCanvas.GetComponentInChildren<SceneFaderController>();
             _pauseMenuController = GetComponent<PauseMenuController>();
