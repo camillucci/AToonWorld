@@ -3757,6 +3757,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenuUI: {fileID: 7525848543928154079}
+  _settingsMenuUI: {fileID: 7525848545710858540}
+  _controlsMenuUI: {fileID: 7525848544032024072}
 --- !u!114 &6274043345975515133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8069,7 +8071,7 @@ PrefabInstance:
     - target: {fileID: 143428160076612722, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_text
-      value: BACK
+      value: SETTINGS
       objectReference: {fileID: 0}
     - target: {fileID: 143428160076612722, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -8084,17 +8086,17 @@ PrefabInstance:
     - target: {fileID: 143428160802777700, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_Name
-      value: BackButton
+      value: SettingsButton
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -8120,11 +8122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7525848545710858540}
+      objectReference: {fileID: 5979087281640303566}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: ShowSettingsMenu
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -8144,7 +8146,7 @@ PrefabInstance:
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777703, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -8204,7 +8206,7 @@ PrefabInstance:
     - target: {fileID: 143428160802777703, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 760
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777703, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -8214,7 +8216,7 @@ PrefabInstance:
     - target: {fileID: 143428160802777703, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 225
+      value: 380
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777703, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -9623,12 +9625,12 @@ PrefabInstance:
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -9649,7 +9651,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7525848544032024072}
+      objectReference: {fileID: 5979087281640303566}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -9658,7 +9660,7 @@ PrefabInstance:
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: ShowControlsMenu
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
@@ -9678,7 +9680,7 @@ PrefabInstance:
     - target: {fileID: 143428160802777702, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 143428160802777703, guid: 9001a873df5046c409b1dee1eb3a85a8,
         type: 3}
