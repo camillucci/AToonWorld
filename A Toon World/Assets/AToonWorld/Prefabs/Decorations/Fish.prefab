@@ -170,6 +170,11 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Rotation.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2101423344761455472, guid: 13d46448110d1e146ae8983a8bfbd6d5,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2101423344761455475, guid: 13d46448110d1e146ae8983a8bfbd6d5,
         type: 3}
       propertyPath: m_LocalPosition.x
