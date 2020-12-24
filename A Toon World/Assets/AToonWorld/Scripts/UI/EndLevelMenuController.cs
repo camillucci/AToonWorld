@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Level;
 using Assets.AToonWorld.Scripts.Player;
 using TMPro;
@@ -13,6 +14,7 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         private PlayerController _playerController;
         private LevelHandler _levelHandler;
+        private RectTransform _transform;
 
         [SerializeField] private GameObject _endLevelMenuUI = null;
         [SerializeField] private TMP_Text _timeText = null;
@@ -23,6 +25,8 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private Image _collectiblesStar = null;
         [SerializeField] private Sprite _starBlankSprite = null;
         [SerializeField] private Sprite _starFullSprite = null;
+        [SerializeField] private GameObject _collectibleCirclesList = null;
+        [SerializeField] private GameObject[] _collectibleCircles = null;
 
         // Initialization
         private void Start()
@@ -32,8 +36,10 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void RefreshValues()
         {
+            // Get object used for checking achievements
             _playerController = FindObjectOfType<PlayerController>();
             _levelHandler = FindObjectOfType<LevelHandler>();
+            _transform = _collectibleCirclesList.GetComponent<RectTransform>();
         }
 
         public void ShowEndLevelMenu()
@@ -89,7 +95,23 @@ namespace Assets.AToonWorld.Scripts.UI
             }
             stars = Mathf.Max(stars, PlayerPrefs.GetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0));
 
-            GetComponentInChildren<FeedbackButtonController>().RefreshButtons();
+            // Resize the displayed collectible properly and show gathered collectibles
+            List<Collectible> _collectibles = _levelHandler._collectiblesManager._collectibles;
+            _transform.SetLeft(970f - _collectibles.Count * 70f);
+            for (int i = 0; i < _collectibleCircles.Length; i++)
+            {
+                if (i < _collectibles.Count)
+                {
+                    _collectibleCircles[i].SetActive(true);
+                    _collectibleCircles[i].transform.GetChild(0).gameObject.SetActive(! _collectibles[i].isActiveAndEnabled);
+                }
+                else
+                {
+                    _collectibleCircles[i].SetActive(false);
+                }
+            }
+
+            // GetComponentInChildren<FeedbackButtonController>().RefreshButtons();
 
             // Save player progresses
             PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, stars);

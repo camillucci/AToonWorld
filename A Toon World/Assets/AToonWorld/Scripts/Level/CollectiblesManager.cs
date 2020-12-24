@@ -21,6 +21,7 @@ namespace Assets.AToonWorld.Scripts.Level
             foreach (var collectible in collectibles)
                 SetupCheckPoint(collectible);
             _collectibles.AddRange(collectibles);
+            _collectibles.Sort((x, y) => x.CollectibleNumber.CompareTo(y.CollectibleNumber));
             _totalCollectibles = _collectibles.Count;
         }
 
