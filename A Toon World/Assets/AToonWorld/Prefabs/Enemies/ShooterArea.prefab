@@ -196,7 +196,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 2596636012978396827, guid: 00822a8b2107cd143bc683ed65f9bfa2,
     type: 3}
   _bulletsInterleavingSeconds: 1
-  _balisticsEnabled: 1
+  _balisticsEnabled: 0
 --- !u!50 &7407879671693525439
 Rigidbody2D:
   serializedVersion: 4
