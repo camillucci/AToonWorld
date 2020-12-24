@@ -12,7 +12,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
 {
     public static class TransformExtensions
     {
-        public static UniTask MoveToAnimated(this Transform @this, Vector3 position, float speed, bool smooth = true) => Animations.Transition
+        public static UniTask MoveToAnimated(this Transform @this, Vector3 position, float speed, bool smooth = true) => @this.Transition
         (
             from: @this.position,
             to: position,
@@ -21,7 +21,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
             smooth: smooth
         );
 
-        public static UniTask RotateTowardsAnimated(this Transform @this, Quaternion rotation, float speed, bool smooth = true) => Animations.Transition
+        public static UniTask RotateTowardsAnimated(this Transform @this, Quaternion rotation, float speed, bool smooth = true) => @this.Transition
         (
             from: @this.rotation,
             to: rotation,
@@ -30,7 +30,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
             smooth: smooth
         );
 
-        public static UniTask RotateTowardsAnimatedWithCancellation(this Transform @this, Quaternion rotation, CancellationToken cancellationToken, float speed, bool smooth = true) => Animations.Transition
+        public static UniTask RotateTowardsAnimatedWithCancellation(this Transform @this, Quaternion rotation, CancellationToken cancellationToken, float speed, bool smooth = true) => @this.Transition
         (
             from: @this.rotation,
             to: rotation,
@@ -45,5 +45,15 @@ namespace Assets.AToonWorld.Scripts.Extensions
             foreach (var position in positions)
                 await @this.MoveToAnimated(position, speed, smooth);
         }
+
+        public static UniTask ScaleTo(this Transform @this, Vector2 scale, float speed, bool smooth, CancellationToken cancellationToken) => @this.Transition
+        (
+            from: (Vector2) @this.localScale,
+            to: scale,
+            callback: s => @this.localScale = new Vector3(s.x, s.y, @this.localScale.z),
+            speed: speed,
+            smooth: smooth,
+            token: cancellationToken
+        );
     }
 }

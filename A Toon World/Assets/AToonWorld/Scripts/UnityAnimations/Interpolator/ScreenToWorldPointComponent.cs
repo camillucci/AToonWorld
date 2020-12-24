@@ -9,7 +9,7 @@ public class ScreenToWorldPointComponent : InterpolatorDynamicPointComponent
 {
     private Transform _transform;
 
-    private void Start() 
+    private void Awake() 
     {
         _transform = this.transform;
     }

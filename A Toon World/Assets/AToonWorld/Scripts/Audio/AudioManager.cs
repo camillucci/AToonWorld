@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Assets.AToonWorld.Scripts.Extensions;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -137,7 +138,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         {
             if (soundEffectModel == null)
             {
-                await UniTask.NextFrame();
+                await this.NextFrame();
                 return;
             }
 

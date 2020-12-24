@@ -14,7 +14,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
         public static UniTask MoveTo(this UnityEngine.Camera @this, Vector3 position, float speed = 10f)
         {
             var transform = @this.transform;
-            return Animations.Transition
+            return @this.Transition
             (
                 from: transform.position,
                 to: position,

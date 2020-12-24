@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Assets.AToonWorld.Scripts.Extensions;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             _audioSource.Stop();
             _audioSource.clip = Clip;            
             _audioSource.Play();
-            return UniTask.Delay((int)(Clip.length * 1000));
+            return this.Delay((int)(Clip.length * 1000));
         }
 
         
