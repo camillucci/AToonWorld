@@ -390,9 +390,19 @@ public class PlayerMovementController : MonoBehaviour
 
     private void MoveVertical()
     {
+
         float yVelocity = VerticalMovementDirection * _climbingSpeed;
         if (IsClimbing && CanJump)
         {
+            if(yVelocity > 0)
+            {
+                var topCollider = PlayerBody.ColliderTrigger.GetInsideWithTag(UnityTag.ClimbingWall)
+                                                            .WithMaxOrDefault(coll => coll.bounds.center.y);
+                const float delta = 0.03f;
+                var yLimit = topCollider.bounds.center.y + topCollider.bounds.extents.y - delta;
+                if (RigidBody.position.y > yLimit )
+                    yVelocity = 0;
+            }
             RigidBody.velocity = new Vector2(RigidBody.velocity.x, yVelocity);
         }
 

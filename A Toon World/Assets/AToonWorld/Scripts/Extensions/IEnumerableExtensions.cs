@@ -28,7 +28,10 @@ namespace Assets.AToonWorld.Scripts.Extensions
             }
 
             return minObj;
-        }        
+        }
+
+        public static T WithMaxOrDefault<T, V>(this IEnumerable<T> @this, Func<T, V> toComparableField) where V : IComparable<V>
+           => @this.MinimumPoint((t1, t2) => toComparableField(t1).CompareTo(toComparableField(t2)) == 1);
 
         public static Vector2 Average<T>(this IEnumerable<T> @this, Func<T, Vector2> func)
         {
