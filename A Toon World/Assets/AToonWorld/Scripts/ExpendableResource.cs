@@ -1,4 +1,5 @@
 using System;
+using Assets.AToonWorld.Scripts.Level;
 using UnityEngine;
 using UnityEngine.Events;
 [CreateAssetMenu(fileName = "ExpendableResource", menuName = "Inkverse/Resources/Expendable Resource", order = 1)]
@@ -12,6 +13,9 @@ public class ExpendableResource : ScriptableObject
     public float MaxCapacity => _maxCapacity;
 
     public float Capacity => _capacity;
+
+    private float _splineInkMultiplier = 1f;
+    private float _bulletInKMultiplier = 5f;
 
     public ExpendableResource()
     {
@@ -41,6 +45,7 @@ public class ExpendableResource : ScriptableObject
 
         float consumedCapacity = this._capacity - quantity;
         this.SetCapacity(consumedCapacity > 0 ? consumedCapacity : 0.0f);
+        InkUsageManager.InkQuantityChanged.Invoke(quantity * _splineInkMultiplier);
         return consumedCapacity > 0.0f ? quantity : quantity + consumedCapacity;
     }
 
@@ -65,6 +70,7 @@ public class ExpendableResource : ScriptableObject
         if(consumedCapacity >= 0.0f)
         {
             this.SetCapacity(consumedCapacity);
+            InkUsageManager.InkQuantityChanged.Invoke(quantity * _bulletInKMultiplier);
             return true;
         }
         return false;

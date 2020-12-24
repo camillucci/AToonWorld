@@ -18,12 +18,6 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private GameObject _settingsMenuUI = null;
         [SerializeField] private GameObject _controlsMenuUI = null;
 
-        // Initialization
-        private void Start()
-        {
-            RefreshValues();
-        }
-
         void Update()
         {
             if (InputUtils.ToggleSettingsMenu)
@@ -52,6 +46,7 @@ namespace Assets.AToonWorld.Scripts.UI
             }
         }
 
+        // Initialization when level starts
         public void RefreshValues()
         {
             _playerController = FindObjectOfType<PlayerController>();

@@ -17,7 +17,6 @@ namespace Assets.AToonWorld.Scripts.Level
     public class LevelHandler : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private int _maxDeathsForAchievement = 5;
         [SerializeField] private InkPaletteSO _inkPalette = null;
 
 
@@ -25,12 +24,13 @@ namespace Assets.AToonWorld.Scripts.Level
         private CheckPointsManager _checkPointsManager;
         public CollectiblesManager _collectiblesManager { get; private set; }
         public TimeManager _timeManager { get; private set; }
+        public DeathsManager _deathsManager { get; private set; }
+        public InkUsageManager _inkManager { get; private set; }
         private PlayerController _playerController;
         private PlayerMovementController _playerMovementController;
         private CameraMovementController _cameraMovementController;
         private DeathObserver _deathObserver;
         private MapBorders _mapBorders;
-        public int _deathCounter { get; private set; }
 
         //Reset tables, we use IDs to keep track of duplicates
         private Dictionary<int, GameObject> _enabledObjectsSinceCheckpoint;
@@ -49,6 +49,8 @@ namespace Assets.AToonWorld.Scripts.Level
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
             _collectiblesManager = GetComponentInChildren<CollectiblesManager>();
             _timeManager = GetComponentInChildren<TimeManager>();
+            _deathsManager = GetComponentInChildren<DeathsManager>();
+            _inkManager = GetComponentInChildren<InkUsageManager>();
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _savedInkCapacity = new Dictionary<PlayerInkController.InkType, float>();
@@ -58,7 +60,6 @@ namespace Assets.AToonWorld.Scripts.Level
             Events.LevelEvents.SplineDrawn.AddListener(DrawingCreated);
             Events.LevelEvents.EnemyKilled.AddListener(EnemyKilled);
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
-            _deathCounter = 0;
             Time.timeScale = 1f;
 
             #if AnaliticsEnabled
@@ -148,7 +149,7 @@ namespace Assets.AToonWorld.Scripts.Level
                 await SpawnFromLastCheckpoint();
                 _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
-                _deathCounter += 1;
+                _deathsManager.OnDeath();
             }
         }
         private void CheckpointReached()
@@ -176,8 +177,5 @@ namespace Assets.AToonWorld.Scripts.Level
         {
             _disabledObjectsSinceCheckpoint.Add(enemy.gameObject.GetInstanceID(), enemy);
         }
-
-        public bool GotDeathsAchievement => _deathCounter <= _maxDeathsForAchievement;
-        public int MaxDeathsForAchievement => _maxDeathsForAchievement;
     }
 }

@@ -19,21 +19,16 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private GameObject _endLevelMenuUI = null;
         [SerializeField] private TMP_Text _timeText = null;
         [SerializeField] private TMP_Text _deathsText = null;
-        [SerializeField] private TMP_Text _collectibleText = null;
+        [SerializeField] private TMP_Text _inkUsageText = null;
         [SerializeField] private Image _timeStar = null;
         [SerializeField] private Image _deathsStar = null;
-        [SerializeField] private Image _collectiblesStar = null;
+        [SerializeField] private Image _inkUsageStar = null;
         [SerializeField] private Sprite _starBlankSprite = null;
         [SerializeField] private Sprite _starFullSprite = null;
         [SerializeField] private GameObject _collectibleCirclesList = null;
         [SerializeField] private GameObject[] _collectibleCircles = null;
 
-        // Initialization
-        private void Start()
-        {
-            RefreshValues();
-        }
-
+        // Initialization when level starts
         public void RefreshValues()
         {
             // Get object used for checking achievements
@@ -56,10 +51,10 @@ namespace Assets.AToonWorld.Scripts.UI
             _endLevelMenuUI.SetActive(true);
             _timeText.text = _levelHandler._timeManager.getFormattedTime()
                 + " / " + _levelHandler._timeManager.getFormattedAchievementTime();
-            _deathsText.text = _levelHandler._deathCounter.ToString()
-                + " / " + _levelHandler.MaxDeathsForAchievement.ToString();
-            _collectibleText.text = _levelHandler._collectiblesManager._currentCollectibles.ToString()
-                + " / " + _levelHandler._collectiblesManager._totalCollectibles.ToString();
+            _deathsText.text = _levelHandler._deathsManager.DeathCounter.ToString()
+                + " / " + _levelHandler._deathsManager.MaxDeathsForAchievement.ToString();
+            _inkUsageText.text = _levelHandler._inkManager.InkUsed.ToString()
+                + " / " + _levelHandler._inkManager.MaxInkForAchievement.ToString();
 
             // Calculate and show player stars
             int stars = 0;
@@ -74,7 +69,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 _timeStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
             }
             // One star if the player died less than a treshold amount
-            if (_levelHandler.GotDeathsAchievement)
+            if (_levelHandler._deathsManager.GotDeathsAchievement)
             {
                 _deathsStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
                 stars += 1;
@@ -84,14 +79,14 @@ namespace Assets.AToonWorld.Scripts.UI
                 _deathsStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
             }
             // One star if the player collected all collectibles
-            if (_levelHandler._collectiblesManager.GotAchievement)
+            if (_levelHandler._inkManager.GotAchievement)
             {
-                _collectiblesStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
+                _inkUsageStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
                 stars += 1;
             }
             else
             {
-                _collectiblesStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
+                _inkUsageStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
             }
             stars = Mathf.Max(stars, PlayerPrefs.GetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0));
 
