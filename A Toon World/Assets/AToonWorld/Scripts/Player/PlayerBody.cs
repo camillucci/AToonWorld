@@ -21,6 +21,7 @@ namespace Assets.AToonWorld.Scripts.Player
         void Awake()
         {
             _collider = GetComponent<Collider2D>();
+            _collider.sharedMaterial = Instantiate(_collider.sharedMaterial);
         }
 
 
@@ -60,7 +61,7 @@ namespace Assets.AToonWorld.Scripts.Player
             => _collisionHandler.NotifyEnter(collision.gameObject.tag, collision);
 
         private void OnCollisionExit2D(Collision2D collision)
-            => _collisionHandler.NotifyExit(collision.gameObject.name, collision);
+            => _collisionHandler.NotifyExit(collision.gameObject.tag, collision);
 
 
         // Public Methods

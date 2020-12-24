@@ -53,6 +53,9 @@ public class PlayerMovementController : MonoBehaviour
 
     private void InitializeBody()
     {
+        //PlayerBody.Collision.Enter.Subscribe(OnBodyCollisionEnter);
+        PlayerBody.Collision.Exit.Subscribe(OnBodyCollisionExit);
+        PlayerBody.CollisionStay.Subscribe(OnBodyCollisionStay);
         PlayerBody.ColliderTrigger.Enter.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallEnter);
         PlayerBody.ColliderTrigger.Exit.SubscribeWithTag(UnityTag.ClimbingWall, OnClimbingWallExit);
     }
@@ -217,13 +220,11 @@ public class PlayerMovementController : MonoBehaviour
 
 
     // Real Collisions
-    private void OnBodyCollisionEnter(Collision2D collision)
-    {
-        _collisionsByCollider.Add(collision.otherCollider, collision);
-    }
 
     private void OnBodyCollisionStay(Collision2D collision)
     {
+        if (!_collisionsByCollider.ContainsKey(collision.otherCollider))
+            _collisionsByCollider.Add(collision.otherCollider,collision);
         _collisionsByCollider[collision.otherCollider] = collision;
         _lastContact = collision.GetContact(0);
     }
@@ -287,9 +288,9 @@ public class PlayerMovementController : MonoBehaviour
         do
         {
             float forceIncrement = Mathf.Min(_jumpStepForce, _maxJumpForce - totForce);
-            await UniTask.WaitForFixedUpdate();
+            await this.WaitForFixedUpdate();
             RigidBody.AddForce(forceIncrement * Vector2.up);
-            await UniTask.Delay((int)_jumpHoldStepMs);
+            await this.Delay((int)_jumpHoldStepMs);
             jumpHeld = _jumpHeldCondition?.Invoke() ?? false;
             totForce += forceIncrement;
         }
@@ -330,7 +331,7 @@ public class PlayerMovementController : MonoBehaviour
         if (IsGrounded || IsOnDrawingPlatform)
         {
             // Scale velocity according to platforms/drawings angle 
-            var descentHorizontalDirection = _lastContact.normal.x; 
+            var descentHorizontalDirection = _lastContact.normal.x;
             if (descentHorizontalDirection * HorizontalMovementDirection < 0) // Not Same direction
                 HorizontalMovementDirection *= Mathf.Cos(CurrentAngleRadians); // Apply psuedo-friction
         }
@@ -405,7 +406,7 @@ public class PlayerMovementController : MonoBehaviour
     private void PlaySounds()
     {
         if (IsMovinghorizontally && IsGrounded && !_horizontalMovementSoundTaskRunning)
-            PlayHorizontalMovementSound().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
+            PlayHorizontalMovementSound().Forget();
     }
 
     private async UniTask PlayHorizontalMovementSound()
