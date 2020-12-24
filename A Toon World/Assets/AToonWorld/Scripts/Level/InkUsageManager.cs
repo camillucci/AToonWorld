@@ -22,7 +22,6 @@ namespace Assets.AToonWorld.Scripts.Level
         private void OnInkQuantityChanged(float inkQuantity)
         {
             _inkUsed +=  inkQuantity;
-            Debug.Log(_inkUsed);
         }
 
         public int InkUsed => (int)_inkUsed;

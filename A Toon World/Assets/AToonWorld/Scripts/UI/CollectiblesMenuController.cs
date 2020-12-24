@@ -26,7 +26,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void RefreshValues()
         {
             _animator.SetTrigger(_isPositionFixed ? "IsFixed" : "IsMoving");
-            List<Collectible> collectibles = FindObjectOfType<CollectiblesManager>()._collectibles;
+            List<Collectible> collectibles = FindObjectOfType<CollectiblesManager>().Collectibles;
 
             // Resize the Collectible Menu properly
             _totalCollectibles = collectibles.Count;

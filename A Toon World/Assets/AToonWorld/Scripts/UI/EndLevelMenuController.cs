@@ -57,12 +57,12 @@ namespace Assets.AToonWorld.Scripts.UI
                 + " / " + _levelHandler._inkManager.MaxInkForAchievement.ToString();
 
             // Calculate and show player stars
-            int stars = 0;
+            int medals = 0;
             // One star if the player took less than a threshold time to complete the level
             if (_levelHandler._timeManager.GotAchievement)
             {
                 _timeStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
-                stars += 1;
+                medals += 1;
             }
             else
             {
@@ -72,7 +72,7 @@ namespace Assets.AToonWorld.Scripts.UI
             if (_levelHandler._deathsManager.GotDeathsAchievement)
             {
                 _deathsStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
-                stars += 1;
+                medals += 1;
             }
             else
             {
@@ -82,16 +82,16 @@ namespace Assets.AToonWorld.Scripts.UI
             if (_levelHandler._inkManager.GotAchievement)
             {
                 _inkUsageStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
-                stars += 1;
+                medals += 1;
             }
             else
             {
                 _inkUsageStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
             }
-            stars = Mathf.Max(stars, PlayerPrefs.GetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0));
+            medals = Mathf.Max(medals, PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name, 0));
 
             // Resize the displayed collectible properly and show gathered collectibles
-            List<Collectible> _collectibles = _levelHandler._collectiblesManager._collectibles;
+            List<Collectible> _collectibles = _levelHandler._collectiblesManager.Collectibles;
             _transform.SetLeft(970f - _collectibles.Count * 70f);
             for (int i = 0; i < _collectibleCircles.Length; i++)
             {
@@ -109,8 +109,9 @@ namespace Assets.AToonWorld.Scripts.UI
             // GetComponentInChildren<FeedbackButtonController>().RefreshButtons();
 
             // Save player progresses
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, stars);
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, stars);
+            int collectibles = _levelHandler._collectiblesManager.CurrentCollectibles;
+            PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, medals);
+            PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.CollectiblesPath, collectibles);
         }
 
         // Deactivate all used inks and restart the level from the beginning

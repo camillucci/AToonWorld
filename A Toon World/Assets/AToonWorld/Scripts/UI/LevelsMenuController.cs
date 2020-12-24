@@ -11,6 +11,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private LevelController[] _levels;
 
         [SerializeField] private TMP_Text _totalStarsNumber = null;
+        [SerializeField] private TMP_Text _totalCollectiblesNumber = null;
 
         private void Awake()
         {
@@ -22,18 +23,31 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             _levels = FindObjectsOfType<LevelController>();
             UpdateTotalStars();
+            UpdateTotalCollectibles();
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 
         // Visualize the total number of star collected
         private void UpdateTotalStars()
         {
-            int sum = 0;
-            for(int i = 1; i < UnityScenes.Levels.Length; i++)
+            int gathered = 0, total = (UnityScenes.Levels.Length - 1) * 3;
+            foreach(LevelController level in _levels)
             {
-                sum += PlayerPrefs.GetInt(UnityScenes.Levels[i], 0);
+                gathered += PlayerPrefs.GetInt(UnityScenes.Levels[level.LevelNumber] + "/Achievements", 0);
             }
-            _totalStarsNumber.text = sum + " / " + (UnityScenes.Levels.Length - 1) * 3;
+            _totalStarsNumber.text = gathered + " / " + total;
+        }
+
+        // Visualize the total number of collectibles gathered
+        private void UpdateTotalCollectibles()
+        {
+            int gathered = 0, total = 0;
+            foreach(LevelController level in _levels)
+            {
+                gathered += PlayerPrefs.GetInt(UnityScenes.Levels[level.LevelNumber] + "/Collectibles", 0);
+                total += level.TotalCollectibles;
+            }
+            _totalCollectiblesNumber.text = gathered + " / " + total;
         }
 
         #region Buttons
@@ -50,7 +64,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             foreach(LevelController level in _levels)
             {
-                PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber()]);
+                PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber]);
                 level.ResetLevel();
             }
         }

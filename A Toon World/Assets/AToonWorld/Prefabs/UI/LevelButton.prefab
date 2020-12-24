@@ -448,7 +448,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638671f72f018394eaca49c863f6975b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelNumber: 1
+  _levelNumber: -1
+  _totalCollectibles: -1
   _standardImage: {fileID: -4329440586233989439, guid: 43f57e70f62c1b3498db7feda5e68e99,
     type: 3}
   _bwImage: {fileID: -1248615039697611461, guid: a5c5d611b18907540bb2023620f1433b,

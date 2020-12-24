@@ -17,6 +17,7 @@ namespace Assets.AToonWorld.Scripts.UI
         private bool _isLocked = true;
         
         [SerializeField] private int _levelNumber = -1;
+        [SerializeField] private int _totalCollectibles = -1;
         [SerializeField] private Sprite _standardImage = null;
         [SerializeField] private Sprite _bwImage = null;
         [SerializeField] private Image[] _stars = null;
@@ -85,6 +86,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 _stars[i].sprite = _starBlankSprite;
         }
 
-        public int LevelNumber() => _levelNumber;
+        public int LevelNumber => _levelNumber;
+        public int TotalCollectibles => _totalCollectibles;
     }
 }

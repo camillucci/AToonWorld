@@ -15,8 +15,7 @@ namespace Assets.AToonWorld.Scripts.UI
     // Return to the LevelsMenu scene
         public void BackButton()
         {
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 3);
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, 3);
+            PlayerPrefs.SetInt(UnityScenes.MenusPath + SceneManager.GetActiveScene().name, 3);
 
             InGameUIController.PrefabInstance.FadeTo(UnityScenes.LevelsMenu);
         }

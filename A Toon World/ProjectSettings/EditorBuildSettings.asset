@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/AToonWorld/Scenes/Menus/MainMenu.unity
     guid: 1e58c413000a7494b80a27d1bc618504
   - enabled: 1
-    path: Assets/Scenes/LevelsMenu.unity
+    path: Assets/AToonWorld/Scenes/Menus/LevelsMenu.unity
     guid: a2a71bed8a33b3a41852c38e57dac85a
   - enabled: 1
     path: Assets/AToonWorld/Scenes/Tutorial/build_tutorial_000.unity
@@ -21,6 +21,6 @@ EditorBuildSettings:
     path: Assets/AToonWorld/Scenes/Tutorial/climb_tutorial_001.unity
     guid: aea7262fa29564842ad0deeb04e6cf1c
   - enabled: 1
-    path: Assets/Scenes/ThanksForPlaying.unity
+    path: Assets/AToonWorld/Scenes/Menus/ThanksForPlaying.unity
     guid: 3fe4fac690c5b434da202d62bd1b3da9
   m_configObjects: {}
