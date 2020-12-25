@@ -2298,7 +2298,7 @@ GameObject:
   - component: {fileID: 6843154866651393700}
   - component: {fileID: 532111526207948736}
   m_Layer: 5
-  m_Name: DeathsStar
+  m_Name: DeathsMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2321,7 +2321,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -320, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6843154866651393700
 CanvasRenderer:
@@ -2350,7 +2350,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
+  m_Sprite: {fileID: -8037618550934767280, guid: c94440826cd8ab34d99610c283fd9a37,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2775,7 +2776,7 @@ GameObject:
   - component: {fileID: 1928220860718329410}
   - component: {fileID: 6975030739543346194}
   m_Layer: 5
-  m_Name: InkUsageStar
+  m_Name: InkUsageMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2798,7 +2799,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -320, y: -100}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1928220860718329410
 CanvasRenderer:
@@ -2827,7 +2828,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
+  m_Sprite: {fileID: -3117169678834933104, guid: c94440826cd8ab34d99610c283fd9a37,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3818,14 +3820,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _endLevelMenuUI: {fileID: 1331823799866802215}
-  _timeText: {fileID: 6162312818621052213}
-  _deathsText: {fileID: 312975825980379396}
-  _inkUsageText: {fileID: 2673466955479382496}
-  _timeStar: {fileID: 7005867962561164692}
-  _deathsStar: {fileID: 532111526207948736}
-  _inkUsageStar: {fileID: 6975030739543346194}
-  _starBlankSprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
-  _starFullSprite: {fileID: 21300000, guid: b371b1a7b00caca4eaf9543cd3efe067, type: 3}
+  _achievementTexts:
+  - {fileID: 6162312818621052213}
+  - {fileID: 312975825980379396}
+  - {fileID: 2673466955479382496}
+  _medalImages:
+  - {fileID: 7005867962561164692}
+  - {fileID: 532111526207948736}
+  - {fileID: 6975030739543346194}
+  _noMedalSprite: {fileID: 21300000, guid: 379d4e3d34e519b4a92a01a1c4bfc1d3, type: 3}
   _collectibleCirclesList: {fileID: 1228302006013329934}
   _collectibleCircles:
   - {fileID: 5918644337685906697}
@@ -7220,7 +7223,7 @@ GameObject:
   - component: {fileID: 6614853681723650252}
   - component: {fileID: 7005867962561164692}
   m_Layer: 5
-  m_Name: TimeStar
+  m_Name: TimeMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7243,7 +7246,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -320, y: 100}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6614853681723650252
 CanvasRenderer:
@@ -7272,7 +7275,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6e943f4116e511f4f9da96d26fc670f3, type: 3}
+  m_Sprite: {fileID: -248247452180867130, guid: c94440826cd8ab34d99610c283fd9a37,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8666,7 +8670,7 @@ PrefabInstance:
     - target: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -660
+      value: -670
       objectReference: {fileID: 0}
     - target: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,
         type: 3}
@@ -10869,7 +10873,7 @@ PrefabInstance:
     - target: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -660
+      value: -670
       objectReference: {fileID: 0}
     - target: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,
         type: 3}
@@ -13269,7 +13273,7 @@ PrefabInstance:
     - target: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -660
+      value: -670
       objectReference: {fileID: 0}
     - target: {fileID: 749322945042683001, guid: e87bfa2018ecadb40bf110e2565712a7,
         type: 3}

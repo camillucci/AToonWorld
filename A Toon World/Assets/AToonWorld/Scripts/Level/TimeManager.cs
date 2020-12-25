@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
-    public class TimeManager : MonoBehaviour
+    public class TimeManager : MonoBehaviour, IAchievementManger
     {
-        [SerializeField] private float _maxTimeForAchievementInSeconds = 10 * 60f;
+        [SerializeField] private int _maxTimeForAchievementInSeconds = 10 * 60;
         private float timeInSeconds = 0f;
 
         void Update()
@@ -27,6 +27,7 @@ namespace Assets.AToonWorld.Scripts.Level
             return time.ToString(@"mm\:ss");
         }
 
-        public bool GotAchievement => timeInSeconds <= _maxTimeForAchievementInSeconds;
+        public bool GotAchievement() => timeInSeconds <= _maxTimeForAchievementInSeconds;
+        public string AchievementText() => getFormattedTime() + " / " + getFormattedAchievementTime();
     }
 }

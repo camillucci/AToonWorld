@@ -22,18 +22,18 @@ namespace Assets.AToonWorld.Scripts.UI
         private void Start()
         {
             _levels = FindObjectsOfType<LevelController>();
-            UpdateTotalStars();
+            UpdateTotalMedals();
             UpdateTotalCollectibles();
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 
-        // Visualize the total number of star collected
-        private void UpdateTotalStars()
+        // Visualize the total number of medals collected
+        private void UpdateTotalMedals()
         {
             int gathered = 0, total = (UnityScenes.Levels.Length - 1) * 3;
             foreach(LevelController level in _levels)
             {
-                gathered += PlayerPrefs.GetInt(UnityScenes.Levels[level.LevelNumber] + "/Achievements", 0);
+                gathered += PlayerPrefs.GetInt(UnityScenes.Levels[level.LevelNumber] + UnityScenes.AchievementsPath, 0);
             }
             _totalStarsNumber.text = gathered + " / " + total;
         }
@@ -44,7 +44,7 @@ namespace Assets.AToonWorld.Scripts.UI
             int gathered = 0, total = 0;
             foreach(LevelController level in _levels)
             {
-                gathered += PlayerPrefs.GetInt(UnityScenes.Levels[level.LevelNumber] + "/Collectibles", 0);
+                gathered += PlayerPrefs.GetInt(UnityScenes.Levels[level.LevelNumber] + UnityScenes.CollectiblesPath, 0);
                 total += level.TotalCollectibles;
             }
             _totalCollectiblesNumber.text = gathered + " / " + total;
@@ -64,7 +64,12 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             foreach(LevelController level in _levels)
             {
-                PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber]);
+                PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber] + UnityScenes.AchievementsPath);
+                PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber] + UnityScenes.AchievementsPath);
+                for (int i = 0; i < UnityScenes.AchievementPaths.Length; i++)
+                {
+                    PlayerPrefs.DeleteKey(UnityScenes.Levels[level.LevelNumber] + UnityScenes.AchievementPaths[i]);
+                }
                 level.ResetLevel();
             }
         }

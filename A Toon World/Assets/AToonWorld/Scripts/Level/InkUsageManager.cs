@@ -6,12 +6,12 @@ using static PlayerInkController;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
-    public class InkUsageManager : MonoBehaviour
+    public class InkUsageManager : MonoBehaviour, IAchievementManger
     {
         // Event called when ink is used with the type and quantity of ink used
         public static Event<float> InkQuantityChanged = new Event<float>();
 
-        [SerializeField] private float _maxInkForAchievement = 1000;
+        [SerializeField] private int _maxInkForAchievement = 1000;
         private float _inkUsed = 0f;
 
         private void Start()
@@ -26,6 +26,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
         public int InkUsed => (int)_inkUsed;
         public int MaxInkForAchievement => (int)_maxInkForAchievement;
-        public bool GotAchievement => _inkUsed <= _maxInkForAchievement;
+        public bool GotAchievement() => _inkUsed <= _maxInkForAchievement;
+        public string AchievementText() => ((int)_inkUsed).ToString() + " / " + _maxInkForAchievement.ToString();
     }
 }

@@ -22,10 +22,8 @@ namespace Assets.AToonWorld.Scripts.Level
 
         // Editor Fields
         private CheckPointsManager _checkPointsManager;
-        public CollectiblesManager _collectiblesManager { get; private set; }
-        public TimeManager _timeManager { get; private set; }
-        public DeathsManager _deathsManager { get; private set; }
-        public InkUsageManager _inkManager { get; private set; }
+        private CollectiblesManager _collectiblesManager;
+        private List<IAchievementManger> _achievementManagers = new List<IAchievementManger>();
         private PlayerController _playerController;
         private PlayerMovementController _playerMovementController;
         private CameraMovementController _cameraMovementController;
@@ -48,9 +46,9 @@ namespace Assets.AToonWorld.Scripts.Level
         {
             _checkPointsManager = GetComponentInChildren<CheckPointsManager>();
             _collectiblesManager = GetComponentInChildren<CollectiblesManager>();
-            _timeManager = GetComponentInChildren<TimeManager>();
-            _deathsManager = GetComponentInChildren<DeathsManager>();
-            _inkManager = GetComponentInChildren<InkUsageManager>();
+            _achievementManagers.Add(GetComponentInChildren<TimeManager>());
+            _achievementManagers.Add(GetComponentInChildren<DeathsManager>());
+            _achievementManagers.Add(GetComponentInChildren<InkUsageManager>());
             _enabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _disabledObjectsSinceCheckpoint = new Dictionary<int, GameObject>();
             _savedInkCapacity = new Dictionary<PlayerInkController.InkType, float>();
@@ -149,7 +147,6 @@ namespace Assets.AToonWorld.Scripts.Level
                 await SpawnFromLastCheckpoint();
                 _deathObserver.ResetStatus();
                 _playerController.IsImmortal = false;
-                _deathsManager.OnDeath();
             }
         }
         private void CheckpointReached()
@@ -177,5 +174,8 @@ namespace Assets.AToonWorld.Scripts.Level
         {
             _disabledObjectsSinceCheckpoint.Add(enemy.gameObject.GetInstanceID(), enemy);
         }
+
+        public CollectiblesManager CollectiblesManager => _collectiblesManager;
+        public List<IAchievementManger> AchievementMangers => _achievementManagers;
     }
 }
