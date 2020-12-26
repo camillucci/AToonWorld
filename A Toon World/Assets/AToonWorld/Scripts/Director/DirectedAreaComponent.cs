@@ -10,7 +10,7 @@ public class DirectedAreaComponent : MonoBehaviour
     private InkDirector _inkDirector;
     private List<InkPickupController> _childPickups;
 
-    // Istruisce il GameDirector a rimuovere pickup se il player ha abbastanza inchiostro
+    // Instruct the GameDirector to remove pickups if the player has enough ink
     [SerializeField] private bool _limitedResourcesArea = true;
 
     void Start()

@@ -36,9 +36,9 @@ public class Interpolator : MonoBehaviour
     [SerializeField] protected List<InterpolationPoint> _interpolationPoints;
 
     /// <summary>
-    /// Ammount of interpolation
+    /// Amount of interpolation
     /// </summary>
-    [SerializeField] [Range(0,1)] private float _ammount = 0.0f;
+    [SerializeField] [Range(0,1)] private float _amount = 0.0f;
     [SerializeField] private bool _disableWhenReached = true;
 
     protected int _currentSelectedPoint = 0;
@@ -91,7 +91,7 @@ public class Interpolator : MonoBehaviour
 
     //Useless for now
     private int GetCurrentInterpolationPoint() => _interpolationPoints.BinarySearch(
-        new InterpolationPoint(){ interpolationLocation = _ammount},
+        new InterpolationPoint(){ interpolationLocation = _amount},
         Comparer<InterpolationPoint>.Create((x,y) => 
             x.interpolationLocation > y.interpolationLocation ? 1 :
             x.interpolationLocation < y.interpolationLocation ? -1 : 0
@@ -114,7 +114,7 @@ public class Interpolator : MonoBehaviour
     protected virtual void OnEnable() 
     {
         _currentSelectedPoint = 0;
-        _ammount = 0;
+        _amount = 0;
         _currentDistance = 0;
     }
 
@@ -122,35 +122,35 @@ public class Interpolator : MonoBehaviour
     //O(n) for the frame where the value jumps too much (very rare situation)
     void Update()
     {
-        if(Mathf.Approximately(_ammount,1)) //Maybe too much penalty when not _disableWhenReached
+        if(Mathf.Approximately(_amount,1)) //Maybe too much penalty when not _disableWhenReached
         {
             if(_disableWhenReached)
                 this.gameObject.SetActive(false);
             return; 
         }
 
-        if(_ammount >= _interpolationPoints[_currentSelectedPoint].interpolationLocation)
+        if(_amount >= _interpolationPoints[_currentSelectedPoint].interpolationLocation)
         {
             _currentSelectedPoint++;
             _currentDistance = _interpolationPoints[_currentSelectedPoint].interpolationLocation - _interpolationPoints[_currentSelectedPoint-1].interpolationLocation;
         }
 
-        float segmentInterpolationAmmount = (_ammount - _interpolationPoints[_currentSelectedPoint-1].interpolationLocation) / _currentDistance;
+        float segmentInterpolationAmount = (_amount - _interpolationPoints[_currentSelectedPoint-1].interpolationLocation) / _currentDistance;
         Vector3 startPoint = GetInterpolationPoint(_interpolationPoints[_currentSelectedPoint-1]);
         Vector3 endPoint = GetInterpolationPoint(_interpolationPoints[_currentSelectedPoint]);
 
-        Interpolate(startPoint, endPoint, segmentInterpolationAmmount);
+        Interpolate(startPoint, endPoint, segmentInterpolationAmount);
     }
 
-    protected virtual void Interpolate(Vector3 startPoint, Vector3 endPoint, float segmentInterpolationAmmount)
+    protected virtual void Interpolate(Vector3 startPoint, Vector3 endPoint, float segmentInterpolationAmount)
     {
         switch(_interpolationPoints[_currentSelectedPoint].interpolationMode)
         {
             case InterpolationMode.Lerp:
-                _currentTransform.position = Vector3.Lerp(startPoint, endPoint, segmentInterpolationAmmount);
+                _currentTransform.position = Vector3.Lerp(startPoint, endPoint, segmentInterpolationAmount);
             break;
             case InterpolationMode.Slerp:
-                _currentTransform.position = Vector3.Slerp(startPoint, endPoint, segmentInterpolationAmmount);
+                _currentTransform.position = Vector3.Slerp(startPoint, endPoint, segmentInterpolationAmount);
             break;
         }
     }

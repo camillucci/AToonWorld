@@ -32,7 +32,7 @@ public class BezierInterpolator : Interpolator
         {
             Vector3 midPoint = GetInterpolationPoint(_midInterpolationPoints[_currentSelectedPoint - 1]);
 
-            //Quadratic forumla
+            //Quadratic formula
             //B(t) = (1-t)^2 P0 + 2(1-t)t P1 + t^2 P2
             float minusT = 1 - t;
             _currentTransform.position = minusT*minusT*startPoint + 2*minusT*t*midPoint + t*t*endPoint;

@@ -30,13 +30,13 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private GridController _gridController;
         private Animator _animator;
         private Vector3 _propulsionDirection;
-        private Quaternion _brakerIdleRotation;
+        private Quaternion _breakerIdleRotation;
         private UniTask? _followPathTask = UniTask.CompletedTask;
-        private bool _seakerActive;
+        private bool _seekerActive;
 
-        public BreakerMovementController(bool seakerActive)
+        public BreakerMovementController(bool seekerActive)
         {
-            _seakerActive = seakerActive;
+            _seekerActive = seekerActive;
         }
 
         private bool _linesUpdated;
@@ -48,8 +48,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             set
             {
                 _linesUpdated = value;
-                if (value && !_seakerActive)
-                    SeakerMovement().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
+                if (value && !_seekerActive)
+                    SeekerMovement().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _animator = GetComponentInChildren<Animator>();
             _breakerAreaHandler = GetComponentInChildren<BreakerTargetAreaHandler>();
             _breakerTransform = _breakerBody.transform;
-            _brakerIdleRotation = _breakerTransform.rotation;
+            _breakerIdleRotation = _breakerTransform.rotation;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
             _propulsionDirection = (_propulsionLocation.position - _breakerTransform.position).normalized;
             BreakerTargetAreaHandlerInitialization();
@@ -102,9 +102,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 
 
         // Private Methods
-        private async UniTask SeakerMovement()
+        private async UniTask SeekerMovement()
         {
-            _seakerActive = true;
+            _seekerActive = true;
             bool anyLineToFind;
             do
             {
@@ -115,7 +115,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                 await FollowPathUntilUpdate(path);
             }
             while (anyLineToFind);
-            _seakerActive = false;
+            _seekerActive = false;
         }     
 
         private async UniTask FollowPathUntilUpdate(IEnumerable<Vector2> path)
@@ -137,7 +137,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                     await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
                     rotationCancellationSource.Cancel();
                 }
-            _breakerTransform.rotation = _brakerIdleRotation;
+            _breakerTransform.rotation = _breakerIdleRotation;
             _animator.SetBool("IsMoving", false);
         }
     }

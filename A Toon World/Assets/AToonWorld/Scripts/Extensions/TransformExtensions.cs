@@ -40,7 +40,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
             cancelCondition: () => cancellationToken.IsCancellationRequested
         );
 
-        public static async UniTask FollowPathAnimatd(this Transform @this, IEnumerable<Vector3> positions, float speed, bool smooth = true)
+        public static async UniTask FollowPathAnimated(this Transform @this, IEnumerable<Vector3> positions, float speed, bool smooth = true)
         {
             foreach (var position in positions)
                 await @this.MoveToAnimated(position, speed, smooth);

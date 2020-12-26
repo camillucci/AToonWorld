@@ -24,7 +24,7 @@ public class PlayerInkController : MonoBehaviour
 
     void Awake()
     {
-        //Parse degli InkHandler caricati da ScriptableObject
+        //Parse of InkHandler loaded from ScriptableObject
         _inkHandlers = new Dictionary<InkType, IInkHandler>();
         _inkPaletteSettings.InkPalette.ForEach(inkHandler => {
             _inkHandlers.Add(inkHandler.InkType, inkHandler);

@@ -18,7 +18,7 @@ namespace Assets.AToonWorld.Scripts.Extensions
             @this.StartCoroutine(InvokeDelayCoroutine(callback, delayInSeconds));
         }
 
-        public static void InvokeFramwDelayed(this MonoBehaviour @this, Action callback, int frameDelay)
+        public static void InvokeFrameDelayed(this MonoBehaviour @this, Action callback, int frameDelay)
         {
             InvokeFrameDelayedTask(@this, callback, frameDelay).Forget();
         }
