@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Camera = UnityEngine.Camera;
 
 namespace Assets.AToonWorld.Scripts.Player
 {
     public class DeathObserver : MonoBehaviour
     {
         // Editor Fields
-        [SerializeField] private float _maxFallDistanceBeforeDeath = 3;
         [SerializeField] private GameObject _tombstonePrefab = null;
 
         // Private Fields
@@ -21,16 +21,18 @@ namespace Assets.AToonWorld.Scripts.Player
         private Transform _playerTransform;
         private Vector3 _previousGroundedPosition;
         private MapBorders _mapBorders;
-        private bool _isImmortal;
         private bool _wasInTheAir;
         private GameObject _tombstone;
-
+        private UnityEngine.Camera _mainCamera;
+        
+        
         // Initialization
         private void Awake()
         {
             _playerMovementController = FindObjectOfType<PlayerMovementController>();
             _mapBorders = FindObjectOfType<MapBorders>();
-            if(_mapBorders != null)
+            _mainCamera = UnityEngine.Camera.main;
+            if (_mapBorders != null)
                 InitializeMapBorders();
 
             _tombstone = Instantiate(_tombstonePrefab);
@@ -78,6 +80,11 @@ namespace Assets.AToonWorld.Scripts.Player
         }
 
 
+        // Public Properties
+        public float MaxFallDistanceBeforeDeath => _mainCamera.orthographicSize * 2f;
+
+
+
         // Public Methods
         public void ResetStatus()
         {
@@ -118,7 +125,6 @@ namespace Assets.AToonWorld.Scripts.Player
         }
 
 
-        // Private Methods
         /*
           FIXME: Sicuramente qualcosa si è rotto dopo il merge, dato che ora immortal è un flag del player bisogna vedere come gestire
           public bool IsImmortal
@@ -133,8 +139,7 @@ namespace Assets.AToonWorld.Scripts.Player
                       ResetStatus();
               }
           }
-        */
-
+        */                
 
        
         private void UpdateFallDistance()
@@ -153,7 +158,7 @@ namespace Assets.AToonWorld.Scripts.Player
         }
 
         private bool IsFallDeath(Vector3 start, Vector3 end) 
-            => start.y - end.y > _maxFallDistanceBeforeDeath;
+            => start.y - end.y > MaxFallDistanceBeforeDeath;
 
         
         private void InvokeDeathEvent(DeathType deathType)

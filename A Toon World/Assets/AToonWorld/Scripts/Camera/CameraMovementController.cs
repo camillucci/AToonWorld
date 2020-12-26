@@ -110,7 +110,7 @@ namespace Assets.AToonWorld.Scripts.Camera
 
 
         private UniTask ZoomTo(float to, ZoomTaskCancellation zoomCancellation) => UniTask.WhenAll(
-            Animations.Transition
+            this.Transition
             (
                 from: _camera.orthographicSize,
                 to: to,
@@ -119,7 +119,7 @@ namespace Assets.AToonWorld.Scripts.Camera
                 smooth: true,
                 cancelCondition: () => zoomCancellation.IsCancellationRequested
             ),
-            Animations.Transition
+            this.Transition
             (
                 from: _postProcessingCamera.orthographicSize,
                 to: to,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.AToonWorld.Scripts;
 using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Enemies;
 using Assets.AToonWorld.Scripts.Extensions;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class ShooterController : MonoBehaviour
     [SerializeField] private Transform _bulletSpawner = null;
     [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private float _bulletsInterleavingSeconds = 1;
+    [SerializeField] private bool _balisticsEnabled;
+
 
     private bool _canFire;
     private IEnumerator _enableFire;
@@ -23,9 +26,26 @@ public class ShooterController : MonoBehaviour
     private BulletController _prefabBulletController;
     private BulletBehaviour _bulletBehaviour;
     private AreaController _areaController;
+    private Vector2 _currentTargetVelocity;
+    private Vector2 _previousTargetPosition;
+
+    public virtual Vector2 CurrentShootingTarget
+    {
+        get
+        {
+            if (!_balisticsEnabled)
+                return _target.position;
+
+            var linearPosition = LinearBalistics.FindShootTarget(_bulletSpawner.position, _prefabBulletController.Speed, _target.position, _currentTargetVelocity);
+            if (_prefabBulletController.BehaviourType == BulletBehaviourType.Linear)
+                return linearPosition + Vector2.Distance(linearPosition, _target.position)* 0.2f * _currentTargetVelocity.normalized;
+            return linearPosition;
+        }
+    }
 
     void Start()
     {
+        _previousTargetPosition = _target.position;
         _areaController = transform.parent.GetComponent<AreaController>();
         ObjectPoolingManager<int>.Instance.CreatePool(this.GetInstanceID(), _bulletPrefab, 5, 10, true, true);
         _transform = this.transform;
@@ -35,6 +55,9 @@ public class ShooterController : MonoBehaviour
         if (bulletType == BulletBehaviourType.Linear) _bulletBehaviour = new LinearBullet();
         if (bulletType == BulletBehaviourType.Parabolic) _bulletBehaviour = new ParabolicBullet();
         LookAtTarget();
+
+        if(_balisticsEnabled)
+            UpdateTargetVelocity().Forget();
     }
 
     void OnEnable()
@@ -57,7 +80,7 @@ public class ShooterController : MonoBehaviour
             _bullet = ObjectPoolingManager<int>.Instance.GetObject(this.GetInstanceID());
             BulletController _bulletController = _bullet.GetComponent<BulletController>();
             _bulletController.BulletBehaviour = _bulletBehaviour;
-            _bulletController.Shoot(_bulletSpawner.position, _target.position);
+            _bulletController.Shoot(_bulletSpawner.position, CurrentShootingTarget /*_target.position*/);
             _canFire = false;
             StartCoroutine(_enableFire = EnableFire());
         }
@@ -79,5 +102,18 @@ public class ShooterController : MonoBehaviour
     {
         if (other.gameObject.CompareTag(UnityTag.Drawing))
             other.gameObject.SetActive(false);
+    }
+
+    // Only if balistics is enabled
+    private async UniTask UpdateTargetVelocity()
+    {
+        var deltaTimeMs = 100;
+        while (true)
+        {
+            await this.Delay(deltaTimeMs);
+            var currentTargetPosition = (Vector2)_target.position;
+            _currentTargetVelocity = (currentTargetPosition - _previousTargetPosition) * 1000 / deltaTimeMs;
+            _previousTargetPosition = currentTargetPosition;
+        }
     }
 }

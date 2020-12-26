@@ -13,6 +13,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Utils
 {
     public static class CurvePathAnimations
     {
+        /*
        public static UniTask CubicBezierFromPoints(Vector2 start, Vector2 middlePoint, Vector2 end, float speed, Action<Vector2> callback)
        {
             Vector2 PositionAtTime(float t)
@@ -21,7 +22,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Utils
                 return position;
             }
 
-            return Animations.Transition
+            return @this.Transition
             (
                 from: 0,
                 to: 1,
@@ -40,5 +41,6 @@ namespace Assets.AToonWorld.Scripts.PathFinding.Utils
                 return CubicBezierFromPoints(start, intersection, end, speed, positionCallback);
             return UniTask.CompletedTask;
         }      
+        */
     }
 }

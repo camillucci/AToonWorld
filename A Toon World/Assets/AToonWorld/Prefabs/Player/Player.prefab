@@ -235,8 +235,8 @@ MonoBehaviour:
   _jumpHoldStepMs: 35
   _climbingSpeed: 5
   _isDoubleJumpEnabled: 0
-  _jumpDelaySensitivity: 7
-  _slidingAngle: 75
+  _jumpDelaySensitivity: 0
+  _frictionWhenIdle: 0.9
 --- !u!114 &9202030778897293430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,7 +348,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -6349360636359246829, guid: 26be355bf013bb342b102da0b6fccc06,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -405,6 +405,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.98029965, y: 1.2521875}
+  m_Offset: {x: 0, y: -0.037401676}
+  m_Size: {x: 1.1677408, y: 1.3269908}
   m_Direction: 0
