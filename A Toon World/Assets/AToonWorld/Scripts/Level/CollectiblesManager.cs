@@ -7,9 +7,9 @@ namespace Assets.AToonWorld.Scripts.Level
 {
     public class CollectiblesManager : MonoBehaviour
     {
-        public List<Collectible> _collectibles { get; private set; } = new List<Collectible>();
-        public int _totalCollectibles { get; private set; }
-        public int _currentCollectibles { get; private set; }
+        private List<Collectible> _collectibles = new List<Collectible>();
+        private int _totalCollectibles;
+        private int _currentCollectibles;
         private List<Collectible> _collectiblesSinceLastCheckpoint =  new List<Collectible>();
 
         [SerializeField] private bool _removeCollectiblesOnDeath = true;
@@ -21,6 +21,7 @@ namespace Assets.AToonWorld.Scripts.Level
             foreach (var collectible in collectibles)
                 SetupCheckPoint(collectible);
             _collectibles.AddRange(collectibles);
+            _collectibles.Sort((x, y) => x.CollectibleNumber.CompareTo(y.CollectibleNumber));
             _totalCollectibles = _collectibles.Count;
         }
 
@@ -55,7 +56,9 @@ namespace Assets.AToonWorld.Scripts.Level
             _collectiblesSinceLastCheckpoint.Clear();
         }
 
-        // Check if the player got enough collectibles for a star
+        public List<Collectible> Collectibles => _collectibles;
+        public int TotalCollectibles => _totalCollectibles;
+        public int CurrentCollectibles => _currentCollectibles;
         public bool GotAchievement => _currentCollectibles == _totalCollectibles;
     }
 }

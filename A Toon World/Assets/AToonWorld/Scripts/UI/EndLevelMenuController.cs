@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Level;
 using Assets.AToonWorld.Scripts.Player;
 using TMPro;
@@ -12,28 +13,29 @@ namespace Assets.AToonWorld.Scripts.UI
     public class EndLevelMenuController : MonoBehaviour
     {
         private PlayerController _playerController;
-        private LevelHandler _levelHandler;
+        private List<IAchievementManger> _achievementManagers;
+        private CollectiblesManager _collectiblesManager;
+        private RectTransform _transform;
 
         [SerializeField] private GameObject _endLevelMenuUI = null;
-        [SerializeField] private TMP_Text _timeText = null;
-        [SerializeField] private TMP_Text _deathsText = null;
-        [SerializeField] private TMP_Text _collectibleText = null;
-        [SerializeField] private Image _timeStar = null;
-        [SerializeField] private Image _deathsStar = null;
-        [SerializeField] private Image _collectiblesStar = null;
-        [SerializeField] private Sprite _starBlankSprite = null;
-        [SerializeField] private Sprite _starFullSprite = null;
+        [SerializeField] private TMP_Text[] _achievementTexts = null;
+        [SerializeField] private Image[] _medalImages = null;
+        [SerializeField] private Sprite _noMedalSprite = null;
+        [SerializeField] private Sprite[] _medalSprites = null;
+        [SerializeField] private Sprite _easyCollectibleSprite = null;
+        [SerializeField] private Sprite _hardCollectibleSprite = null;
+        [SerializeField] private GameObject _collectibleCirclesList = null;
+        [SerializeField] private GameObject[] _collectibleCircles = null;
 
-        // Initialization
-        private void Start()
-        {
-            RefreshValues();
-        }
-
+        // Initialization when level starts
         public void RefreshValues()
         {
+            // Get object used for checking achievements
             _playerController = FindObjectOfType<PlayerController>();
-            _levelHandler = FindObjectOfType<LevelHandler>();
+            LevelHandler levelHandler = FindObjectOfType<LevelHandler>();
+            _achievementManagers = levelHandler.AchievementMangers;
+            _collectiblesManager = levelHandler.CollectiblesManager;
+            _transform = _collectibleCirclesList.GetComponent<RectTransform>();
         }
 
         public void ShowEndLevelMenu()
@@ -41,59 +43,57 @@ namespace Assets.AToonWorld.Scripts.UI
             //Request Cursor Change
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
 
-            // Freeze time and disable player movements
+            // Freeze time, disable player movements and show the menu
             Time.timeScale = 0f;
             _playerController.DisablePlayer();
             InGameUIController.PrefabInstance._isEndLevelMenu = true;
-
-            // Show player achievements
             _endLevelMenuUI.SetActive(true);
-            _timeText.text = _levelHandler._timeManager.getFormattedTime()
-                + " / " + _levelHandler._timeManager.getFormattedAchievementTime();
-            _deathsText.text = _levelHandler._deathCounter.ToString()
-                + " / " + _levelHandler.MaxDeathsForAchievement.ToString();
-            _collectibleText.text = _levelHandler._collectiblesManager._currentCollectibles.ToString()
-                + " / " + _levelHandler._collectiblesManager._totalCollectibles.ToString();
+            
+            // Calculate and show player medals and achievements
+            // Medals are for time, deaths and ink usage
+            int medals = 0;
+            for (int i = 0; i < _achievementManagers.Count; i++)
+            {
+                _achievementTexts[i].text = _achievementManagers[i].AchievementText();
+                if (_achievementManagers[i].GotAchievement())
+                {
+                    PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementPaths[i], 1);
+                    _medalImages[i].sprite = _medalSprites[i];
+                    medals += 1;
+                }
+                else
+                {
+                    _medalImages[i].sprite = _noMedalSprite;
+                    medals += PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, 0);
+                }
+            }
 
-            // Calculate and show player stars
-            int stars = 0;
-            // One star if the player took less than a threshold time to complete the level
-            if (_levelHandler._timeManager.GotAchievement)
+            // Resize the displayed collectiblesList properly and show gathered collectibles
+            List<Collectible> collectibles = _collectiblesManager.Collectibles;
+            _transform.SetLeft(970f - collectibles.Count * 70f);
+            for (int i = 0; i < _collectibleCircles.Length; i++)
             {
-                _timeStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
-                stars += 1;
+                if (i < collectibles.Count)
+                {
+                    _collectibleCircles[i].GetComponent<Image>().sprite = collectibles[i].IsHard ? _hardCollectibleSprite : _easyCollectibleSprite;
+                    _collectibleCircles[i].SetActive(true);
+                    _collectibleCircles[i].transform.GetChild(0).gameObject.SetActive(! collectibles[i].isActiveAndEnabled);
+                }
+                else
+                {
+                    _collectibleCircles[i].SetActive(false);
+                }
             }
-            else
-            {
-                _timeStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
-            }
-            // One star if the player died less than a treshold amount
-            if (_levelHandler.GotDeathsAchievement)
-            {
-                _deathsStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
-                stars += 1;
-            }
-            else
-            {
-                _deathsStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
-            }
-            // One star if the player collected all collectibles
-            if (_levelHandler._collectiblesManager.GotAchievement)
-            {
-                _collectiblesStar.gameObject.GetComponent<Image>().sprite = _starFullSprite;
-                stars += 1;
-            }
-            else
-            {
-                _collectiblesStar.gameObject.GetComponent<Image>().sprite = _starBlankSprite;
-            }
-            stars = Mathf.Max(stars, PlayerPrefs.GetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, 0));
 
-            GetComponentInChildren<FeedbackButtonController>().RefreshButtons();
+            // GetComponentInChildren<FeedbackButtonController>().RefreshButtons();
 
-            // Save player progresses
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath + SceneManager.GetActiveScene().name, stars);
-            PlayerPrefs.SetInt(UnityScenes.ScenesPath2 + SceneManager.GetActiveScene().name, stars);
+            // Save player progresses: achievements and collectibles
+            medals = Mathf.Max(medals,
+                PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, 0));
+            int collectiblesCount = Mathf.Max(collectibles.Count,
+                PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.CollectiblesPath, 0));
+            PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, medals);
+            PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.CollectiblesPath, collectiblesCount);
         }
 
         // Deactivate all used inks and restart the level from the beginning

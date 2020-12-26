@@ -15,7 +15,7 @@ public class ShooterController : MonoBehaviour
     [SerializeField] private Transform _bulletSpawner = null;
     [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private float _bulletsInterleavingSeconds = 1;
-    [SerializeField] private bool _balisticsEnabled;
+    [SerializeField] private bool _ballisticsEnabled = false;
 
 
     private bool _canFire;
@@ -33,10 +33,10 @@ public class ShooterController : MonoBehaviour
     {
         get
         {
-            if (!_balisticsEnabled)
+            if (!_ballisticsEnabled)
                 return _target.position;
 
-            var linearPosition = LinearBalistics.FindShootTarget(_bulletSpawner.position, _prefabBulletController.Speed, _target.position, _currentTargetVelocity);
+            var linearPosition = LinearBallistics.FindShootTarget(_bulletSpawner.position, _prefabBulletController.Speed, _target.position, _currentTargetVelocity);
             if (_prefabBulletController.BehaviourType == BulletBehaviourType.Linear)
                 return linearPosition + Vector2.Distance(linearPosition, _target.position)* 0.2f * _currentTargetVelocity.normalized;
             return linearPosition;
@@ -56,7 +56,7 @@ public class ShooterController : MonoBehaviour
         if (bulletType == BulletBehaviourType.Parabolic) _bulletBehaviour = new ParabolicBullet();
         LookAtTarget();
 
-        if(_balisticsEnabled)
+        if(_ballisticsEnabled)
             UpdateTargetVelocity().Forget();
     }
 
@@ -104,7 +104,7 @@ public class ShooterController : MonoBehaviour
             other.gameObject.SetActive(false);
     }
 
-    // Only if balistics is enabled
+    // Only if ballistics is enabled
     private async UniTask UpdateTargetVelocity()
     {
         var deltaTimeMs = 100;

@@ -9,7 +9,7 @@ namespace Assets.AToonWorld.Scripts.UnityAnimations
 {
     public class GenericAnimations : Singleton<GenericAnimations>
     {
-        [SerializeField] private GameObject _inkCloudPrefab;
+        [SerializeField] private GameObject _inkCloudPrefab = null;
 
 
         public static FireAndForgetAnimation InkCloud(Vector2 position)

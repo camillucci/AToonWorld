@@ -181,9 +181,9 @@ public class PlayerMovementController : MonoBehaviour
 
     // Trigger Collisions
     private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;
-    private void OnGroundExit(Collider2D collider) => this.InvokeFramwDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);
+    private void OnGroundExit(Collider2D collider) => this.InvokeFrameDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);
     private void OnDrawingEnter(Collider2D collider) => DrawingPlatformsCollidedCount++;
-    private void OnDrawingExit(Collider2D collider) => this.InvokeFramwDelayed(() => DrawingPlatformsCollidedCount--, _jumpDelaySensitivity);
+    private void OnDrawingExit(Collider2D collider) => this.InvokeFrameDelayed(() => DrawingPlatformsCollidedCount--, _jumpDelaySensitivity);
 
 
 
@@ -333,7 +333,7 @@ public class PlayerMovementController : MonoBehaviour
             // Scale velocity according to platforms/drawings angle 
             var descentHorizontalDirection = _lastContact.normal.x;
             if (descentHorizontalDirection * HorizontalMovementDirection < 0) // Not Same direction
-                HorizontalMovementDirection *= Mathf.Cos(CurrentAngleRadians); // Apply psuedo-friction
+                HorizontalMovementDirection *= Mathf.Cos(CurrentAngleRadians); // Apply pseudo-friction
         }
 
 

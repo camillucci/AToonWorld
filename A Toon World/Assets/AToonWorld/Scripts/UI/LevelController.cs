@@ -17,11 +17,10 @@ namespace Assets.AToonWorld.Scripts.UI
         private bool _isLocked = true;
         
         [SerializeField] private int _levelNumber = -1;
-        [SerializeField] private Sprite _standardImage = null;
+        [SerializeField] private int _totalCollectibles = -1;
         [SerializeField] private Sprite _bwImage = null;
-        [SerializeField] private Image[] _stars = null;
-        [SerializeField] private Sprite _starBlankSprite = null;
-        [SerializeField] private Sprite _starFullSprite = null;
+        [SerializeField] private Image[] _medals = null;
+        [SerializeField] private Sprite _noMedalSprite = null;
 
         #endregion
 
@@ -38,33 +37,34 @@ namespace Assets.AToonWorld.Scripts.UI
             UpdateImages();
         }
 
-        // Visualize a lock if the level is locked, the number of stars obtained if it is completed
-        private void UpdateImages()
-        {
-            // Update background
-            if (_isLocked && _levelNumber > 1)
-                _image.sprite = _bwImage;
-            else
-                _image.sprite = _standardImage;
-            
-            // Update stars
-            for (int i = 0; i < _stars.Length; i++)
-            {
-                int starsNumber = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber], -1);
-                _stars[i].gameObject.SetActive(starsNumber >= 0);
-                if (starsNumber > i)
-                    _stars[i].sprite = _starFullSprite;
-                else
-                    _stars[i].sprite = _starBlankSprite;
-            }
-        }
-
         // Update the locked status based on the previous level completion
         private void UpdateStatus()
         {
-            _isLocked = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1], -1) < 0 && _levelNumber > 1;
+            _isLocked = PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber - 1] + UnityScenes.AchievementsPath, -1) < 0 && _levelNumber > 1;
             _button.interactable = ! _isLocked;
+        }
 
+        // Visualize the B&W image if the level is locked, the number of medals obtained if it is completed
+        private void UpdateImages()
+        {
+            if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber] + UnityScenes.AchievementsPath, -1) < 0)
+            {
+                _image.sprite = _bwImage;
+                for (int i = 0; i < _medals.Length; i++)
+                {
+                    _medals[i].gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _medals.Length; i++)
+                {
+                    if (PlayerPrefs.GetInt(UnityScenes.Levels[_levelNumber] + UnityScenes.AchievementPaths[i], 0) == 0)
+                    {
+                        _medals[i].sprite = _noMedalSprite;
+                    }
+                }
+            }
         }
 
         public void StartLevel()
@@ -75,16 +75,11 @@ namespace Assets.AToonWorld.Scripts.UI
         // Start a new game, mainly for debugging reasons
         public void ResetLevel()
         {
-            _image.sprite = _bwImage;
-            if(_levelNumber != 1)
-            {
-                _isLocked = true;
-                _button.interactable = false;
-            }
-            for (int i = 0; i < _stars.Length; i++)
-                _stars[i].sprite = _starBlankSprite;
+            UpdateStatus();
+            UpdateImages();
         }
 
-        public int LevelNumber() => _levelNumber;
+        public int LevelNumber => _levelNumber;
+        public int TotalCollectibles => _totalCollectibles;
     }
 }

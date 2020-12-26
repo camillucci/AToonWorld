@@ -8,16 +8,16 @@ namespace Events
 {
     public static class PlayerEvents
     {
-        /// <summary>Evento scatenato quando muore il player</summary>
+        /// <summary>Event raised when the player dies</summary>
         public static UnityEvent Death = new UnityEvent();
 
-        /// <summary>Evento scatenato quando il player è respawnato</summary>
+        /// <summary>Event raised when the player has finished respawning</summary>
         public static UnityEvent PlayerRespawned = new UnityEvent();
         
-        /// <summary>Evento scatenato quando il player sta respawnando</summary>
+        /// <summary>Event raised when the player starts respawning</summary>
         public static UnityEvent PlayerRespawning = new UnityEvent();
 
-        /// <summary>Event notified when a Spline is created in the world</summary>
+        /// <summary>Event raised when a Spline is created in the world</summary>
         public static Event<DrawSplineController> SplineDrawn = new Event<DrawSplineController>();
     }
 }

@@ -11,43 +11,69 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public class PauseMenuController : MonoBehaviour
     {
-        private static bool _isGamePaused = false;
+        private GameState _gameState = GameState.InGame;
         private PlayerController _playerController;
 
         [SerializeField] private GameObject _pauseMenuUI = null;
-
-        // Initialization
-        private void Start()
-        {
-            RefreshValues();
-        }
+        [SerializeField] private GameObject _settingsMenuUI = null;
+        [SerializeField] private GameObject _controlsMenuUI = null;
 
         void Update()
         {
-            if (InputUtils.TogglePauseMenu)
+            if (InputUtils.ToggleSettingsMenu)
             {
-                if(_isGamePaused)
+                if (_gameState == GameState.InSettingsMenu)
+                {
                     Resume();
-                else
+                }
+                else if (InGameUIController.PrefabInstance.CanPause)
+                {
+                    ShowSettingsMenu();
                     Pause();
+                }
+            }
+            else if (InputUtils.ToggleControlsMenu)
+            {
+                if (_gameState == GameState.InControlsMenu)
+                {
+                    Resume();
+                }
+                else if (InGameUIController.PrefabInstance.CanPause)
+                {
+                    ShowControlsMenu();
+                    Pause();
+                }
             }
         }
 
+        // Initialization when level starts
         public void RefreshValues()
         {
             _playerController = FindObjectOfType<PlayerController>();
+            _gameState = GameState.InGame;
         }
 
-        public static bool IsGamePaused => _isGamePaused;
-
-        // Freeze time, disable player movements and enable menu
-        void Pause()
+        // Pause game and enable pause menu
+        public void ShowSettingsMenu()
         {
-            if (! InGameUIController.PrefabInstance.CanPause)
-                return;
+            _settingsMenuUI.SetActive(true);
+            _controlsMenuUI.SetActive(false);
+            _gameState = GameState.InSettingsMenu;
+        }
+
+        // Pause and enable controls menu
+        public void ShowControlsMenu()
+        {
+            _settingsMenuUI.SetActive(false);
+            _controlsMenuUI.SetActive(true);
+            _gameState = GameState.InControlsMenu;
+        }
+
+        // Freeze time, disable player movements
+        private void Pause()
+        {
             _pauseMenuUI.SetActive(true);
             Time.timeScale = 0f;
-            _isGamePaused = true;
             _playerController.DisablePlayer();
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
         }
@@ -59,7 +85,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             _pauseMenuUI.SetActive(false);
             Time.timeScale = 1f;
-            _isGamePaused = false;
+            _gameState = GameState.InGame;
             _playerController.EnablePlayer();
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
         }
@@ -85,5 +111,12 @@ namespace Assets.AToonWorld.Scripts.UI
         }
 
         #endregion
+
+        private enum GameState
+        {
+            InGame,
+            InSettingsMenu,
+            InControlsMenu,
+        }
     }
 }

@@ -9,19 +9,19 @@ namespace Events
 {
     public static class InterfaceEvents
     {
-        /// <summary>Evento scatenato quando viene selezionato un nuovo inchiostro da periferica</summary>
+        /// <summary>Event raised when a new ink is selected from a peripheral device (1 2 3 4 or middle mouse button)</summary>
         public static Event<PlayerInkController.InkType> InkSelected = new Event<PlayerInkController.InkType>();
 
-        /// <summary>Evento scatenato quando cambia la quantità di inchiostro (normalizzato)</summary>
+        /// <summary>Event raised when the quantity of ink changes (normalized)</summary>
         public static Event<(PlayerInkController.InkType, float)> InkCapacityChanged = new Event<(PlayerInkController.InkType, float)>();
 
-        /// <summary>Evento scatenato quando cambia la quantità di inchiostro (non normalizzato, in quantità assoluta in base all'inchiostro)</summary>
+        /// <summary>Event raised when the quantity of ink changes (not normalized, absolute quantity depending on the InkType)</summary>
         public static Event<(PlayerInkController.InkType, float)> RawInkCapacityChanged = new Event<(PlayerInkController.InkType, float)>();
         
-        /// <summary>Evento scatenato quando viene selezionato un nuovo inchiostro da interfaccia</summary>
+        /// <summary>Event raised when a new ink is selected from the interaface (InkWheel with right mouse button)</summary>
         public static Event<PlayerInkController.InkType> InkSelectionRequested = new Event<PlayerInkController.InkType>();
         
-        /// <summary>Evento scatenato quando si vuole cambiare il cursore ad esempio entrando in un menu</summary>
+        /// <summary>Event raised when we want to change the cursor sprite, when we enter a level or a menu</summary>
         public static Event<CursorController.CursorType> CursorChangeRequest = new Event<CursorController.CursorType>();
     }
 }

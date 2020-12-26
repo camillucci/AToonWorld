@@ -6,14 +6,27 @@ namespace Assets.AToonWorld.Scripts.UI
 {
     public static class UnityScenes
     {
-        //TODO: Only keep one scene path
-        public const string ScenesPath = "Scenes/";
-        public const string ScenesPath2 = "AToonWorld/Scenes/Tutorial/";
+        #region Paths
+
+        public const string LevelsPath = "AToonWorld/Scenes/Tutorial/";
+        public const string MenusPath = "AToonWorld/Scenes/Menus/";
+        public const string AchievementsPath = "/Achievements";
+        public const string CollectiblesPath = "/Collectibles";
+        public static readonly string[] AchievementPaths = {
+            AchievementsPath + "/Time",
+            AchievementsPath + "/Deaths",
+            AchievementsPath + "/InkUsage",
+        };
+        public const string TimePath = "/Time";
+        public const string DeathsPath = "/Deaths";
+        public const string InkUsagePath = "/InkUsage";
+
+        #endregion
         
         #region StandaloneScenes
 
-        public const string MainMenu = "Scenes/MainMenu";
-        public const string LevelsMenu = "Scenes/LevelsMenu";
+        public const string MainMenu = "AToonWorld/Scenes/Menus/MainMenu";
+        public const string LevelsMenu = "AToonWorld/Scenes/Menus/LevelsMenu";
 
         #endregion
 
@@ -25,7 +38,7 @@ namespace Assets.AToonWorld.Scripts.UI
             "AToonWorld/Scenes/Tutorial/build_tutorial_000",
             "AToonWorld/Scenes/Tutorial/damage_tutorial_002",
             "AToonWorld/Scenes/Tutorial/climb_tutorial_001",
-            "Scenes/ThanksForPlaying",
+            "AToonWorld/Scenes/Menus/ThanksForPlaying",
         };
 
         #endregion

@@ -36,7 +36,8 @@ namespace Assets.AToonWorld.Scripts.Utils
 
         public static bool EnterButton => Input.GetButtonDown("Submit");
 
-        public static bool TogglePauseMenu => Input.GetButtonDown("PauseMenu");
+        public static bool ToggleSettingsMenu => Input.GetButtonDown("SettingsMenu");
+        public static bool ToggleControlsMenu => Input.GetButtonDown("ControlsMenu");
 
         //DEBUG
         public static bool KillPlayer => Input.GetKey(KeyCode.K);

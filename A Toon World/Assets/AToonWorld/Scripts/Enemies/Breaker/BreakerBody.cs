@@ -46,7 +46,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             collision.gameObject.SetActive(false);
             
             /*
-             * // Workaround. OnTriggerExit can be called before onTriggerEnter if entering and exeting happens in the same instant
+             * // Workaround. OnTriggerExit can be called before onTriggerEnter if entering and exiting happens in the same instant
             DeleteLineAfter(100, collision.gameObject).Forget();
             */
         }

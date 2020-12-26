@@ -13,6 +13,7 @@ namespace Assets.AToonWorld.Scripts.Level
         public event Action<Collectible> PlayerHit;
 
         [SerializeField] private int _collectibleNumber = -1;
+        [SerializeField] private bool _isHard = false;
         [SerializeField] private UnityEvent _collectibleTaken = null;
 
         //Effects Properties
@@ -38,5 +39,6 @@ namespace Assets.AToonWorld.Scripts.Level
         }
 
         public int CollectibleNumber => _collectibleNumber;
+        public bool IsHard => _isHard;
     }
 }

@@ -227,7 +227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9c7266edbb3dd4db246ba12ff5ef87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDeathsForAchievement: 5
   _inkPalette: {fileID: 11400000, guid: 02c1a3bd0e7c0584084e3ed1af8d0c7d, type: 2}
 --- !u!1 &5806683213184375814
 GameObject:
@@ -283,8 +282,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8930789746123552732}
   - component: {fileID: 8507050571298085848}
+  - component: {fileID: 6245703391535683153}
+  - component: {fileID: 5178573678489211561}
   m_Layer: 0
-  m_Name: Time Manager
+  m_Name: Achievements Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,6 +318,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxTimeForAchievementInSeconds: 600
+--- !u!114 &6245703391535683153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315861417742811100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1e0e4d193c37841bcc2fe7f2c88e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDeathsForAchievement: 5
+--- !u!114 &5178573678489211561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315861417742811100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0143fa58778c94a8c28473d4888fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxInkForAchievement: 1000
 --- !u!1001 &2576490032283009415
 PrefabInstance:
   m_ObjectHideFlags: 0

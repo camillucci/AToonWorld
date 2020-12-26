@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies
 {
-    public static class LinearBalistics
+    public static class LinearBallistics
     {
         public static Vector2 FindShootTarget(Vector2 bulletStart, float bulletSpeed, Vector2 targetStart, Vector2 targetVelocity)
         {
@@ -19,7 +19,7 @@ namespace Assets.AToonWorld.Scripts.Enemies
             // VELOCITY_DIRECTION = (targetStart - bulletStart + targetVelocity * t ) / (bulletSpeed * t)
             // |VELOCITY_DIRECTION|^2 = 1   ==>  |targetStart - bulletStart + targetVelocity * t|^2 = |bulletSpeed * t|^2
             // ==> solve for t
-            // |targetStart|^2 + |bulletStart|^2 + |targetVelocity|^2 * t^2 - 2<targetStart, bulletStart> - 2<bulletStart, targetVelocity> * t +  2<targetStart, targetVelocity> * t = bulletSpped^ 2 * t^2
+            // |targetStart|^2 + |bulletStart|^2 + |targetVelocity|^2 * t^2 - 2<targetStart, bulletStart> - 2<bulletStart, targetVelocity> * t +  2<targetStart, targetVelocity> * t = bulletSpeed^ 2 * t^2
             // ==> a t^2 + bt + c = 0
 
 

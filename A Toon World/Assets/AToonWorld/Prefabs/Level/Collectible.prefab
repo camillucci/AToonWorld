@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collectibleNumber: -1
+  _isHard: 0
   _collectibleTaken:
     m_PersistentCalls:
       m_Calls: []
