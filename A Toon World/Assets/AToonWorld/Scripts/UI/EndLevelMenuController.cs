@@ -21,6 +21,9 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private TMP_Text[] _achievementTexts = null;
         [SerializeField] private Image[] _medalImages = null;
         [SerializeField] private Sprite _noMedalSprite = null;
+        [SerializeField] private Sprite[] _medalSprites = null;
+        [SerializeField] private Sprite _easyCollectibleSprite = null;
+        [SerializeField] private Sprite _hardCollectibleSprite = null;
         [SerializeField] private GameObject _collectibleCirclesList = null;
         [SerializeField] private GameObject[] _collectibleCircles = null;
 
@@ -55,6 +58,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 if (_achievementManagers[i].GotAchievement())
                 {
                     PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementPaths[i], 1);
+                    _medalImages[i].sprite = _medalSprites[i];
                     medals += 1;
                 }
                 else
@@ -71,6 +75,7 @@ namespace Assets.AToonWorld.Scripts.UI
             {
                 if (i < collectibles.Count)
                 {
+                    _collectibleCircles[i].GetComponent<Image>().sprite = collectibles[i].IsHard ? _hardCollectibleSprite : _easyCollectibleSprite;
                     _collectibleCircles[i].SetActive(true);
                     _collectibleCircles[i].transform.GetChild(0).gameObject.SetActive(! collectibles[i].isActiveAndEnabled);
                 }

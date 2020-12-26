@@ -4,6 +4,7 @@ using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.Level;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.AToonWorld.Scripts.UI
 {
@@ -12,6 +13,8 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private GameObject _collectiblesMenuUI = null;
         [SerializeField] private bool _isPositionFixed = true;
         [SerializeField] private GameObject[] _collectibleCircles = null;
+        [SerializeField] private Sprite _easyCollectibleSprite = null;
+        [SerializeField] private Sprite _hardCollectibleSprite = null;
 
         private int _totalCollectibles = -1;
         private Animator _animator;
@@ -40,6 +43,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 }
                 else
                 {
+                    _collectibleCircles[i].GetComponent<Image>().sprite = collectibles[j].IsHard ? _hardCollectibleSprite : _easyCollectibleSprite;
                     _collectibleCircles[i].SetActive(true);
                     collectibles[j].PlayerHit += Collectible_PlayerHit;
                     j++;
