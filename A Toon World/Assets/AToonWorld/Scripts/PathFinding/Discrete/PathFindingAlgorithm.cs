@@ -18,23 +18,24 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 
 		public IEnumerable<Node> FindMinimumPath(PathFindingGrid grid, Node startNode, Node destNode, PathStepsContainer forbiddenSteps)
 		{
-			bool NodeCostLessThan(Node a, Node b) => a.FCost <= b.FCost && a.HCost < b.HCost;
+			bool NodeCostLessThan(Node a, Node b) => a.GCost <= b.GCost && a.HCost < b.HCost;
 
 			var openNodes = new HashSet<Node> { startNode };
 			var closedNodes = new HashSet<Node>();
-			
-			for (Node curNode = startNode; openNodes.Count > 0 && curNode != destNode; curNode = openNodes.MinimumPoint(NodeCostLessThan))
+
+			Node curNode;
+			for (curNode = startNode; openNodes.Count > 0 && curNode != destNode; curNode = openNodes.MinimumPoint(NodeCostLessThan))
 			{
-				foreach (Node neighbor in grid.GetNeighbors(curNode))
-					if (neighbor.Walkable && !closedNodes.Contains(neighbor) && !forbiddenSteps.Contains(curNode, neighbor))
+				foreach (Node neighbour in grid.GetNeighbors(curNode))
+					if (neighbour.Walkable && !closedNodes.Contains(neighbour) && !forbiddenSteps.Contains(curNode, neighbour))
 					{
-						int newCostToNeighbor = curNode.GCost + Distance(curNode, neighbor);
-						if (newCostToNeighbor < neighbor.GCost || !openNodes.Contains(neighbor))
+						int newCostToNeighbor = curNode.GCost + Distance(curNode, neighbour);
+						if (newCostToNeighbor < neighbour.GCost || !openNodes.Contains(neighbour))
 						{
-							neighbor.GCost = newCostToNeighbor;
-							neighbor.HCost = Distance(neighbor, destNode);
-							neighbor.Parent = curNode;
-							openNodes.Add(neighbor);
+							neighbour.GCost = newCostToNeighbor;
+							neighbour.HCost = Distance(neighbour, destNode);
+							neighbour.Parent = curNode;
+							openNodes.Add(neighbour);
 						}
 					}
 
@@ -42,7 +43,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 				closedNodes.Add(curNode);
 			}
 
-			return RetracePath(startNode, destNode);
+			return curNode == destNode ? RetracePath(startNode, destNode) : new List<Node>();
 		}
 
 		
@@ -68,9 +69,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
 			while(currentNode != startNode)
             {
 				path.Add(currentNode);				
-				if (currentNode.Parent != null)
-					currentNode = currentNode.Parent;
-				else return new List<Node>();
+				currentNode = currentNode.Parent;
 			}
 			path.Reverse();
 

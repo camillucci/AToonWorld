@@ -36,6 +36,10 @@ public class ShooterController : MonoBehaviour
             if (!_ballisticsEnabled)
                 return _target.position;
 
+            // if "Jumping"
+            if (_currentTargetVelocity.y / _currentTargetVelocity.x > 1.5) 
+                return (Vector2)_target.position + _currentTargetVelocity.normalized * 1;
+
             var linearPosition = LinearBallistics.FindShootTarget(_bulletSpawner.position, _prefabBulletController.Speed, _target.position, _currentTargetVelocity);
             if (_prefabBulletController.BehaviourType == BulletBehaviourType.Linear)
                 return linearPosition + Vector2.Distance(linearPosition, _target.position)* 0.2f * _currentTargetVelocity.normalized;

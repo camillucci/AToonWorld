@@ -20,5 +20,5 @@ MonoBehaviour:
   _maxPoolSize: 50
   _expendableResource: {fileID: 11400000, guid: 12badfb9165f4d74c9b637ddb36f0f69,
     type: 2}
-  _sensibility: 0.5
-  _distanceFromBorder: 0.26
+  _sensibility: 0.8
+  _distanceFromBorder: 0.17

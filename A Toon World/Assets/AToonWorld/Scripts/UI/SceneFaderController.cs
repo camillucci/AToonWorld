@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.Extensions;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +22,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 time -= Time.unscaledDeltaTime * fadingSpeed;
                 float alpha = _animationCurve.Evaluate(time);
                 _image.color = new Color(0f, 0f, 0f, alpha);
-                await UniTask.WaitForEndOfFrame();
+                await this.WaitForEndOfFrame();
             }
         }
 

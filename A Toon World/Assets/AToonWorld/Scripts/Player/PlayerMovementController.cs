@@ -21,7 +21,6 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 4;
     [SerializeField] private float _frictionWhenIdle = 0.9f;    
-    //[SerializeField] private int _verticalAngle = 80;
 
 
     // Private fields
@@ -282,7 +281,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         float totForce = 0;
         bool jumpHeld;
-        await UniTask.WaitForFixedUpdate();
+        await this.WaitForFixedUpdate();
         RigidBody.velocity = new Vector2(RigidBody.velocity.x, 0);
         IsGravityEnabled = true;
         do

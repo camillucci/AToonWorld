@@ -223,6 +223,7 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         private async UniTask LoadSfx()
         {
+            #if UNITY_EDITOR
             var resourcesSfxTasks = GetClips(SfxRelativePath, (relPath, clip) => new { clip, SfxRelativePath = relPath == SfxRelativePath ? "" : relPath.Substring(SfxRelativePath.Length) });
             foreach (var soundEffectTask in resourcesSfxTasks)
             {
@@ -236,7 +237,6 @@ namespace Assets.AToonWorld.Scripts.Audio
                               select soundEffectObj;
             UniTaskCompletionSource<bool> tcs = new UniTaskCompletionSource<bool>();
             
-            #if UNITY_EDITOR
                 UnityEditor.EditorApplication.delayCall += () =>
                 {
                     try
@@ -252,9 +252,9 @@ namespace Assets.AToonWorld.Scripts.Audio
                         tcs.TrySetResult(true);
                     }
                 };
-            #endif
 
             await tcs.Task;
+            #endif
         }
 
 
