@@ -23,7 +23,9 @@ public abstract class ScriptableInkHandler : ScriptableObject, IInkHandler
     [SerializeField] private int _maxPoolSize = 2;
     public int MaxPoolSize => _maxPoolSize;
 
+
     #endregion
+    public abstract bool CanDraw { get; }
 
     public void BindInkController(PlayerInkController playerInkController)
     {

@@ -11,6 +11,8 @@ public abstract class ScriptableExpendableInkHandler : ScriptableInkHandler
     public float CurrentCapacity => _expendableResource.Capacity;
     public ExpendableResource Expendable => _expendableResource;
 
+    public override bool CanDraw => CurrentCapacity > 0;
+
     //Called on Editor/Game start
     private void OnEnable() 
     {

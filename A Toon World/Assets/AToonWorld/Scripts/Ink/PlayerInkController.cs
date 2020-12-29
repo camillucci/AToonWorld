@@ -142,16 +142,17 @@ public class PlayerInkController : MonoBehaviour
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_inkPaletteSettings.SelectedInk);
-        
-        if(_inkHandlers[_inkPaletteSettings.SelectedInk] is ISplineInk _selectedSplineInk)
+
+        var selectedInkHandler = _inkHandlers[_inkPaletteSettings.SelectedInk];
+        if(selectedInkHandler is ISplineInk _selectedSplineInk)
             _selectedSplineInk?.BindSpline(pooledSpline.GetComponent<DrawSplineController>());
-        else if (_inkHandlers[_inkPaletteSettings.SelectedInk] is IBulletInk _selectedBulletInk)
+        else if (selectedInkHandler is IBulletInk _selectedBulletInk)
             _selectedBulletInk?.BindBulletAndPosition(pooledSpline.GetComponent<BulletController>(), transform.position);
 
         _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition);
 
-        if (_inkPaletteSettings.SelectedInk != InkType.Cancel && !_drawingSoundTaskRunning)
-            PlayDrawingSounds().Forget();
+        if (_inkPaletteSettings.SelectedInk != InkType.Cancel && !_drawingSoundTaskRunning && selectedInkHandler.CanDraw) 
+             PlayDrawingSounds().Forget();
         InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
     }
 

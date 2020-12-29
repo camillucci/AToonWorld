@@ -14,7 +14,7 @@ public interface IInkHandler
     Color InkColor { get; }
     int MinPoolSize { get; }
     int MaxPoolSize { get; }
-
+    bool CanDraw { get; }
     void BindInkController(PlayerInkController playerInkController);
 
     void OnDrawDown(Vector2 mouseWorldPosition);
