@@ -26,11 +26,12 @@ public class CancelInkHandler : ScriptableInkHandler, ISplineInk
         _cancelInkObserver = FindObjectOfType<CancelInkObserver>();
     }
 
-    public override void OnDrawDown(Vector2 mouseWorldPosition)
+    public override bool OnDrawDown(Vector2 mouseWorldPosition)
     {
         _boundSplineController.Clear();
         _boundSplineController.AddPoint(mouseWorldPosition);
         _lastPoint = mouseWorldPosition;
+        return true;
     }
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition)

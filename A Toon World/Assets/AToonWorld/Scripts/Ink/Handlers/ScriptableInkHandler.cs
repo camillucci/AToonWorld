@@ -34,7 +34,7 @@ public abstract class ScriptableInkHandler : ScriptableObject, IInkHandler
 
     public virtual void Init() { }
 
-    public abstract void OnDrawDown(Vector2 mouseWorldPosition);
+    public abstract bool OnDrawDown(Vector2 mouseWorldPosition);
 
     public abstract bool OnDrawHeld(Vector2 mouseWorldPosition);
 

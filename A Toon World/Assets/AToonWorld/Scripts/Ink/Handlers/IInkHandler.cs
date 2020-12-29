@@ -17,7 +17,7 @@ public interface IInkHandler
     bool CanDraw { get; }
     void BindInkController(PlayerInkController playerInkController);
 
-    void OnDrawDown(Vector2 mouseWorldPosition);
+    bool OnDrawDown(Vector2 mouseWorldPosition);
 
     /// <summary>
     /// Called when the user keeps holding the mouse for this frame

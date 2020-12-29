@@ -20,7 +20,8 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
         _boundSplineController = splineController;
     }
 
-    public override void OnDrawDown(Vector2 mouseWorldPosition)
+    // Returns true if the ink starts drawing, false otherwise
+    public override bool OnDrawDown(Vector2 mouseWorldPosition)
     {
         _boundSplineController.Clear(); //Clear even if can't draw
         
@@ -56,7 +57,7 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
             else
             {
                 _boundSplineController.gameObject.SetActive(false);
-                return;
+                return false;
             }
             _isDrawing = true;
             _boundSplineController.AddPoint(_lastPoint);
@@ -64,7 +65,10 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
                                                     this.InkColor.g,
                                                     this.InkColor.b,
                                                     0.5f);
+            return true;
         }
+        _boundSplineController.gameObject.SetActive(false);
+        return false;
     }
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition)

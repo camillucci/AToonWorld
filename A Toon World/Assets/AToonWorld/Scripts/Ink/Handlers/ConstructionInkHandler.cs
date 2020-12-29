@@ -15,7 +15,7 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
         _boundSplineController = splineController;
     }
 
-    public override void OnDrawDown(Vector2 mouseWorldPosition)
+    public override bool OnDrawDown(Vector2 mouseWorldPosition)
     {
         _boundSplineController.Clear(); //Clear even if can't draw
         
@@ -30,6 +30,7 @@ public class ConstructionInkHandler : ScriptableExpendableInkHandler, ISplineInk
                                                     this.InkColor.b,
                                                     0.5f);
         }
+        return true;
     }
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition)

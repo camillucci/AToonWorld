@@ -18,12 +18,13 @@ public class DamageInkHandler : ScriptableExpendableInkHandler, IBulletInk
         _bulletController.BulletBehaviour = _bulletBehaviour;
     }
     
-    public override void OnDrawDown(Vector2 mouseWorldPosition)
+    public override bool OnDrawDown(Vector2 mouseWorldPosition)
     {
         if(Vector2.Distance(_playerPosition, mouseWorldPosition) > _distanceFromPlayer && _expendableResource.ConsumeOrFail(1))
             _bulletController.Shoot(_playerPosition, mouseWorldPosition);
         else
             _bulletController.gameObject.SetActive(false);
+        return true;
     }
 
     public override bool OnDrawHeld(Vector2 mouseWorldPosition) => true;

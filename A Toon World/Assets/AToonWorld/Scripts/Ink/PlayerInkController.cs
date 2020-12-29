@@ -138,7 +138,6 @@ public class PlayerInkController : MonoBehaviour
         if(IsDrawing)
             return;
 
-        IsDrawing = true;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         GameObject pooledSpline = ObjectPoolingManager<InkType>.Instance.GetObject(_inkPaletteSettings.SelectedInk);
@@ -149,11 +148,13 @@ public class PlayerInkController : MonoBehaviour
         else if (selectedInkHandler is IBulletInk _selectedBulletInk)
             _selectedBulletInk?.BindBulletAndPosition(pooledSpline.GetComponent<BulletController>(), transform.position);
 
-        _inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition);
-
-        if (_inkPaletteSettings.SelectedInk != InkType.Cancel && _inkPaletteSettings.SelectedInk != InkType.Damage && !_drawingSoundTaskRunning && selectedInkHandler.CanDraw) 
-             PlayDrawingSounds().Forget();
-        InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
+        if (_inkHandlers[_inkPaletteSettings.SelectedInk].OnDrawDown(_mouseWorldPosition))
+        {
+            IsDrawing = true;
+            if (_inkPaletteSettings.SelectedInk != InkType.Cancel && _inkPaletteSettings.SelectedInk != InkType.Damage && !_drawingSoundTaskRunning && selectedInkHandler.CanDraw)
+                PlayDrawingSounds().Forget();
+            InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.None);
+        }
     }
 
     public void WhileDrawHeld()
