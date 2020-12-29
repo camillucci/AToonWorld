@@ -11,6 +11,8 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
     [SerializeField] private float _sensibility = 0.5f;
     [SerializeField] private float _distanceFromBorder = 0.15f;
     private Vector2 _lastPoint;
+    private Bounds _wallBounds;
+    private Direction _direction;
 
     public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
@@ -26,21 +28,31 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
         if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(_sensibility, 0), Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
         if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(-_sensibility, 0), Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
+        if(!hit) hit = Physics2D.Raycast(mouseWorldPosition + new Vector2(0, _sensibility), Vector2.zero, 0f, LayerMask.GetMask(UnityTag.NonWalkable));
         
         // Check if mouse is clicking a Ground object or it is near one, otherwise cancel
         if (hit && hit.collider.gameObject.CompareTag(UnityTag.Ground)) {
-            Bounds wallBounds = hit.collider.bounds;
-            float leftDistance = Mathf.Abs(wallBounds.min.x - mouseWorldPosition.x);
-            float rightDistance = Mathf.Abs(wallBounds.max.x - mouseWorldPosition.x);
-            float downDistance = Mathf.Abs(wallBounds.min.y - mouseWorldPosition.y);
+            _wallBounds = hit.collider.bounds;
+            float leftDistance = Mathf.Abs(_wallBounds.min.x - mouseWorldPosition.x);
+            float rightDistance = Mathf.Abs(_wallBounds.max.x - mouseWorldPosition.x);
+            float downDistance = Mathf.Abs(_wallBounds.min.y - mouseWorldPosition.y);
 
             // Check if mouse is near the border of a Ground object, otherwise cancel
             if (leftDistance < rightDistance && leftDistance < _sensibility)
-                _lastPoint = new Vector2(wallBounds.min.x - _distanceFromBorder, mouseWorldPosition.y);
+            {
+                _lastPoint = new Vector2(_wallBounds.min.x - _distanceFromBorder, mouseWorldPosition.y);
+                _direction = Direction.None;
+            }
             else if (rightDistance < _sensibility)
-                _lastPoint = new Vector2(wallBounds.max.x + _distanceFromBorder, mouseWorldPosition.y);
+            {
+                _lastPoint = new Vector2(_wallBounds.max.x + _distanceFromBorder, mouseWorldPosition.y);
+                _direction = Direction.None;
+            }
             else if (downDistance < _sensibility)
-                _lastPoint = mouseWorldPosition;
+            {
+                _lastPoint = new Vector2(mouseWorldPosition.x, _wallBounds.min.y);
+                _direction = Direction.Down;
+            }
             else
             {
                 _boundSplineController.gameObject.SetActive(false);
@@ -59,27 +71,48 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
     {
         if (_isDrawing && this.CurrentCapacity > 0) 
         {
-            // Only add segment if the next point is under the last point
-            if(mouseWorldPosition.y < _lastPoint.y) 
+            // Check if it is drawing upwards or downwards
+            if (_direction == Direction.None && Mathf.Abs(mouseWorldPosition.y - _lastPoint.y) > Mathf.Epsilon)
+            {
+                _direction = mouseWorldPosition.y < _lastPoint.y ? Direction.Down : Direction.Up;
+            }
+
+            // Do not allow to draw from down to up over the nonwalkable object
+            if (_direction == Direction.Up && mouseWorldPosition.y > _wallBounds.max.y)
+            {
+                Vector2 newPoint = new Vector2(_lastPoint.x, _wallBounds.max.y);
+                AddPoint(newPoint);
+                return false;
+            }
+
+            // Add next segment over or under the last point in a straight line
+            if (_direction == Direction.Down && mouseWorldPosition.y < _lastPoint.y ||
+                _direction == Direction.Up && mouseWorldPosition.y > _lastPoint.y)
             {
                 Vector2 newPoint = new Vector2(_lastPoint.x, mouseWorldPosition.y);
-                float toConsume = _lastPoint.y - newPoint.y;
-
-                if(_boundSplineController.AddPoint(newPoint))
-                {
-                    float consumedInk = _expendableResource.Consume(toConsume);
-
-                    //If I don't have that much ink, create a smaller segment
-                    if(consumedInk != toConsume)
-                        newPoint = _lastPoint + Vector2.down * consumedInk;
-
-                    _boundSplineController.SetPoint(_boundSplineController.PointCount - 1, newPoint);
-                }
-                _lastPoint = newPoint;
+                AddPoint(newPoint);
             }
             return true;
         }
         return false;
+    }
+
+    // Add point to Spline
+    private void AddPoint(Vector2 newPoint)
+    {
+        float toConsume = Mathf.Abs(_lastPoint.y - newPoint.y);
+
+        if (_boundSplineController.AddPoint(newPoint))
+        {
+            float consumedInk = _expendableResource.Consume(toConsume);
+
+            // If I don't have that much ink, create a smaller segment
+            if(consumedInk != toConsume)
+                newPoint = _lastPoint + (_direction == Direction.Down ? Vector2.down : Vector2.up) * consumedInk;
+
+            _boundSplineController.SetPoint(_boundSplineController.PointCount - 1, newPoint);
+        }
+        _lastPoint = newPoint;
     }
 
     public override void OnDrawReleased(Vector2 mouseWorldPosition)
@@ -95,5 +128,12 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
             else
                 _boundSplineController.gameObject.SetActive(false);
         }
+    }
+
+    private enum Direction
+    {
+        None,
+        Up,
+        Down,
     }
 }
