@@ -60,33 +60,6 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         }
 
 
-        public void AddStaticObstacle(string tag)
-        {
-            AddObstacleTag(tag);
-            ForceUpdateColliders();
-        }
-
-        public void AddStaticObstacles(IEnumerable<string> tags)
-        {
-            foreach (var tag in tags)
-                AddObstacleTag(tag);
-            ForceUpdateColliders();
-        }
-
-        public void RemoveStaticObstacle(string tag)
-        {
-            RemoveObstacleTag(tag);
-            ForceUpdateColliders();
-        }
-
-        public void RemoveStaticObstacles(IEnumerable<string> tags)
-        {
-            foreach(var tag in tags)
-                RemoveObstacleTag(tag);
-            ForceUpdateColliders();
-        }
-
-
         // UnityEvents
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -123,6 +96,7 @@ namespace Assets.AToonWorld.Scripts.PathFinding
             Vector2 colliderSize = _boxCollider.bounds.size;
             _boxCollider.size = new Vector2(_boxCollider.size.x / colliderSize.x * width, _boxCollider.size.y / colliderSize.y * height);
             ForceUpdateColliders();
+            UpdateNotWalkableArea();
         }
 
         private void AddObstacleTag(string tag)
