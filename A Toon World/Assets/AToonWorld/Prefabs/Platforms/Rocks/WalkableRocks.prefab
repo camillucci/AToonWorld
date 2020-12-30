@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7252356828370773989}
   - component: {fileID: 7252356828370773991}
-  - component: {fileID: 7252356828370773988}
+  - component: {fileID: 873851817136064619}
   m_Layer: 0
-  m_Name: Mossy - Decorations_Hazards_1
+  m_Name: WalkableRocks
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,8 +83,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!68 &7252356828370773988
-EdgeCollider2D:
+--- !u!60 &873851817136064619
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -97,14 +97,25 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.265625, y: 1.0136719}
+    newSize: {x: 2.265625, y: 1.0136719}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Points:
-  - {x: -0.7240047, y: -0.34274775}
-  - {x: -0.89140916, y: 0.042794645}
-  - {x: -0.89074373, y: 0.3812193}
-  - {x: -0.38680243, y: 0.46393377}
-  - {x: 0.046539135, y: 0.49617395}
-  - {x: 0.19639196, y: 0.4894947}
-  - {x: 0.44013563, y: 0.44188544}
-  - {x: 0.7639263, y: 0.15805426}
-  - {x: 0.82620656, y: -0.38821372}
+    m_Paths:
+    - - {x: 0.9409097, y: -0.2548185}
+      - {x: 0.76059645, y: 0.14975284}
+      - {x: 0.6335945, y: 0.27945402}
+      - {x: 0.44991803, y: 0.43235606}
+      - {x: 0.23206176, y: 0.48265558}
+      - {x: -0.08791155, y: 0.49888003}
+      - {x: -0.8722544, y: 0.37339798}
+      - {x: -0.87765837, y: -0.42581454}
+      - {x: 1.0976562, y: -0.37304688}
+      - {x: 1.0976562, y: -0.34960938}
+      - {x: 1.0959054, y: -0.36311615}
