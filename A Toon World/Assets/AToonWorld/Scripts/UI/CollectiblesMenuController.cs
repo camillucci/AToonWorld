@@ -82,8 +82,21 @@ namespace Assets.AToonWorld.Scripts.UI
         // Interpolator animation
         public ScreenToWorldPointComponent GetDynamicPointConverter(int collectibleNumber)
         {
-        return _collectibleCircles[10 - _totalCollectibles + collectibleNumber - 1]
-            .GetComponent<ScreenToWorldPointComponent>();
+            return _collectibleCircles[10 - _totalCollectibles + collectibleNumber - 1]
+                .GetComponent<ScreenToWorldPointComponent>();
+        }
+
+        // Show fixed menu when entering the pause menu
+        public void ShowMenu()
+        {
+            _animator.SetTrigger("IsFixed");
+        }
+
+        // Display hide animation when exiting the pause menu
+        public void HideMenu()
+        {
+            UniTask.Delay(500).ContinueWith(() =>
+                _animator.SetTrigger(_isPositionFixed ? "IsFixed" : "Hide")).Forget();
         }
     }
 }
