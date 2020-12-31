@@ -64,7 +64,7 @@ namespace Assets.AToonWorld.Scripts.UI
                 else
                 {
                     _medalImages[i].sprite = _noMedalSprite;
-                    medals += PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, 0);
+                    medals += PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementPaths[i], 0);
                 }
             }
 
