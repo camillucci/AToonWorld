@@ -51,6 +51,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             _playerController = FindObjectOfType<PlayerController>();
             _gameState = GameState.InGame;
+            _settingsMenuUI.GetComponent<SettingsMenuController>().RefreshValues();
         }
 
         // Pause game and enable pause menu
