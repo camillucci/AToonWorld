@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class BlinkingFading : MonoBehaviour
 {
-    [SerializeField] private int _startDelay = 0;
-    [SerializeField] private int _timeActiveSeconds = 0;
-    [SerializeField] private int _timeInactiveSeconds = 0;
+    [SerializeField] private float _startDelay = 0;
+    [SerializeField] private float _timeActiveSeconds = 0;
+    [SerializeField] private float _timeInactiveSeconds = 0;
 
 
     // Private Fields
