@@ -16,7 +16,7 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private Sprite _easyCollectibleSprite = null;
         [SerializeField] private Sprite _hardCollectibleSprite = null;
 
-        private int _totalCollectibles = -1;
+        private List<Collectible> _collectibles;
         private Animator _animator;
         private RectTransform _transform;
 
@@ -29,24 +29,23 @@ namespace Assets.AToonWorld.Scripts.UI
         public void RefreshValues()
         {
             _animator.SetTrigger(_isPositionFixed ? "IsFixed" : "IsMoving");
-            List<Collectible> collectibles = FindObjectOfType<CollectiblesManager>().Collectibles;
+            _collectibles = FindObjectOfType<CollectiblesManager>().Collectibles;
 
             // Resize the Collectible Menu properly
-            _totalCollectibles = collectibles.Count;
-            _transform.SetLeft(1025f + (10 - collectibles.Count) * 75f);
-            for (int i = 0, j = 0; i < _collectibleCircles.Length; i++)
+            _transform.SetWidth(900f - (10 - _collectibles.Count) * 75f);
+            _transform.SetX(-450f + (10 - _collectibles.Count) * 37.5f);
+            for (int i = 0; i < _collectibleCircles.Length; i++)
             {
                 // Enable only the last collectibles.Count circles
-                if (i < 10 - collectibles.Count)
+                if (i < _collectibles.Count)
                 {
-                    _collectibleCircles[i].SetActive(false);
+                    _collectibleCircles[i].GetComponent<Image>().sprite = _collectibles[i].IsHard ? _hardCollectibleSprite : _easyCollectibleSprite;
+                    _collectibleCircles[i].SetActive(true);
+                    _collectibles[i].PlayerHit += Collectible_PlayerHit;
                 }
                 else
                 {
-                    _collectibleCircles[i].GetComponent<Image>().sprite = collectibles[j].IsHard ? _hardCollectibleSprite : _easyCollectibleSprite;
-                    _collectibleCircles[i].SetActive(true);
-                    collectibles[j].PlayerHit += Collectible_PlayerHit;
-                    j++;
+                    _collectibleCircles[i].SetActive(false);
                 }
                 _collectibleCircles[i].transform.GetChild(0).gameObject.SetActive(false);
             }
@@ -65,7 +64,7 @@ namespace Assets.AToonWorld.Scripts.UI
         // Show the gathered collectible in the UI
         private void ShowCollectibleTaken(Collectible collectible)
         {
-            _collectibleCircles[10 - _totalCollectibles + collectible.CollectibleNumber - 1]
+            _collectibleCircles[collectible.CollectibleNumber - 1]
                 .transform.GetChild(0).gameObject.SetActive(true);
         }
 
@@ -74,7 +73,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             foreach (Collectible collectible in collectibles)
             {
-                _collectibleCircles[10 - _totalCollectibles + collectible.CollectibleNumber - 1]
+                _collectibleCircles[collectible.CollectibleNumber - 1]
                     .transform.GetChild(0).gameObject.SetActive(false);
             }
         }
@@ -82,8 +81,21 @@ namespace Assets.AToonWorld.Scripts.UI
         // Interpolator animation
         public ScreenToWorldPointComponent GetDynamicPointConverter(int collectibleNumber)
         {
-        return _collectibleCircles[10 - _totalCollectibles + collectibleNumber - 1]
-            .GetComponent<ScreenToWorldPointComponent>();
+            return _collectibleCircles[collectibleNumber - 1]
+                .GetComponent<ScreenToWorldPointComponent>();
+        }
+
+        // Show fixed menu when entering the pause menu
+        public void ShowMenu()
+        {
+            _animator.SetTrigger("IsFixed");
+        }
+
+        // Display hide animation when exiting the pause menu
+        public void HideMenu()
+        {
+            UniTask.Delay(500).ContinueWith(() =>
+                _animator.SetTrigger(_isPositionFixed ? "IsFixed" : "Hide")).Forget();
         }
     }
 }

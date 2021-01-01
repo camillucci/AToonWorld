@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Test
 {
+    /*
     public class PathFindingTest : MonoBehaviour
     {
         private void Awake()
@@ -50,4 +51,5 @@ namespace Assets.AToonWorld.Scripts.Test
                 Debug.Log(intercept);
         }
     }
+    */
 }

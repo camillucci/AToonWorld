@@ -51,6 +51,7 @@ namespace Assets.AToonWorld.Scripts.UI
         {
             _playerController = FindObjectOfType<PlayerController>();
             _gameState = GameState.InGame;
+            _settingsMenuUI.GetComponent<SettingsMenuController>().RefreshValues();
         }
 
         // Pause game and enable pause menu
@@ -76,6 +77,7 @@ namespace Assets.AToonWorld.Scripts.UI
             Time.timeScale = 0f;
             _playerController.DisablePlayer();
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Menu);
+            InGameUIController.PrefabInstance.CollectibleMenu.ShowMenu();
         }
 
         #region Buttons
@@ -88,6 +90,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _gameState = GameState.InGame;
             _playerController.EnablePlayer();
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
+            InGameUIController.PrefabInstance.CollectibleMenu.HideMenu();
         }
 
         // Restart from last checkpoint

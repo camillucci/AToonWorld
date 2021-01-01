@@ -13,7 +13,7 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         #region Fields
 
-        [SerializeField] private TMP_Dropdown _qualityDropbox = null;
+        [SerializeField] private TMP_Dropdown _qualityDropdown = null;
         [SerializeField] private TMP_Dropdown _resolutionDropdown = null;
         [SerializeField] private Toggle _fullscreenToggle = null;
         [SerializeField] private Slider _volumeSlider = null;
@@ -25,10 +25,6 @@ namespace Assets.AToonWorld.Scripts.UI
         // Refresh settings values based on settings of the last session
         void Start()
         {
-            // Update quality dropbox
-            _qualityDropbox.value = QualitySettings.GetQualityLevel();
-            _resolutionDropdown.RefreshShownValue();
-
             // At run-time gather all possible resolutions
             int currentResolutionIndex = 0;
             resolutions = Screen.resolutions.Select(resolution => new Resolution {
@@ -41,11 +37,20 @@ namespace Assets.AToonWorld.Scripts.UI
                     currentResolutionIndex = i;
             }
             
-            // Update resolution dropbox
+            // Update resolution dropdown
             _resolutionDropdown.ClearOptions();
             _resolutionDropdown.AddOptions(options);
             _resolutionDropdown.value = currentResolutionIndex;
             _resolutionDropdown.RefreshShownValue();
+
+            RefreshValues();
+        }
+
+        public void RefreshValues()
+        {
+            // Update quality dropdown
+            _qualityDropdown.value = QualitySettings.GetQualityLevel();
+            _qualityDropdown.RefreshShownValue();
 
             // Update fullscreen toggle
             _fullscreenToggle.isOn = Screen.fullScreen;

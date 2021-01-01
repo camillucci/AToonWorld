@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efba8c9b879bcf84a85823c323591ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _qualityDropbox: {fileID: 286712234}
+  _qualityDropdown: {fileID: 286712234}
   _resolutionDropdown: {fileID: 529988676}
   _fullscreenToggle: {fileID: 1115947032}
   _volumeSlider: {fileID: 246839542}

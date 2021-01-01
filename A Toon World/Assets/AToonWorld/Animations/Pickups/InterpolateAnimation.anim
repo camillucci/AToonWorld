@@ -41,7 +41,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: _ammount
+    attribute: _amount
     path: 
     classID: 114
     script: {fileID: 11500000, guid: 169d1bc896a4b2744a8120480d6e16fd, type: 3}
@@ -106,7 +106,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: _ammount
+    attribute: _amount
     path: 
     classID: 114
     script: {fileID: 11500000, guid: 169d1bc896a4b2744a8120480d6e16fd, type: 3}

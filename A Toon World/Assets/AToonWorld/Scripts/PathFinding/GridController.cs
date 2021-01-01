@@ -15,8 +15,8 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         [SerializeField] private float _nodeRadius = 0.7f;
 
         // Private Fields
-        private Transform _transform;        
-        private bool _awakeCalled;          
+        private Transform _transform;
+        private bool _awakeCalled = false;
 
 
         // Initialization
@@ -95,9 +95,51 @@ namespace Assets.AToonWorld.Scripts.PathFinding
         {
             var gridCenter = _awakeCalled ? GridCenter : new Vector2(transform.position.x, transform.position.y);
             Gizmos.DrawWireCube(gridCenter, new Vector3(_pathFindingRange.x, _pathFindingRange.y, 1));
-            Gizmos.DrawWireCube(gridCenter, new Vector3(_nodeRadius, _nodeRadius, 1));           
+            Gizmos.DrawWireCube(gridCenter, new Vector3(_nodeRadius, _nodeRadius, 1));
+            DrawGrid();
+            if (Application.isPlaying)
+                DrawForbiddenArea();
         }
 
+        private void DrawGrid()
+        {
+            var (width, height) = _pathFindingRange / _nodeRadius;
+            var (columns, rows) = (Mathf.RoundToInt(width), Mathf.RoundToInt(height));
+            var mapWidth = columns * _nodeRadius;
+            var mapHeight = rows * _nodeRadius;
+            var position = (Vector3)((Vector2) transform.position - _pathFindingRange/2);
+
+            // draw layer border
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(position, position + new Vector3(mapWidth, 0, 0));
+            Gizmos.DrawLine(position, position + new Vector3(0, mapHeight, 0));
+            Gizmos.DrawLine(position + new Vector3(mapWidth, 0, 0), position + new Vector3(mapWidth, mapHeight, 0));
+            Gizmos.DrawLine(position + new Vector3(0, mapHeight, 0), position + new Vector3(mapWidth, mapHeight, 0));
+
+            // draw tile cells
+            Gizmos.color = Color.grey;
+            for (float i = 1; i < columns; i++)
+            {                
+                Gizmos.DrawLine(position + new Vector3(i * _nodeRadius, 0, 0), position + new Vector3(i * _nodeRadius, mapHeight, 0));                
+            }
+
+            for (float i = 1; i < rows; i++)
+            {
+                Gizmos.DrawLine(position + new Vector3(0, i * _nodeRadius, 0), position + new Vector3(mapWidth, i * _nodeRadius, 0));
+            }
+
+            Gizmos.color = Color.red;
+            Gizmos.color = new Color(Gizmos.color.r, Gizmos.color.g, Gizmos.color.b, 0.5f);
+        
+        }
+
+        private void DrawForbiddenArea()
+        {
+            // draw tile cells
+            foreach (var node in Grid)
+                if (!node.Walkable)
+                    Gizmos.DrawCube(NodeToWorldPoint(node), new Vector3(1, 1, 1) * _nodeRadius * 0.95f);
+        }
 
 
         // Private

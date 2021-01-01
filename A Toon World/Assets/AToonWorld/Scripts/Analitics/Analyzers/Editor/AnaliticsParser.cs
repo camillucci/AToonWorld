@@ -20,7 +20,6 @@ public class AnaliticsParser : EditorWindow {
     private List<Analitic> _analiticsCollection;
 
     #endregion
-    private EventName _selectedEvent = EventName.PlayerDeath;
     private float _heatmapRadius = 0.2f;
     private bool _isHeatmap = false;
 
@@ -32,6 +31,8 @@ public class AnaliticsParser : EditorWindow {
     #region SceneComponents
     private GameObject _analiticsObject;
     #endregion
+
+    private double? _meanLevelTime = null;
 
 
     [MenuItem ("Inkverse/Analitics")]
@@ -51,22 +52,17 @@ public class AnaliticsParser : EditorWindow {
         
         if(_analiticsParsed)
         {
-            _selectedEvent = (EventName)EditorGUILayout.EnumPopup("Event Filter:", _selectedEvent);
-
-
-            //Can be heatmap
-            switch(_selectedEvent)
-            {
-                case EventName.PlayerDeath:
-                case EventName.EnemyKilled:
-                _isHeatmap = EditorGUILayout.Toggle("Is Heatmap", _isHeatmap);
-                break;
-            }
+            //_isHeatmap = EditorGUILayout.Toggle("Is Heatmap", _isHeatmap);
 
             //Heatmap Radius
-            if(_isHeatmap || _selectedEvent == EventName.PlayerDeath)
+            if(_isHeatmap)
             {
                 _heatmapRadius = EditorGUILayout.Slider("Heatmap Node Radius", _heatmapRadius, 0.001f, 1);
+            }
+
+            if(_meanLevelTime.HasValue)
+            {
+                EditorGUILayout.LabelField($"Mean Level Time: {_meanLevelTime.Value} seconds");
             }
 
             if(GUILayout.Button("Plot Data"))
@@ -77,10 +73,7 @@ public class AnaliticsParser : EditorWindow {
                 _analiticsObject = new GameObject("AnaliticsComponents");
                 _analiticsObject.tag = "EditorOnly";
 
-                switch(_selectedEvent)
-                {
-                    case EventName.PlayerDeath: PlotDeaths(); break;
-                }
+                PlotData();
             }
         }
     }
@@ -110,8 +103,9 @@ public class AnaliticsParser : EditorWindow {
         #endif
     }
 
-    private void PlotDeaths()
+    private void PlotData()
     {
+        _meanLevelTime = _analiticsCollection.Where(a => a.eventName == EventName.LevelTime).Average(e => int.Parse(e.value[0]));
         IEnumerable<Analitic> deathEvents = _analiticsCollection.Where(a => a.eventName == EventName.PlayerDeath);
         
         List<Vector3> deathLocations = new List<Vector3>();

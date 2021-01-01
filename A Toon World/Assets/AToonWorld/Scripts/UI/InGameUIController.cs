@@ -87,14 +87,6 @@ namespace Assets.AToonWorld.Scripts.UI
             _isEndLevelMenu = false;
         }
 
-        // Refresh values that depend on a level when a new level is loaded
-        private void RefreshValues()
-        {
-            _pauseMenuController.RefreshValues();
-            _endLevelMenuController.RefreshValues();
-            _collectiblesMenuController.RefreshValues();
-        }
-
         // Setup the UI for the menu and do a fade in
         public void FadeInMenu(float fadingSpeed = _defaultSpeed)
         {
@@ -126,6 +118,14 @@ namespace Assets.AToonWorld.Scripts.UI
         }
 
         #endregion
+        
+        // Refresh values that depend on a level when a new level is loaded
+        private void RefreshValues()
+        {
+            _pauseMenuController.RefreshValues();
+            _endLevelMenuController.RefreshValues();
+            _collectiblesMenuController.RefreshValues();
+        }
 
         public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
         public InkSelectorController InkSelector => _inkSelector.GetComponent<InkSelectorController>();
