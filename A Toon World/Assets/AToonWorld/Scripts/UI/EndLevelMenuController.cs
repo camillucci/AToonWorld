@@ -104,10 +104,17 @@ namespace Assets.AToonWorld.Scripts.UI
         }
 
         // Deactivate all used inks and return to the LevelsMenu scene
-        public void Continue()
+        public void ToLevelSelectionMenu()
         {
             ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
             InGameUIController.PrefabInstance.FadeTo(UnityScenes.LevelsMenu);
+        }
+
+        // Deactivate all used inks and start the next level
+        public void toNextLevel()
+        {
+            ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
+            InGameUIController.PrefabInstance.FadeTo(UnityScenes.Levels[SceneManager.GetActiveScene().buildIndex]);
         }
     }
 }
