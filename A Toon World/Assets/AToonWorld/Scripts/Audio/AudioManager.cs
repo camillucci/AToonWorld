@@ -122,6 +122,21 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
         // Sfx
+        public async UniTask PlaySound(SoundEffect soundEffectModel, Vector2 position)
+        {
+            if (soundEffectModel == null)
+            {
+                // to handle border case like while(true) PlaySound(sound, _) when sound is null without blocking main thread
+                await this.NextFrame();
+                return;
+            }
+
+            var newSound = Instantiate(soundEffectModel.gameObject);
+            newSound.transform.position = position;
+            var soundEffect = newSound.GetComponent<SoundEffect>();
+            await PlaySound(soundEffect);
+        }
+
         public UniTask PlaySound(string name, Transform transform)
         {
             //TODO add object pooling
@@ -138,6 +153,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         {
             if (soundEffectModel == null)
             {
+                // to handle border case like while(true) PlaySound(sound, _) when sound is null without blocking main thread
                 await this.NextFrame();
                 return;
             }
@@ -146,9 +162,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             newSound.transform.parent = transform;
             newSound.transform.position = transform.position;
             var soundEffect = newSound.GetComponent<SoundEffect>();
-            soundEffect.AudioSource.volume *= _globalVolume;
-            await soundEffect.Play();
-            Destroy(newSound);
+            await PlaySound(soundEffect);
         }
 
 
@@ -280,6 +294,13 @@ namespace Assets.AToonWorld.Scripts.Audio
 
 
         //  Sfx Helpers
+        private async UniTask PlaySound(SoundEffect instance)
+        {
+            instance.AudioSource.volume *= _globalVolume;
+            await instance.Play();
+            Destroy(instance);
+        }
+
         private void AddSoundEffectToSfx(AudioClip clip, string relativePath)
         {
             if (clip != null && !_sfx.Any(s => AreClipsEquals(clip, s.GetComponent<SoundEffect>().Clip)))

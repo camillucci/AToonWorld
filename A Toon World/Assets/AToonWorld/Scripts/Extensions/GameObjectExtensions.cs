@@ -13,7 +13,8 @@ namespace Assets.AToonWorld.Scripts.Extensions
     {
         public static UniTask PlaySound(this GameObject @this, SoundEffect soundEffect)
             => AudioManager.PrefabInstance?.PlaySound(soundEffect, @this.transform) ?? UniTask.CompletedTask;
-
+        public static void PlaySoundAndDestroy(this GameObject @this, SoundEffect soundEffect)
+            => @this.PlaySound(soundEffect).ContinueWith(() => GameObject.Destroy(@this)).Forget();
 
     }
 }

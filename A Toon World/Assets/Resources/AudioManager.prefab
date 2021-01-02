@@ -4935,7 +4935,7 @@ MonoBehaviour:
   _clip: {fileID: 8300000, guid: df1506d5701bdf9408b85ec278dbbb69, type: 3}
   _relativePath: Bubbles/
   _audioSource: {fileID: 8214850307907368867}
-  _testPlay: 1
+  _testPlay: 0
 --- !u!82 &8214850307907368867
 AudioSource:
   m_ObjectHideFlags: 0

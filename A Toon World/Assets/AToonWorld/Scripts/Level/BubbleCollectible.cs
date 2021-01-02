@@ -27,7 +27,7 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void Collectible_PlayerHit(Collectible obj)
         {
-            this.PlaySound(SoundEffects.Bubbles.RandomOrDefault()).Forget();
+            AudioManager.PrefabInstance.PlaySound(SoundEffects.Bubbles.RandomOrDefault(), transform.position).Forget();
             gameObject.SetActive(false);
         }
     }

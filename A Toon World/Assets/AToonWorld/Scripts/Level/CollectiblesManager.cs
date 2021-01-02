@@ -56,7 +56,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _collectiblesSinceLastCheckpoint.Clear();
         }
 
-        public List<Collectible> Collectibles => _collectibles;
+        public IReadOnlyList<Collectible> Collectibles => _collectibles;
         public int TotalCollectibles => _totalCollectibles;
         public int CurrentCollectibles => _currentCollectibles;
         public bool GotAchievement => _currentCollectibles == _totalCollectibles;

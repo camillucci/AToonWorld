@@ -69,7 +69,7 @@ namespace Assets.AToonWorld.Scripts.UI
             }
 
             // Resize the displayed collectiblesList properly and show gathered collectibles
-            List<Collectible> collectibles = _collectiblesManager.Collectibles;
+            var collectibles = _collectiblesManager.Collectibles;
             _transform.SetWidth(1400f - (10 - collectibles.Count) * 140f);
             for (int i = 0; i < _collectibleCircles.Length; i++)
             {

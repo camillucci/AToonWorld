@@ -16,7 +16,7 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private Sprite _easyCollectibleSprite = null;
         [SerializeField] private Sprite _hardCollectibleSprite = null;
 
-        private List<Collectible> _collectibles;
+        private IReadOnlyList<Collectible> _collectibles;
         private Animator _animator;
         private RectTransform _transform;
 
