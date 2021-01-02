@@ -24,7 +24,7 @@ public class PlayerBulletController : BulletController
             return;
         }
 
-        if (other.CompareTag(UnityTag.Ground))
+        if (other.CompareTag(UnityTag.Ground) || other.CompareTag(UnityTag.DarkLake))
         {
             Instantiate(_explosion, gameObject.transform.position, gameObject.transform.rotation);
             this.gameObject.SetActive(false);
