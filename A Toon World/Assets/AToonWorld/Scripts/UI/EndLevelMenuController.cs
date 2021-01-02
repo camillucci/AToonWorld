@@ -28,11 +28,10 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private GameObject[] _collectibleCircles = null;
 
         // Initialization when level starts
-        public void RefreshValues()
+        public void RefreshValues(LevelHandler levelHandler)
         {
             // Get object used for checking achievements
             _playerController = FindObjectOfType<PlayerController>();
-            LevelHandler levelHandler = FindObjectOfType<LevelHandler>();
             _achievementManagers = levelHandler.AchievementMangers;
             _collectiblesManager = levelHandler.CollectiblesManager;
             _transform = _collectibleCirclesList.GetComponent<RectTransform>();

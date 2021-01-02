@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.AToonWorld.Scripts.Level;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -14,7 +15,8 @@ namespace Assets.AToonWorld.Scripts.UI
         private PauseMenuController _pauseMenuController;
         private EndLevelMenuController _endLevelMenuController;
         private CollectiblesMenuController _collectiblesMenuController;
-        private WorldToUIEffectsController _worldToUIEffectsController = null;
+        private WorldToUIEffectsController _worldToUIEffectsController;
+        private LevelHandler _levelHandler;
         private const float _defaultSpeed = 1.25f;
         private const int _defaultDelay = 1000;
         private bool _isInGame = false;
@@ -122,9 +124,9 @@ namespace Assets.AToonWorld.Scripts.UI
         // Refresh values that depend on a level when a new level is loaded
         private void RefreshValues()
         {
+            _levelHandler = FindObjectOfType<LevelHandler>();
             _pauseMenuController.RefreshValues();
-            _endLevelMenuController.RefreshValues();
-            _collectiblesMenuController.RefreshValues();
+            _endLevelMenuController.RefreshValues(_levelHandler);
         }
 
         public InkWheelController inkWheelController => _inkWheel.GetComponent<InkWheelController>();
@@ -132,6 +134,6 @@ namespace Assets.AToonWorld.Scripts.UI
         public CollectiblesMenuController CollectibleMenu => _collectiblesMenuController;
         public WorldToUIEffectsController WorldToUIEffects => _worldToUIEffectsController;
 
-        public bool CanPause => _isInGame && !_isEndLevelMenu;
+        public bool CanPause => _isInGame && !_isEndLevelMenu && !_levelHandler.RespawningPlayer;
     }
 }
