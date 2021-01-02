@@ -28,11 +28,10 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private GameObject[] _collectibleCircles = null;
 
         // Initialization when level starts
-        public void RefreshValues()
+        public void RefreshValues(LevelHandler levelHandler)
         {
             // Get object used for checking achievements
             _playerController = FindObjectOfType<PlayerController>();
-            LevelHandler levelHandler = FindObjectOfType<LevelHandler>();
             _achievementManagers = levelHandler.AchievementMangers;
             _collectiblesManager = levelHandler.CollectiblesManager;
             _transform = _collectibleCirclesList.GetComponent<RectTransform>();
@@ -104,10 +103,17 @@ namespace Assets.AToonWorld.Scripts.UI
         }
 
         // Deactivate all used inks and return to the LevelsMenu scene
-        public void Continue()
+        public void ToLevelSelectionMenu()
         {
             ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
             InGameUIController.PrefabInstance.FadeTo(UnityScenes.LevelsMenu);
+        }
+
+        // Deactivate all used inks and start the next level
+        public void toNextLevel()
+        {
+            ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
+            InGameUIController.PrefabInstance.FadeTo(UnityScenes.Levels[SceneManager.GetActiveScene().buildIndex]);
         }
     }
 }

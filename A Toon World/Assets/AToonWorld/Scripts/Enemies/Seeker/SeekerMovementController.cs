@@ -16,6 +16,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
+        [SerializeField] private float _delayBeforeComeBack = 2f;
         
 
         // Private Fields
@@ -42,6 +43,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             _gridController = GetComponentInChildren<GridController>();
             _startPosition = _seekerTransform.position;  
             _animator = GetComponentInChildren<Animator>();     
+            Status = SeekerStatus.Idle;
             InitializeAreaController();
         }
 
@@ -78,11 +80,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private void OnPlayerExit(Collider2D collision)
         {           
             _isPlayerInside = false;
-            GoBackToStart().Forget();
+            UniTask.Delay((int)(_delayBeforeComeBack * 1000)).ContinueWith(GoBackToStart).Forget();
         }
-
-
-
 
         // Private Methods
         private async UniTask GoBackToStart()
@@ -90,6 +89,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             async UniTask GoBackToStartTask()
             {
                 IsMoving = true;
+                Status = SeekerStatus.BackToStart;
                 var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
                 foreach (var position in path)
                     if (!_isCancellingTask)
@@ -97,6 +97,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                     else
                         break;
                 IsMoving = false;
+                Status = SeekerStatus.Idle;
             }
 
             await CancelCurrentTask();
@@ -108,6 +109,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             async UniTask FollowTask()
             {
                 IsMoving = true;
+                Status = SeekerStatus.FollowingPlayer;
                 while(!_isCancellingTask && _isPlayerInside)
                 {
                     if (!IsSeekerNearToPlayer)
@@ -121,6 +123,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
                     await UniTask.NextFrame();
                 }
                 IsMoving = false;
+                Status = SeekerStatus.Idle;
             }
 
             await CancelCurrentTask();
@@ -146,6 +149,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         public enum SeekerStatus
         {
+            Idle,
             FollowingPlayer, 
             BackToStart
         }

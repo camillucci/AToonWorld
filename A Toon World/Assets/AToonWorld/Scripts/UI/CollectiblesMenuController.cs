@@ -26,10 +26,10 @@ namespace Assets.AToonWorld.Scripts.UI
             _transform = _collectiblesMenuUI.GetComponent<RectTransform>();
         }
 
-        public void RefreshValues()
+        public void RefreshValues(List<Collectible> collectibles)
         {
             _animator.SetTrigger(_isPositionFixed ? "IsFixed" : "IsMoving");
-            _collectibles = FindObjectOfType<CollectiblesManager>().Collectibles;
+            _collectibles = collectibles;
 
             // Resize the Collectible Menu properly
             _transform.SetWidth(900f - (10 - _collectibles.Count) * 75f);
