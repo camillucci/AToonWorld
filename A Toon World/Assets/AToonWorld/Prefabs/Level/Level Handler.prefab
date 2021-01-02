@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d108cb39d2fe941a35636277f64b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxFallDistanceBeforeDeath: 6
   _tombstonePrefab: {fileID: 7455401932700396498, guid: 09cb6c1055b23cc4b920e7a75aecc75d,
     type: 3}
 --- !u!1 &5486826057862279808
@@ -271,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400934f6c10a7204eaf3a6627246fb7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _removeCollectiblesOnDeath: 1
+  _removeCollectiblesOnDeath: 0
 --- !u!1 &8315861417742811100
 GameObject:
   m_ObjectHideFlags: 0
