@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Assets.AToonWorld.Scripts.Audio;
+using Assets.AToonWorld.Scripts.Extensions;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +22,13 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void Start()
         {
-            _collectible.PlayerHit += _ => gameObject.SetActive(false);
+            _collectible.PlayerHit += Collectible_PlayerHit;
+        }
+
+        private void Collectible_PlayerHit(Collectible obj)
+        {
+            this.PlaySound(SoundEffects.Bubbles.RandomOrDefault()).Forget();
+            gameObject.SetActive(false);
         }
     }
 }
