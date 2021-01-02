@@ -16,6 +16,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
+        [SerializeField] private float _delayBeforeComeBack = 2f;
         
 
         // Private Fields
@@ -78,11 +79,8 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private void OnPlayerExit(Collider2D collision)
         {           
             _isPlayerInside = false;
-            GoBackToStart().Forget();
+            UniTask.Delay((int)(_delayBeforeComeBack * 1000)).ContinueWith(GoBackToStart).Forget();
         }
-
-
-
 
         // Private Methods
         private async UniTask GoBackToStart()
