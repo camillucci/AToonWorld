@@ -77,22 +77,22 @@ SpriteShapeRenderer:
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: d825b082227c05a42a670d4b744b0cee, type: 3}
   m_Sprites:
-  - {fileID: -5358193005459730691, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: 4514297465504893602, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: -6984676847694573578, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
   - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
-  - {fileID: -124832681209933803, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
   - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
-  - {fileID: -4673458259943427248, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
   - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
-  - {fileID: 7780190520650127750, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: -8013599348960855253, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: -4183846049574238538, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: -4102537442370791014, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: 7789460486736427789, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: -2891453398403303555, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: -3685418513897516578, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
-  - {fileID: 6928388786959331256, guid: 9d7246caa5107354ea289b016ea554a9, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
+  - {fileID: 21300000, guid: eb83ae13e3637b3468044f444e4e71f5, type: 3}
   m_LocalAABB:
     m_Center: {x: 0, y: -0.00000023841858, z: -0.0002001}
     m_Extent: {x: 2.5000002, y: 2.5, z: 0.0002001}
