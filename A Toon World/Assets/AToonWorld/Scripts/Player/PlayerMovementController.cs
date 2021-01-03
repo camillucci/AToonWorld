@@ -1,6 +1,7 @@
 ﻿using Assets.AToonWorld.Scripts;
 using Assets.AToonWorld.Scripts.Audio;
 using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Level;
 using Assets.AToonWorld.Scripts.Player;
 using Cysharp.Threading.Tasks;
 using System;
@@ -37,6 +38,7 @@ public class PlayerMovementController : MonoBehaviour
     private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
     private readonly Dictionary<Collider2D, Collision2D> _collisionsByCollider = new Dictionary<Collider2D, Collision2D>();
     private ContactPoint2D _lastContact;
+    private LevelHandler _levelHandler;
 
 
     // Initialization
@@ -45,6 +47,7 @@ public class PlayerMovementController : MonoBehaviour
         RigidBody = GetComponent<Rigidbody2D>();
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
+        _levelHandler = FindObjectOfType<LevelHandler>();
         AnimatorController = PlayerBody.GetComponent<Animator>();
         _gravityScale = RigidBody.gravityScale;
         InitializeJumpingStates();
@@ -305,13 +308,14 @@ public class PlayerMovementController : MonoBehaviour
         await this.WaitForFixedUpdate();
         IsGravityEnabled = true;
         var totElapsedMs = 0f;
-        while (totElapsedMs < _maxJumpTimeMs && _jumpHeldCondition?.Invoke() == true)
+        while (totElapsedMs < _maxJumpTimeMs && _jumpHeldCondition?.Invoke() == true && !_levelHandler.RespawningPlayer)
         {
             RigidBody.velocity = new Vector2(RigidBody.velocity.x, _jumpSpeed);
             await this.NextFrame(PlayerLoopTiming.FixedUpdate);
             totElapsedMs += Time.fixedDeltaTime * 1000;
         }
-        RigidBody.velocity = new Vector2(RigidBody.velocity.x, _jumpSpeed);
+        if (_levelHandler.RespawningPlayer)
+            RigidBody.velocity = Vector2.zero;
         if (IsGrounded || IsOnDrawingPlatform)
             CurrentJumpState = JumpState.NoJumping;
     }
