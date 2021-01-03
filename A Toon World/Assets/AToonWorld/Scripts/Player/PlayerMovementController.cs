@@ -308,7 +308,6 @@ public class PlayerMovementController : MonoBehaviour
         while (totElapsedMs < _maxJumpTimeMs && _jumpHeldCondition?.Invoke() == true)
         {
             RigidBody.velocity = new Vector2(RigidBody.velocity.x, _jumpSpeed);
-            print(RigidBody.velocity);
             await this.NextFrame(PlayerLoopTiming.FixedUpdate);
             totElapsedMs += Time.fixedDeltaTime * 1000;
         }
