@@ -74,13 +74,13 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         {
             _playerTransform = collision.gameObject.transform;
             _isPlayerInside = true;
-            _taskManager.ReplaceTask(FollowPlayer());
+            _taskManager.ReplaceTask(() => FollowPlayer());
         }
 
         private void OnPlayerExit(Collider2D collision)
         {           
             _isPlayerInside = false;
-            _taskManager.ReplaceTask(GoBackToStart((int)(_delayBeforeComeBack * 1000)));
+            _taskManager.ReplaceTask(() => GoBackToStart((int)(_delayBeforeComeBack * 1000)));
         }
 
 
@@ -89,9 +89,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         private async UniTask GoBackToStart(int delayMs)
         {
-            if (delayMs > 0)
-                await this.Delay(delayMs);
-
+            await this.Delay(delayMs, PlayerLoopTiming.Update, cancellationCondition: () => _taskManager.IsCancelling);
+            if (_taskManager.IsCancelling)
+                return;
             IsMoving = true;
             Status = SeekerStatus.BackToStart;
             var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);

@@ -30,12 +30,12 @@ namespace Assets.AToonWorld.Scripts.Utils
 
 
         // Public Methods
-        public void ReplaceTask(UniTask task)
+        public void ReplaceTask(Func<UniTask> taskCreator)
         {
             async UniTaskVoid ReplaceCurrentTask()
             {
                 await CancelTask();
-                _currentTask = task;
+                _currentTask = taskCreator.Invoke();
             }
             ReplaceCurrentTask().Forget();
         }

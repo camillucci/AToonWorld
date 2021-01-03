@@ -45,7 +45,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             {
                 _linesUpdated = value;
                 if (value && !_seekerActive)
-                    _taskManager.ReplaceTask(SeekerMovement());
+                    _taskManager.ReplaceTask(() => SeekerMovement());
             }
         }
 
