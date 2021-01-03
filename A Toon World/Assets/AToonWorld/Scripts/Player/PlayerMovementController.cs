@@ -1,6 +1,7 @@
 ﻿using Assets.AToonWorld.Scripts;
 using Assets.AToonWorld.Scripts.Audio;
 using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.Level;
 using Assets.AToonWorld.Scripts.Player;
 using Cysharp.Threading.Tasks;
 using System;
@@ -20,7 +21,9 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 4;
-    [SerializeField] private float _frictionWhenIdle = 0.9f;    
+    [SerializeField] private float _frictionWhenIdle = 0.9f;
+    [SerializeField] private float _jumpSpeed;
+    [SerializeField] private int _maxJumpTimeMs;
 
 
     // Private fields
@@ -35,6 +38,7 @@ public class PlayerMovementController : MonoBehaviour
     private static readonly string[] walkableTags = new string[] { UnityTag.Ground, UnityTag.Drawing };
     private readonly Dictionary<Collider2D, Collision2D> _collisionsByCollider = new Dictionary<Collider2D, Collision2D>();
     private ContactPoint2D _lastContact;
+    private LevelHandler _levelHandler;
 
 
     // Initialization
@@ -43,6 +47,7 @@ public class PlayerMovementController : MonoBehaviour
         RigidBody = GetComponent<Rigidbody2D>();
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
+        _levelHandler = FindObjectOfType<LevelHandler>();
         AnimatorController = PlayerBody.GetComponent<Animator>();
         _gravityScale = RigidBody.gravityScale;
         InitializeJumpingStates();
@@ -258,7 +263,7 @@ public class PlayerMovementController : MonoBehaviour
         if (CanJump)
         {
             CurrentJumpState = JumpState.Jumping;
-            VariableJump().Forget();
+            VariableJumpWithVelocity().Forget();
         }
     }
 
@@ -288,13 +293,33 @@ public class PlayerMovementController : MonoBehaviour
         {
             float forceIncrement = Mathf.Min(_jumpStepForce, _maxJumpForce - totForce);
             await this.WaitForFixedUpdate();
-            RigidBody.AddForce(forceIncrement * Vector2.up);
+            RigidBody.velocity +=  (forceIncrement/100) * Vector2.up;
             await this.Delay((int)_jumpHoldStepMs);
             jumpHeld = _jumpHeldCondition?.Invoke() ?? false;
             totForce += forceIncrement;
         }
         while (jumpHeld && totForce < _maxJumpForce && CurrentJumpState == JumpState.Jumping);
+        if (IsGrounded || IsOnDrawingPlatform)
+            CurrentJumpState = JumpState.NoJumping;
     }
+
+    private async UniTaskVoid VariableJumpWithVelocity()
+    {
+        await this.WaitForFixedUpdate();
+        IsGravityEnabled = true;
+        var totElapsedMs = 0f;
+        while (totElapsedMs < _maxJumpTimeMs && _jumpHeldCondition?.Invoke() == true && !_levelHandler.RespawningPlayer)
+        {
+            RigidBody.velocity = new Vector2(RigidBody.velocity.x, _jumpSpeed);
+            await this.NextFrame(PlayerLoopTiming.FixedUpdate);
+            totElapsedMs += Time.fixedDeltaTime * 1000;
+        }
+        if (_levelHandler.RespawningPlayer)
+            RigidBody.velocity = Vector2.zero;
+        if (IsGrounded || IsOnDrawingPlatform)
+            CurrentJumpState = JumpState.NoJumping;
+    }
+
 
 
 

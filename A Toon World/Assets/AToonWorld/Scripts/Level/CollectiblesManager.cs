@@ -17,12 +17,16 @@ namespace Assets.AToonWorld.Scripts.Level
         // Initialization
         private void Start()
         {
+            // Search and setup all the collectibles in the level
             Collectible[] collectibles = FindObjectsOfType<Collectible>();
             foreach (var collectible in collectibles)
                 SetupCheckPoint(collectible);
             _collectibles.AddRange(collectibles);
             _collectibles.Sort((x, y) => x.CollectibleNumber.CompareTo(y.CollectibleNumber));
             _totalCollectibles = _collectibles.Count;
+
+            // Refresh the collectibles menu to show the collectibles
+            InGameUIController.PrefabInstance.CollectibleMenu.RefreshValues(_collectibles);
         }
 
         private void SetupCheckPoint(Collectible collectible)
@@ -56,7 +60,7 @@ namespace Assets.AToonWorld.Scripts.Level
             _collectiblesSinceLastCheckpoint.Clear();
         }
 
-        public List<Collectible> Collectibles => _collectibles;
+        public IReadOnlyList<Collectible> Collectibles => _collectibles;
         public int TotalCollectibles => _totalCollectibles;
         public int CurrentCollectibles => _currentCollectibles;
         public bool GotAchievement => _currentCollectibles == _totalCollectibles;

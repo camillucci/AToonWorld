@@ -31,13 +31,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         private Animator _animator;
         private Vector3 _propulsionDirection;
         private Quaternion _breakerIdleRotation;
-        private UniTask? _followPathTask = UniTask.CompletedTask;
         private bool _seekerActive;
+        private SingletonTaskManager _taskManager;
 
-        public BreakerMovementController(bool seekerActive)
-        {
-            _seekerActive = seekerActive;
-        }
 
         private bool _linesUpdated;
 
@@ -49,7 +45,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             {
                 _linesUpdated = value;
                 if (value && !_seekerActive)
-                    SeekerMovement().WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
+                    _taskManager.ReplaceTask(SeekerMovement());
             }
         }
 
@@ -60,6 +56,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _breakerBody = GetComponentInChildren<BreakerBody>();
             _animator = GetComponentInChildren<Animator>();
             _breakerAreaHandler = GetComponentInChildren<BreakerTargetAreaHandler>();
+            _taskManager = new SingletonTaskManager(this);
             _breakerTransform = _breakerBody.transform;
             _breakerIdleRotation = _breakerTransform.rotation;
             _breakerDrawingHandler = new BreakerDrawingHandler(_breakerTransform.position);
@@ -114,7 +111,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                 anyLineToFind = path.Any();
                 await FollowPathUntilUpdate(path);
             }
-            while (anyLineToFind);
+            while (anyLineToFind && !_taskManager.IsCancelling);
             _seekerActive = false;
         }     
 
@@ -123,7 +120,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             _animator.SetBool("IsMoving", true);
             CancellationTokenSource rotationCancellationSource;
             foreach (var position in path)
-                if (LinesUpdated)
+                if (LinesUpdated || _taskManager.IsCancelling)
                     break;
                 else
                 {
@@ -136,6 +133,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                     RotateTowards(toQuaternion, rotationCancellationSource.Token).WithCancellation(this.GetCancellationTokenOnDestroy()).Forget();
                     await TranslateTo(position).WithCancellation(this.GetCancellationTokenOnDestroy());
                     rotationCancellationSource.Cancel();
+                    rotationCancellationSource.Dispose();
                 }
             _breakerTransform.rotation = _breakerIdleRotation;
             _animator.SetBool("IsMoving", false);

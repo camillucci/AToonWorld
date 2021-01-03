@@ -13,6 +13,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         private const string DrawingsPath = "Drawing/";
         private const string VictoryPath = "Checkpoint-Collectible-Victory/";
         private const string CharacterMovementPath = "Underwater/";
+        private const string BubblesPath = "Bubbles/";
 
 
         private static List<SoundEffect> _sfx;
@@ -21,6 +22,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         private static List<SoundEffect> _drawingSounds;
         private static List<SoundEffect> _checkPointsSounds;
         private static List<SoundEffect> _characterMovement;
+        private static List<SoundEffect> _bubblesSounds;
         private static SoundEffect _checkPoint;
         private static SoundEffect _victory;
         public const string Pop = nameof(Pop);
@@ -28,7 +30,17 @@ namespace Assets.AToonWorld.Scripts.Audio
 
         
         // Private Properties
-        private static List<SoundEffect> Sfx => _sfx ?? LoadSoundEffects();
+        private static List<SoundEffect> Sfx
+        {
+            get
+            {
+                if (_sfx != null)
+                    return _sfx;
+
+                LoadSoundEffects();
+                return _sfx;
+            }
+        }
 
 
 
@@ -38,13 +50,14 @@ namespace Assets.AToonWorld.Scripts.Audio
         public static IReadOnlyList<SoundEffect> DrawingSounds => _drawingSounds ?? (_drawingSounds = GetCategory(DrawingsPath));
         public static IReadOnlyList<SoundEffect> CheckpontSounds => _checkPointsSounds ?? (_checkPointsSounds = GetCategory(VictoryPath));
         public static IReadOnlyList<SoundEffect> CharacterMovement => _characterMovement ?? (_characterMovement = GetCategory(CharacterMovementPath));
+        public static IReadOnlyList<SoundEffect> Bubbles => _bubblesSounds ?? (_bubblesSounds = GetCategory(BubblesPath));
 
         public static SoundEffect CheckPoint => _checkPoint ?? (_checkPoint = CheckpontSounds.FirstOrDefault(sound => sound.name.Equals("Checkpoint-Collectible-Victory/2")));
         public static SoundEffect Victory => _victory ?? (_victory = CheckpontSounds.FirstOrDefault(sound => sound.name.Equals("Checkpoint-Collectible-Victory/1")));
 
-        public static List<SoundEffect> LoadSoundEffects()
+        public static void LoadSoundEffects()
         {
-            return (_sfx = AudioManager.PrefabInstance.GetAllSfx().ToList());
+            _sfx = AudioManager.PrefabInstance.GetAllSfx().ToList();
         }
 
         // Private Methods

@@ -16,6 +16,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
+        [SerializeField] private float _delayBeforeComeBack = 2f;
         
 
         // Private Fields
@@ -27,10 +28,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         private bool _isPlayerInside;
         private Vector3 _startPosition;   
         private Animator _animator;
-        private UniTask? _currentTask;
-        private UniTask _cancellingTask = UniTask.CompletedTask;
-        private bool _isCancellingTask;
-        private int _taskCounter;
+        private SingletonTaskManager _taskManager;
+
+
 
         // Initialization
 
@@ -40,8 +40,10 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             _seekerTransform = _seekerBody.transform;
             _targetAreaController = GetComponentInChildren<SeekerTargetAreaController>();
             _gridController = GetComponentInChildren<GridController>();
+            _taskManager = new SingletonTaskManager(this);
             _startPosition = _seekerTransform.position;  
             _animator = GetComponentInChildren<Animator>();     
+            Status = SeekerStatus.Idle;
             InitializeAreaController();
         }
 
@@ -72,80 +74,61 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         {
             _playerTransform = collision.gameObject.transform;
             _isPlayerInside = true;
-            FollowPlayer().Forget();
+            _taskManager.ReplaceTask(FollowPlayer());
         }
 
         private void OnPlayerExit(Collider2D collision)
         {           
             _isPlayerInside = false;
-            GoBackToStart().Forget();
+            _taskManager.ReplaceTask(GoBackToStart((int)(_delayBeforeComeBack * 1000)));
         }
-
 
 
 
         // Private Methods
-        private async UniTask GoBackToStart()
-        {
-            async UniTask GoBackToStartTask()
-            {
-                IsMoving = true;
-                var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
-                foreach (var position in path)
-                    if (!_isCancellingTask)
-                        await TranslateTo(position);
-                    else
-                        break;
-                IsMoving = false;
-            }
 
-            await CancelCurrentTask();
-            _currentTask = GoBackToStartTask();
+        private async UniTask GoBackToStart(int delayMs)
+        {
+            if (delayMs > 0)
+                await this.Delay(delayMs);
+
+            IsMoving = true;
+            Status = SeekerStatus.BackToStart;
+            var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
+            foreach (var position in path)
+                if (!_taskManager.IsCancelling)
+                    await TranslateTo(position);
+                else
+                    break;
+            IsMoving = false;
+            Status = SeekerStatus.Idle;
         }
 
         private async UniTask FollowPlayer()
         {            
-            async UniTask FollowTask()
+            IsMoving = true;
+            Status = SeekerStatus.FollowingPlayer;
+            while(!_taskManager.IsCancelling && _isPlayerInside)
             {
-                IsMoving = true;
-                while(!_isCancellingTask && _isPlayerInside)
+                if (!IsSeekerNearToPlayer)
                 {
-                    if (!IsSeekerNearToPlayer)
-                    {
-                        var playerPosition = _playerTransform.position;
-                        var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, playerPosition);
-                        var nextPositions = from pos in path where Vector2.Distance(_seekerTransform.position, pos) > _gridController.NodeRadius select pos;
-                        if (nextPositions.Any())
-                            await TranslateTo(nextPositions.First());
-                    }
-                    await UniTask.NextFrame();
+                    var playerPosition = _playerTransform.position;
+                    var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, playerPosition);
+                    var nextPositions = from pos in path where Vector2.Distance(_seekerTransform.position, pos) > _gridController.NodeRadius select pos;
+                    if (nextPositions.Any())
+                        await TranslateTo(nextPositions.First());
                 }
-                IsMoving = false;
+                await UniTask.NextFrame();
             }
-
-            await CancelCurrentTask();
-            _currentTask = FollowTask();
+            IsMoving = false;
+            Status = SeekerStatus.Idle;
         }    
 
-        private bool IsSeekerNearToPlayer => Vector2.Distance(_seekerTransform.position, _playerTransform.position) < _gridController.NodeRadius;   
-        
-        private async UniTask CancelCurrentTask()
-        {
-            while (_isCancellingTask)
-                await this.NextFrame();
-
-            if (_currentTask == null)
-                return;
-
-            _isCancellingTask = true;
-            await _currentTask.Value;
-            _currentTask = null;
-            _isCancellingTask = false;
-        }
-
+        private bool IsSeekerNearToPlayer => Vector2.Distance(_seekerTransform.position, _playerTransform.position) < _gridController.NodeRadius;          
 
         public enum SeekerStatus
         {
+            Idle,
             FollowingPlayer, 
             BackToStart
         }

@@ -237,6 +237,8 @@ MonoBehaviour:
   _isDoubleJumpEnabled: 0
   _jumpDelaySensitivity: 0
   _frictionWhenIdle: 0.9
+  _jumpSpeed: 15
+  _maxJumpTimeMs: 220
 --- !u!114 &9202030778897293430
 MonoBehaviour:
   m_ObjectHideFlags: 0
