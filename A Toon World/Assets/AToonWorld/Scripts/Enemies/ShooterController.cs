@@ -4,11 +4,12 @@ using Assets.AToonWorld.Scripts;
 using Assets.AToonWorld.Scripts.Audio;
 using Assets.AToonWorld.Scripts.Enemies;
 using Assets.AToonWorld.Scripts.Extensions;
+using Assets.AToonWorld.Scripts.UnityAnimations;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static BulletController;
 
-public class ShooterController : MonoBehaviour
+public class ShooterController : EnemyController
 {
     [SerializeField] private bool _fixedTarget = true;
     [SerializeField] private Transform _target = null;
@@ -119,5 +120,11 @@ public class ShooterController : MonoBehaviour
             _currentTargetVelocity = (currentTargetPosition - _previousTargetPosition) * 1000 / deltaTimeMs;
             _previousTargetPosition = currentTargetPosition;
         }
+    }
+    
+    public override void Kill()
+    {
+        base.Kill();
+        GenericAnimations.InkCloud(transform.position).PlayAndForget();
     }
 }

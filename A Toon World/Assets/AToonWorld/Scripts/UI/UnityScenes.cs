@@ -35,9 +35,10 @@ namespace Assets.AToonWorld.Scripts.UI
         // List of all levels with paths, valid index start from 1
         public static readonly string[] Levels = {
             "We count levels from number one",
-            "AToonWorld/Scenes/Tutorial/build_tutorial_000",
-            "AToonWorld/Scenes/Tutorial/damage_tutorial_002",
-            "AToonWorld/Scenes/Tutorial/climb_tutorial_001",
+            "AToonWorld/Scenes/Levels/build_tutorial_000",
+            "AToonWorld/Scenes/Levels/damage_tutorial_002",
+            //"AToonWorld/Scenes/Levels/death_cave_01",
+            "AToonWorld/Scenes/Levels/climb_tutorial_001",
             "AToonWorld/Scenes/Menus/ThanksForPlaying",
         };
 

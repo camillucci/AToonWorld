@@ -1,5 +1,6 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding;
+using Assets.AToonWorld.Scripts.UnityAnimations;
 using Assets.AToonWorld.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using System;
@@ -12,7 +13,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 {
-    public class SeekerMovementController : MonoBehaviour
+    public class SeekerMovementController : EnemyController
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
@@ -131,6 +132,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             Idle,
             FollowingPlayer, 
             BackToStart
+        }
+        
+        public override void Kill()
+        {
+            base.Kill();
+            GenericAnimations.InkCloud(_seekerBody.transform.position).PlayAndForget();
         }
     }
 }
