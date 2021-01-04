@@ -298,7 +298,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         {
             instance.AudioSource.volume *= _globalVolume;
             await instance.Play();
-            Destroy(instance);
+            Destroy(instance.gameObject);
         }
 
         private void AddSoundEffectToSfx(AudioClip clip, string relativePath)
