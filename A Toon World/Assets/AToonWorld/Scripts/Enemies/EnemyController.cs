@@ -8,7 +8,7 @@ using Assets.AToonWorld.Scripts.UnityAnimations;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public abstract class EnemyController : MonoBehaviour, IKillable 
+public class EnemyController : MonoBehaviour, IKillable 
 {
     public virtual void Kill()
     {

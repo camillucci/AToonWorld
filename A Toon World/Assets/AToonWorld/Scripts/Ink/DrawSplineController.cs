@@ -41,6 +41,8 @@ public class DrawSplineController : MonoBehaviour
 
     protected Transform _splineTransform;
     protected int _currentSplineIndex;
+    protected bool _wasSimulationEnabled;
+    protected ILinkedObjectManager<DrawSplineController> _linkedManager;
 
     void Awake()
     {
@@ -51,15 +53,46 @@ public class DrawSplineController : MonoBehaviour
         this.Clear();
     }
 
+    /// <summary>
+    /// Used by fading platforms to disable rendering while keeping drawn object enabled (pool slot still used)
+    /// </summary>
+    public void Disable()
+    {
+        _inkLineRenderer.enabled = false;
+        _splineCollider.enabled = false;
+    }
+
+    /// <summary>
+    /// Used by fading platforms to enable rendering while keeping drawn object enabled (pool slot still used)
+    /// </summary>
+    public void Enable()
+    {
+        _inkLineRenderer.enabled = true;
+        _splineCollider.enabled = _wasSimulationEnabled;
+    }
+
     public void Clear()
     {
         //_splineRigidBody.simulated = false;
         _inkLineRenderer.positionCount = 0;
         _splineCollider.points = new Vector2[0];
-        _splineCollider.enabled = false;
+        _wasSimulationEnabled = false;
+        this.Enable();
         _splineTransform.position = Vector3.zero;
         _splineTransform.rotation = Quaternion.identity;
+        _linkedManager = null;
         _currentSplineIndex = 0;
+    }
+
+    private void OnDisable() 
+    {
+        _linkedManager?.Unlink(this);
+    }
+
+    public void BindManager(ILinkedObjectManager<DrawSplineController> manager)
+    {
+        _linkedManager?.Unlink(this);
+        _linkedManager = manager;
     }
 
     public virtual bool AddPoint(Vector2 newPoint)
@@ -94,6 +127,7 @@ public class DrawSplineController : MonoBehaviour
         _inkLineRenderer.GetPositions(_splinePoints);
         _splineCollider.points = Array.ConvertAll<Vector3, Vector2>(_splinePoints, p => (Vector2)p);
         _splineCollider.enabled = true;
+        _wasSimulationEnabled = true;
 
         //TODO: Custom Physics?
         //_splineRigidBody.simulated = true;

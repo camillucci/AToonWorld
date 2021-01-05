@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7958987073487897934}
   - component: {fileID: 7958987073487897935}
   - component: {fileID: 7934851529719134688}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cave - BigRocks1_8
   m_TagString: Ground
   m_Icon: {fileID: 0}

@@ -152,6 +152,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private void CheckpointReached()
         {
             _enabledObjectsSinceCheckpoint.Clear();
+            _disabledObjectsSinceCheckpoint.Clear();
 
             _inkPalette?.InkPalette.ForEach(inkHandler => {
                 if(inkHandler is ScriptableExpendableInkHandler expendableInkHandler)
@@ -172,7 +173,9 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void EnemyKilled(GameObject enemy)
         {
-            _disabledObjectsSinceCheckpoint.Add(enemy.gameObject.GetInstanceID(), enemy);
+            //FIXME: I proiettili dei nemici attualmente vengono fatti ri-apparire
+            if(!_disabledObjectsSinceCheckpoint.ContainsKey(enemy.gameObject.GetInstanceID()))
+                _disabledObjectsSinceCheckpoint.Add(enemy.gameObject.GetInstanceID(), enemy);
         }
 
         public CollectiblesManager CollectiblesManager => _collectiblesManager;
