@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/AToonWorld/Scenes/Levels/damage_tutorial_002.unity
     guid: 6828edfded928f94ea1ca18004865be1
   - enabled: 1
+    path: Assets/AToonWorld/Scenes/Levels/climb_tutorial_v2_003.unity
+    guid: dcdf4aa789dc42e498d970f1014481d0
+  - enabled: 1
+    path: Assets/AToonWorld/Scenes/Levels/death_cave_01.unity
+    guid: 45016a0dd321ffc468853127a897e58e
+  - enabled: 1
     path: Assets/AToonWorld/Scenes/Levels/climb_tutorial_001.unity
     guid: aea7262fa29564842ad0deeb04e6cf1c
   - enabled: 1

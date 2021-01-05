@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.AToonWorld.Scripts.Level
 {
@@ -59,6 +60,7 @@ namespace Assets.AToonWorld.Scripts.Level
             Events.LevelEvents.EnemyKilled.AddListener(EnemyKilled);
             Events.InterfaceEvents.CursorChangeRequest.Invoke(CursorController.CursorType.Game);
             Time.timeScale = 1f;
+            PlayerPrefs.SetInt("LastLevel", SceneManager.GetActiveScene().buildIndex);
 
             #if AnaliticsEnabled
                 Events.AnaliticsEvents.LevelStart.Invoke(new Analitic());

@@ -12,6 +12,7 @@ namespace Assets.AToonWorld.Scripts.UI
 
         [SerializeField] private TMP_Text _totalStarsNumber = null;
         [SerializeField] private TMP_Text _totalCollectiblesNumber = null;
+        [SerializeField] private Animator _levelMenuAnimator = null;
 
         private void Awake()
         {
@@ -21,6 +22,10 @@ namespace Assets.AToonWorld.Scripts.UI
         // Initialization
         private void Start()
         {
+            if (PlayerPrefs.GetInt("LastLevel", 0) > 5)
+            {
+                _levelMenuAnimator.SetTrigger("StartRight");
+            }
             _levels = FindObjectsOfType<LevelController>();
             UpdateTotalMedals();
             UpdateTotalCollectibles();
