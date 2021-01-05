@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3133132289487930059}
   - component: {fileID: 3133132289487930068}
   m_Layer: 0
-  m_Name: Mossy - Hanging Plants_5
+  m_Name: PlantUpsideDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 69c0fea773696ee4da4dde19a3a3df8e, type: 2}
+  - {fileID: 2100000, guid: 361b7c25290b4aa4aac7ae5a425c3173, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
