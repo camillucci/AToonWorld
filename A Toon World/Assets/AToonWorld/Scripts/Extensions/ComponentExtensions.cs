@@ -15,6 +15,17 @@ namespace Assets.AToonWorld.Scripts.Extensions
         public static UniTask Delay(this Component @this, int millisecondsDelay, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
             => UniTask.Delay(millisecondsDelay, ignoreTimeScale, delayTiming, @this.GetCancellationTokenOnDestroy());
 
+        public static async UniTask Delay(this Component @this, int millisecondsDelay, PlayerLoopTiming delayTiming, Func<bool> cancellationCondition = null)
+        {
+            for (float toWaitTime = millisecondsDelay; toWaitTime > 0; toWaitTime -= Time.deltaTime * 1000)
+            {
+                if (cancellationCondition?.Invoke() == true)
+                    break;
+                await @this.NextFrame(PlayerLoopTiming.Update);
+            }
+            await @this.Yield(delayTiming);
+        }
+
         public static UniTask DelayFrame(this Component @this, int delayFrameCount, PlayerLoopTiming timing)
             => UniTask.DelayFrame(delayFrameCount, timing, @this.GetCancellationTokenOnDestroy());
 

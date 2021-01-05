@@ -2,6 +2,7 @@
 using Assets.AToonWorld.Scripts.PathFinding;
 using Assets.AToonWorld.Scripts.PathFinding.Discrete;
 using Assets.AToonWorld.Scripts.PathFinding.Utils;
+using Assets.AToonWorld.Scripts.UnityAnimations;
 using Assets.AToonWorld.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using System;
@@ -14,7 +15,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 {       
-    public class BreakerMovementController : MonoBehaviour
+    public class BreakerMovementController : EnemyController
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
@@ -45,7 +46,7 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
             {
                 _linesUpdated = value;
                 if (value && !_seekerActive)
-                    _taskManager.ReplaceTask(SeekerMovement());
+                    _taskManager.ReplaceTask(() => SeekerMovement());
             }
         }
 
@@ -137,6 +138,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
                 }
             _breakerTransform.rotation = _breakerIdleRotation;
             _animator.SetBool("IsMoving", false);
+        }
+        
+        public override void Kill()
+        {
+            base.Kill();
+            GenericAnimations.InkCloud(_breakerBody.transform.position).PlayAndForget();
         }
     }
 }

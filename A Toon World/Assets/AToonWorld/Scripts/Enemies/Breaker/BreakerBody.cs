@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Breaker
 {
-    public class BreakerBody : MonoBehaviour
+    public class BreakerBody : MonoBehaviour, IKillable
     {
         // Private Fields
         private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
@@ -60,6 +60,11 @@ namespace Assets.AToonWorld.Scripts.Enemies.Breaker
         {
             await UniTask.Delay(ms);
             line.SetActive(false);
+        }
+
+        public void Kill()
+        {
+            this.transform.parent.GetComponent<IKillable>()?.Kill();
         }
     }
 }

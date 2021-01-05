@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 {
-    public class SeekerBody : MonoBehaviour
+    public class SeekerBody : MonoBehaviour, IKillable
     {
         // Private Fields
         private readonly ColliderTaggedEvents<Collider2D> _colliderTrigger = new ColliderTaggedEvents<Collider2D>();
@@ -71,5 +71,10 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             collision.gameObject.SetActive(false);
         }
 
+        
+        public void Kill()
+        {
+            this.transform.parent.GetComponent<IKillable>()?.Kill();
+        }
     }
 }

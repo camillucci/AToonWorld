@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d133a2168d72eca4c894d6329b1a6ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _behaviourParent: {fileID: 5492817040292259616}
 --- !u!1 &2559346733636884143
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 2596636012978396827, guid: 00822a8b2107cd143bc683ed65f9bfa2,
     type: 3}
   _bulletsInterleavingSeconds: 1
-  _balisticsEnabled: 0
+  _ballisticsEnabled: 0
 --- !u!50 &7407879671693525439
 Rigidbody2D:
   serializedVersion: 4
@@ -339,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68eb7fdd62bbce34bb448d261eaa84fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enabled: 0
+  _enabled: 1
 --- !u!61 &7231673283072625578
 BoxCollider2D:
   m_ObjectHideFlags: 0

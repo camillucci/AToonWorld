@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.AToonWorld.Scripts;
+using Assets.AToonWorld.Scripts.UnityAnimations;
 using UnityEngine;
 
 public interface IJump
@@ -9,7 +10,7 @@ public interface IJump
     void Jump();
 }
 
-public class JumperController : MonoBehaviour
+public class JumperController : EnemyController
 {
     public enum JumpMode { FixedHeight, ToFixedY }
 
@@ -80,5 +81,11 @@ public class JumperController : MonoBehaviour
                 StartCoroutine(_jumpCoroutine = Jump(_secondsIntoDarkLake));
             else
                 StartFirstJumpSession();
+    }
+        
+    public override void Kill()
+    {
+        base.Kill();
+        GenericAnimations.InkCloud(transform.position).PlayAndForget();
     }
 }

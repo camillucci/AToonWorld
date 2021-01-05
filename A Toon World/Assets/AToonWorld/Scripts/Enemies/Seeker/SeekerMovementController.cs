@@ -1,5 +1,6 @@
 ﻿using Assets.AToonWorld.Scripts.Extensions;
 using Assets.AToonWorld.Scripts.PathFinding;
+using Assets.AToonWorld.Scripts.UnityAnimations;
 using Assets.AToonWorld.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using System;
@@ -12,7 +13,7 @@ using UnityEngine;
 
 namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 {
-    public class SeekerMovementController : MonoBehaviour
+    public class SeekerMovementController : EnemyController
     {
         // Editor Fields
         [SerializeField] private float _speed = 5f;
@@ -74,13 +75,13 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
         {
             _playerTransform = collision.gameObject.transform;
             _isPlayerInside = true;
-            _taskManager.ReplaceTask(FollowPlayer());
+            _taskManager.ReplaceTask(() => FollowPlayer());
         }
 
         private void OnPlayerExit(Collider2D collision)
         {           
             _isPlayerInside = false;
-            _taskManager.ReplaceTask(GoBackToStart((int)(_delayBeforeComeBack * 1000)));
+            _taskManager.ReplaceTask(() => GoBackToStart((int)(_delayBeforeComeBack * 1000)));
         }
 
 
@@ -89,9 +90,9 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         private async UniTask GoBackToStart(int delayMs)
         {
-            if (delayMs > 0)
-                await this.Delay(delayMs);
-
+            await this.Delay(delayMs, PlayerLoopTiming.Update, cancellationCondition: () => _taskManager.IsCancelling);
+            if (_taskManager.IsCancelling)
+                return;
             IsMoving = true;
             Status = SeekerStatus.BackToStart;
             var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
@@ -131,6 +132,12 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
             Idle,
             FollowingPlayer, 
             BackToStart
+        }
+        
+        public override void Kill()
+        {
+            base.Kill();
+            GenericAnimations.InkCloud(_seekerBody.transform.position).PlayAndForget();
         }
     }
 }

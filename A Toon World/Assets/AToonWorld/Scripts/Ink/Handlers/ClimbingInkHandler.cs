@@ -39,12 +39,12 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
             float downDistance = Mathf.Abs(_wallBounds.min.y - mouseWorldPosition.y);
 
             // Check if mouse is near the border of a Ground object, otherwise cancel
-            if (leftDistance < rightDistance && leftDistance < _sensibility)
+            if (leftDistance < rightDistance && leftDistance < _sensibility && _wallBounds.min.y < mouseWorldPosition.y)
             {
                 _lastPoint = new Vector2(_wallBounds.min.x - _distanceFromBorder, mouseWorldPosition.y);
                 _direction = Direction.None;
             }
-            else if (rightDistance < _sensibility)
+            else if (rightDistance < _sensibility && _wallBounds.min.y < mouseWorldPosition.y)
             {
                 _lastPoint = new Vector2(_wallBounds.max.x + _distanceFromBorder, mouseWorldPosition.y);
                 _direction = Direction.None;

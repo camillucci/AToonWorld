@@ -11,15 +11,18 @@ public class PlayerBulletController : BulletController
     {
         if (other.CompareTag(UnityTag.Enemy))
         {
+            //TODO: Teoricamente l'explosion dovrebbe gestirsela il Killable
             Instantiate(_explosion, gameObject.transform.position, gameObject.transform.rotation);
             this.gameObject.SetActive(false);
-            other.gameObject.SetActive(false);
-            Events.LevelEvents.EnemyKilled.Invoke(other.gameObject);
-            GenericAnimations.InkCloud(other.transform.position).PlayAndForget();
-
-            #if AnaliticsEnabled
-                Events.AnaliticsEvents.EnemyKilled.Invoke(new Analitic(other.gameObject.name, other.gameObject.GetInstanceID(), other.gameObject.transform.position.x, other.gameObject.transform.position.y));
-            #endif
+            
+            IKillable killable = other.GetComponent<IKillable>();
+            if(killable != null)
+                killable.Kill();
+            else
+            {
+                Events.LevelEvents.EnemyKilled.Invoke(other.gameObject);
+                other.gameObject.SetActive(false);
+            }
             
             return;
         }
