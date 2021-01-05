@@ -43,7 +43,7 @@ namespace Assets.AToonWorld.Scripts.Utils
         public async UniTask CancelTask()
         {
             while (IsCancelling)
-                await _bindedComponent.NextFrame(); // The only way that does not produce garbage is polling. (i.e. an event that notifies that the cancelation has completed contains a list of delegates...)
+                await _bindedComponent.NextFrame(); // The only way that does not produce garbage is polling. (i.e. an event that notifies the cancelation has completed contains a list of delegates...)
 
             IsCancelling = true;
             await _currentTask;

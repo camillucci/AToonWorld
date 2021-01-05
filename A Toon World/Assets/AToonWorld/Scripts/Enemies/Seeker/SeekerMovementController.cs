@@ -89,9 +89,10 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         private async UniTask GoBackToStart(int delayMs)
         {
-            await this.Delay(delayMs, PlayerLoopTiming.Update, cancellationCondition: () => _taskManager.IsCancelling);
-            if (_taskManager.IsCancelling)
+            var isCancelled = ! await this.DelayWithCancellation(delayMs, cancellationCondition: () => _taskManager.IsCancelling);
+            if(isCancelled)
                 return;
+
             IsMoving = true;
             Status = SeekerStatus.BackToStart;
             var path = _targetAreaController.MinimumPathTo(_seekerTransform.position, _startPosition);
