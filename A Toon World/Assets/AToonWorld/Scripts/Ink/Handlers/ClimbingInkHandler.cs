@@ -13,6 +13,7 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
     private Vector2 _lastPoint;
     private Bounds _wallBounds;
     private Direction _direction;
+    private ILinkedObjectManager<DrawSplineController> _selectedLinkableObject;
 
     public DrawSplineController BoundSpline => _boundSplineController;
     public void BindSpline(DrawSplineController splineController)
@@ -65,6 +66,9 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
                                                     this.InkColor.g,
                                                     this.InkColor.b,
                                                     0.5f);
+
+            _selectedLinkableObject = hit.collider.gameObject.GetComponent<ILinkedObjectManager<DrawSplineController>>();
+
             return true;
         }
         _boundSplineController.gameObject.SetActive(false);
@@ -128,6 +132,9 @@ public class ClimbingInkHandler : ScriptableExpendableInkHandler, ISplineInk
             {
                 _boundSplineController.EnableSimulation();
                 _boundSplineController.Color = this.InkColor;
+
+                if(_selectedLinkableObject != null)
+                    _selectedLinkableObject.Link(_boundSplineController);
             }
             else
                 _boundSplineController.gameObject.SetActive(false);

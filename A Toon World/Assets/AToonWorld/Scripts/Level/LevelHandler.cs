@@ -152,6 +152,7 @@ namespace Assets.AToonWorld.Scripts.Level
         private void CheckpointReached()
         {
             _enabledObjectsSinceCheckpoint.Clear();
+            _disabledObjectsSinceCheckpoint.Clear();
 
             _inkPalette?.InkPalette.ForEach(inkHandler => {
                 if(inkHandler is ScriptableExpendableInkHandler expendableInkHandler)
