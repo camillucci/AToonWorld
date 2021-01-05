@@ -20,9 +20,6 @@ namespace Assets.AToonWorld.Scripts.Enemies.Seeker
 
         private void InitializeObstacles()
         {
-            var obstaclesTags = new string[] { UnityTag.Ground };
-            foreach (var tag in obstaclesTags)
-                AddStaticObstacle(tag);
         }
     }
 }
