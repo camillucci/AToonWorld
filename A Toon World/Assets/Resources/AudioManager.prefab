@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundtrack:
-  - _name: african_son
-    _clip: {fileID: 8300000, guid: 697060609d061c445b4eb38233787637, type: 3}
+  - _name: SilvioSoundtrack
+    _clip: {fileID: 8300000, guid: 1d66cc7811470af48a36add201cce286, type: 3}
   _refreshSoundtrack: 0
   _sfxTransform: {fileID: 622431554618097316}
   _soundEffectPrefab: {fileID: 187924816631482367, guid: 774dbc080d4eef54ca374c23654966cc,
@@ -99,11 +99,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 44649be37ac94c7488a958dc293f6c19, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1d66cc7811470af48a36add201cce286, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

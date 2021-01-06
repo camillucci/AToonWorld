@@ -16,7 +16,8 @@ namespace Assets.AToonWorld.Scripts.UI
         [SerializeField] private TMP_Dropdown _qualityDropdown = null;
         [SerializeField] private TMP_Dropdown _resolutionDropdown = null;
         [SerializeField] private Toggle _fullscreenToggle = null;
-        [SerializeField] private Slider _volumeSlider = null;
+        [SerializeField] private Slider _musicVolumeSlider = null;
+        [SerializeField] private Slider _sfxVolumeSlider = null;
 
         #endregion
 
@@ -55,13 +56,20 @@ namespace Assets.AToonWorld.Scripts.UI
             // Update fullscreen toggle
             _fullscreenToggle.isOn = Screen.fullScreen;
 
-            // Update volume slider
-            _volumeSlider.value =  AudioManager.PrefabInstance.GlobalVolume;
+            // Update volume sliders
+            _musicVolumeSlider.value =  AudioManager.PrefabInstance.GlobalVolume;
+            _sfxVolumeSlider.value =  AudioManager.PrefabInstance.GlobalVolume;
         }
 
         #region Buttons
 
-        public void SetVolume(float volume)
+        public void SetMusicVolume(float volume)
+        {
+            AudioManager.PrefabInstance.GlobalVolume = volume;
+            PlayerPrefs.SetFloat("Volume", volume);
+        }
+
+        public void SetSFXVolume(float volume)
         {
             AudioManager.PrefabInstance.GlobalVolume = volume;
             PlayerPrefs.SetFloat("Volume", volume);
