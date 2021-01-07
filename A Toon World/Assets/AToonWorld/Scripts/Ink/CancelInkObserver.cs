@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-//TODO: Effetto particellare migliore
 public class CancelInkObserver : MonoBehaviour
 {
     // Editor Fields
@@ -39,7 +38,6 @@ public class CancelInkObserver : MonoBehaviour
 
     private void ApplyEffect(GameObject inkToDelete, Vector2 effectLocation, Vector2 direction)
     {
-        //TODO: Audio?
         //Particle effect
         GameObject particleEffect = ObjectPoolingManager<string>.Instance.GetObject(nameof(_cancelEffectPrefab));
         particleEffect.transform.position = effectLocation;
@@ -48,7 +46,6 @@ public class CancelInkObserver : MonoBehaviour
         //Try to fade
         if(inkToDelete.GetComponent<LineRenderer>() is LineRenderer inkLineRenderer)
         {
-            //TODO: Magari considerare endColor e startColor come effettivamente separati? Potrebbe avere problemi in caso di linee di colore diverso
             _renderersCache.Add(inkToDelete, inkLineRenderer);
             _alphaCache.Add(inkToDelete, inkLineRenderer.startColor.a);
             Color newColor = new Color(inkLineRenderer.startColor.r,
@@ -82,9 +79,4 @@ public class CancelInkObserver : MonoBehaviour
         _alphaCache.Clear();
         _inkToDelete.Clear();
     }
-
-    //public void Abort()
-    //{
-    //    //TODO: Abort? Lo consentiamo?
-    //}
 }

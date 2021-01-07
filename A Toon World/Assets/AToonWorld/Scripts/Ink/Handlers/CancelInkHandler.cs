@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.AToonWorld.Scripts;
 
-//TODO: TrailRenderer or Shooting mechanic for this one
 [CreateAssetMenu(fileName = "CancelInkHandler", menuName = "Inkverse/Inks/Handlers/Cancel Ink Handler", order = 4)]
 public class CancelInkHandler : ScriptableInkHandler, ISplineInk
 {
@@ -51,7 +50,6 @@ public class CancelInkHandler : ScriptableInkHandler, ISplineInk
 
     private void ProcessToDelete(Vector2 currentPoint)
     {
-        //TODO: Forse se l'inchiostro è fatto così sarebbe meglio avere un collider invisibile attaccato al mouse invece che fare raycast
         Vector2 diff = _lastPoint - currentPoint;
         Vector2 direction = diff.normalized;
         foreach(RaycastHit2D hit in Physics2D.RaycastAll(_lastPoint, direction, diff.magnitude, LayerMask.GetMask(UnityTag.Drawing)))

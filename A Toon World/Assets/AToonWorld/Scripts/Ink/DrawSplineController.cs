@@ -127,9 +127,6 @@ public class DrawSplineController : MonoBehaviour
         _splineCollider.points = Array.ConvertAll<Vector3, Vector2>(_splinePoints, p => (Vector2)p);
         _splineCollider.enabled = true;
         _wasSimulationEnabled = true;
-
-        //TODO: Custom Physics?
-        //_splineRigidBody.simulated = true;
     }
 
     bool IsValidPoint(Vector2 point, Vector2 lastPoint)

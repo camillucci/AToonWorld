@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class InkPickupController : MonoBehaviour
 {
-    //TODO: InkPickup respawn?
     [SerializeField] private float _refillQuantity = 50.0f;
     public float RefillQuantity => _refillQuantity;
     [SerializeField] private bool _refillIsPercentage = false;
