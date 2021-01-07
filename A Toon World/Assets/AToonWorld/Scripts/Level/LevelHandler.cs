@@ -175,7 +175,6 @@ namespace Assets.AToonWorld.Scripts.Level
 
         private void EnemyKilled(GameObject enemy)
         {
-            //FIXME: I proiettili dei nemici attualmente vengono fatti ri-apparire
             if(!_disabledObjectsSinceCheckpoint.ContainsKey(enemy.gameObject.GetInstanceID()))
                 _disabledObjectsSinceCheckpoint.Add(enemy.gameObject.GetInstanceID(), enemy);
         }

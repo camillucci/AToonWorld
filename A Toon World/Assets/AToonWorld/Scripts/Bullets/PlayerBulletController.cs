@@ -18,11 +18,8 @@ public class PlayerBulletController : BulletController
             IKillable killable = other.GetComponent<IKillable>();
             if(killable != null)
                 killable.Kill();
-            else
-            {
-                Events.LevelEvents.EnemyKilled.Invoke(other.gameObject);
+            else //Since IKillable was introduces, everything that isn't a killable object doesn't need to respawn (probably a pooled object)
                 other.gameObject.SetActive(false);
-            }
             
             return;
         }

@@ -8,7 +8,6 @@ using UnityEngine;
 //[RequireComponent(typeof(Rigidbody2D))]
 public class DrawSplineController : MonoBehaviour
 {
-    //FIXME: La fisica con Rigidbody2D attualmente è rotta sulle linee (probabilmente perchè assume che l'origine dell'oggetto sia il centro di massa?)
     
     #region Components
 

@@ -123,24 +123,6 @@ namespace Assets.AToonWorld.Scripts.Player
             CheckFallDeath();
             UpdateFallDistance();
         }
-
-
-        /*
-          FIXME: Sicuramente qualcosa si è rotto dopo il merge, dato che ora immortal è un flag del player bisogna vedere come gestire
-          public bool IsImmortal
-          {
-              get => _isImmortal;
-              set
-              {
-                  if (value == _isImmortal)
-                      return;
-                  _isImmortal = value;
-                  if (!value)
-                      ResetStatus();
-              }
-          }
-        */                
-
        
         private void UpdateFallDistance()
         {
