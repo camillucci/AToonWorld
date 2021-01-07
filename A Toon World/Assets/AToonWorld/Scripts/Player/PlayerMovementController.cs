@@ -311,9 +311,27 @@ public class PlayerMovementController : MonoBehaviour
         while (totElapsedMs < _maxJumpTimeMs && _jumpHeldCondition?.Invoke() == true && !_levelHandler.RespawningPlayer)
         {
             RigidBody.velocity = new Vector2(RigidBody.velocity.x, _jumpSpeed);
-            await this.NextFrame(PlayerLoopTiming.FixedUpdate);
+            await this.WaitForFixedUpdate();
             totElapsedMs += Time.fixedDeltaTime * 1000;
         }
+        if (_levelHandler.RespawningPlayer)
+            RigidBody.velocity = Vector2.zero;
+        if (IsGrounded || IsOnDrawingPlatform)
+            CurrentJumpState = JumpState.NoJumping;
+    }
+
+    private async UniTaskVoid HybridJump()
+    {
+        await this.WaitForFixedUpdate();
+        IsGravityEnabled = true;
+
+         float jumpHeight = 10.0f;
+        RigidBody.velocity = new Vector2(RigidBody.velocity.x, Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpHeight));
+
+        while (_jumpHeldCondition?.Invoke() == true && !_levelHandler.RespawningPlayer)
+            await this.WaitForFixedUpdate();
+        if(_jumpHeldCondition?.Invoke() == false)
+            RigidBody.velocity = new Vector2(RigidBody.velocity.x, 0);
         if (_levelHandler.RespawningPlayer)
             RigidBody.velocity = Vector2.zero;
         if (IsGrounded || IsOnDrawingPlatform)
