@@ -22,19 +22,30 @@ namespace Assets.AToonWorld.Scripts.Extensions
         {
             InvokeFrameDelayedTask(@this, callback, frameDelay, cancelToken).Forget();
         }
-
-        private static IEnumerator InvokeDelayCoroutine(Action callback, float delayInSeconds)
-        {   
-            yield return new WaitForSeconds(delayInSeconds);
-            callback.Invoke();
-        }
-
-
+        
         private static async UniTaskVoid InvokeFrameDelayedTask(MonoBehaviour monoBehaviour, Action action, int frameDelay, CancellationToken? cancelToken = null)
         {
             await UniTask.DelayFrame(frameDelay, cancellationToken: cancelToken.HasValue ? cancelToken.Value : monoBehaviour.GetCancellationTokenOnDestroy());
             if(!cancelToken.HasValue || !cancelToken.Value.IsCancellationRequested)
                 action.Invoke();
+        }
+
+        public static void InvokeDelayed(this MonoBehaviour @this, Action callback, int millisecondDelay,  CancellationToken? cancelToken = null)
+        {
+            InvokeDelayedTask(@this, callback, millisecondDelay, cancelToken).Forget();
+        }
+        
+        private static async UniTaskVoid InvokeDelayedTask(MonoBehaviour monoBehaviour, Action action, int millisecondDelay, CancellationToken? cancelToken = null)
+        {
+            await UniTask.Delay(millisecondDelay, cancellationToken: cancelToken.HasValue ? cancelToken.Value : monoBehaviour.GetCancellationTokenOnDestroy());
+            if(!cancelToken.HasValue || !cancelToken.Value.IsCancellationRequested)
+                action.Invoke();
+        }
+
+        private static IEnumerator InvokeDelayCoroutine(Action callback, float delayInSeconds)
+        {   
+            yield return new WaitForSeconds(delayInSeconds);
+            callback.Invoke();
         }
 
         public static UniTask PlaySound(this MonoBehaviour @this, SoundEffect soundEffect)

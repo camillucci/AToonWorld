@@ -235,7 +235,7 @@ MonoBehaviour:
   _jumpHoldStepMs: 35
   _climbingSpeed: 5
   _isDoubleJumpEnabled: 0
-  _jumpDelaySensitivity: 7
+  _jumpDelaySensitivity: 117
   _frictionWhenIdle: 0.9
   _jumpSpeed: 15
   _maxJumpTimeMs: 220

@@ -21,7 +21,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] [Range(1, 200)] private float _jumpHoldStepMs = 39.5f;
     [SerializeField] private float _climbingSpeed = 5;
     [SerializeField] private bool _isDoubleJumpEnabled;
-    [SerializeField] private int _jumpDelaySensitivity = 4;
+    [SerializeField] private int _jumpDelaySensitivity = 117; //117ms = 7 frame at 60fps
     [SerializeField] private float _frictionWhenIdle = 0.9f;
     [SerializeField] private float _jumpSpeed;
     [SerializeField] private int _maxJumpTimeMs;
@@ -295,7 +295,7 @@ public class PlayerMovementController : MonoBehaviour
         if(delayed)
         {
             _invalidateJumpTokenSource = new CancellationTokenSource();
-            this.InvokeFrameDelayed(() => CanJump = canJump, _jumpDelaySensitivity, _invalidateJumpTokenSource.Token);
+            this.InvokeDelayed(() => CanJump = canJump, _jumpDelaySensitivity, _invalidateJumpTokenSource.Token);
         }
         else
             CanJump = canJump;
