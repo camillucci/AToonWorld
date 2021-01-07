@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EraserController : MonoBehaviour, IKillable
 {
-    [SerializeField] private MonoBehaviour _behaviourParent;
+    [SerializeField] private MonoBehaviour _behaviourParent = null;
     private IKillable _killableParent;
 
     private void Start() {

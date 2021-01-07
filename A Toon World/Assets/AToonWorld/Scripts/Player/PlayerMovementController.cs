@@ -23,8 +23,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private bool _isDoubleJumpEnabled;
     [SerializeField] private int _jumpDelaySensitivity = 117; //117ms = 7 frame at 60fps
     [SerializeField] private float _frictionWhenIdle = 0.9f;
-    [SerializeField] private float _jumpSpeed;
-    [SerializeField] private int _maxJumpTimeMs;
+    [SerializeField] private float _jumpSpeed = 0f;
+    [SerializeField] private int _maxJumpTimeMs = 0;
 
 
     // Private fields
@@ -51,7 +51,7 @@ public class PlayerMovementController : MonoBehaviour
         PlayerFeet = GetComponentInChildren<PlayerFeet>();
         PlayerBody = GetComponentInChildren<PlayerBody>();
         _levelHandler = FindObjectOfType<LevelHandler>();
-        AnimatorController = PlayerBody.GetComponent<Animator>();
+        AnimatorController = GetComponentInChildren<Animator>();
         _gravityScale = RigidBody.gravityScale;
         InitializeJumpingStates();
         InitializeFeet();
