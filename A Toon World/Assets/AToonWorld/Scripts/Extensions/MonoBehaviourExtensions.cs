@@ -18,9 +18,9 @@ namespace Assets.AToonWorld.Scripts.Extensions
             @this.StartCoroutine(InvokeDelayCoroutine(callback, delayInSeconds));
         }
 
-        public static void InvokeFrameDelayed(this MonoBehaviour @this, Action callback, int frameDelay)
+        public static void InvokeFrameDelayed(this MonoBehaviour @this, Action callback, int frameDelay,  CancellationToken? cancelToken = null)
         {
-            InvokeFrameDelayedTask(@this, callback, frameDelay).Forget();
+            InvokeFrameDelayedTask(@this, callback, frameDelay, cancelToken).Forget();
         }
 
         private static IEnumerator InvokeDelayCoroutine(Action callback, float delayInSeconds)
@@ -30,10 +30,11 @@ namespace Assets.AToonWorld.Scripts.Extensions
         }
 
 
-        private static async UniTaskVoid InvokeFrameDelayedTask(MonoBehaviour monoBehaviour, Action action, int frameDelay)
+        private static async UniTaskVoid InvokeFrameDelayedTask(MonoBehaviour monoBehaviour, Action action, int frameDelay, CancellationToken? cancelToken = null)
         {
-            await UniTask.DelayFrame(frameDelay, cancellationToken: monoBehaviour.GetCancellationTokenOnDestroy());
-            action.Invoke();
+            await UniTask.DelayFrame(frameDelay, cancellationToken: cancelToken.HasValue ? cancelToken.Value : monoBehaviour.GetCancellationTokenOnDestroy());
+            if(!cancelToken.HasValue || !cancelToken.Value.IsCancellationRequested)
+                action.Invoke();
         }
 
         public static UniTask PlaySound(this MonoBehaviour @this, SoundEffect soundEffect)

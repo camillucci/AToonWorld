@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
@@ -30,6 +31,8 @@ public class PlayerMovementController : MonoBehaviour
     private Dictionary<JumpState, Action> _onJumpHandlers = new Dictionary<JumpState, Action>();
     private Action _fixedUpdateAction; // code scheduled to be executed on FixedUpdate 
     private Func<bool> _jumpHeldCondition; // delegate that says whether jump input is held or not
+    private JumpState _currentJumpState;
+    private CancellationTokenSource _invalidateJumpTokenSource; 
     private int _drawingPlatformsCollidedCount;
     private int _groundsCollidedCount;
     private int _climbingWallCollidedCount;
@@ -112,16 +115,24 @@ public class PlayerMovementController : MonoBehaviour
     public float HorizontalMovementDirection { get; set; }
     public float VerticalMovementDirection { get; set; }
     public bool IsFacingRight { get; private set; } = true;
-    public JumpState CurrentJumpState { get; private set; }
     public bool IsClimbing => ClimbingWallCollidedCount > 0;
     public bool IsGrounded => GroundsCollidedCount > 0;
     public bool IsOnDrawingPlatform => DrawingPlatformsCollidedCount > 0;
-    public bool CanJump => IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
+    public bool CanJump { get; private set; } 
     public bool IsMovinghorizontally => Mathf.Abs(HorizontalMovementDirection) > 0 && enabled;
     public bool IsGravityEnabled
     {
         get => Math.Abs(RigidBody.gravityScale) > float.Epsilon;
         private set => RigidBody.gravityScale = value ? _gravityScale : 0;
+    }
+    public JumpState CurrentJumpState 
+    { 
+        get => _currentJumpState;
+        private set
+        {
+            _currentJumpState = value;
+            InvalidateCanJump();
+        } 
     }
     public int GroundsCollidedCount
     {
@@ -132,6 +143,8 @@ public class PlayerMovementController : MonoBehaviour
             _groundsCollidedCount = value;
             if (value == 0 && oldValue > 0)
                 AllGroundsExit?.Invoke();
+
+            InvalidateCanJump(value <= 0);
         }
     }
     private int DrawingPlatformsCollidedCount
@@ -143,6 +156,8 @@ public class PlayerMovementController : MonoBehaviour
             _drawingPlatformsCollidedCount = value;
             if (value == 0 && oldValue > 0)
                 AllDrawingExit?.Invoke();
+            
+            InvalidateCanJump(value <= 0);
         }
     }
     private int ClimbingWallCollidedCount
@@ -154,6 +169,8 @@ public class PlayerMovementController : MonoBehaviour
             _climbingWallCollidedCount = value;
             if (value == 0 && oldValue > 0)
                 AllClimbingExit?.Invoke();
+            
+            InvalidateCanJump(value <= 0);
         }
     }
     public bool IsInTheAir => !IsClimbing && !IsGrounded && !IsOnDrawingPlatform;
@@ -185,9 +202,9 @@ public class PlayerMovementController : MonoBehaviour
 
     // Trigger Collisions
     private void OnGroundEnter(Collider2D collider) => GroundsCollidedCount++;
-    private void OnGroundExit(Collider2D collider) => this.InvokeFrameDelayed(() => GroundsCollidedCount--, _jumpDelaySensitivity);
+    private void OnGroundExit(Collider2D collider) => GroundsCollidedCount--;
     private void OnDrawingEnter(Collider2D collider) => DrawingPlatformsCollidedCount++;
-    private void OnDrawingExit(Collider2D collider) => this.InvokeFrameDelayed(() => DrawingPlatformsCollidedCount--, _jumpDelaySensitivity);
+    private void OnDrawingExit(Collider2D collider) => DrawingPlatformsCollidedCount--;
 
 
 
@@ -252,12 +269,38 @@ public class PlayerMovementController : MonoBehaviour
         UpdateAnimations();
     }
 
-
+    private void OnDestroy() 
+    {
+        if(_invalidateJumpTokenSource != null)
+        {
+            _invalidateJumpTokenSource.Cancel();
+            _invalidateJumpTokenSource = null;
+        }
+    }
 
 
 
 
     // JumpState handlers
+    private void InvalidateCanJump(bool delayed = false)
+    {
+        if(_invalidateJumpTokenSource != null)
+        {
+            _invalidateJumpTokenSource.Cancel();
+            _invalidateJumpTokenSource = null;
+        }
+
+        bool canJump = IsGrounded || IsOnDrawingPlatform || (IsClimbing && CurrentJumpState == JumpState.NoJumping);
+        
+        if(delayed)
+        {
+            _invalidateJumpTokenSource = new CancellationTokenSource();
+            this.InvokeFrameDelayed(() => CanJump = canJump, _jumpDelaySensitivity, _invalidateJumpTokenSource.Token);
+        }
+        else
+            CanJump = canJump;
+    }
+
     private void OnJump_WhileNoJumping()
     {
         if (CanJump)
@@ -314,24 +357,6 @@ public class PlayerMovementController : MonoBehaviour
             await this.WaitForFixedUpdate();
             totElapsedMs += Time.fixedDeltaTime * 1000;
         }
-        if (_levelHandler.RespawningPlayer)
-            RigidBody.velocity = Vector2.zero;
-        if (IsGrounded || IsOnDrawingPlatform)
-            CurrentJumpState = JumpState.NoJumping;
-    }
-
-    private async UniTaskVoid HybridJump()
-    {
-        await this.WaitForFixedUpdate();
-        IsGravityEnabled = true;
-
-         float jumpHeight = 10.0f;
-        RigidBody.velocity = new Vector2(RigidBody.velocity.x, Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpHeight));
-
-        while (_jumpHeldCondition?.Invoke() == true && !_levelHandler.RespawningPlayer)
-            await this.WaitForFixedUpdate();
-        if(_jumpHeldCondition?.Invoke() == false)
-            RigidBody.velocity = new Vector2(RigidBody.velocity.x, 0);
         if (_levelHandler.RespawningPlayer)
             RigidBody.velocity = Vector2.zero;
         if (IsGrounded || IsOnDrawingPlatform)
