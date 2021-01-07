@@ -5039,7 +5039,7 @@ PrefabInstance:
     - target: {fileID: 62109845936002044, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
       propertyPath: _secondsIntoDarkLake
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 62109845936002044, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
@@ -21014,7 +21014,7 @@ PrefabInstance:
     - target: {fileID: 62109845936002044, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
       propertyPath: _secondsIntoDarkLake
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 62109845936002044, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
@@ -42453,7 +42453,7 @@ PrefabInstance:
     - target: {fileID: 62109845936002044, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
       propertyPath: _secondsIntoDarkLake
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 62109845936002046, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
@@ -55821,7 +55821,7 @@ PrefabInstance:
     - target: {fileID: 62109845936002044, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
       propertyPath: _secondsIntoDarkLake
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 62109845936002046, guid: 76d295dbd564d4845858adfb55df6e28,
         type: 3}
