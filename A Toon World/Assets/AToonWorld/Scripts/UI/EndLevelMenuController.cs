@@ -89,7 +89,7 @@ namespace Assets.AToonWorld.Scripts.UI
             // Save player progresses: achievements and collectibles
             medals = Mathf.Max(medals,
                 PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, 0));
-            int collectiblesCount = Mathf.Max(collectibles.Count,
+            int collectiblesCount = Mathf.Max(_collectiblesManager.CurrentCollectibles,
                 PlayerPrefs.GetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.CollectiblesPath, 0));
             PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.AchievementsPath, medals);
             PlayerPrefs.SetInt(UnityScenes.LevelsPath + SceneManager.GetActiveScene().name + UnityScenes.CollectiblesPath, collectiblesCount);
