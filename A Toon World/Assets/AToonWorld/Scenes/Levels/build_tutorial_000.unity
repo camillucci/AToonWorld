@@ -16421,12 +16421,12 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -34048,12 +34048,17 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 100
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
+        type: 3}
+      propertyPath: _refillIsPercentage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7003859540737239838, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
@@ -42714,12 +42719,12 @@ PrefabInstance:
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _refillQuantity
-      value: 75
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1599922479513285454, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7003859540737239838, guid: 1a4bdd8b4c10f1c4da810e4bac95030c,
         type: 3}
