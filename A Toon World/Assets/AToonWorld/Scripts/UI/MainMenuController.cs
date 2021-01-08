@@ -13,7 +13,9 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         void Awake()
         {
-            AudioManager.PrefabInstance.SoundsVolume = PlayerPrefs.GetFloat("Volume", 1);            
+            // Instantiate AudioManager and update the volume preferences
+            AudioManager.PrefabInstance.MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
+            AudioManager.PrefabInstance.SoundsVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 

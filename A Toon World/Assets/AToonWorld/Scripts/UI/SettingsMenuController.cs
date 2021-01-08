@@ -23,8 +23,13 @@ namespace Assets.AToonWorld.Scripts.UI
 
         private Resolution[] resolutions;
 
-        // Refresh settings values based on settings of the last session
         void Start()
+        {
+            RefreshValues();
+        }
+
+        // Refresh settings values based on settings of the last session
+        public void RefreshValues()
         {
             // At run-time gather all possible resolutions
             int currentResolutionIndex = 0;
@@ -44,11 +49,6 @@ namespace Assets.AToonWorld.Scripts.UI
             _resolutionDropdown.value = currentResolutionIndex;
             _resolutionDropdown.RefreshShownValue();
 
-            RefreshValues();
-        }
-
-        public void RefreshValues()
-        {
             // Update quality dropdown
             _qualityDropdown.value = QualitySettings.GetQualityLevel();
             _qualityDropdown.RefreshShownValue();
@@ -57,7 +57,7 @@ namespace Assets.AToonWorld.Scripts.UI
             _fullscreenToggle.isOn = Screen.fullScreen;
 
             // Update volume sliders
-            _musicVolumeSlider.value =  AudioManager.PrefabInstance.SoundsVolume;
+            _musicVolumeSlider.value =  AudioManager.PrefabInstance.MusicVolume;
             _sfxVolumeSlider.value =  AudioManager.PrefabInstance.SoundsVolume;
         }
 
@@ -65,14 +65,14 @@ namespace Assets.AToonWorld.Scripts.UI
 
         public void SetMusicVolume(float volume)
         {
-            AudioManager.PrefabInstance.SoundsVolume = volume;
-            PlayerPrefs.SetFloat("Volume", volume);
+            AudioManager.PrefabInstance.MusicVolume = volume;
+            PlayerPrefs.SetFloat("MusicVolume", volume);
         }
 
         public void SetSFXVolume(float volume)
         {
             AudioManager.PrefabInstance.SoundsVolume = volume;
-            PlayerPrefs.SetFloat("Volume", volume);
+            PlayerPrefs.SetFloat("SFXVolume", volume);
         }
 
         public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex);
