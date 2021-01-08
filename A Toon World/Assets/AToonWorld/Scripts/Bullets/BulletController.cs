@@ -35,7 +35,7 @@ public abstract class BulletController : MonoBehaviour
 
     public void Shoot(Vector2 startPosition, Vector2 targetPosition)
     {
-        this.PlaySound(SoundEffects.BulletSounds.RandomOrDefault()).Forget();
+        AudioManager.PrefabInstance.PlaySound(SoundEffects.BulletSounds.RandomOrDefault(), startPosition).Forget();
         _bulletBehaviour.Shoot( _transform, _rigidBody, startPosition, targetPosition, _maxBulletSpeed);
     } 
 
