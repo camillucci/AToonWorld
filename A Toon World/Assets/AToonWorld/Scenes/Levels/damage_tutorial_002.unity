@@ -24083,6 +24083,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1002266288}
     m_Modifications:
+    - target: {fileID: 5178573678489211561, guid: c40b92b53e1dd074e834341fee88f101,
+        type: 3}
+      propertyPath: _maxInkForAchievement
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 5486826057240666371, guid: c40b92b53e1dd074e834341fee88f101,
         type: 3}
       propertyPath: _tombstonePrefab
@@ -24148,6 +24153,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8507050571298085848, guid: c40b92b53e1dd074e834341fee88f101,
+        type: 3}
+      propertyPath: _maxTimeForAchievementInSeconds
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c40b92b53e1dd074e834341fee88f101, type: 3}
