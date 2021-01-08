@@ -13,7 +13,7 @@ namespace Assets.AToonWorld.Scripts.UI
     {
         void Awake()
         {
-            AudioManager.PrefabInstance.GlobalVolume = PlayerPrefs.GetFloat("Volume", 1);
+            AudioManager.PrefabInstance.SoundsVolume = PlayerPrefs.GetFloat("Volume", 1);            
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 

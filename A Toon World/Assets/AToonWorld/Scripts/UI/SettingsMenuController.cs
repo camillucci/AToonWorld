@@ -57,21 +57,21 @@ namespace Assets.AToonWorld.Scripts.UI
             _fullscreenToggle.isOn = Screen.fullScreen;
 
             // Update volume sliders
-            _musicVolumeSlider.value =  AudioManager.PrefabInstance.GlobalVolume;
-            _sfxVolumeSlider.value =  AudioManager.PrefabInstance.GlobalVolume;
+            _musicVolumeSlider.value =  AudioManager.PrefabInstance.SoundsVolume;
+            _sfxVolumeSlider.value =  AudioManager.PrefabInstance.SoundsVolume;
         }
 
         #region Buttons
 
         public void SetMusicVolume(float volume)
         {
-            AudioManager.PrefabInstance.GlobalVolume = volume;
+            AudioManager.PrefabInstance.SoundsVolume = volume;
             PlayerPrefs.SetFloat("Volume", volume);
         }
 
         public void SetSFXVolume(float volume)
         {
-            AudioManager.PrefabInstance.GlobalVolume = volume;
+            AudioManager.PrefabInstance.SoundsVolume = volume;
             PlayerPrefs.SetFloat("Volume", volume);
         }
 

@@ -23,15 +23,15 @@ namespace Assets.AToonWorld.Scripts.Audio
         [SerializeField] private Transform _sfxTransform = null;
         [SerializeField] private GameObject _soundEffectPrefab = null;
         [SerializeField] private List<GameObject> _sfx = new List<GameObject>();
-        [SerializeField] private bool _refreshSfx = false;
-
+        [SerializeField] private bool _refreshSfx = false;        
 
 
         // Private Fields    
         private AudioSourceHandler _musicSource;
         private bool _refreshingSoundtrack;
         private bool _refreshingSFx;
-        [Range(0, 1)] private float _globalVolume = 1;
+        [Range(0, 1)] private float _soundsVolume = 1;
+        [Range(0, 1)] private float _musicVolume = 0.1f;
 
 
 
@@ -45,6 +45,7 @@ namespace Assets.AToonWorld.Scripts.Audio
             var musicAudioSource = GetComponent<AudioSource>();
             _musicSource = musicAudioSource != null ? new AudioSourceHandler(musicAudioSource) : null;
             SetupMusicSource();
+            PlayMusic();
         }
 
         private void Start()
@@ -52,9 +53,10 @@ namespace Assets.AToonWorld.Scripts.Audio
         }
 
         private void SetupMusicSource()
-        {
+        { 
             if (_musicSource == null)
                 return;
+            _musicSource.MusicSource.volume = _musicVolume;
             _musicSource.MusicEnd += MusicSource_MusicEnd;
         }
 
@@ -68,16 +70,20 @@ namespace Assets.AToonWorld.Scripts.Audio
         
         // Public Properties        
 
-        public float GlobalVolume
+        public float SoundsVolume
         {
-            get => _globalVolume;
+            get => _soundsVolume;
             set
             {
-                _globalVolume = value;
-                _musicSource.MusicSource.volume = value;
+                _soundsVolume = value;                
             }
         }
 
+        public float MusicVolume
+        {
+            get => _musicSource.MusicSource.volume;
+            set => _musicVolume = _musicSource.MusicSource.volume = value;
+        }
 
 
         // Public Properties        
@@ -296,7 +302,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         //  Sfx Helpers
         private async UniTask PlaySound(SoundEffect instance)
         {
-            instance.AudioSource.volume *= _globalVolume;
+            instance.AudioSource.volume *= SoundsVolume;
             await instance.Play();
             Destroy(instance.gameObject);
         }
