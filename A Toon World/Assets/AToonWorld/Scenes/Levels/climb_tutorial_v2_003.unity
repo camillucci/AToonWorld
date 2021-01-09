@@ -1210,7 +1210,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -2098,7 +2098,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -4765,7 +4765,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -6608,7 +6608,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -14431,7 +14431,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -17705,7 +17705,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 4
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -18950,7 +18950,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 4
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -20697,7 +20697,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -24512,7 +24512,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -29686,7 +29686,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -31114,6 +31114,11 @@ PrefabInstance:
       propertyPath: m_LocalAABB.m_Extent.y
       value: 9.500001
       objectReference: {fileID: 0}
+    - target: {fileID: 2920915011707990111, guid: 00942c766dec33641a143a9ce3130f95,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3448166605701854190, guid: 00942c766dec33641a143a9ce3130f95,
         type: 3}
       propertyPath: m_Offset.y
@@ -31613,7 +31618,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -36114,7 +36119,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -36926,7 +36931,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 7.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -39478,7 +39483,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 15
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
@@ -40829,7 +40834,7 @@ PrefabInstance:
     - target: {fileID: 45291051787224184, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
       propertyPath: _respawnThreshold
-      value: 4
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 282615879496357743, guid: d173fa4b42d0f8748849ebaaa54b28b1,
         type: 3}
