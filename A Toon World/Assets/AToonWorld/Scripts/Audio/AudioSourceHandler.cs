@@ -48,6 +48,7 @@ namespace Assets.AToonWorld.Scripts.Audio
         {
             if (CurrentMusic != null && Mathf.Approximately(MusicSource.time, CurrentMusic.Clip.length))
                 return;
+
             MusicSource.Play();
             WaitForMusicToEnd().Forget();
             MusicPlayed?.Invoke(CurrentMusic);

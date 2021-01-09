@@ -292,7 +292,6 @@ namespace Assets.AToonWorld.Scripts.Audio
             if (music is null)
                 return;
 
-            _musicSource.Stop();
             _musicSource.Play(music);
         }
 
