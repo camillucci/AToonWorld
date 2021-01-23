@@ -16,6 +16,10 @@ namespace Assets.AToonWorld.Scripts.UI
             // Instantiate AudioManager and update the volume preferences
             AudioManager.PrefabInstance.MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
             AudioManager.PrefabInstance.SoundsVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            
+            // Instantiate Sound Effects to avoid locks during gameplay
+            Audio.SoundEffects.LoadSoundEffects();
+
             InGameUIController.PrefabInstance.FadeInMenu();
         }
 

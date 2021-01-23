@@ -113,7 +113,7 @@ namespace Assets.AToonWorld.Scripts.UI
         public void toNextLevel()
         {
             ObjectPoolingManager<PlayerInkController.InkType>.Instance.DeactivateAllObjects();
-            InGameUIController.PrefabInstance.FadeTo(UnityScenes.Levels[SceneManager.GetActiveScene().buildIndex]);
+            InGameUIController.PrefabInstance.FadeTo(UnityScenes.Levels[SceneManager.GetActiveScene().buildIndex - 1]);
         }
     }
 }
