@@ -22,7 +22,8 @@ namespace Assets.AToonWorld.Scripts.UI
         // Initialization
         private void Start()
         {
-            if (PlayerPrefs.GetInt("LastLevel", 0) > 5)
+            // Start from second page if last level was more than 4
+            if (PlayerPrefs.GetInt("LastLevel", 0) > 4+2)
             {
                 _levelMenuAnimator.SetTrigger("StartRight");
             }

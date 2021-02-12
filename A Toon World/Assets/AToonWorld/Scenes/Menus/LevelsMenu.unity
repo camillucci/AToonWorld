@@ -976,7 +976,7 @@ PrefabInstance:
     - target: {fileID: 3286150701263494409, guid: b7cf13674d15f004cb5ac579343ff722,
         type: 3}
       propertyPath: _totalCollectibles
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3286150701263494410, guid: b7cf13674d15f004cb5ac579343ff722,
         type: 3}
